@@ -14,6 +14,7 @@
 //
 // USAGE:
 //   node publish.mjs <blueprint.json> [--policy stage-auto|full-auto|manual]
+//        [--library-name "<existing dev library to adopt>"]
 //        [--approve-production] [--i-am-authorized] [--yes]
 //
 //   Policies:
@@ -43,7 +44,7 @@ import {
   findOrCreateDataElement,
   findOrCreateRule,
   addRuleComponent,
-  createLibrary,
+  findOrCreateLibrary,
   addResourceToLibrary,
   buildLibrary,
   pollBuild,
@@ -59,11 +60,14 @@ import {
 // Arg parsing
 // -----------------------------------------------------------------------------
 function parseArgs(argv) {
-  const out = { policy: null, blueprintPath: null, flags: {} };
+  const out = { policy: null, libraryName: null, blueprintPath: null, flags: {} };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     if (a === '--policy') {
       out.policy = argv[i + 1];
+      i += 1;
+    } else if (a === '--library-name') {
+      out.libraryName = argv[i + 1];
       i += 1;
     } else if (a.startsWith('--')) {
       out.flags[a.slice(2)] = true;
@@ -429,7 +433,7 @@ async function verifyProductionPublish(library) {
 // -----------------------------------------------------------------------------
 async function main() {
   const argv = process.argv.slice(2);
-  const { policy: policyArg, blueprintPath, flags } = parseArgs(argv);
+  const { policy: policyArg, libraryName: libraryNameArg, blueprintPath, flags } = parseArgs(argv);
 
   if (flags.help || !blueprintPath) {
     console.log(HELP.trim());
@@ -501,16 +505,28 @@ async function main() {
   // 3) Assemble ONE library and build it for development. Naming convention:
   // "YYYYMMDD - vX.Y - description" (the publishing flow reads as a release
   // log, and the dated production publish doubles as the audit's documented
-  // cutover boundary). The time suffix keeps re-runs unique.
+  // cutover boundary). Pass --library-name to ADOPT a development library the
+  // operator already created in the UI with that exact name; otherwise a
+  // uniquely-suffixed one is created.
   console.log('\n--- DEVELOPMENT BUILD ---');
   const now = new Date();
   const yyyymmdd = now.toISOString().slice(0, 10).replace(/-/g, '');
   const hhmmss = now.toISOString().slice(11, 19).replace(/:/g, '');
-  const library = await createLibrary(property.id, {
-    name: `${yyyymmdd} - v1.0 - Initial Web SDK Implementation (auto ${hhmmss}Z)`,
-  });
+  const libraryName =
+    libraryNameArg || `${yyyymmdd} - v1.0 - Initial Web SDK Implementation (auto ${hhmmss}Z)`;
+  const library = await findOrCreateLibrary(property.id, libraryName);
   for (const r of resources) {
-    await addResourceToLibrary(library.id, r.type, r.id);
+    // Tolerate resources already attached (an adopted library may carry the
+    // extensions the operator added in the UI). Any other error is fatal.
+    try {
+      await addResourceToLibrary(library.id, r.type, r.id);
+    } catch (err) {
+      if (/already|taken|duplicate/i.test(err.message)) {
+        console.log(`  (${r.type}/${r.id} already in library — skipped)`);
+      } else {
+        throw err;
+      }
+    }
   }
   await buildForEnvironment(library.id, envs.development, 'DEV');
 

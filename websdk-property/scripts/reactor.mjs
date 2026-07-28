@@ -665,6 +665,33 @@ export async function listLibraries(propertyId) {
 }
 
 /**
+ * Find a DEVELOPMENT-state library by exact name under a property, or create
+ * it. Lets the pipeline adopt a library an operator already created in the UI
+ * (e.g. "20260728 - v1.0 - Initial Web SDK Implementation") instead of
+ * spawning a parallel one. Only development-state libraries are adoptable —
+ * a submitted/approved/published library with the same name is left alone and
+ * a fresh one is created (fail-safe over surprise mutation).
+ *
+ * @param {string} propertyId
+ * @param {string} name
+ * @returns {Promise<object>}
+ */
+export async function findOrCreateLibrary(propertyId, name) {
+  const libs = await listLibraries(propertyId);
+  const match = libs.find(
+    (l) =>
+      l.attributes &&
+      l.attributes.name === name &&
+      l.attributes.state === 'development',
+  );
+  if (match) {
+    console.error(`[reactor] adopting existing development library "${name}" (${match.id})`);
+    return verify('libraries', match.id);
+  }
+  return createLibrary(propertyId, { name });
+}
+
+/**
  * List environments for a property.
  * @param {string} propertyId
  * @returns {Promise<object[]>}
