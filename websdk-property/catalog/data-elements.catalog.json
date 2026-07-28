@@ -1,0 +1,1012 @@
+{
+  "_purpose": "Dimension/utility data elements carried over 1:1 from the source property AboutAmazon-US (Launch Inspector export, build 2025-08-05). Names are kept identical to the source so payload references (%Name%) and the client team's mental model survive the migration. Consumed by scripts/generate-blueprint.mjs.",
+  "_source": "aboutamazon.com.xlsx \u2014 DataElements sheet (108 elements; 72 carried, 28 XDM replaced by generated builders, remainder excluded with reasons below)",
+  "delegates": {
+    "acdl-computed-state": {
+      "extension": "adobe-client-data-layer",
+      "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
+      "confidence": "resolve-at-runtime",
+      "displayName": "Datalayer Computed State",
+      "note": "ACDL extension is not open source; id is best-known. publish.mjs resolves the real id from the installed extension package's live delegate catalog by display name and fails loud on mismatch."
+    },
+    "core-custom-code": {
+      "extension": "core",
+      "delegate_descriptor_id": "core::dataElements::custom-code",
+      "confidence": "confirmed"
+    },
+    "core-query-string-parameter": {
+      "extension": "core",
+      "delegate_descriptor_id": "core::dataElements::query-string-parameter",
+      "confidence": "confirmed"
+    },
+    "core-page-info": {
+      "extension": "core",
+      "delegate_descriptor_id": "core::dataElements::page-info",
+      "confidence": "confirmed"
+    },
+    "core-constant": {
+      "extension": "core",
+      "delegate_descriptor_id": "core::dataElements::constant",
+      "confidence": "confirmed"
+    },
+    "cwsdkp-getpreviousvalue": {
+      "extension": "common-web-sdk-plugins",
+      "delegate_descriptor_id": "common-web-sdk-plugins::dataElements::getpreviousvalue",
+      "confidence": "resolve-at-runtime",
+      "displayName": "Getpreviousvalue"
+    },
+    "cwsdkp-getnewrepeat": {
+      "extension": "common-web-sdk-plugins",
+      "delegate_descriptor_id": "common-web-sdk-plugins::dataElements::getnewrepeat",
+      "confidence": "resolve-at-runtime",
+      "displayName": "Getnewrepeat"
+    },
+    "cwsdkp-gettimeparting": {
+      "extension": "common-web-sdk-plugins",
+      "delegate_descriptor_id": "common-web-sdk-plugins::dataElements::gettimeparting",
+      "confidence": "resolve-at-runtime",
+      "displayName": "Gettimeparting"
+    },
+    "cwsdkp-gettimesincelastvisit": {
+      "extension": "common-web-sdk-plugins",
+      "delegate_descriptor_id": "common-web-sdk-plugins::dataElements::gettimesincelastvisit",
+      "confidence": "resolve-at-runtime",
+      "displayName": "Gettimesincelastvisit"
+    },
+    "cwsdkp-getvisitduration": {
+      "extension": "common-web-sdk-plugins",
+      "delegate_descriptor_id": "common-web-sdk-plugins::dataElements::getvisitduration",
+      "confidence": "resolve-at-runtime",
+      "displayName": "Getvisitduration"
+    },
+    "cwsdkp-getvisitnum": {
+      "extension": "common-web-sdk-plugins",
+      "delegate_descriptor_id": "common-web-sdk-plugins::dataElements::getvisitnum",
+      "confidence": "resolve-at-runtime",
+      "displayName": "Getvisitnum"
+    }
+  },
+  "exclusions": [
+    {
+      "name": "ECID",
+      "reason": "Broken in source property (custom code returns _satellite.getVar('ECID') \u2014 a recursive self-reference that always yields undefined). The Web SDK manages ECID itself; nothing in any payload referenced this element. Dropped rather than carried."
+    },
+    {
+      "name": "XDM * (28 elements)",
+      "reason": "Replaced by generated data-* payload builders (Finding 9 fix). See catalog/events-catalog.json \u2014 single source of truth, emitted by scripts/generate-blueprint.mjs from one template."
+    },
+    {
+      "name": "XDM Article",
+      "reason": "Orphan in source property \u2014 no rule references it. Its payload also references %Article Publish Date%, a data element that does not exist (copy-paste drift; 'Publish Date' is the real element). Not carried. Re-add via events-catalog.json if Article tracking is actually wanted."
+    },
+    {
+      "name": "XDM Video Play",
+      "reason": "Orphan in source property \u2014 no 'Video Play' rule exists, and its event1 mapping (event11) duplicates XDM Video Start. Not carried."
+    }
+  ],
+  "dataElements": [
+    {
+      "name": "Amazon Redirect Link",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.AmazonRedirectLinkText"
+      }
+    },
+    {
+      "name": "Article Content Type",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.Article.ContentType"
+      }
+    },
+    {
+      "name": "Article Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.Article.ArticleName"
+      }
+    },
+    {
+      "name": "Campaign",
+      "sourceExtension": "Core",
+      "sourceType": "Custom Code",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-custom-code",
+      "settings": {
+        "source": "var utm_source = _satellite.getVar(\"UTM_Source\") || \"\";\nvar utm_medium = _satellite.getVar(\"UTM_Medium\") || \"\";\nvar utm_content = _satellite.getVar(\"UTM_Content\") || \"\";\nvar utm_campaign = _satellite.getVar(\"UTM_Campaign\") || \"\";\nvar utm_term = _satellite.getVar(\"UTM_Term\") || \"\";\n\n// Check if any UTM parameter exists in the URL\nif (_satellite.getVar(\"Page URL\").indexOf(\"utm_source\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_medium\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_campaign\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_content\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_term\") !== -1) {\n\n    // Construct the Campaign string\n    var Campaign = utm_source + \"|\" + utm_medium + \"|\" + utm_content + \"|\" + utm_campaign+\"|\"+utm_term;\n    return Campaign;\n}"
+      }
+    },
+    {
+      "name": "Category",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.category"
+      }
+    },
+    {
+      "name": "Clean URL",
+      "sourceExtension": "Core",
+      "sourceType": "Custom Code",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-custom-code",
+      "settings": {
+        "source": "return document.location.protocol+\"//\"+document.location.host+document.location.pathname;"
+      }
+    },
+    {
+      "name": "Consent Click Count",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.consentSelection.value"
+      }
+    },
+    {
+      "name": "Consent Selected",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.cookieConsent.consentSelected"
+      }
+    },
+    {
+      "name": "Content Type",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.pageType"
+      }
+    },
+    {
+      "name": "Country",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": false,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.country"
+      }
+    },
+    {
+      "name": "CTA Button Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.CTAButtonName"
+      }
+    },
+    {
+      "name": "Destination Link",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.DestinationLink"
+      }
+    },
+    {
+      "name": "Domain",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.site"
+      }
+    },
+    {
+      "name": "File Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.FileName"
+      }
+    },
+    {
+      "name": "File Type",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.FileType"
+      }
+    },
+    {
+      "name": "File Url",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.FileUrl"
+      }
+    },
+    {
+      "name": "Filter",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.Filter"
+      }
+    },
+    {
+      "name": "Form Error Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.formErrorMessage"
+      }
+    },
+    {
+      "name": "Form Location",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.formLocation"
+      }
+    },
+    {
+      "name": "Form Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.formName"
+      }
+    },
+    {
+      "name": "Hidden Tags",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.hiddenTags"
+      }
+    },
+    {
+      "name": "Internal Campaign",
+      "sourceExtension": "Core",
+      "sourceType": "Custom Code",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-custom-code",
+      "settings": {
+        "source": "// DECISION NEEDED: source property implementation was `console.log();` (always undefined),\n// so eVar5/event4 have never populated. Best-guess implementation below reads an `icid`\n// query parameter. Confirm the real internal-campaign parameter with the site team\n// before publish, or restore the no-op if internal campaign tracking is not used.\nvar p = new URLSearchParams(window.location.search);\nreturn p.get('icid') || undefined;"
+      },
+      "decision": "Confirm internal campaign query parameter (assumed `icid`). Source implementation was a no-op stub."
+    },
+    {
+      "name": "Internal Campaign Count",
+      "sourceExtension": "Core",
+      "sourceType": "Custom Code",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-custom-code",
+      "settings": {
+        "source": "if(_satellite.getVar(\"Internal Campaign\")!=undefined){return \"1\"}"
+      }
+    },
+    {
+      "name": "Language",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.language"
+      }
+    },
+    {
+      "name": "Link Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.linkName"
+      }
+    },
+    {
+      "name": "Locale",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.locale"
+      }
+    },
+    {
+      "name": "LoginID",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "loginID"
+      }
+    },
+    {
+      "name": "Map Button Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "map.mapButtonName"
+      }
+    },
+    {
+      "name": "Map Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "map.mapName"
+      }
+    },
+    {
+      "name": "Menu Link Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.MenuLinkName"
+      }
+    },
+    {
+      "name": "More Amazon News Text",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.moreAmazonNewsText"
+      }
+    },
+    {
+      "name": "Page Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.pageName"
+      }
+    },
+    {
+      "name": "Page Query String",
+      "sourceExtension": "Core",
+      "sourceType": "Custom Code",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-custom-code",
+      "settings": {
+        "source": "function getAllParamsAfterQuestionMark() {\n    var queryString = window.location.search.substring(1);\n    return queryString;\n}\n\n// Example usage:\nvar urlParams = getAllParamsAfterQuestionMark();\nreturn urlParams;"
+      }
+    },
+    {
+      "name": "Page Title",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.pageTitle"
+      }
+    },
+    {
+      "name": "Page URL",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.pageUrl"
+      }
+    },
+    {
+      "name": "Page View Count",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.pageLoaded.value"
+      }
+    },
+    {
+      "name": "Previous Page Name",
+      "sourceExtension": "Common Web SDK Plugins",
+      "sourceType": "Getpreviousvalue",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "cwsdkp-getpreviousvalue",
+      "settings": {
+        "cookieName": "",
+        "variableToCheck": "%Page Name%"
+      }
+    },
+    {
+      "name": "Publish Date",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.publishDate"
+      }
+    },
+    {
+      "name": "Redirect Link Text",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.RedirectLinkText"
+      }
+    },
+    {
+      "name": "Referrer",
+      "sourceExtension": "Core",
+      "sourceType": "Page Info",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-page-info",
+      "settings": {
+        "attribute": "referrer"
+      }
+    },
+    {
+      "name": "Related Tag Link",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.TagLinkClick"
+      }
+    },
+    {
+      "name": "Related Tag Link URL",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.linkUrl"
+      }
+    },
+    {
+      "name": "Repeat Vs New",
+      "sourceExtension": "Common Web SDK Plugins",
+      "sourceType": "Getnewrepeat",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "cwsdkp-getnewrepeat",
+      "settings": {}
+    },
+    {
+      "name": "ScrollInfo Depth",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.scrollInfo.depth"
+      }
+    },
+    {
+      "name": "Search Filter",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.searchFilter"
+      }
+    },
+    {
+      "name": "Search Result Click Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.searchResultClickName"
+      }
+    },
+    {
+      "name": "Search Result PageType",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": "Search Result Page",
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "internalSearchInfo.searchResultPageType"
+      }
+    },
+    {
+      "name": "Search Results",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.searchResults"
+      }
+    },
+    {
+      "name": "Search Term",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.searchTerm"
+      }
+    },
+    {
+      "name": "Site Error",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.siteError"
+      }
+    },
+    {
+      "name": "Site Section",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.siteSection"
+      }
+    },
+    {
+      "name": "Site Section2",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.siteSectionTwo"
+      }
+    },
+    {
+      "name": "Site Section3",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.siteSectionThree"
+      }
+    },
+    {
+      "name": "Site Section4",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "siteSection4"
+      }
+    },
+    {
+      "name": "Site Section5",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "siteSection5"
+      }
+    },
+    {
+      "name": "Social Interaction Info",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.socialInteractionInfo"
+      }
+    },
+    {
+      "name": "Stories Link Text",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.storiesLinkText"
+      }
+    },
+    {
+      "name": "Tags",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webPageDetails.tags"
+      }
+    },
+    {
+      "name": "Time Parting",
+      "sourceExtension": "Common Web SDK Plugins",
+      "sourceType": "Gettimeparting",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "cwsdkp-gettimeparting",
+      "settings": {}
+    },
+    {
+      "name": "Time Since Last Visit",
+      "sourceExtension": "Common Web SDK Plugins",
+      "sourceType": "Gettimesincelastvisit",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "cwsdkp-gettimesincelastvisit",
+      "settings": {}
+    },
+    {
+      "name": "Timestamp",
+      "sourceExtension": "Core",
+      "sourceType": "Custom Code",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-custom-code",
+      "settings": {
+        "source": "var TimeStamp = new Date().toISOString();\nreturn TimeStamp;"
+      }
+    },
+    {
+      "name": "User Type",
+      "sourceExtension": "Core",
+      "sourceType": "Custom Code",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-custom-code",
+      "settings": {
+        "source": "return \"\";"
+      }
+    },
+    {
+      "name": "UTM_Campaign",
+      "sourceExtension": "Core",
+      "sourceType": "Query String Parameter",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-query-string-parameter",
+      "settings": {
+        "name": "UTM_Campaign",
+        "caseInsensitive": true
+      }
+    },
+    {
+      "name": "UTM_Content",
+      "sourceExtension": "Core",
+      "sourceType": "Query String Parameter",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-query-string-parameter",
+      "settings": {
+        "name": "UTM_Content",
+        "caseInsensitive": true
+      }
+    },
+    {
+      "name": "UTM_Medium",
+      "sourceExtension": "Core",
+      "sourceType": "Query String Parameter",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-query-string-parameter",
+      "settings": {
+        "name": "UTM_Medium",
+        "caseInsensitive": true
+      }
+    },
+    {
+      "name": "UTM_Source",
+      "sourceExtension": "Core",
+      "sourceType": "Query String Parameter",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-query-string-parameter",
+      "settings": {
+        "name": "UTM_Source",
+        "caseInsensitive": true
+      }
+    },
+    {
+      "name": "UTM_Term",
+      "sourceExtension": "Core",
+      "sourceType": "Query String Parameter",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "core-query-string-parameter",
+      "settings": {
+        "name": "UTM_Term",
+        "caseInsensitive": true
+      }
+    },
+    {
+      "name": "Video Name",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.video.title"
+      }
+    },
+    {
+      "name": "Video Type",
+      "sourceExtension": "Adobe Client Data Layer",
+      "sourceType": "Datalayer Computed State",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "acdl-computed-state",
+      "settings": {
+        "dataLayerPath": "web.webInteractions.VideoType"
+      }
+    },
+    {
+      "name": "Visit Duration",
+      "sourceExtension": "Common Web SDK Plugins",
+      "sourceType": "Getvisitduration",
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "cwsdkp-getvisitduration",
+      "settings": {}
+    },
+    {
+      "name": "Visit Number",
+      "sourceExtension": "Common Web SDK Plugins",
+      "sourceType": "Getvisitnum",
+      "forceLowerCase": true,
+      "cleanText": true,
+      "storageDuration": null,
+      "defaultValue": null,
+      "delegate": "cwsdkp-getvisitnum",
+      "settings": {
+        "resetPeriod": "",
+        "extendResetPeriod": ""
+      }
+    }
+  ]
+}

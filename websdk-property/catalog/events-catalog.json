@@ -1,0 +1,655 @@
+{
+  "_purpose": "Single source of truth for every event the property sends (Finding 9 fix). scripts/generate-blueprint.mjs emits one payload data element per entry from ONE template, plus the rule that sends it. Adding a tracked interaction = adding an entry here and re-running the generator; hand-editing generated payloads is prohibited.",
+  "_analyticsTransport": "Per the audit's Fix 1/2 guidance (deck slide 28), payloads use the Web SDK `data.__adobe.analytics` object (the documented AppMeasurement-migration path) \u2014 no XDM schema required while Amazon News has no AEP subscription. eVar/prop/event numbers are byte-for-byte the source property's mappings.",
+  "_acdlEventSentinel": {
+    "value": "CONFIRM-VIA-EXPORT",
+    "meaning": "The source workbook (Launch Inspector) does not export WHICH adobeDataLayer event name each Datalayer Push Listener listens for. Run scripts/export-current.mjs against the existing AboutAmazon-US property to produce catalog/acdl-events.overrides.json with the real names; generate-blueprint.mjs refuses to emit a publishable blueprint while any acdlEvent is unresolved."
+  },
+  "pageView": {
+    "rule": "Global Page Load Rule",
+    "payloadDataElement": "data-pageView",
+    "replaces": "XDM Page Level",
+    "acdlEvent": "CONFIRM-VIA-EXPORT",
+    "renderDecisions": true,
+    "xdmEventType": "web.webpagedetails.pageViews",
+    "analytics": {
+      "pageName": "Page Name",
+      "channel": "Site Section",
+      "pageURL": "Page URL",
+      "referrer": "Referrer",
+      "campaign": "Campaign",
+      "events": [
+        {
+          "event": "event2"
+        },
+        {
+          "event": "event4",
+          "valueFrom": "Internal Campaign Count"
+        }
+      ],
+      "eVars": {
+        "eVar1": "Domain",
+        "eVar2": "Previous Page Name",
+        "eVar3": "Page Name",
+        "eVar4": "Site Section",
+        "eVar5": "Internal Campaign",
+        "eVar9": "Content Type",
+        "eVar12": "Page URL",
+        "eVar13": "Page Query String",
+        "eVar15": "User Type",
+        "eVar18": "Language",
+        "eVar25": "Publish Date",
+        "eVar29": "Category",
+        "eVar30": "Tags",
+        "eVar37": "Visit Duration",
+        "eVar38": "UTM_Source",
+        "eVar39": "UTM_Medium",
+        "eVar40": "UTM_Content",
+        "eVar41": "UTM_Campaign",
+        "eVar42": "UTM_Term",
+        "eVar47": "Country"
+      },
+      "props": {
+        "prop1": "Page Name",
+        "prop2": "Referrer",
+        "prop3": "Timestamp",
+        "prop4": "Page Title",
+        "prop5": "Clean URL",
+        "prop6": "Site Section",
+        "prop7": "Site Section2",
+        "prop8": "Site Section3",
+        "prop9": "Site Section4",
+        "prop10": "Site Section5",
+        "prop11": "Previous Page Name",
+        "prop12": "Page URL",
+        "prop14": "Visit Number",
+        "prop15": "Time Since Last Visit",
+        "prop16": "Repeat Vs New",
+        "prop17": "Visit Duration",
+        "prop18": "Page Title",
+        "prop20": "Locale"
+      },
+      "lists": {
+        "list1": [
+          "Site Error"
+        ],
+        "list2": [
+          "Hidden Tags"
+        ]
+      }
+    }
+  },
+  "siteError": {
+    "rule": "Site Error",
+    "payloadDataElement": "data-siteError",
+    "replaces": "XDM Site Error",
+    "acdlEvent": "CONFIRM-VIA-EXPORT",
+    "xdmEventType": "web.webpagedetails.pageViews",
+    "analytics": {
+      "pageName": {
+        "constant": "errorPage"
+      },
+      "lists": {
+        "list1": [
+          "Site Error"
+        ]
+      }
+    },
+    "note": "Error page view (source payload set webPageDetails.name='errorPage', isErrorPage:true, pageViews:1)."
+  },
+  "interactions": [
+    {
+      "rule": "Amazon More News Tracking",
+      "payloadDataElement": "data-More Amazon News",
+      "replaces": "XDM More Amazon News",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "More Amazon News Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event22"
+        }
+      ],
+      "eVars": {
+        "eVar44": "More Amazon News Text"
+      }
+    },
+    {
+      "rule": "Amazon Redirect Link Click",
+      "payloadDataElement": "data-Amazon Redirect Link",
+      "replaces": "XDM Amazon Redirect Link",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Amazon Redirect Link Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event21"
+        },
+        {
+          "event": "event22"
+        }
+      ],
+      "eVars": {
+        "eVar23": "Destination Link",
+        "eVar28": "Redirect Link Text"
+      }
+    },
+    {
+      "rule": "Amazon Stories Link Click Tracking",
+      "payloadDataElement": "data-Amazon Stories",
+      "replaces": "XDM Amazon Stories",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Amazon Stories Link Tracking",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event22"
+        }
+      ],
+      "eVars": {
+        "eVar45": "Stories Link Text"
+      }
+    },
+    {
+      "rule": "Consent Selection",
+      "payloadDataElement": "data-Cookie Consent Selected",
+      "replaces": "XDM Cookie Consent Selected",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Cookie Consent Selection",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event30",
+          "valueFrom": "Consent Click Count"
+        }
+      ],
+      "eVars": {
+        "eVar48": "Consent Selected"
+      }
+    },
+    {
+      "rule": "File Download Tracking",
+      "payloadDataElement": "data-File Download",
+      "replaces": "XDM File Download",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "File Download",
+      "linkType": "d",
+      "events": [
+        {
+          "event": "event16"
+        }
+      ],
+      "eVars": {
+        "eVar33": "File Name",
+        "eVar34": "File Type"
+      }
+    },
+    {
+      "rule": "Filter Click Tracking",
+      "payloadDataElement": "data-Filter Click",
+      "replaces": "XDM Filter Click",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "News Filter Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event25"
+        }
+      ],
+      "eVars": {
+        "eVar27": "Filter"
+      }
+    },
+    {
+      "rule": "Form Complete",
+      "payloadDataElement": "data-Form Complete",
+      "replaces": "XDM Form Complete",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Form Complete",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event10"
+        }
+      ],
+      "eVars": {
+        "eVar10": "Form Name",
+        "eVar19": "Form Location"
+      }
+    },
+    {
+      "rule": "Form Error Tracking",
+      "payloadDataElement": "data-Form Error",
+      "replaces": "XDM Form Error",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Form Error",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event8"
+        }
+      ],
+      "eVars": {
+        "eVar10": "Form Name",
+        "eVar19": "Form Location"
+      },
+      "lists": {
+        "list1": [
+          "Form Error Name"
+        ]
+      }
+    },
+    {
+      "rule": "Form Start",
+      "payloadDataElement": "data-Form Start",
+      "replaces": "XDM Form Start",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Form Start",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event9"
+        }
+      ],
+      "eVars": {
+        "eVar10": "Form Name",
+        "eVar19": "Form Location"
+      }
+    },
+    {
+      "rule": "Global CTA Button Tracking",
+      "payloadDataElement": "data-CTA Button Click",
+      "replaces": "XDM CTA Button Click",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "CTA Button Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event22"
+        }
+      ],
+      "eVars": {
+        "eVar22": "CTA Button Name",
+        "eVar23": "Destination Link"
+      }
+    },
+    {
+      "rule": "Internal Search Click",
+      "payloadDataElement": "data-Internal Search",
+      "replaces": "XDM Internal Search",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Internal Search",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event26"
+        }
+      ],
+      "eVars": {
+        "eVar6": "Search Term",
+        "eVar7": "Search Results",
+        "eVar8": "Search Result PageType"
+      }
+    },
+    {
+      "rule": "Internal Search ClickThrough",
+      "payloadDataElement": "data-Internal Search Click Through",
+      "replaces": "XDM Internal Search Click Through",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Internal Search Click Through",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event7"
+        }
+      ],
+      "eVars": {
+        "eVar6": "Search Term",
+        "eVar32": "Search Result Click Name"
+      }
+    },
+    {
+      "rule": "Map Button Click",
+      "payloadDataElement": "data-Map Button Click",
+      "replaces": "XDM Map Button Click",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Map Button Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event32"
+        }
+      ],
+      "eVars": {
+        "eVar49": "Map Name",
+        "eVar50": "Map Button Name"
+      }
+    },
+    {
+      "rule": "Map Button Close",
+      "payloadDataElement": "data-Map Button Close",
+      "replaces": "XDM Map Button Close",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Map Button Close",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event33"
+        }
+      ],
+      "eVars": {
+        "eVar49": "Map Name",
+        "eVar50": "Map Button Name"
+      }
+    },
+    {
+      "rule": "Map Zoom In",
+      "payloadDataElement": "data-Map Zoom In",
+      "replaces": "XDM Map Zoom In",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Map ZoomIn",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event34"
+        }
+      ],
+      "eVars": {
+        "eVar49": "Map Name",
+        "eVar50": "Map Button Name"
+      }
+    },
+    {
+      "rule": "Map Zoom Out",
+      "payloadDataElement": "data-Map Zoom Out",
+      "replaces": "XDM Map Zoom Out",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Map Zoom Out",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event31"
+        }
+      ],
+      "eVars": {
+        "eVar49": "Map Name",
+        "eVar50": "Map Button Name"
+      }
+    },
+    {
+      "rule": "Menu Link Click Tracking",
+      "payloadDataElement": "data-Menu Click",
+      "replaces": "XDM Menu Click",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Menu Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event23"
+        }
+      ],
+      "eVars": {
+        "eVar24": "Menu Link Name"
+      }
+    },
+    {
+      "rule": "Null Search Tracking",
+      "payloadDataElement": "data-Null Search",
+      "replaces": "XDM Null Search",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Null Search",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event6"
+        }
+      ],
+      "eVars": {
+        "eVar6": "Search Term",
+        "eVar7": "Search Results",
+        "eVar8": "Search Result PageType"
+      }
+    },
+    {
+      "rule": "Redirect Link Click Tracking",
+      "payloadDataElement": "data-Redirect Link Click",
+      "replaces": "XDM Redirect Link Click",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Redirect Link Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event21"
+        },
+        {
+          "event": "event22"
+        }
+      ],
+      "eVars": {
+        "eVar21": "Redirect Link Text",
+        "eVar23": "Destination Link"
+      }
+    },
+    {
+      "rule": "Related Tag Click Tracking",
+      "payloadDataElement": "data-Related Tag",
+      "replaces": "XDM Related Tag",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Related Tag Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event29"
+        }
+      ],
+      "eVars": {
+        "eVar43": "Related Tag Link",
+        "eVar46": "Related Tag Link URL"
+      }
+    },
+    {
+      "rule": "Scroll 25 percentage",
+      "payloadDataElement": "data-Scroll 25 Percentage",
+      "replaces": "XDM Scroll 25 Percentage",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Scroll 25 Percentage",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event17"
+        }
+      ],
+      "eVars": {
+        "eVar20": "ScrollInfo Depth"
+      }
+    },
+    {
+      "rule": "Scroll 50 percentage",
+      "payloadDataElement": "data-Scroll 50 Percentage",
+      "replaces": "XDM Scroll 50 Percentage",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Scroll 50 Percentage",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event18"
+        }
+      ],
+      "eVars": {
+        "eVar20": "ScrollInfo Depth"
+      }
+    },
+    {
+      "rule": "Scroll 75 percentage",
+      "payloadDataElement": "data-Scroll 75 Percentage",
+      "replaces": "XDM Scroll 75 Percentage",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Scroll 75 Percentage",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event19"
+        }
+      ],
+      "eVars": {
+        "eVar20": "ScrollInfo Depth"
+      }
+    },
+    {
+      "rule": "Scroll 100 percentage",
+      "payloadDataElement": "data-Scroll 100 Percentage",
+      "replaces": "XDM Scroll 100 Percentage",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Scroll 100 Percentage",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event20"
+        }
+      ],
+      "eVars": {
+        "eVar20": "ScrollInfo Depth"
+      }
+    },
+    {
+      "rule": "Search Close Click",
+      "payloadDataElement": "data-Internal Search Close",
+      "replaces": "XDM Internal Search Close",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Internal Search Close Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event27"
+        }
+      ],
+      "eVars": {
+        "eVar6": "Search Term",
+        "eVar7": "Search Results",
+        "eVar8": "Search Result PageType"
+      }
+    },
+    {
+      "rule": "Social Interaction Tracking",
+      "payloadDataElement": "data-Social Interaction",
+      "replaces": "XDM Social Interaction",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Social Interaction",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event1"
+        }
+      ],
+      "eVars": {
+        "eVar17": "Social Interaction Info"
+      }
+    },
+    {
+      "rule": "Video Start",
+      "payloadDataElement": "data-Video Start",
+      "replaces": "XDM Video Start",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Video Start",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event11"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video Name",
+        "eVar35": "Video Type"
+      }
+    },
+    {
+      "rule": "Video 25 percentage complete",
+      "payloadDataElement": "data-Video 25 Percent",
+      "replaces": "XDM Video 25 Percent",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Video 25 Percent completion",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event13"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video Name"
+      }
+    },
+    {
+      "rule": "Video 50 percentage complete",
+      "payloadDataElement": "data-Video 50 Percent",
+      "replaces": "XDM Video 50 Percent",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Video 50 Percent completion",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event14"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video Name",
+        "eVar35": "Video Type"
+      }
+    },
+    {
+      "rule": "Video 75 percentage complete",
+      "payloadDataElement": "data-Video 75 Percent",
+      "replaces": "XDM Video 75 Percent",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Video 75 Percent completion",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event15"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video Name",
+        "eVar35": "Video Type"
+      }
+    },
+    {
+      "rule": "Video 100 percentage complete",
+      "payloadDataElement": "data-Video Complete",
+      "replaces": "XDM Video Complete",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Video Complete",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event12"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video Name",
+        "eVar35": "Video Type"
+      }
+    },
+    {
+      "rule": "Video Pause",
+      "payloadDataElement": "data-Video Pause",
+      "replaces": "XDM Video Pause",
+      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "linkName": "Video Pause",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event28"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video Name"
+      }
+    }
+  ],
+  "anomaliesCarriedForNow": [
+    "event28 is double-booked in the source property between XDM Article (orphan, excluded) and XDM Video Pause (carried). Video Pause keeps event28 for parity \u2014 confirm intended mapping with the analytics owner.",
+    "event22 is intentionally shared across CTA Button Click, Amazon Redirect Link, Redirect Link Click, Amazon Stories, and More Amazon News (global CTA click metric) \u2014 carried as-is.",
+    "Scroll interaction names carry a leading space in the source (' Scroll 25 Percentage'), trimmed here \u2014 confirm reporting relies on the trimmed form before publish.",
+    "Rule names 'Map  Button Click'/'Map  Button Close' had a double space in the source; normalized to single space."
+  ]
+}

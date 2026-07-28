@@ -1,0 +1,3 @@
+# Live-property snapshots can contain extension settings/custom code not meant for the repo.
+# Keep them local; the overrides file (event names only) IS meant to be committed.
+snapshot/
