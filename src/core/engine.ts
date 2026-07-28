@@ -14,7 +14,7 @@ import type {
   ConsentReceipt,
   ConsentState,
 } from './types';
-import { createLogger, merge, shallowEqual, uid, type Logger } from './util';
+import { createLogger, merge, uid, type Logger } from './util';
 
 type Listener = (payload: any) => void;
 
@@ -259,10 +259,13 @@ export class ConsentEngine {
     this.storage.write(next);
     this.recordReceipt(next);
 
-    const unchanged = previous && shallowEqual(previousEffective, categories);
     this.log.log('decision committed:', method, categories);
 
-    if (!opts.silent || !unchanged) {
+    // `silent` marks a decision made during start() — a browser privacy signal
+    // answering for the visitor. The `ready` event that follows already carries
+    // this state, so emitting `change` here too would run every adapter twice
+    // on the first page load.
+    if (!opts.silent) {
       this.emit('change', this.buildChangeEvent(previous, false, previousEffective));
       if (this.config.onChange) this.config.onChange(next, previous);
     }

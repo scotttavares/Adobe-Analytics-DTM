@@ -273,6 +273,46 @@ describe('browser privacy signals', () => {
     delete navigator.globalPrivacyControl;
   });
 
+  it('resolves a GPC page in a single pass, not two', () => {
+    // The GPC decision is committed during start(), before `ready` fires. If it
+    // also emitted `change`, every adapter would run twice on the first page
+    // load — two setConsent calls, two optIn completes, two data layer pushes.
+    Object.defineProperty(navigator, 'globalPrivacyControl', {
+      value: true,
+      configurable: true,
+    });
+
+    const engine = new ConsentEngine({ geo: { region: 'US-CA' }, honorGpc: true });
+    const order: string[] = [];
+    engine.on('ready', () => order.push('ready'));
+    engine.on('change', () => order.push('change'));
+    engine.start();
+
+    expect(order).toEqual(['ready']);
+
+    // @ts-expect-error cleaning up the stub
+    delete navigator.globalPrivacyControl;
+  });
+
+  it('still emits change when the visitor later overrides GPC', () => {
+    Object.defineProperty(navigator, 'globalPrivacyControl', {
+      value: true,
+      configurable: true,
+    });
+
+    const engine = new ConsentEngine({ geo: { region: 'US-CA' }, honorGpc: true });
+    engine.start();
+
+    const changes: string[][] = [];
+    engine.on('change', (e) => changes.push(e.granted));
+    engine.save({ analytics: true });
+
+    expect(changes).toEqual([['analytics']]);
+
+    // @ts-expect-error cleaning up the stub
+    delete navigator.globalPrivacyControl;
+  });
+
   it('ignores GPC when the site turns it off', () => {
     Object.defineProperty(navigator, 'globalPrivacyControl', {
       value: true,

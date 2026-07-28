@@ -139,6 +139,28 @@ describe('Web SDK adapter', () => {
     expect(alloy).toHaveBeenCalledTimes(2);
   });
 
+  it('calls setConsent exactly once on a GPC page load', () => {
+    Object.defineProperty(navigator, 'globalPrivacyControl', {
+      value: true,
+      configurable: true,
+    });
+
+    const alloy = vi.fn(() => Promise.resolve());
+    (window as Record<string, unknown>).alloy = alloy;
+    (window as Record<string, unknown>).__alloyNS = ['alloy'];
+
+    const engine = new ConsentEngine({ geo: { region: 'US-CA' }, honorGpc: true });
+    new WebSdkAdapter(engine).attach();
+    engine.start();
+
+    expect(alloy).toHaveBeenCalledTimes(1);
+    const payload = alloy.mock.calls[0]![1] as { consent: AdobeConsent2[] };
+    expect(payload.consent[0]!.value.collect).toEqual({ val: 'n' });
+
+    // @ts-expect-error cleaning up the stub
+    delete navigator.globalPrivacyControl;
+  });
+
   it('survives an alloy instance that throws', () => {
     const engine = startedEngine();
     (window as Record<string, unknown>).alloy = () => {

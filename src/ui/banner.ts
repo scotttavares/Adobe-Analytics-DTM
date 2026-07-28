@@ -195,10 +195,7 @@ export class ConsentBanner {
 
     const overlay = el('div', 'overlay');
     overlay.setAttribute('data-position', this.opts.position || 'center');
-    overlay.setAttribute(
-      'data-blocking',
-      String(this.opts.blocking !== false && mode !== 'preferences' ? true : this.opts.blocking !== false)
-    );
+    overlay.setAttribute('data-blocking', String(this.opts.blocking !== false));
 
     const panel = el('div', 'panel');
     panel.setAttribute('data-layout', this.opts.layout || 'modal');
