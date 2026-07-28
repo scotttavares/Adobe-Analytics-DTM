@@ -80,6 +80,15 @@ What happens, in order — each step verified before the next:
    approval: re-run with `--approve-production`, or type `PUBLISH` at the
    interactive prompt. This is deliberate — see the audit's cutover risks.
 
+**Library naming convention** (applies to manual libraries too):
+`YYYYMMDD - vX.Y - short description` — e.g.
+`20260728 - v1.0 - Initial Web SDK Implementation`. The publishing flow then
+reads as a release log, and the dated v1.0 production publish doubles as the
+documented data boundary Finding 1's fix requires. One library per reviewed
+batch of changes; no perpetual "working" library. If you run `publish.mjs`,
+do NOT also hand-create a library for the same changes — the pipeline creates
+and promotes its own (named to this convention automatically).
+
 ## Phase 4 — Verify in Adobe (before any embed change on the site)
 
 - Assurance/Debugger on a dev URL with the new **Development** embed code:

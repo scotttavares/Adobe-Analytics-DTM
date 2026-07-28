@@ -498,10 +498,16 @@ async function main() {
     ...rules.map((r) => ({ type: 'rules', id: r.id })),
   ];
 
-  // 3) Assemble ONE library and build it for development.
+  // 3) Assemble ONE library and build it for development. Naming convention:
+  // "YYYYMMDD - vX.Y - description" (the publishing flow reads as a release
+  // log, and the dated production publish doubles as the audit's documented
+  // cutover boundary). The time suffix keeps re-runs unique.
   console.log('\n--- DEVELOPMENT BUILD ---');
+  const now = new Date();
+  const yyyymmdd = now.toISOString().slice(0, 10).replace(/-/g, '');
+  const hhmmss = now.toISOString().slice(11, 19).replace(/:/g, '');
   const library = await createLibrary(property.id, {
-    name: `Web SDK property bootstrap ${new Date().toISOString()}`,
+    name: `${yyyymmdd} - v1.0 - Initial Web SDK Implementation (auto ${hhmmss}Z)`,
   });
   for (const r of resources) {
     await addResourceToLibrary(library.id, r.type, r.id);
