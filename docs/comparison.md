@@ -69,7 +69,7 @@ PASS  consent layer costs exactly one request     — 1 request(s)
 And from `npm run build`:
 
 ```
-adobe-consent.min.js  45.68 KB raw  14.64 KB gzip  12.80 KB brotli
+adobe-consent.min.js  45.48 KB raw  14.57 KB gzip  12.74 KB brotli
 ```
 
 As a Launch extension that request count goes to **zero**, because the bundle is
@@ -195,6 +195,6 @@ favorable — but not always, and the list above is where it is not.
 
 ```bash
 npm run build    # bundle sizes
-npm test         # 68 unit tests
+npm test         # 71 unit tests
 npm run verify   # 35 browser assertions, including CLS and request count
 ```
