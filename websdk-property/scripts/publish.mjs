@@ -157,7 +157,23 @@ async function provisionDataElements(propertyId, bp, extensionsByName, resolver)
   return map;
 }
 
-async function provisionRules(propertyId, bp, extensionsByName, resolver) {
+async function provisionRules(propertyId, bp, extensionsByName, resolver, dataElementsByName) {
+  // Some action settings (Web SDK "Update variable") must reference the
+  // variable data element's Reactor id, which only exists after creation. The
+  // generator emits "RESOLVE-DE-ID:<name>" placeholders; substitute them here
+  // and fail loud on any name that was never provisioned.
+  const resolveDeIds = (settingsJson) =>
+    settingsJson.replace(/RESOLVE-DE-ID:([^"]+)/g, (whole, deName) => {
+      const de = dataElementsByName && dataElementsByName[deName];
+      if (!de || !de.id) {
+        throw new Error(
+          `action settings reference data element "${deName}" via RESOLVE-DE-ID, ` +
+            `but it was not provisioned — check blueprint.dataElements.`,
+        );
+      }
+      return de.id;
+    });
+
   const rules = [];
   for (const r of bp.rules || []) {
     const rule = await findOrCreateRule(propertyId, { name: r.name });
@@ -233,7 +249,7 @@ async function provisionRules(propertyId, bp, extensionsByName, resolver) {
               act.delegate_descriptor_id || `${act.extension || 'core'}::actions::${act.type}`,
               act.delegateDisplayName,
             ),
-            settings: JSON.stringify(act.settings || {}),
+            settings: resolveDeIds(JSON.stringify(act.settings || {})),
             order,
           },
           extIdFor(act),
@@ -491,7 +507,7 @@ async function main() {
   const resolver = await buildDelegateResolver(extensionsByName);
 
   const dataElements = await provisionDataElements(property.id, bp, extensionsByName, resolver);
-  const rules = await provisionRules(property.id, bp, extensionsByName, resolver);
+  const rules = await provisionRules(property.id, bp, extensionsByName, resolver, dataElements);
 
   // Assemble the resource list for the library. On a NEW property nothing is
   // published upstream yet, so the library must carry the extensions too — a

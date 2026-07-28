@@ -51,6 +51,7 @@ async function main() {
   const qsp = byDelegate('core::dataElements::query-string-parameter');
   const pageInfo = byDelegate('core::dataElements::page-info');
   const plugins = des.filter((d) => d.extension === 'common-web-sdk-plugins');
+  const variables = byDelegate('adobe-alloy::dataElements::variable');
   const customCode = byDelegate('core::dataElements::custom-code');
   const payloadNames = new Set(
     customCode.filter((d) => d.name.startsWith('data-') || d.name === 'consent-generalValue').map((d) => d.name),
@@ -127,6 +128,24 @@ async function main() {
     L.push('```');
     L.push('');
   });
+  if (variables.length) {
+    L.push('## 6a. Payload variables — Adobe Experience Platform Web SDK: Variable');
+    L.push('');
+    L.push("These are Adobe's native payload containers (the documented Analytics-migration");
+    L.push('pattern). No code — the values are filled in by each rule\'s **Update variable**');
+    L.push('action (section 7). Create each with: extension **Adobe Experience Platform');
+    L.push('Web SDK**, type **Variable**, property to populate **Data**, solution');
+    L.push('**Adobe Analytics** checked (leave Audience Manager and Target unchecked).');
+    L.push('');
+    for (const v of variables) {
+      L.push(`- \`${v.name}\``);
+    }
+    L.push('');
+    L.push('Notes-panel line for all three: "Adobe Web SDK Variable — the container each');
+    L.push('rule fills via its Update variable action and sends to Adobe. Field mappings');
+    L.push('are specified in the governed catalog (Adobe-Analytics-DTM repo)."');
+    L.push('');
+  }
   L.push('## 6. Data elements — Core: Custom Code (GENERATED payload builders)');
   L.push('');
   L.push('Paste each block **verbatim** — never edit by hand; the catalog + generator own these.');
@@ -174,21 +193,35 @@ async function main() {
     const ev = r.event;
     const evName = ev.settings && ev.settings.event ? ev.settings.event : '(see settings)';
     L.push(`- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: \`${evName}\``);
+    let actionNo = 0;
+    const label = () => {
+      actionNo += 1;
+      return r.actions.length > 1 ? `**Action ${actionNo}**` : '**Action**';
+    };
     for (const a of r.actions) {
-      if (a.delegate_descriptor_id.endsWith('send-event')) {
+      if (a.delegate_descriptor_id.endsWith('update-variable')) {
+        const varName = String(a.settings.dataElementId || '').replace('RESOLVE-DE-ID:', '');
+        const fields = (a.settings.data && a.settings.data.__adobe && a.settings.data.__adobe.analytics) || {};
+        L.push(`- ${label()}: Web SDK → *Update variable* — variable \`${varName}\`. Set:`);
+        for (const [k, v] of Object.entries(fields)) {
+          L.push(`    - ${k} = \`${v}\``);
+        }
+        L.push('    - Use the action\'s clear/remove affordance so values from a PREVIOUS event');
+        L.push('      on the same page do not linger (residue test: RUNBOOK Phase 4).');
+      } else if (a.delegate_descriptor_id.endsWith('send-event')) {
         const s = a.settings;
         L.push(
-          `- **Action**: Adobe Experience Platform Web SDK → *Send event* — instance \`${s.instanceName}\`` +
+          `- ${label()}: Adobe Experience Platform Web SDK → *Send event* — instance \`${s.instanceName}\`` +
             `${s.renderDecisions ? ' · **Render visual personalization decisions: ✅ ON**' : ''}` +
             ` · type \`${s.type}\` · data \`${s.data}\``,
         );
       } else if (a.delegate_descriptor_id.endsWith('set-consent')) {
         L.push(
-          `- **Action**: Adobe Experience Platform Web SDK → *Set consent* — instance \`${a.settings.instanceName}\`` +
+          `- ${label()}: Adobe Experience Platform Web SDK → *Set consent* — instance \`${a.settings.instanceName}\`` +
             ` · standard **Adobe 2.0** · general = \`%${bp.dataElements.find((d) => d.name === 'consent-generalValue').name}%\``,
         );
       } else {
-        L.push(`- **Action**: \`${a.delegate_descriptor_id}\` — settings: \`${JSON.stringify(a.settings)}\``);
+        L.push(`- ${label()}: \`${a.delegate_descriptor_id}\` — settings: \`${JSON.stringify(a.settings)}\``);
       }
     }
     if (r._note) L.push(`- Note: ${r._note}`);

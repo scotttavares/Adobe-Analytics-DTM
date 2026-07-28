@@ -73,8 +73,9 @@ What happens, in order — each step verified before the next:
 2. Install the 4 extensions from the org's extension-package catalog and load
    each package's **live delegate catalog**; every delegate id in the blueprint
    is validated (or resolved by display name) before anything is created.
-3. Create every data element (76 under the consolidated architecture; 107
-   with `--per-event`), then 35 rules with ordered components.
+3. Create every data element (75 under the default adobe-variable
+   architecture), then 35 rules with ordered components (Update variable →
+   Send event, in that order — sequencing matters).
 4. Assemble ONE library, build for **Development**, submit + build for
    **Staging**, approve.
 5. **Stop at the production gate.** Production requires an explicit human

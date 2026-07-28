@@ -3,7 +3,7 @@
   "schemaVersion": "1.0",
   "meta": {
     "generator": "websdk-property/scripts/generate-blueprint.mjs",
-    "architecture": "consolidated",
+    "architecture": "adobe-variable",
     "sources": [
       "catalog/property.json",
       "catalog/data-elements.catalog.json",
@@ -13,38 +13,6 @@
     "draft": true,
     "unresolved": [
       "webSdkInstance.edgeDomain is a placeholder — complete the first-party domain setup (docs/MANUAL-STEPS.md #4) or generate with --interim-third-party-edge to launch on edge.adobedc.net",
-      "dispatcher key for rule \"Amazon More News Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Amazon Redirect Link Click\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Amazon Stories Link Click Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Consent Selection\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"File Download Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Filter Click Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Form Complete\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Form Error Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Form Start\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Global CTA Button Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Internal Search Click\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Internal Search ClickThrough\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Map Button Click\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Map Button Close\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Map Zoom In\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Map Zoom Out\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Menu Link Click Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Null Search Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Redirect Link Click Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Related Tag Click Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Scroll 25 percentage\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Scroll 50 percentage\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Scroll 75 percentage\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Scroll 100 percentage\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Search Close Click\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Social Interaction Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Video Start\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Video 25 percentage complete\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Video 50 percentage complete\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Video 75 percentage complete\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Video 100 percentage complete\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
-      "dispatcher key for rule \"Video Pause\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
       "rule \"Global Page Load Rule\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Site Error\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Amazon More News Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
@@ -996,17 +964,6 @@
       "delegateDisplayName": "Getvisitnum"
     },
     {
-      "name": "data-analyticsBase",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED — shared payload skeleton every data-* builder starts from (Finding 9 fix).\n// Common fields shared by ALL events belong here (and only here).\nreturn { __adobe: { analytics: {} } };"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
       "name": "consent-generalValue",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::custom-code",
@@ -1019,21 +976,14 @@
     },
     {
       "name": "data-pageView",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
+      "extension": "adobe-alloy",
+      "delegate_descriptor_id": "adobe-alloy::dataElements::variable",
+      "delegateDisplayName": "Variable",
       "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Page view payload (replaces \"XDM Page Level\") — Analytics mapping is byte-for-byte the source property's.\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nset(\"pageName\", \"Page Name\");\nset(\"channel\", \"Site Section\");\nset(\"pageURL\", \"Page URL\");\nset(\"referrer\", \"Referrer\");\nset(\"campaign\", \"Campaign\");\nset(\"eVar1\", \"Domain\");\nset(\"eVar2\", \"Previous Page Name\");\nset(\"eVar3\", \"Page Name\");\nset(\"eVar4\", \"Site Section\");\nset(\"eVar5\", \"Internal Campaign\");\nset(\"eVar9\", \"Content Type\");\nset(\"eVar12\", \"Page URL\");\nset(\"eVar13\", \"Page Query String\");\nset(\"eVar15\", \"User Type\");\nset(\"eVar18\", \"Language\");\nset(\"eVar25\", \"Publish Date\");\nset(\"eVar29\", \"Category\");\nset(\"eVar30\", \"Tags\");\nset(\"eVar37\", \"Visit Duration\");\nset(\"eVar38\", \"UTM_Source\");\nset(\"eVar39\", \"UTM_Medium\");\nset(\"eVar40\", \"UTM_Content\");\nset(\"eVar41\", \"UTM_Campaign\");\nset(\"eVar42\", \"UTM_Term\");\nset(\"eVar47\", \"Country\");\nset(\"prop1\", \"Page Name\");\nset(\"prop2\", \"Referrer\");\nset(\"prop3\", \"Timestamp\");\nset(\"prop4\", \"Page Title\");\nset(\"prop5\", \"Clean URL\");\nset(\"prop6\", \"Site Section\");\nset(\"prop7\", \"Site Section2\");\nset(\"prop8\", \"Site Section3\");\nset(\"prop9\", \"Site Section4\");\nset(\"prop10\", \"Site Section5\");\nset(\"prop11\", \"Previous Page Name\");\nset(\"prop12\", \"Page URL\");\nset(\"prop14\", \"Visit Number\");\nset(\"prop15\", \"Time Since Last Visit\");\nset(\"prop16\", \"Repeat Vs New\");\nset(\"prop17\", \"Visit Duration\");\nset(\"prop18\", \"Page Title\");\nset(\"prop20\", \"Locale\");\nlistVar(\"list1\", \"Site Error\");\nlistVar(\"list2\", \"Hidden Tags\");\nev(\"event2\");\nev(\"event4\", \"Internal Campaign Count\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-siteError",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Site error page view payload (replaces \"XDM Site Error\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"pageName\", \"errorPage\");\nlistVar(\"list1\", \"Site Error\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
+        "cacheId": "0a443443-6ae6-4619-8fad-9e34f620feb5",
+        "solutions": [
+          "analytics"
+        ]
       },
       "forceLowerCase": false,
       "cleanText": false,
@@ -1041,10 +991,29 @@
     },
     {
       "name": "data-interaction",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
+      "extension": "adobe-alloy",
+      "delegate_descriptor_id": "adobe-alloy::dataElements::variable",
+      "delegateDisplayName": "Variable",
       "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Consolidated interaction dispatcher: one element serves every interaction rule.\n// Keys are the adobeDataLayer event names each rule listens for.\nvar MAPPINGS = {\n  \"CONFIRM-VIA-EXPORT::Amazon More News Tracking\": {\"n\":\"More Amazon News Click\",\"t\":\"o\",\"ev\":[[\"event22\"]],\"vars\":{\"eVar44\":\"More Amazon News Text\"}},\n  \"CONFIRM-VIA-EXPORT::Amazon Redirect Link Click\": {\"n\":\"Amazon Redirect Link Click\",\"t\":\"o\",\"ev\":[[\"event21\"],[\"event22\"]],\"vars\":{\"eVar23\":\"Destination Link\",\"eVar28\":\"Redirect Link Text\"}},\n  \"CONFIRM-VIA-EXPORT::Amazon Stories Link Click Tracking\": {\"n\":\"Amazon Stories Link Tracking\",\"t\":\"o\",\"ev\":[[\"event22\"]],\"vars\":{\"eVar45\":\"Stories Link Text\"}},\n  \"CONFIRM-VIA-EXPORT::Consent Selection\": {\"n\":\"Cookie Consent Selection\",\"t\":\"o\",\"ev\":[[\"event30\",\"Consent Click Count\"]],\"vars\":{\"eVar48\":\"Consent Selected\"}},\n  \"CONFIRM-VIA-EXPORT::File Download Tracking\": {\"n\":\"File Download\",\"t\":\"d\",\"ev\":[[\"event16\"]],\"vars\":{\"eVar33\":\"File Name\",\"eVar34\":\"File Type\"}},\n  \"CONFIRM-VIA-EXPORT::Filter Click Tracking\": {\"n\":\"News Filter Click\",\"t\":\"o\",\"ev\":[[\"event25\"]],\"vars\":{\"eVar27\":\"Filter\"}},\n  \"CONFIRM-VIA-EXPORT::Form Complete\": {\"n\":\"Form Complete\",\"t\":\"o\",\"ev\":[[\"event10\"]],\"vars\":{\"eVar10\":\"Form Name\",\"eVar19\":\"Form Location\"}},\n  \"CONFIRM-VIA-EXPORT::Form Error Tracking\": {\"n\":\"Form Error\",\"t\":\"o\",\"ev\":[[\"event8\"]],\"vars\":{\"eVar10\":\"Form Name\",\"eVar19\":\"Form Location\"},\"lists\":{\"list1\":[\"Form Error Name\"]}},\n  \"CONFIRM-VIA-EXPORT::Form Start\": {\"n\":\"Form Start\",\"t\":\"o\",\"ev\":[[\"event9\"]],\"vars\":{\"eVar10\":\"Form Name\",\"eVar19\":\"Form Location\"}},\n  \"CONFIRM-VIA-EXPORT::Global CTA Button Tracking\": {\"n\":\"CTA Button Click\",\"t\":\"o\",\"ev\":[[\"event22\"]],\"vars\":{\"eVar22\":\"CTA Button Name\",\"eVar23\":\"Destination Link\"}},\n  \"CONFIRM-VIA-EXPORT::Internal Search Click\": {\"n\":\"Internal Search\",\"t\":\"o\",\"ev\":[[\"event26\"]],\"vars\":{\"eVar6\":\"Search Term\",\"eVar7\":\"Search Results\",\"eVar8\":\"Search Result PageType\"}},\n  \"CONFIRM-VIA-EXPORT::Internal Search ClickThrough\": {\"n\":\"Internal Search Click Through\",\"t\":\"o\",\"ev\":[[\"event7\"]],\"vars\":{\"eVar6\":\"Search Term\",\"eVar32\":\"Search Result Click Name\"}},\n  \"CONFIRM-VIA-EXPORT::Map Button Click\": {\"n\":\"Map Button Click\",\"t\":\"o\",\"ev\":[[\"event32\"]],\"vars\":{\"eVar49\":\"Map Name\",\"eVar50\":\"Map Button Name\"}},\n  \"CONFIRM-VIA-EXPORT::Map Button Close\": {\"n\":\"Map Button Close\",\"t\":\"o\",\"ev\":[[\"event33\"]],\"vars\":{\"eVar49\":\"Map Name\",\"eVar50\":\"Map Button Name\"}},\n  \"CONFIRM-VIA-EXPORT::Map Zoom In\": {\"n\":\"Map ZoomIn\",\"t\":\"o\",\"ev\":[[\"event34\"]],\"vars\":{\"eVar49\":\"Map Name\",\"eVar50\":\"Map Button Name\"}},\n  \"CONFIRM-VIA-EXPORT::Map Zoom Out\": {\"n\":\"Map Zoom Out\",\"t\":\"o\",\"ev\":[[\"event31\"]],\"vars\":{\"eVar49\":\"Map Name\",\"eVar50\":\"Map Button Name\"}},\n  \"CONFIRM-VIA-EXPORT::Menu Link Click Tracking\": {\"n\":\"Menu Click\",\"t\":\"o\",\"ev\":[[\"event23\"]],\"vars\":{\"eVar24\":\"Menu Link Name\"}},\n  \"CONFIRM-VIA-EXPORT::Null Search Tracking\": {\"n\":\"Null Search\",\"t\":\"o\",\"ev\":[[\"event6\"]],\"vars\":{\"eVar6\":\"Search Term\",\"eVar7\":\"Search Results\",\"eVar8\":\"Search Result PageType\"}},\n  \"CONFIRM-VIA-EXPORT::Redirect Link Click Tracking\": {\"n\":\"Redirect Link Click\",\"t\":\"o\",\"ev\":[[\"event21\"],[\"event22\"]],\"vars\":{\"eVar21\":\"Redirect Link Text\",\"eVar23\":\"Destination Link\"}},\n  \"CONFIRM-VIA-EXPORT::Related Tag Click Tracking\": {\"n\":\"Related Tag Click\",\"t\":\"o\",\"ev\":[[\"event29\"]],\"vars\":{\"eVar43\":\"Related Tag Link\",\"eVar46\":\"Related Tag Link URL\"}},\n  \"CONFIRM-VIA-EXPORT::Scroll 25 percentage\": {\"n\":\"Scroll 25 Percentage\",\"t\":\"o\",\"ev\":[[\"event17\"]],\"vars\":{\"eVar20\":\"ScrollInfo Depth\"}},\n  \"CONFIRM-VIA-EXPORT::Scroll 50 percentage\": {\"n\":\"Scroll 50 Percentage\",\"t\":\"o\",\"ev\":[[\"event18\"]],\"vars\":{\"eVar20\":\"ScrollInfo Depth\"}},\n  \"CONFIRM-VIA-EXPORT::Scroll 75 percentage\": {\"n\":\"Scroll 75 Percentage\",\"t\":\"o\",\"ev\":[[\"event19\"]],\"vars\":{\"eVar20\":\"ScrollInfo Depth\"}},\n  \"CONFIRM-VIA-EXPORT::Scroll 100 percentage\": {\"n\":\"Scroll 100 Percentage\",\"t\":\"o\",\"ev\":[[\"event20\"]],\"vars\":{\"eVar20\":\"ScrollInfo Depth\"}},\n  \"CONFIRM-VIA-EXPORT::Search Close Click\": {\"n\":\"Internal Search Close Click\",\"t\":\"o\",\"ev\":[[\"event27\"]],\"vars\":{\"eVar6\":\"Search Term\",\"eVar7\":\"Search Results\",\"eVar8\":\"Search Result PageType\"}},\n  \"CONFIRM-VIA-EXPORT::Social Interaction Tracking\": {\"n\":\"Social Interaction\",\"t\":\"o\",\"ev\":[[\"event1\"]],\"vars\":{\"eVar17\":\"Social Interaction Info\"}},\n  \"CONFIRM-VIA-EXPORT::Video Start\": {\"n\":\"Video Start\",\"t\":\"o\",\"ev\":[[\"event11\"]],\"vars\":{\"eVar11\":\"Video Name\",\"eVar35\":\"Video Type\"}},\n  \"CONFIRM-VIA-EXPORT::Video 25 percentage complete\": {\"n\":\"Video 25 Percent completion\",\"t\":\"o\",\"ev\":[[\"event13\"]],\"vars\":{\"eVar11\":\"Video Name\"}},\n  \"CONFIRM-VIA-EXPORT::Video 50 percentage complete\": {\"n\":\"Video 50 Percent completion\",\"t\":\"o\",\"ev\":[[\"event14\"]],\"vars\":{\"eVar11\":\"Video Name\",\"eVar35\":\"Video Type\"}},\n  \"CONFIRM-VIA-EXPORT::Video 75 percentage complete\": {\"n\":\"Video 75 Percent completion\",\"t\":\"o\",\"ev\":[[\"event15\"]],\"vars\":{\"eVar11\":\"Video Name\",\"eVar35\":\"Video Type\"}},\n  \"CONFIRM-VIA-EXPORT::Video 100 percentage complete\": {\"n\":\"Video Complete\",\"t\":\"o\",\"ev\":[[\"event12\"]],\"vars\":{\"eVar11\":\"Video Name\",\"eVar35\":\"Video Type\"}},\n  \"CONFIRM-VIA-EXPORT::Video Pause\": {\"n\":\"Video Pause\",\"t\":\"o\",\"ev\":[[\"event28\"]],\"vars\":{\"eVar11\":\"Video Name\"}}\n};\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\n// Resolve the triggering data layer event name from the rule event context.\n// Verify the working property once on a dev build (see build sheet note).\nvar name = \"\";\nif (typeof event !== \"undefined\" && event) {\n  var msg = event.message || event.detail || event.dataLayer || event;\n  if (msg && typeof msg.event === \"string\") name = msg.event;\n  else if (typeof event.eventName === \"string\") name = event.eventName;\n}\nvar map = MAPPINGS[name];\nif (!map) {\n  // Loud failure: shows up in Custom Links as \"unmapped: …\" instead of vanishing.\n  a.linkName = \"unmapped: \" + (name || \"(event name unreadable)\");\n  a.linkType = \"o\";\n  return base;\n}\na.linkName = map.n;\na.linkType = map.t;\nvar events = [];\n(map.ev || []).forEach(function (e) {\n  if (e.length > 1) {\n    var v = _satellite.getVar(e[1]);\n    if (v !== undefined && v !== null && v !== \"\") events.push(e[0] + \"=\" + v);\n  } else {\n    events.push(e[0]);\n  }\n});\nif (events.length) a.events = events.join(\",\");\nObject.keys(map.vars || {}).forEach(function (k) {\n  var v = _satellite.getVar(map.vars[k]);\n  if (v !== undefined && v !== null && v !== \"\") a[k] = v;\n});\nObject.keys(map.lists || {}).forEach(function (k) {\n  var vals = map.lists[k].map(function (deName) { return _satellite.getVar(deName); })\n    .filter(function (v) { return v !== undefined && v !== null && v !== \"\"; });\n  if (vals.length) a[k] = vals.join(\",\");\n});\nreturn base;"
+        "cacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+        "solutions": [
+          "analytics"
+        ]
+      },
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null
+    },
+    {
+      "name": "data-siteError",
+      "extension": "adobe-alloy",
+      "delegate_descriptor_id": "adobe-alloy::dataElements::variable",
+      "delegateDisplayName": "Variable",
+      "settings": {
+        "cacheId": "87931ddb-c7da-4bd3-8b3b-e9ce67487832",
+        "solutions": [
+          "analytics"
+        ]
       },
       "forceLowerCase": false,
       "cleanText": false,
@@ -1066,6 +1035,68 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-pageView",
+            "dataElementCacheId": "0a443443-6ae6-4619-8fad-9e34f620feb5",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "pageName": "%Page Name%",
+                  "channel": "%Site Section%",
+                  "pageURL": "%Page URL%",
+                  "referrer": "%Referrer%",
+                  "campaign": "%Campaign%",
+                  "eVar1": "%Domain%",
+                  "eVar2": "%Previous Page Name%",
+                  "eVar3": "%Page Name%",
+                  "eVar4": "%Site Section%",
+                  "eVar5": "%Internal Campaign%",
+                  "eVar9": "%Content Type%",
+                  "eVar12": "%Page URL%",
+                  "eVar13": "%Page Query String%",
+                  "eVar15": "%User Type%",
+                  "eVar18": "%Language%",
+                  "eVar25": "%Publish Date%",
+                  "eVar29": "%Category%",
+                  "eVar30": "%Tags%",
+                  "eVar37": "%Visit Duration%",
+                  "eVar38": "%UTM_Source%",
+                  "eVar39": "%UTM_Medium%",
+                  "eVar40": "%UTM_Content%",
+                  "eVar41": "%UTM_Campaign%",
+                  "eVar42": "%UTM_Term%",
+                  "eVar47": "%Country%",
+                  "prop1": "%Page Name%",
+                  "prop2": "%Referrer%",
+                  "prop3": "%Timestamp%",
+                  "prop4": "%Page Title%",
+                  "prop5": "%Clean URL%",
+                  "prop6": "%Site Section%",
+                  "prop7": "%Site Section2%",
+                  "prop8": "%Site Section3%",
+                  "prop9": "%Site Section4%",
+                  "prop10": "%Site Section5%",
+                  "prop11": "%Previous Page Name%",
+                  "prop12": "%Page URL%",
+                  "prop14": "%Visit Number%",
+                  "prop15": "%Time Since Last Visit%",
+                  "prop16": "%Repeat Vs New%",
+                  "prop17": "%Visit Duration%",
+                  "prop18": "%Page Title%",
+                  "prop20": "%Locale%",
+                  "list1": "%Site Error%",
+                  "list2": "%Hidden Tags%",
+                  "events": "event2"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1094,6 +1125,24 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-siteError",
+            "dataElementCacheId": "87931ddb-c7da-4bd3-8b3b-e9ce67487832",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "pageName": "errorPage",
+                  "list1": "%Site Error%"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1117,6 +1166,26 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "More Amazon News Click",
+                  "linkType": "o",
+                  "eVar44": "%More Amazon News Text%",
+                  "events": "event22"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1144,6 +1213,27 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Amazon Redirect Link Click",
+                  "linkType": "o",
+                  "eVar23": "%Destination Link%",
+                  "eVar28": "%Redirect Link Text%",
+                  "events": "event21,event22"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1167,6 +1257,26 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Amazon Stories Link Tracking",
+                  "linkType": "o",
+                  "eVar45": "%Stories Link Text%",
+                  "events": "event22"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1194,6 +1304,26 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Cookie Consent Selection",
+                  "linkType": "o",
+                  "eVar48": "%Consent Selected%",
+                  "events": "event30=%Consent Click Count%"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1217,6 +1347,27 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "File Download",
+                  "linkType": "d",
+                  "eVar33": "%File Name%",
+                  "eVar34": "%File Type%",
+                  "events": "event16"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1244,6 +1395,26 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "News Filter Click",
+                  "linkType": "o",
+                  "eVar27": "%Filter%",
+                  "events": "event25"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1267,6 +1438,27 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Form Complete",
+                  "linkType": "o",
+                  "eVar10": "%Form Name%",
+                  "eVar19": "%Form Location%",
+                  "events": "event10"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1294,6 +1486,28 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Form Error",
+                  "linkType": "o",
+                  "eVar10": "%Form Name%",
+                  "eVar19": "%Form Location%",
+                  "list1": "%Form Error Name%",
+                  "events": "event8"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1317,6 +1531,27 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Form Start",
+                  "linkType": "o",
+                  "eVar10": "%Form Name%",
+                  "eVar19": "%Form Location%",
+                  "events": "event9"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1344,6 +1579,27 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "CTA Button Click",
+                  "linkType": "o",
+                  "eVar22": "%CTA Button Name%",
+                  "eVar23": "%Destination Link%",
+                  "events": "event22"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1367,6 +1623,28 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Internal Search",
+                  "linkType": "o",
+                  "eVar6": "%Search Term%",
+                  "eVar7": "%Search Results%",
+                  "eVar8": "%Search Result PageType%",
+                  "events": "event26"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1394,6 +1672,27 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Internal Search Click Through",
+                  "linkType": "o",
+                  "eVar6": "%Search Term%",
+                  "eVar32": "%Search Result Click Name%",
+                  "events": "event7"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1417,6 +1716,27 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Map Button Click",
+                  "linkType": "o",
+                  "eVar49": "%Map Name%",
+                  "eVar50": "%Map Button Name%",
+                  "events": "event32"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1444,6 +1764,27 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Map Button Close",
+                  "linkType": "o",
+                  "eVar49": "%Map Name%",
+                  "eVar50": "%Map Button Name%",
+                  "events": "event33"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1467,6 +1808,27 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Map ZoomIn",
+                  "linkType": "o",
+                  "eVar49": "%Map Name%",
+                  "eVar50": "%Map Button Name%",
+                  "events": "event34"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1494,6 +1856,27 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Map Zoom Out",
+                  "linkType": "o",
+                  "eVar49": "%Map Name%",
+                  "eVar50": "%Map Button Name%",
+                  "events": "event31"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1517,6 +1900,26 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Menu Click",
+                  "linkType": "o",
+                  "eVar24": "%Menu Link Name%",
+                  "events": "event23"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1544,6 +1947,28 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Null Search",
+                  "linkType": "o",
+                  "eVar6": "%Search Term%",
+                  "eVar7": "%Search Results%",
+                  "eVar8": "%Search Result PageType%",
+                  "events": "event6"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1567,6 +1992,27 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Redirect Link Click",
+                  "linkType": "o",
+                  "eVar21": "%Redirect Link Text%",
+                  "eVar23": "%Destination Link%",
+                  "events": "event21,event22"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1594,6 +2040,27 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Related Tag Click",
+                  "linkType": "o",
+                  "eVar43": "%Related Tag Link%",
+                  "eVar46": "%Related Tag Link URL%",
+                  "events": "event29"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1617,6 +2084,26 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Scroll 25 Percentage",
+                  "linkType": "o",
+                  "eVar20": "%ScrollInfo Depth%",
+                  "events": "event17"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1644,6 +2131,26 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Scroll 50 Percentage",
+                  "linkType": "o",
+                  "eVar20": "%ScrollInfo Depth%",
+                  "events": "event18"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1667,6 +2174,26 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Scroll 75 Percentage",
+                  "linkType": "o",
+                  "eVar20": "%ScrollInfo Depth%",
+                  "events": "event19"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1694,6 +2221,26 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Scroll 100 Percentage",
+                  "linkType": "o",
+                  "eVar20": "%ScrollInfo Depth%",
+                  "events": "event20"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1717,6 +2264,28 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Internal Search Close Click",
+                  "linkType": "o",
+                  "eVar6": "%Search Term%",
+                  "eVar7": "%Search Results%",
+                  "eVar8": "%Search Result PageType%",
+                  "events": "event27"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1744,6 +2313,26 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Social Interaction",
+                  "linkType": "o",
+                  "eVar17": "%Social Interaction Info%",
+                  "events": "event1"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1767,6 +2356,27 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Video Start",
+                  "linkType": "o",
+                  "eVar11": "%Video Name%",
+                  "eVar35": "%Video Type%",
+                  "events": "event11"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1794,6 +2404,26 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Video 25 Percent completion",
+                  "linkType": "o",
+                  "eVar11": "%Video Name%",
+                  "events": "event13"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1817,6 +2447,27 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Video 50 Percent completion",
+                  "linkType": "o",
+                  "eVar11": "%Video Name%",
+                  "eVar35": "%Video Type%",
+                  "events": "event14"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
@@ -1844,6 +2495,27 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Video 75 Percent completion",
+                  "linkType": "o",
+                  "eVar11": "%Video Name%",
+                  "eVar35": "%Video Type%",
+                  "events": "event15"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1869,6 +2541,27 @@
       "actions": [
         {
           "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Video Complete",
+                  "linkType": "o",
+                  "eVar11": "%Video Name%",
+                  "eVar35": "%Video Type%",
+                  "events": "event12"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",
           "category": "analytics",
           "settings": {
@@ -1892,6 +2585,26 @@
       },
       "conditions": [],
       "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Video Pause",
+                  "linkType": "o",
+                  "eVar11": "%Video Name%",
+                  "events": "event28"
+                }
+              }
+            }
+          }
+        },
         {
           "extension": "adobe-alloy",
           "delegate_descriptor_id": "adobe-alloy::actions::send-event",

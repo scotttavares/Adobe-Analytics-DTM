@@ -74,19 +74,28 @@ Quarantined rather than silently carried:
   Finding 1).
 - **New rule** `Consent - Apply Visitor Choice` (Fix 4 groundwork) — the site
   already *tracked* the consent choice; now it also *applies* it.
-- **Consolidated payload architecture** (property owner's decision,
-  2026-07-28): instead of one generated payload element per interaction, a
-  single generated `data-interaction` dispatcher carries the mapping table for
-  all 32 interactions, keyed by the triggering data-layer event name — 76
-  data elements total instead of 107. Trade-offs accepted: shared blast radius
-  (mitigated by generation + the syntax check) and mappings living in code
-  rather than per-element UI entries (mitigated by the catalog being the
-  reviewable source of truth). Misses are loud by design: an unknown or
-  unreadable event reports as linkName `unmapped: <event>` in Custom Links.
-  One-time dev-build verification required: confirm the dispatcher reads the
-  triggering event's name (the ACDL extension's event object is closed-source;
-  the code tries `message`/`detail`/`dataLayer` shapes). `--per-event`
-  regenerates the isolated per-event variant if the trade ever reverses.
+- **Payload architecture: Adobe's Variable / Update Variable pattern**
+  (property owner's decision, 2026-07-28, superseding the earlier
+  consolidated-code-dispatcher decision the same day). Rationale: (a) it is
+  the pattern Adobe's own Analytics-migration documentation prescribes —
+  defensible to the client verbatim; (b) the inheriting client team is
+  UI-first, so mappings belong in form-based rule actions, not custom code.
+  Shape: three Web SDK Variable elements (`data-pageView`, `data-interaction`,
+  `data-siteError`; Data object, Analytics solution); every rule pairs an
+  **Update variable** action (that event's field mappings, entered as form
+  values) with the **Send event** action. 75 data elements total. The mapping
+  SPEC remains `catalog/events-catalog.json` — the build sheet renders each
+  rule's form entries from it, and the export-diff verification machine-checks
+  the hand-entered forms against it. Two things to verify in Phase 4 QA:
+  (1) **residue** — the shared `data-interaction` variable persists for the
+  page lifetime, so a non-navigating event can carry the previous event's
+  eVars unless each Update Variable action clears prior values (use the
+  action's clear/remove affordance; test: form-start then scroll-25, inspect
+  the scroll beacon for eVar10/eVar19); (2) `event4` (internal campaign,
+  valued) is deliberately omitted until the `icid` decision lands — it never
+  fired in the source property (its feeding element was a no-op stub), so
+  omission is parity. Generated-code alternatives remain available:
+  `--consolidated` and `--per-event`.
 
 ## Assumptions that must be verified before production (all machine-enforced)
 

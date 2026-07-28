@@ -27,6 +27,7 @@
 // =============================================================================
 
 import process from 'node:process';
+import { createHash } from 'node:crypto';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -222,7 +223,63 @@ async function main() {
   const unresolved = [];
   const arch = flags['per-event']
     ? 'per-event'
-    : property.payloadArchitecture || 'consolidated';
+    : flags.consolidated
+      ? 'consolidated'
+      : property.payloadArchitecture || 'adobe-variable';
+
+  // Deterministic cacheId per variable name — stable across regenerations so
+  // re-runs never mint a "new" variable identity.
+  const stableCacheId = (name) => {
+    const h = createHash('sha256').update(`aan-websdk-variable:${name}`).digest('hex');
+    return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-8${h.slice(17, 20)}-${h.slice(20, 32)}`;
+  };
+
+  // Build the __adobe.analytics form object for an Update Variable action from
+  // a catalog analytics spec. Values are %DE% tokens or constants — exactly
+  // what the form-based UI stores.
+  function analyticsFormObject(spec, link) {
+    const out = {};
+    const scalar = (key, from) => {
+      if (from === undefined || from === null) return;
+      if (typeof from === 'object' && from.constant !== undefined) out[key] = from.constant;
+      else out[key] = `%${from}%`;
+    };
+    if (link) {
+      out.linkName = link.linkName;
+      out.linkType = link.linkType;
+    }
+    scalar('pageName', spec.pageName);
+    scalar('channel', spec.channel);
+    scalar('pageURL', spec.pageURL);
+    scalar('referrer', spec.referrer);
+    scalar('campaign', spec.campaign);
+    for (const [k, v] of Object.entries(spec.eVars || {})) scalar(k, v);
+    for (const [k, v] of Object.entries(spec.props || {})) scalar(k, v);
+    for (const [k, sources] of Object.entries(spec.lists || {})) {
+      out[k] = sources.map((s) => `%${s}%`).join(',');
+    }
+    const evs = [];
+    for (const e of spec.events || []) {
+      if (e.valueFrom) evs.push(`${e.event}=%${e.valueFrom}%`);
+      else evs.push(e.event);
+    }
+    if (evs.length) out.events = evs.join(',');
+    return out;
+  }
+
+  function updateVariableAction(variableName, dataObj) {
+    return {
+      extension: 'adobe-alloy',
+      delegate_descriptor_id: 'adobe-alloy::actions::update-variable',
+      delegateDisplayName: 'Update variable',
+      category: 'analytics',
+      settings: {
+        dataElementId: `RESOLVE-DE-ID:${variableName}`,
+        dataElementCacheId: stableCacheId(variableName),
+        data: { __adobe: { analytics: dataObj } },
+      },
+    };
+  }
   const acdlDelegateDefault = {
     delegate_descriptor_id: 'adobe-client-data-layer::events::datalayer-push-listener',
     delegateDisplayName: 'Datalayer Push Listener',
@@ -343,22 +400,26 @@ async function main() {
     dataElements.push(entry);
   }
 
-  // Shared payload skeleton — the runtime half of the shared-builder pattern.
-  dataElements.push({
-    name: 'data-analyticsBase',
-    extension: 'core',
-    delegate_descriptor_id: 'core::dataElements::custom-code',
-    settings: {
-      source: [
-        '// GENERATED — shared payload skeleton every data-* builder starts from (Finding 9 fix).',
-        '// Common fields shared by ALL events belong here (and only here).',
-        'return { __adobe: { analytics: {} } };',
-      ].join('\n'),
-    },
-    forceLowerCase: false,
-    cleanText: false,
-    storageDuration: null,
-  });
+  // Shared payload skeleton — only for the generated-code architectures. Under
+  // adobe-variable, the Variable data element natively provides the fresh
+  // correctly-shaped container, so no skeleton element exists.
+  if (arch !== 'adobe-variable') {
+    dataElements.push({
+      name: 'data-analyticsBase',
+      extension: 'core',
+      delegate_descriptor_id: 'core::dataElements::custom-code',
+      settings: {
+        source: [
+          '// GENERATED — shared payload skeleton every data-* builder starts from (Finding 9 fix).',
+          '// Common fields shared by ALL events belong here (and only here).',
+          'return { __adobe: { analytics: {} } };',
+        ].join('\n'),
+      },
+      forceLowerCase: false,
+      cleanText: false,
+      storageDuration: null,
+    });
+  }
 
   // Consent mapping for the set-consent rule.
   if (property.consentRule && property.consentRule.enabled) {
@@ -382,38 +443,57 @@ async function main() {
     });
   }
 
-  // Generated payload builders: page view, site error, and every interaction.
+  // Generated payloads: page view, site error, and the interactions. Under
+  // adobe-variable these are Web SDK VARIABLE elements (Data object, Analytics
+  // solution) — the values are set by form-based Update Variable actions in
+  // the rules. Under the code architectures they are custom-code builders.
   const pv = events.pageView;
-  dataElements.push({
-    name: pv.payloadDataElement,
-    extension: 'core',
-    delegate_descriptor_id: 'core::dataElements::custom-code',
-    settings: {
-      source: emitPayloadSource(
-        `Page view payload (replaces "${pv.replaces}") — Analytics mapping is byte-for-byte the source property's.`,
-        pv.analytics,
-      ),
-    },
-    forceLowerCase: false,
-    cleanText: false,
-    storageDuration: null,
-  });
-
   const se = events.siteError;
-  dataElements.push({
-    name: se.payloadDataElement,
-    extension: 'core',
-    delegate_descriptor_id: 'core::dataElements::custom-code',
-    settings: {
-      source: emitPayloadSource(
-        `Site error page view payload (replaces "${se.replaces}").`,
-        se.analytics,
-      ),
-    },
-    forceLowerCase: false,
-    cleanText: false,
-    storageDuration: null,
-  });
+
+  if (arch === 'adobe-variable') {
+    for (const varName of [pv.payloadDataElement, 'data-interaction', se.payloadDataElement]) {
+      dataElements.push({
+        name: varName,
+        extension: 'adobe-alloy',
+        delegate_descriptor_id: 'adobe-alloy::dataElements::variable',
+        delegateDisplayName: 'Variable',
+        settings: { cacheId: stableCacheId(varName), solutions: ['analytics'] },
+        forceLowerCase: false,
+        cleanText: false,
+        storageDuration: null,
+      });
+    }
+  } else {
+    dataElements.push({
+      name: pv.payloadDataElement,
+      extension: 'core',
+      delegate_descriptor_id: 'core::dataElements::custom-code',
+      settings: {
+        source: emitPayloadSource(
+          `Page view payload (replaces "${pv.replaces}") — Analytics mapping is byte-for-byte the source property's.`,
+          pv.analytics,
+        ),
+      },
+      forceLowerCase: false,
+      cleanText: false,
+      storageDuration: null,
+    });
+
+    dataElements.push({
+      name: se.payloadDataElement,
+      extension: 'core',
+      delegate_descriptor_id: 'core::dataElements::custom-code',
+      settings: {
+        source: emitPayloadSource(
+          `Site error page view payload (replaces "${se.replaces}").`,
+          se.analytics,
+        ),
+      },
+      forceLowerCase: false,
+      cleanText: false,
+      storageDuration: null,
+    });
+  }
 
   if (arch === 'per-event') {
     for (const it of events.interactions) {
@@ -433,7 +513,7 @@ async function main() {
         storageDuration: null,
       });
     }
-  } else {
+  } else if (arch === 'consolidated') {
     // Consolidated: one dispatcher element for all interactions, keyed by the
     // ACDL event name. Unresolvable keys keep the blueprint in draft state.
     const keyForRule = (it) => {
@@ -463,6 +543,35 @@ async function main() {
   // (renderDecisions for Target via the datastream) and measures (Analytics via
   // the same datastream). Replaces the source property's separate
   // "All Pages - Library Loaded" at.js chain AND its Web SDK page-view send.
+  const pvSendEvent = {
+    extension: 'adobe-alloy',
+    delegate_descriptor_id: 'adobe-alloy::actions::send-event',
+    category: 'personalization',
+    settings: {
+      instanceName: property.webSdkInstance.name,
+      renderDecisions: true,
+      type: pv.xdmEventType,
+      data: `%${pv.payloadDataElement}%`,
+    },
+  };
+  const pvActions =
+    arch === 'adobe-variable'
+      ? [
+          updateVariableAction(
+            pv.payloadDataElement,
+            analyticsFormObject({
+              ...pv.analytics,
+              // event4 (internal campaign, valued) is deferred until the icid
+              // decision lands — it has never fired in the source property
+              // (its feeding element was a no-op stub), so omitting it is
+              // parity. Add it as an events row with value once confirmed.
+              events: (pv.analytics.events || []).filter((e) => !e.valueFrom),
+            }),
+          ),
+          pvSendEvent,
+        ]
+      : [pvSendEvent];
+
   rules.push({
     name: pv.rule,
     consentCategory: 'C0002',
@@ -471,61 +580,65 @@ async function main() {
       'edge call — the durable fix for the audit\'s two-pathway root cause (slides 26-27).',
     event: acdlEventFor(pv.rule, pv.acdlEvent),
     conditions: [],
-    actions: [
-      {
-        extension: 'adobe-alloy',
-        delegate_descriptor_id: 'adobe-alloy::actions::send-event',
-        category: 'personalization',
-        settings: {
-          instanceName: property.webSdkInstance.name,
-          renderDecisions: true,
-          type: pv.xdmEventType,
-          data: `%${pv.payloadDataElement}%`,
-        },
-      },
-    ],
+    actions: pvActions,
   });
 
   // Site error page view.
+  const seSendEvent = {
+    extension: 'adobe-alloy',
+    delegate_descriptor_id: 'adobe-alloy::actions::send-event',
+    category: 'analytics',
+    settings: {
+      instanceName: property.webSdkInstance.name,
+      type: se.xdmEventType,
+      data: `%${se.payloadDataElement}%`,
+    },
+  };
   rules.push({
     name: se.rule,
     consentCategory: 'C0002',
     event: acdlEventFor(se.rule, se.acdlEvent),
     conditions: [],
-    actions: [
-      {
-        extension: 'adobe-alloy',
-        delegate_descriptor_id: 'adobe-alloy::actions::send-event',
-        category: 'analytics',
-        settings: {
-          instanceName: property.webSdkInstance.name,
-          type: se.xdmEventType,
-          data: `%${se.payloadDataElement}%`,
-        },
-      },
-    ],
+    actions:
+      arch === 'adobe-variable'
+        ? [updateVariableAction(se.payloadDataElement, analyticsFormObject(se.analytics)), seSendEvent]
+        : [seSendEvent],
   });
 
-  // Interactions. Under the consolidated architecture every interaction rule
-  // sends the same dispatcher element; per-event keeps one payload per rule.
+  // Interactions. adobe-variable: form-based Update Variable (this event's
+  // mapping) + Send Event on the shared data-interaction variable.
+  // consolidated: single Send Event on the code dispatcher. per-event: single
+  // Send Event on that event's own code element.
   for (const it of events.interactions) {
+    const sendEvent = {
+      extension: 'adobe-alloy',
+      delegate_descriptor_id: 'adobe-alloy::actions::send-event',
+      category: 'analytics',
+      settings: {
+        instanceName: property.webSdkInstance.name,
+        type: 'web.webinteraction.linkClicks',
+        data: arch === 'per-event' ? `%${it.payloadDataElement}%` : '%data-interaction%',
+      },
+    };
+    const actions =
+      arch === 'adobe-variable'
+        ? [
+            updateVariableAction(
+              'data-interaction',
+              analyticsFormObject(
+                { eVars: it.eVars, events: it.events, lists: it.lists },
+                { linkName: it.linkName, linkType: it.linkType },
+              ),
+            ),
+            sendEvent,
+          ]
+        : [sendEvent];
     rules.push({
       name: it.rule,
       consentCategory: 'C0002',
       event: acdlEventFor(it.rule, it.acdlEvent),
       conditions: [],
-      actions: [
-        {
-          extension: 'adobe-alloy',
-          delegate_descriptor_id: 'adobe-alloy::actions::send-event',
-          category: 'analytics',
-          settings: {
-            instanceName: property.webSdkInstance.name,
-            type: 'web.webinteraction.linkClicks',
-            data: arch === 'per-event' ? `%${it.payloadDataElement}%` : '%data-interaction%',
-          },
-        },
-      ],
+      actions,
     });
   }
 
