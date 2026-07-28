@@ -19,6 +19,23 @@ implements.
 | 9 | ~25 structurally identical XDM data elements (copy-paste drift) | **Fixed structurally** — all payloads generated from one template off `catalog/events-catalog.json`; runtime skeleton shared via `data-analyticsBase`. Drift found during extraction is quarantined (below) | `scripts/generate-blueprint.mjs`; `catalog/events-catalog.json` |
 | — | Two-pathway root cause (audit slides 26–27): the pathway that decides content is not the pathway Analytics rides | **Fixed by consolidation** — ONE `sendEvent` per page view carries `renderDecisions: true` (Target) and the Analytics payload to the same datastream | `Global Page Load Rule` in the blueprint |
 
+## Finding 1 refinement (likely explanation for the "intermittent" signature)
+
+The `s_` cookies the audit captured as classic-AppMeasurement evidence
+(`s_gpv`, `s_dur`, `s_vnc365`, `s_tslv`, `s_nr30`, `s_inv`) are the cookies the
+**Common Web SDK Plugins** data elements write — from inside the Web SDK build
+itself (getPreviousValue → `s_gpv`, visit number → `s_vnc365`, new/repeat →
+`s_nr30`, etc.). Combined with the workbook showing the production build
+contains no classic Analytics extension, the Debugger's later "Not Found", and
+zero `/b/ss/` requests on re-checks, the most defensible read is that the
+"classic system" was never firing — one pathway wearing the other's costume.
+**Confirm during Phase 1/4:** (a) the export snapshot shows the classic
+extension absent from the live build's resources, and (b) a fresh incognito
+session shows zero `/b/ss/` requests. If confirmed, Finding 1's residual risk
+re-grades from "possible metric inflation" to "misleading configuration that
+never fired" — the fix (extension absent here) is identical either way, but
+the historical-data guidance to analysts changes materially.
+
 ## Drift found while extracting (Finding 9's prediction, confirmed)
 
 Quarantined rather than silently carried:
