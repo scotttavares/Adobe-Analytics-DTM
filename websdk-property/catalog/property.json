@@ -7,10 +7,10 @@
   },
 
   "property": {
-    "name": "AboutAmazon-US (Web SDK)",
+    "name": "AboutAmazon-US (WebSDK)",
     "domains": ["aboutamazon.com"],
     "platform": "web",
-    "_note": "New property, created alongside the existing AboutAmazon-US. The old property stays untouched until cutover (docs/RUNBOOK.md phase 5)."
+    "_note": "New property, created alongside the existing AboutAmazon-US. The old property stays untouched until cutover (docs/RUNBOOK.md phase 5). NAME MUST MATCH EXACTLY the property created in the Data Collection UI on 2026-07-28 ('AboutAmazon-US (WebSDK)', no space in 'WebSDK') — publish.mjs finds-or-creates by exact name, and a mismatch would create a duplicate property. Property settings chosen at creation: platform Web, domain aboutamazon.com, 'Run rule components in sequence' CHECKED (matches the source property's Sequencing: Enabled), the other two advanced options unchecked."
   },
 
   "orgId": "E2FF058362D6F0310A495E5B@AdobeOrg",

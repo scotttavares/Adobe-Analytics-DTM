@@ -1,4 +1,4 @@
-# AboutAmazon-US (Web SDK) — new Tags property, as code
+# AboutAmazon-US (WebSDK) — new Tags property, as code
 
 This directory stands up the **new Adobe Experience Platform Data Collection
 (Tags/Launch) web property** for aboutamazon.com recommended by the
@@ -14,7 +14,7 @@ execution guide is [docs/RUNBOOK.md](docs/RUNBOOK.md).
 
 ## What gets built
 
-- Property **"AboutAmazon-US (Web SDK)"** (the existing AboutAmazon-US property
+- Property **"AboutAmazon-US (WebSDK)"** (the existing AboutAmazon-US property
   is left untouched until cutover), with Development / Staging / Production
   environments.
 - **4 extensions**: Core, Adobe Client Data Layer, AEP Web SDK, Common Web SDK

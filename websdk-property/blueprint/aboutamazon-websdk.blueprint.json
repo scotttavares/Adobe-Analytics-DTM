@@ -53,7 +53,7 @@
     "id": "SET-VIA-WHOAMI"
   },
   "property": {
-    "name": "AboutAmazon-US (Web SDK)",
+    "name": "AboutAmazon-US (WebSDK)",
     "domains": [
       "aboutamazon.com"
     ],
