@@ -192,6 +192,14 @@ return "";
 Paste each block **verbatim** — never edit by hand; the catalog + generator own these.
 All flags: force lowercase **off**, clean text **off**, storage duration **None**.
 
+Add this to each element's **Notes** panel (provenance pointer — do not restate logic):
+
+```
+GENERATED code — do not edit here.
+Source of truth: Adobe-Analytics-DTM repo → websdk-property/catalog/ (events-catalog.json + property.json).
+To change: edit the catalog, run scripts/generate-blueprint.mjs, re-paste from docs/MANUAL-BUILD-SHEET.md.
+```
+
 ### `data-analyticsBase`
 
 ```javascript

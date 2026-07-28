@@ -132,6 +132,14 @@ async function main() {
   L.push('Paste each block **verbatim** — never edit by hand; the catalog + generator own these.');
   L.push('All flags: force lowercase **off**, clean text **off**, storage duration **None**.');
   L.push('');
+  L.push('Add this to each element\'s **Notes** panel (provenance pointer — do not restate logic):');
+  L.push('');
+  L.push('```');
+  L.push('GENERATED code — do not edit here.');
+  L.push('Source of truth: Adobe-Analytics-DTM repo → websdk-property/catalog/ (events-catalog.json + property.json).');
+  L.push('To change: edit the catalog, run scripts/generate-blueprint.mjs, re-paste from docs/MANUAL-BUILD-SHEET.md.');
+  L.push('```');
+  L.push('');
   builders.forEach((d) => {
     L.push(`### \`${d.name}\``);
     L.push('');
