@@ -19,7 +19,19 @@ var config = buildConfig(settings);
 config.debug = config.debug || turbine.debugEnabled;
 
 try {
-  var manager = consent.init(config);
+  // The bundle self-initializes on load if the page already defined
+  // window.adobeConsentConfig. Adopt that instance instead of standing up a
+  // second engine, which would double every cookie write and every Adobe call.
+  var existing = consent.instance;
+  if (existing) {
+    turbine.logger.warn(
+      'Adobe Consent was already initialized from window.adobeConsentConfig; ' +
+        'using that instance and ignoring the extension configuration. Remove ' +
+        'one of the two so there is a single source of truth.'
+    );
+  }
+
+  var manager = existing || consent.init(config);
 
   instance.set(manager);
   // Published globally so site code and other extensions can reach it without
