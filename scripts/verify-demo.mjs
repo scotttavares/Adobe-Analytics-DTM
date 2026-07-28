@@ -8,6 +8,7 @@
 import { chromium } from 'playwright';
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { extname, join, normalize, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -45,7 +46,11 @@ const check = (name, pass, detail = '') => {
   console.log(`${pass ? '  PASS' : '  FAIL'}  ${name}${detail ? '  — ' + detail : ''}`);
 };
 
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+// Prefer Playwright's own resolution (what CI and a normal dev machine use);
+// fall back to a preinstalled binary when one is pinned by the environment.
+const pinnedChromium = process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium';
+const launchOptions = existsSync(pinnedChromium) ? { executablePath: pinnedChromium } : {};
+const browser = await chromium.launch(launchOptions);
 const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const page = await context.newPage();
 

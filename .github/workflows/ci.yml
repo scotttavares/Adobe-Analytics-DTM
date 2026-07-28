@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  verify:
+    name: Typecheck, test, build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Check the extension's vendored bundle is in sync
+        # The bundle is committed so `reactor-packager` works from a fresh
+        # checkout. If a source change lands without a rebuild, the extension
+        # would ship stale code — fail loudly rather than silently.
+        run: |
+          if ! git diff --quiet -- launch-extension/src/lib/vendor/adobe-consent.js; then
+            echo "::error::launch-extension/src/lib/vendor/adobe-consent.js is out of date."
+            echo "Run 'npm run build' and commit the result."
+            git diff --stat -- launch-extension/src/lib/vendor/adobe-consent.js
+            exit 1
+          fi
+
+      - name: Validate and package the Launch extension
+        working-directory: launch-extension
+        run: npx --yes @adobe/reactor-packager
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser verification
+        run: npm run verify
+
+      - name: Upload demo screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-screenshots
+          path: demo/*.png
+          if-no-files-found: ignore
