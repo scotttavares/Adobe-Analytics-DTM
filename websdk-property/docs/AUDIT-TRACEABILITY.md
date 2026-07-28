@@ -74,6 +74,19 @@ Quarantined rather than silently carried:
   Finding 1).
 - **New rule** `Consent - Apply Visitor Choice` (Fix 4 groundwork) — the site
   already *tracked* the consent choice; now it also *applies* it.
+- **Consolidated payload architecture** (property owner's decision,
+  2026-07-28): instead of one generated payload element per interaction, a
+  single generated `data-interaction` dispatcher carries the mapping table for
+  all 32 interactions, keyed by the triggering data-layer event name — 76
+  data elements total instead of 107. Trade-offs accepted: shared blast radius
+  (mitigated by generation + the syntax check) and mappings living in code
+  rather than per-element UI entries (mitigated by the catalog being the
+  reviewable source of truth). Misses are loud by design: an unknown or
+  unreadable event reports as linkName `unmapped: <event>` in Custom Links.
+  One-time dev-build verification required: confirm the dispatcher reads the
+  triggering event's name (the ACDL extension's event object is closed-source;
+  the code tries `message`/`detail`/`dataLayer` shapes). `--per-event`
+  regenerates the isolated per-event variant if the trade ever reverses.
 
 ## Assumptions that must be verified before production (all machine-enforced)
 

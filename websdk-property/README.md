@@ -20,8 +20,14 @@ execution guide is [docs/RUNBOOK.md](docs/RUNBOOK.md).
 - **4 extensions**: Core, Adobe Client Data Layer, AEP Web SDK, Common Web SDK
   Plugins. Deliberately absent: classic Adobe Analytics (Findings 1–2) and both
   classic Target extensions (Findings 3, 4, 8) — their absence *is* the fix.
-- **107 data elements**: 71 carried 1:1 from the current property (same names,
-  same settings), plus generated payload builders (see below).
+- **76 data elements**: 71 carried 1:1 from the current property (same names,
+  same settings), plus 5 generated payload builders — the consolidated
+  architecture: `data-pageView`, `data-siteError`, one `data-interaction`
+  dispatcher serving all 32 interaction rules (mapping table generated from
+  the catalog, keyed by data-layer event name, unmapped events surface as
+  `unmapped: …` custom links), a shared `data-analyticsBase` skeleton, and the
+  consent mapper. Prefer one payload per event instead? Re-generate with
+  `--per-event` (107 elements, failure isolation per event).
 - **35 rules**: one consolidated page view (Analytics + Target
   `renderDecisions` on a single edge request), 32 interaction/consent-tracking
   rules, a site-error rule, and a new `Consent - Apply Visitor Choice` rule.

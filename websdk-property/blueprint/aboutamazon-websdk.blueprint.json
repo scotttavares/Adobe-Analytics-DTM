@@ -3,6 +3,7 @@
   "schemaVersion": "1.0",
   "meta": {
     "generator": "websdk-property/scripts/generate-blueprint.mjs",
+    "architecture": "consolidated",
     "sources": [
       "catalog/property.json",
       "catalog/data-elements.catalog.json",
@@ -12,6 +13,38 @@
     "draft": true,
     "unresolved": [
       "webSdkInstance.edgeDomain is a placeholder — complete the first-party domain setup (docs/MANUAL-STEPS.md #4) or generate with --interim-third-party-edge to launch on edge.adobedc.net",
+      "dispatcher key for rule \"Amazon More News Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Amazon Redirect Link Click\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Amazon Stories Link Click Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Consent Selection\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"File Download Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Filter Click Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Form Complete\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Form Error Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Form Start\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Global CTA Button Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Internal Search Click\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Internal Search ClickThrough\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Map Button Click\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Map Button Close\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Map Zoom In\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Map Zoom Out\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Menu Link Click Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Null Search Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Redirect Link Click Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Related Tag Click Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Scroll 25 percentage\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Scroll 50 percentage\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Scroll 75 percentage\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Scroll 100 percentage\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Search Close Click\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Social Interaction Tracking\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Video Start\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Video 25 percentage complete\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Video 50 percentage complete\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Video 75 percentage complete\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Video 100 percentage complete\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
+      "dispatcher key for rule \"Video Pause\": ACDL event name unknown (CONFIRM-VIA-EXPORT) — set acdlEvent in events-catalog.json or supply the overrides file",
       "rule \"Global Page Load Rule\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Site Error\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Amazon More News Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
@@ -1007,352 +1040,11 @@
       "storageDuration": null
     },
     {
-      "name": "data-More Amazon News",
+      "name": "data-interaction",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::custom-code",
       "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"More Amazon News Click\" (replaces \"XDM More Amazon News\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"More Amazon News Click\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar44\", \"More Amazon News Text\");\nev(\"event22\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Amazon Redirect Link",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Amazon Redirect Link Click\" (replaces \"XDM Amazon Redirect Link\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Amazon Redirect Link Click\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar23\", \"Destination Link\");\nset(\"eVar28\", \"Redirect Link Text\");\nev(\"event21\");\nev(\"event22\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Amazon Stories",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Amazon Stories Link Tracking\" (replaces \"XDM Amazon Stories\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Amazon Stories Link Tracking\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar45\", \"Stories Link Text\");\nev(\"event22\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Cookie Consent Selected",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Cookie Consent Selection\" (replaces \"XDM Cookie Consent Selected\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Cookie Consent Selection\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar48\", \"Consent Selected\");\nev(\"event30\", \"Consent Click Count\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-File Download",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"File Download\" (replaces \"XDM File Download\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"File Download\");\nsetConst(\"linkType\", \"d\");\nset(\"eVar33\", \"File Name\");\nset(\"eVar34\", \"File Type\");\nev(\"event16\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Filter Click",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"News Filter Click\" (replaces \"XDM Filter Click\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"News Filter Click\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar27\", \"Filter\");\nev(\"event25\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Form Complete",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Form Complete\" (replaces \"XDM Form Complete\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Form Complete\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar10\", \"Form Name\");\nset(\"eVar19\", \"Form Location\");\nev(\"event10\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Form Error",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Form Error\" (replaces \"XDM Form Error\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Form Error\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar10\", \"Form Name\");\nset(\"eVar19\", \"Form Location\");\nlistVar(\"list1\", \"Form Error Name\");\nev(\"event8\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Form Start",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Form Start\" (replaces \"XDM Form Start\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Form Start\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar10\", \"Form Name\");\nset(\"eVar19\", \"Form Location\");\nev(\"event9\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-CTA Button Click",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"CTA Button Click\" (replaces \"XDM CTA Button Click\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"CTA Button Click\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar22\", \"CTA Button Name\");\nset(\"eVar23\", \"Destination Link\");\nev(\"event22\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Internal Search",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Internal Search\" (replaces \"XDM Internal Search\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Internal Search\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar6\", \"Search Term\");\nset(\"eVar7\", \"Search Results\");\nset(\"eVar8\", \"Search Result PageType\");\nev(\"event26\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Internal Search Click Through",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Internal Search Click Through\" (replaces \"XDM Internal Search Click Through\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Internal Search Click Through\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar6\", \"Search Term\");\nset(\"eVar32\", \"Search Result Click Name\");\nev(\"event7\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Map Button Click",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Map Button Click\" (replaces \"XDM Map Button Click\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Map Button Click\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar49\", \"Map Name\");\nset(\"eVar50\", \"Map Button Name\");\nev(\"event32\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Map Button Close",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Map Button Close\" (replaces \"XDM Map Button Close\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Map Button Close\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar49\", \"Map Name\");\nset(\"eVar50\", \"Map Button Name\");\nev(\"event33\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Map Zoom In",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Map ZoomIn\" (replaces \"XDM Map Zoom In\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Map ZoomIn\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar49\", \"Map Name\");\nset(\"eVar50\", \"Map Button Name\");\nev(\"event34\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Map Zoom Out",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Map Zoom Out\" (replaces \"XDM Map Zoom Out\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Map Zoom Out\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar49\", \"Map Name\");\nset(\"eVar50\", \"Map Button Name\");\nev(\"event31\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Menu Click",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Menu Click\" (replaces \"XDM Menu Click\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Menu Click\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar24\", \"Menu Link Name\");\nev(\"event23\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Null Search",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Null Search\" (replaces \"XDM Null Search\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Null Search\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar6\", \"Search Term\");\nset(\"eVar7\", \"Search Results\");\nset(\"eVar8\", \"Search Result PageType\");\nev(\"event6\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Redirect Link Click",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Redirect Link Click\" (replaces \"XDM Redirect Link Click\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Redirect Link Click\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar21\", \"Redirect Link Text\");\nset(\"eVar23\", \"Destination Link\");\nev(\"event21\");\nev(\"event22\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Related Tag",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Related Tag Click\" (replaces \"XDM Related Tag\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Related Tag Click\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar43\", \"Related Tag Link\");\nset(\"eVar46\", \"Related Tag Link URL\");\nev(\"event29\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Scroll 25 Percentage",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Scroll 25 Percentage\" (replaces \"XDM Scroll 25 Percentage\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Scroll 25 Percentage\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar20\", \"ScrollInfo Depth\");\nev(\"event17\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Scroll 50 Percentage",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Scroll 50 Percentage\" (replaces \"XDM Scroll 50 Percentage\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Scroll 50 Percentage\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar20\", \"ScrollInfo Depth\");\nev(\"event18\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Scroll 75 Percentage",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Scroll 75 Percentage\" (replaces \"XDM Scroll 75 Percentage\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Scroll 75 Percentage\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar20\", \"ScrollInfo Depth\");\nev(\"event19\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Scroll 100 Percentage",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Scroll 100 Percentage\" (replaces \"XDM Scroll 100 Percentage\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Scroll 100 Percentage\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar20\", \"ScrollInfo Depth\");\nev(\"event20\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Internal Search Close",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Internal Search Close Click\" (replaces \"XDM Internal Search Close\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Internal Search Close Click\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar6\", \"Search Term\");\nset(\"eVar7\", \"Search Results\");\nset(\"eVar8\", \"Search Result PageType\");\nev(\"event27\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Social Interaction",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Social Interaction\" (replaces \"XDM Social Interaction\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Social Interaction\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar17\", \"Social Interaction Info\");\nev(\"event1\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Video Start",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Video Start\" (replaces \"XDM Video Start\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Video Start\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar11\", \"Video Name\");\nset(\"eVar35\", \"Video Type\");\nev(\"event11\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Video 25 Percent",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Video 25 Percent completion\" (replaces \"XDM Video 25 Percent\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Video 25 Percent completion\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar11\", \"Video Name\");\nev(\"event13\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Video 50 Percent",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Video 50 Percent completion\" (replaces \"XDM Video 50 Percent\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Video 50 Percent completion\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar11\", \"Video Name\");\nset(\"eVar35\", \"Video Type\");\nev(\"event14\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Video 75 Percent",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Video 75 Percent completion\" (replaces \"XDM Video 75 Percent\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Video 75 Percent completion\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar11\", \"Video Name\");\nset(\"eVar35\", \"Video Type\");\nev(\"event15\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Video Complete",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Video Complete\" (replaces \"XDM Video Complete\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Video Complete\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar11\", \"Video Name\");\nset(\"eVar35\", \"Video Type\");\nev(\"event12\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
-      },
-      "forceLowerCase": false,
-      "cleanText": false,
-      "storageDuration": null
-    },
-    {
-      "name": "data-Video Pause",
-      "extension": "core",
-      "delegate_descriptor_id": "core::dataElements::custom-code",
-      "settings": {
-        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Interaction payload \"Video Pause\" (replaces \"XDM Video Pause\").\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\nvar events = [];\nfunction set(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\nfunction setConst(key, value) { a[key] = value; }\nfunction ev(name, valueFrom) {\n  if (valueFrom) {\n    var v = _satellite.getVar(valueFrom);\n    if (v !== undefined && v !== null && v !== \"\") events.push(name + \"=\" + v);\n  } else {\n    events.push(name);\n  }\n}\nfunction listVar(key, deName) {\n  var v = _satellite.getVar(deName);\n  if (v !== undefined && v !== null && v !== \"\") a[key] = v;\n}\n\nsetConst(\"linkName\", \"Video Pause\");\nsetConst(\"linkType\", \"o\");\nset(\"eVar11\", \"Video Name\");\nev(\"event28\");\nif (events.length) a.events = events.join(\",\");\nreturn base;"
+        "source": "// GENERATED by scripts/generate-blueprint.mjs from catalog/events-catalog.json — DO NOT HAND-EDIT.\n// Consolidated interaction dispatcher: one element serves every interaction rule.\n// Keys are the adobeDataLayer event names each rule listens for.\nvar MAPPINGS = {\n  \"CONFIRM-VIA-EXPORT::Amazon More News Tracking\": {\"n\":\"More Amazon News Click\",\"t\":\"o\",\"ev\":[[\"event22\"]],\"vars\":{\"eVar44\":\"More Amazon News Text\"}},\n  \"CONFIRM-VIA-EXPORT::Amazon Redirect Link Click\": {\"n\":\"Amazon Redirect Link Click\",\"t\":\"o\",\"ev\":[[\"event21\"],[\"event22\"]],\"vars\":{\"eVar23\":\"Destination Link\",\"eVar28\":\"Redirect Link Text\"}},\n  \"CONFIRM-VIA-EXPORT::Amazon Stories Link Click Tracking\": {\"n\":\"Amazon Stories Link Tracking\",\"t\":\"o\",\"ev\":[[\"event22\"]],\"vars\":{\"eVar45\":\"Stories Link Text\"}},\n  \"CONFIRM-VIA-EXPORT::Consent Selection\": {\"n\":\"Cookie Consent Selection\",\"t\":\"o\",\"ev\":[[\"event30\",\"Consent Click Count\"]],\"vars\":{\"eVar48\":\"Consent Selected\"}},\n  \"CONFIRM-VIA-EXPORT::File Download Tracking\": {\"n\":\"File Download\",\"t\":\"d\",\"ev\":[[\"event16\"]],\"vars\":{\"eVar33\":\"File Name\",\"eVar34\":\"File Type\"}},\n  \"CONFIRM-VIA-EXPORT::Filter Click Tracking\": {\"n\":\"News Filter Click\",\"t\":\"o\",\"ev\":[[\"event25\"]],\"vars\":{\"eVar27\":\"Filter\"}},\n  \"CONFIRM-VIA-EXPORT::Form Complete\": {\"n\":\"Form Complete\",\"t\":\"o\",\"ev\":[[\"event10\"]],\"vars\":{\"eVar10\":\"Form Name\",\"eVar19\":\"Form Location\"}},\n  \"CONFIRM-VIA-EXPORT::Form Error Tracking\": {\"n\":\"Form Error\",\"t\":\"o\",\"ev\":[[\"event8\"]],\"vars\":{\"eVar10\":\"Form Name\",\"eVar19\":\"Form Location\"},\"lists\":{\"list1\":[\"Form Error Name\"]}},\n  \"CONFIRM-VIA-EXPORT::Form Start\": {\"n\":\"Form Start\",\"t\":\"o\",\"ev\":[[\"event9\"]],\"vars\":{\"eVar10\":\"Form Name\",\"eVar19\":\"Form Location\"}},\n  \"CONFIRM-VIA-EXPORT::Global CTA Button Tracking\": {\"n\":\"CTA Button Click\",\"t\":\"o\",\"ev\":[[\"event22\"]],\"vars\":{\"eVar22\":\"CTA Button Name\",\"eVar23\":\"Destination Link\"}},\n  \"CONFIRM-VIA-EXPORT::Internal Search Click\": {\"n\":\"Internal Search\",\"t\":\"o\",\"ev\":[[\"event26\"]],\"vars\":{\"eVar6\":\"Search Term\",\"eVar7\":\"Search Results\",\"eVar8\":\"Search Result PageType\"}},\n  \"CONFIRM-VIA-EXPORT::Internal Search ClickThrough\": {\"n\":\"Internal Search Click Through\",\"t\":\"o\",\"ev\":[[\"event7\"]],\"vars\":{\"eVar6\":\"Search Term\",\"eVar32\":\"Search Result Click Name\"}},\n  \"CONFIRM-VIA-EXPORT::Map Button Click\": {\"n\":\"Map Button Click\",\"t\":\"o\",\"ev\":[[\"event32\"]],\"vars\":{\"eVar49\":\"Map Name\",\"eVar50\":\"Map Button Name\"}},\n  \"CONFIRM-VIA-EXPORT::Map Button Close\": {\"n\":\"Map Button Close\",\"t\":\"o\",\"ev\":[[\"event33\"]],\"vars\":{\"eVar49\":\"Map Name\",\"eVar50\":\"Map Button Name\"}},\n  \"CONFIRM-VIA-EXPORT::Map Zoom In\": {\"n\":\"Map ZoomIn\",\"t\":\"o\",\"ev\":[[\"event34\"]],\"vars\":{\"eVar49\":\"Map Name\",\"eVar50\":\"Map Button Name\"}},\n  \"CONFIRM-VIA-EXPORT::Map Zoom Out\": {\"n\":\"Map Zoom Out\",\"t\":\"o\",\"ev\":[[\"event31\"]],\"vars\":{\"eVar49\":\"Map Name\",\"eVar50\":\"Map Button Name\"}},\n  \"CONFIRM-VIA-EXPORT::Menu Link Click Tracking\": {\"n\":\"Menu Click\",\"t\":\"o\",\"ev\":[[\"event23\"]],\"vars\":{\"eVar24\":\"Menu Link Name\"}},\n  \"CONFIRM-VIA-EXPORT::Null Search Tracking\": {\"n\":\"Null Search\",\"t\":\"o\",\"ev\":[[\"event6\"]],\"vars\":{\"eVar6\":\"Search Term\",\"eVar7\":\"Search Results\",\"eVar8\":\"Search Result PageType\"}},\n  \"CONFIRM-VIA-EXPORT::Redirect Link Click Tracking\": {\"n\":\"Redirect Link Click\",\"t\":\"o\",\"ev\":[[\"event21\"],[\"event22\"]],\"vars\":{\"eVar21\":\"Redirect Link Text\",\"eVar23\":\"Destination Link\"}},\n  \"CONFIRM-VIA-EXPORT::Related Tag Click Tracking\": {\"n\":\"Related Tag Click\",\"t\":\"o\",\"ev\":[[\"event29\"]],\"vars\":{\"eVar43\":\"Related Tag Link\",\"eVar46\":\"Related Tag Link URL\"}},\n  \"CONFIRM-VIA-EXPORT::Scroll 25 percentage\": {\"n\":\"Scroll 25 Percentage\",\"t\":\"o\",\"ev\":[[\"event17\"]],\"vars\":{\"eVar20\":\"ScrollInfo Depth\"}},\n  \"CONFIRM-VIA-EXPORT::Scroll 50 percentage\": {\"n\":\"Scroll 50 Percentage\",\"t\":\"o\",\"ev\":[[\"event18\"]],\"vars\":{\"eVar20\":\"ScrollInfo Depth\"}},\n  \"CONFIRM-VIA-EXPORT::Scroll 75 percentage\": {\"n\":\"Scroll 75 Percentage\",\"t\":\"o\",\"ev\":[[\"event19\"]],\"vars\":{\"eVar20\":\"ScrollInfo Depth\"}},\n  \"CONFIRM-VIA-EXPORT::Scroll 100 percentage\": {\"n\":\"Scroll 100 Percentage\",\"t\":\"o\",\"ev\":[[\"event20\"]],\"vars\":{\"eVar20\":\"ScrollInfo Depth\"}},\n  \"CONFIRM-VIA-EXPORT::Search Close Click\": {\"n\":\"Internal Search Close Click\",\"t\":\"o\",\"ev\":[[\"event27\"]],\"vars\":{\"eVar6\":\"Search Term\",\"eVar7\":\"Search Results\",\"eVar8\":\"Search Result PageType\"}},\n  \"CONFIRM-VIA-EXPORT::Social Interaction Tracking\": {\"n\":\"Social Interaction\",\"t\":\"o\",\"ev\":[[\"event1\"]],\"vars\":{\"eVar17\":\"Social Interaction Info\"}},\n  \"CONFIRM-VIA-EXPORT::Video Start\": {\"n\":\"Video Start\",\"t\":\"o\",\"ev\":[[\"event11\"]],\"vars\":{\"eVar11\":\"Video Name\",\"eVar35\":\"Video Type\"}},\n  \"CONFIRM-VIA-EXPORT::Video 25 percentage complete\": {\"n\":\"Video 25 Percent completion\",\"t\":\"o\",\"ev\":[[\"event13\"]],\"vars\":{\"eVar11\":\"Video Name\"}},\n  \"CONFIRM-VIA-EXPORT::Video 50 percentage complete\": {\"n\":\"Video 50 Percent completion\",\"t\":\"o\",\"ev\":[[\"event14\"]],\"vars\":{\"eVar11\":\"Video Name\",\"eVar35\":\"Video Type\"}},\n  \"CONFIRM-VIA-EXPORT::Video 75 percentage complete\": {\"n\":\"Video 75 Percent completion\",\"t\":\"o\",\"ev\":[[\"event15\"]],\"vars\":{\"eVar11\":\"Video Name\",\"eVar35\":\"Video Type\"}},\n  \"CONFIRM-VIA-EXPORT::Video 100 percentage complete\": {\"n\":\"Video Complete\",\"t\":\"o\",\"ev\":[[\"event12\"]],\"vars\":{\"eVar11\":\"Video Name\",\"eVar35\":\"Video Type\"}},\n  \"CONFIRM-VIA-EXPORT::Video Pause\": {\"n\":\"Video Pause\",\"t\":\"o\",\"ev\":[[\"event28\"]],\"vars\":{\"eVar11\":\"Video Name\"}}\n};\nvar base = _satellite.getVar(\"data-analyticsBase\") || { __adobe: { analytics: {} } };\nvar a = base.__adobe.analytics;\n// Resolve the triggering data layer event name from the rule event context.\n// Verify the working property once on a dev build (see build sheet note).\nvar name = \"\";\nif (typeof event !== \"undefined\" && event) {\n  var msg = event.message || event.detail || event.dataLayer || event;\n  if (msg && typeof msg.event === \"string\") name = msg.event;\n  else if (typeof event.eventName === \"string\") name = event.eventName;\n}\nvar map = MAPPINGS[name];\nif (!map) {\n  // Loud failure: shows up in Custom Links as \"unmapped: …\" instead of vanishing.\n  a.linkName = \"unmapped: \" + (name || \"(event name unreadable)\");\n  a.linkType = \"o\";\n  return base;\n}\na.linkName = map.n;\na.linkType = map.t;\nvar events = [];\n(map.ev || []).forEach(function (e) {\n  if (e.length > 1) {\n    var v = _satellite.getVar(e[1]);\n    if (v !== undefined && v !== null && v !== \"\") events.push(e[0] + \"=\" + v);\n  } else {\n    events.push(e[0]);\n  }\n});\nif (events.length) a.events = events.join(\",\");\nObject.keys(map.vars || {}).forEach(function (k) {\n  var v = _satellite.getVar(map.vars[k]);\n  if (v !== undefined && v !== null && v !== \"\") a[k] = v;\n});\nObject.keys(map.lists || {}).forEach(function (k) {\n  var vals = map.lists[k].map(function (deName) { return _satellite.getVar(deName); })\n    .filter(function (v) { return v !== undefined && v !== null && v !== \"\"; });\n  if (vals.length) a[k] = vals.join(\",\");\n});\nreturn base;"
       },
       "forceLowerCase": false,
       "cleanText": false,
@@ -1432,7 +1124,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-More Amazon News%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1457,7 +1149,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Amazon Redirect Link%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1482,7 +1174,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Amazon Stories%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1507,7 +1199,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Cookie Consent Selected%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1532,7 +1224,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-File Download%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1557,7 +1249,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Filter Click%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1582,7 +1274,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Form Complete%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1607,7 +1299,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Form Error%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1632,7 +1324,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Form Start%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1657,7 +1349,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-CTA Button Click%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1682,7 +1374,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Internal Search%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1707,7 +1399,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Internal Search Click Through%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1732,7 +1424,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Map Button Click%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1757,7 +1449,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Map Button Close%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1782,7 +1474,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Map Zoom In%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1807,7 +1499,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Map Zoom Out%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1832,7 +1524,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Menu Click%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1857,7 +1549,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Null Search%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1882,7 +1574,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Redirect Link Click%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1907,7 +1599,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Related Tag%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1932,7 +1624,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Scroll 25 Percentage%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1957,7 +1649,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Scroll 50 Percentage%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -1982,7 +1674,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Scroll 75 Percentage%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -2007,7 +1699,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Scroll 100 Percentage%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -2032,7 +1724,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Internal Search Close%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -2057,7 +1749,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Social Interaction%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -2082,7 +1774,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Video Start%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -2107,7 +1799,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Video 25 Percent%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -2132,7 +1824,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Video 50 Percent%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -2157,7 +1849,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Video 75 Percent%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -2182,7 +1874,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Video Complete%"
+            "data": "%data-interaction%"
           }
         }
       ]
@@ -2207,7 +1899,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-Video Pause%"
+            "data": "%data-interaction%"
           }
         }
       ]

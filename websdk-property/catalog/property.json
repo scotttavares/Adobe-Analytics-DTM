@@ -75,6 +75,9 @@
     "_note": "Kept for traceability only — none of these are configured in the new property. The datastream's Target service (property token + environment) governs delivery. The old live rule's hardcoded at_property custom code (audit Finding 3 update) has no equivalent here by design."
   },
 
+  "payloadArchitecture": "consolidated",
+  "_payloadArchitecture_note": "consolidated (default): ONE generated dispatcher data element (data-interaction) carries the mapping table for all interactions, keyed by the ACDL event name — 3 event payload elements total (data-pageView, data-interaction, data-siteError). Chosen 2026-07-28 for manageability (property owner's call). Requires the real ACDL event names before the dispatcher can generate, and a one-time dev-build verification that the triggering event's name is readable inside the data element (the dispatcher reads it defensively and reports any miss as linkName 'unmapped: <event>' — visible in reporting, never silent). per-event: one generated payload element per interaction (failure isolation, UI-visible mappings) — regenerate with --per-event to switch back.",
+
   "consentRule": {
     "enabled": true,
     "generalValueDataElement": "consent-generalValue",
