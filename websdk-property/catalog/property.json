@@ -49,7 +49,7 @@
     "prehidingStyle": "body { opacity: 0 !important }",
     "_prehidingStyle_note": "Findings 6+8 mitigation. This style is applied by the SDK for synchronous deployments; for the async/lazyOnload embed the inline snippet in snippets/prehiding-snippet.html must be placed BEFORE the Launch script tag (see docs/MANUAL-STEPS.md #5).",
     "clickCollectionEnabled": false,
-    "_clickCollectionEnabled_note": "The site's click tracking is bespoke (ACDL push -> rules). Automatic link collection on top of that would double-count link activity — the same class of problem as Finding 1. Deliberately off.",
+    "_clickCollectionEnabled_note": "The site's click tracking is bespoke (ACDL push -> rules). Automatic link collection on top of that would double-count link activity (two server calls per tracked click — billing + bounce/hit-depth distortion) — the same class of problem as Finding 1. Deliberately off, with one DECISION RULE: the old property's Web SDK extension may have click collection ON (older extension versions defaulted true; the workbook doesn't record it). After Phase 1's export-current.mjs captures the old extension settings, MATCH the old property's value here for v1.0 (cutover comparability), then change deliberately in v1.1 if wanted. For cross-confirmation QA, enable temporarily in a Development-only build (RUNBOOK Phase 4) instead of production; the session-storage event-grouping variant (Beta in v2.37) is the acceptable permanent shape if ever wanted, since grouped clicks ride the next page view instead of firing separate hits.",
     "context": ["web", "device", "environment", "placeContext"]
   },
 

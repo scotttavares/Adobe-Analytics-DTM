@@ -99,6 +99,14 @@ and promotes its own (named to this convention automatically).
 - Fire each interaction on a test page and check the `data.__adobe.analytics`
   payload carries the same eVars/events as the old property's XDM elements
   (the snapshot from Phase 1 is the parity reference).
+- Optional cross-confirmation pass (dev only): temporarily enable the Web
+  SDK extension's click collection (internal/external/download), build to
+  **Development only**, replay the test actions, and reconcile auto-collected
+  download/exit clicks against the rule-driven events (`event16`, redirect
+  events) in `aboutamzndev`. Then disable again and rebuild BEFORE
+  submit/approve — extension settings ride the library, and production must
+  ship with the value the click-collection decision rule in
+  `catalog/property.json` prescribes (match the old property for v1.0).
 
 ## Phase 5 — Cutover (site change, coordinated)
 
