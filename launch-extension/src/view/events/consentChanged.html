@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Consent Changed</title>
+<style>
+  * { box-sizing:border-box; }
+  body { font:14px/1.5 adobe-clean,"Segoe UI",system-ui,-apple-system,sans-serif;
+         color:#2c2c2c; margin:0; padding:14px 4px; }
+  .checkbox { display:flex; gap:8px; align-items:flex-start; max-width:560px; margin-bottom:12px; }
+  .checkbox input { margin-top:3px; }
+  code { background:#f5f5f5; padding:1px 5px; border-radius:3px; font-size:12.5px; }
+  p.hint { color:#6e6e6e; font-size:12.5px; margin:0 0 12px; max-width:560px; }
+</style>
+</head>
+<body>
+
+<p class="hint">Fires whenever the visitor's consent changes.</p>
+
+<div class="checkbox">
+  <input type="checkbox" id="includeInitial">
+  <label for="includeInitial"><strong>Also fire on page load</strong> with the consent already in
+    effect. Turn this on when the rule needs to run for returning visitors who decided on an
+    earlier visit, not only at the moment someone clicks.</label>
+</div>
+
+<p class="hint">Available in this rule:
+  <code>%event.consent.analytics%</code>,
+  <code>%event.granted%</code>,
+  <code>%event.revoked%</code>,
+  <code>%event.method%</code>,
+  <code>%event.region%</code>,
+  <code>%event.receiptId%</code>.</p>
+
+<script src="https://assets.adobedtm.com/activation/reactor/extensionbridge/extensionbridge.min.js"></script>
+<script>
+(function () {
+  'use strict';
+  window.extensionBridge.register({
+    init: function (info) {
+      var settings = (info && info.settings) || {};
+      document.getElementById('includeInitial').checked = !!settings.includeInitial;
+    },
+    getSettings: function () {
+      return { includeInitial: document.getElementById('includeInitial').checked };
+    },
+    validate: function () { return true; }
+  });
+})();
+</script>
+</body>
+</html>

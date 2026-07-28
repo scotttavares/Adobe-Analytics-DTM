@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Adobe Consent — Configuration</title>
+<style>
+  :root { --border:#d3d3d3; --muted:#6e6e6e; --accent:#1473e6; --bg:#fff; --fg:#2c2c2c; }
+  * { box-sizing:border-box; }
+  body { font:14px/1.5 adobe-clean,"Segoe UI",system-ui,-apple-system,sans-serif;
+         color:var(--fg); background:var(--bg); margin:0; padding:16px 4px; }
+  h3 { font-size:15px; margin:0 0 4px; }
+  p.hint { color:var(--muted); font-size:12.5px; margin:0 0 14px; }
+  .tabs { display:flex; gap:2px; border-bottom:2px solid var(--border); margin-bottom:18px;
+          flex-wrap:wrap; }
+  .tab { appearance:none; background:none; border:0; border-bottom:2px solid transparent;
+         margin-bottom:-2px; padding:9px 14px; font:inherit; font-weight:500; cursor:pointer;
+         color:var(--muted); }
+  .tab[aria-selected="true"] { color:var(--accent); border-bottom-color:var(--accent); }
+  .panel { display:none; }
+  .panel.active { display:block; }
+  .field { margin-bottom:14px; max-width:640px; }
+  .field label { display:block; font-weight:500; margin-bottom:4px; }
+  .field .desc { color:var(--muted); font-size:12.5px; margin-top:3px; }
+  input[type="text"], input[type="number"], input[type="url"], select, textarea {
+    width:100%; padding:7px 9px; border:1px solid var(--border); border-radius:4px;
+    font:inherit; background:#fff; color:var(--fg); }
+  textarea { min-height:64px; resize:vertical; }
+  .checkbox { display:flex; gap:8px; align-items:flex-start; margin-bottom:10px; max-width:640px; }
+  .checkbox input { margin-top:3px; }
+  .checkbox label { font-weight:400; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:0 16px;
+          max-width:640px; }
+  fieldset { border:1px solid var(--border); border-radius:6px; padding:14px 16px 4px;
+             margin:0 0 16px; max-width:640px; }
+  legend { font-weight:600; padding:0 6px; }
+  table.cats { width:100%; border-collapse:collapse; max-width:900px; }
+  table.cats th { text-align:left; font-size:12.5px; color:var(--muted); padding:0 6px 6px 0;
+                  font-weight:600; }
+  table.cats td { padding:0 6px 8px 0; vertical-align:top; }
+  table.cats input[type="text"] { min-width:90px; }
+  button.btn { appearance:none; font:inherit; font-weight:500; padding:7px 14px; cursor:pointer;
+               border:1px solid var(--border); border-radius:16px; background:#fff; }
+  button.btn:hover { background:#f0f0f0; }
+  button.danger { border-color:#e34850; color:#e34850; }
+  .row-actions { margin-top:8px; display:flex; gap:8px; }
+  code { background:#f5f5f5; padding:1px 5px; border-radius:3px; font-size:12.5px; }
+</style>
+</head>
+<body>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-panel="p-general">General</button>
+  <button class="tab" role="tab" aria-selected="false" data-panel="p-categories">Categories</button>
+  <button class="tab" role="tab" aria-selected="false" data-panel="p-adobe">Adobe</button>
+  <button class="tab" role="tab" aria-selected="false" data-panel="p-appearance">Appearance</button>
+  <button class="tab" role="tab" aria-selected="false" data-panel="p-copy">Copy</button>
+  <button class="tab" role="tab" aria-selected="false" data-panel="p-advanced">Advanced</button>
+</div>
+
+<!-- ---------------------------------------------------------------- General -->
+<section class="panel active" id="p-general" role="tabpanel">
+  <h3>Consent model</h3>
+  <p class="hint">How consent is treated when the visitor has not chosen yet. Regions are matched
+    automatically — opt-in for the EEA/UK/Switzerland/Brazil, opt-out for US states and Canada.</p>
+
+  <div class="grid">
+    <div class="field">
+      <label for="model">Default model</label>
+      <select id="model">
+        <option value="opt_in">Opt-in (nothing runs until the visitor agrees)</option>
+        <option value="opt_out">Opt-out (runs until the visitor objects)</option>
+        <option value="notice_only">Notice only (inform, no gate)</option>
+      </select>
+      <div class="desc">Used where no region rule matches.</div>
+    </div>
+
+    <div class="field">
+      <label for="policyVersion">Policy version</label>
+      <input type="number" id="policyVersion" min="1" step="1" placeholder="1">
+      <div class="desc">Increase this to invalidate every stored decision and re-prompt.</div>
+    </div>
+
+    <div class="field">
+      <label for="reconsentDays">Re-prompt after (days)</label>
+      <input type="number" id="reconsentDays" min="1" step="1" placeholder="365">
+      <div class="desc">CNIL suggests roughly six months as good practice.</div>
+    </div>
+
+    <div class="field">
+      <label for="region">Force region</label>
+      <input type="text" id="region" placeholder="e.g. EU, DE, US-CA">
+      <div class="desc">Leave blank to detect. Handy for testing.</div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="geoEndpoint">Geo lookup endpoint</label>
+    <input type="url" id="geoEndpoint" placeholder="https://example.com/api/geo">
+    <div class="desc">Optional JSON endpoint returning <code>{"region":"US-CA"}</code>. If your CDN
+      already sets a country header, echo it into a meta tag instead — that costs no request.</div>
+  </div>
+
+  <fieldset>
+    <legend>Signals and blocking</legend>
+    <div class="checkbox">
+      <input type="checkbox" id="honorGpc" checked>
+      <label for="honorGpc"><strong>Honor Global Privacy Control</strong> — treat a GPC browser
+        signal as a rejection. Required to honor opt-outs under CPRA and Colorado law.</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" id="honorDnt">
+      <label for="honorDnt"><strong>Honor Do Not Track</strong> — legacy signal with no legal
+        force. Off by default.</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" id="autoBlock" checked>
+      <label for="autoBlock"><strong>Auto-block tagged scripts</strong> — scripts marked
+        <code>type="text/plain" data-cc-category="analytics"</code> stay inert until their
+        category is granted.</label>
+    </div>
+  </fieldset>
+</section>
+
+<!-- ------------------------------------------------------------- Categories -->
+<section class="panel" id="p-categories" role="tabpanel">
+  <h3>Categories</h3>
+  <p class="hint">Leave this empty to use the four defaults: essential, analytics, personalization,
+    and advertising. The ids you set here are what rules, conditions, and the
+    <code>data-cc-category</code> attribute refer to.</p>
+
+  <table class="cats">
+    <thead>
+      <tr>
+        <th>Id</th><th>Label</th><th>Summary</th><th>Description</th><th>Always on</th><th></th>
+      </tr>
+    </thead>
+    <tbody id="catRows"></tbody>
+  </table>
+  <div class="row-actions">
+    <button type="button" class="btn" id="addCat">Add category</button>
+    <button type="button" class="btn" id="loadDefaults">Load the four defaults</button>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------------ Adobe -->
+<section class="panel" id="p-adobe" role="tabpanel">
+  <h3>Adobe integrations</h3>
+  <p class="hint">Every integration below detects its target and does nothing if that product is not
+    on the page, so leaving them all on is safe.</p>
+
+  <fieldset>
+    <legend>Experience Platform Web SDK (alloy)</legend>
+    <div class="checkbox">
+      <input type="checkbox" id="webSdkEnabled" checked>
+      <label for="webSdkEnabled">Call <code>setConsent</code> on load and on every change</label>
+    </div>
+    <div class="grid">
+      <div class="field">
+        <label for="webSdkStandardVersion">Consent standard</label>
+        <select id="webSdkStandardVersion">
+          <option value="2.0">Adobe 2.0 (collect / share / personalize / adID)</option>
+          <option value="1.0">Adobe 1.0 (general in / out)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="webSdkInstanceNames">Instance names</label>
+        <input type="text" id="webSdkInstanceNames" placeholder="alloy">
+        <div class="desc">Comma-separated. Blank auto-detects via <code>window.__alloyNS</code>.</div>
+      </div>
+    </div>
+    <p class="hint">Set <strong>Default Consent</strong> to <em>Pending</em> in the Web SDK
+      extension so events queue until this answers.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Experience Cloud ID — Opt-In service</legend>
+    <div class="checkbox">
+      <input type="checkbox" id="optInEnabled" checked>
+      <label for="optInEnabled">Drive <code>adobe.optIn</code> approvals and denials</label>
+    </div>
+    <p class="hint">Turn on <strong>Enable Opt-In</strong> in the Experience Cloud ID Service
+      extension. This is the path that gates AppMeasurement, at.js, and Audience Manager.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Adobe Analytics (AppMeasurement)</legend>
+    <div class="checkbox">
+      <input type="checkbox" id="analyticsEnabled" checked>
+      <label for="analyticsEnabled">Also set <code>abort</code> and <code>optOut</code> on the
+        tracker</label>
+    </div>
+    <div class="field">
+      <label for="analyticsInstanceGlobal">Tracker variable</label>
+      <input type="text" id="analyticsInstanceGlobal" placeholder="s">
+      <div class="desc">Catches hardcoded <code>s.t()</code> calls that live outside Tags.</div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Adobe Client Data Layer</legend>
+    <div class="checkbox">
+      <input type="checkbox" id="dataLayerEnabled" checked>
+      <label for="dataLayerEnabled">Push consent events onto the data layer</label>
+    </div>
+    <div class="field">
+      <label for="dataLayerName">Data layer name</label>
+      <input type="text" id="dataLayerName" placeholder="adobeDataLayer">
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Direct call rules</legend>
+    <div class="checkbox">
+      <input type="checkbox" id="launchDirectCallEnabled" checked>
+      <label for="launchDirectCallEnabled">Fire a direct call rule on every consent change</label>
+    </div>
+    <div class="field">
+      <label for="directCallId">Direct call identifier</label>
+      <input type="text" id="directCallId" placeholder="adobe-consent-changed">
+    </div>
+  </fieldset>
+
+  <h3>Category mapping</h3>
+  <p class="hint">Which of your categories grant each Adobe purpose. Comma-separated; blank uses the
+    default shown as the placeholder.</p>
+  <div class="grid">
+    <div class="field">
+      <label for="mappingCollect">consent.collect</label>
+      <input type="text" id="mappingCollect" placeholder="analytics, personalization, advertising">
+    </div>
+    <div class="field">
+      <label for="mappingShare">consent.share</label>
+      <input type="text" id="mappingShare" placeholder="advertising">
+    </div>
+    <div class="field">
+      <label for="mappingPersonalize">consent.personalize.content</label>
+      <input type="text" id="mappingPersonalize" placeholder="personalization">
+    </div>
+    <div class="field">
+      <label for="mappingAdId">consent.adID</label>
+      <input type="text" id="mappingAdId" placeholder="advertising">
+    </div>
+    <div class="field">
+      <label for="mappingAnalytics">Opt-In: Analytics (aa)</label>
+      <input type="text" id="mappingAnalytics" placeholder="analytics">
+    </div>
+    <div class="field">
+      <label for="mappingTarget">Opt-In: Target</label>
+      <input type="text" id="mappingTarget" placeholder="personalization">
+    </div>
+    <div class="field">
+      <label for="mappingAudienceManager">Opt-In: Audience Manager (aam)</label>
+      <input type="text" id="mappingAudienceManager" placeholder="advertising">
+    </div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------- Appearance -->
+<section class="panel" id="p-appearance" role="tabpanel">
+  <h3>Appearance</h3>
+  <p class="hint">The dialog renders inside a shadow root, so site CSS cannot alter it and it cannot
+    leak into the site.</p>
+
+  <div class="grid">
+    <div class="field">
+      <label for="layout">Layout</label>
+      <select id="layout">
+        <option value="modal">Modal</option>
+        <option value="bar">Full-width bar</option>
+        <option value="box">Compact box</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="position">Position</label>
+      <select id="position">
+        <option value="center">Center</option>
+        <option value="bottom">Bottom</option>
+        <option value="top">Top</option>
+        <option value="bottom-left">Bottom left</option>
+        <option value="bottom-right">Bottom right</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="badgePosition">Re-open badge position</label>
+      <select id="badgePosition">
+        <option value="bottom-left">Bottom left</option>
+        <option value="bottom-right">Bottom right</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="checkbox">
+    <input type="checkbox" id="blocking" checked>
+    <label for="blocking">Dim the page and trap focus while the notice is open</label>
+  </div>
+  <div class="checkbox">
+    <input type="checkbox" id="showBadge" checked>
+    <label for="showBadge">Show a persistent control to reopen privacy choices</label>
+  </div>
+
+  <h3>Theme</h3>
+  <div class="grid">
+    <div class="field">
+      <label for="surface">Surface color</label>
+      <input type="text" id="surface" placeholder="#152238">
+    </div>
+    <div class="field">
+      <label for="text">Text color</label>
+      <input type="text" id="text" placeholder="#f2f6ff">
+    </div>
+    <div class="field">
+      <label for="accent">Button fill</label>
+      <input type="text" id="accent" placeholder="linear-gradient(96deg,#8fe3e8,#cfe98f)">
+    </div>
+    <div class="field">
+      <label for="accentText">Button text</label>
+      <input type="text" id="accentText" placeholder="#0d1a2e">
+    </div>
+    <div class="field">
+      <label for="radius">Corner radius</label>
+      <input type="text" id="radius" placeholder="18px">
+    </div>
+  </div>
+</section>
+
+<!-- --------------------------------------------------------------- Copy -->
+<section class="panel" id="p-copy" role="tabpanel">
+  <h3>Copy</h3>
+  <p class="hint">Leave a field blank to keep the default wording.</p>
+
+  <div class="field">
+    <label for="title">Heading</label>
+    <input type="text" id="title" placeholder="Your privacy choices">
+  </div>
+  <div class="field">
+    <label for="body">Body</label>
+    <textarea id="body" placeholder="We use cookies and similar technologies to…"></textarea>
+  </div>
+  <div class="grid">
+    <div class="field">
+      <label for="acceptAll">Accept button</label>
+      <input type="text" id="acceptAll" placeholder="Accept all">
+    </div>
+    <div class="field">
+      <label for="rejectAll">Reject button</label>
+      <input type="text" id="rejectAll" placeholder="Reject all">
+    </div>
+    <div class="field">
+      <label for="save">Save button</label>
+      <input type="text" id="save" placeholder="Save choices">
+    </div>
+    <div class="field">
+      <label for="preferences">Preferences label</label>
+      <input type="text" id="preferences" placeholder="Privacy choices">
+    </div>
+    <div class="field">
+      <label for="privacyPolicy">Policy link text</label>
+      <input type="text" id="privacyPolicy" placeholder="Privacy policy">
+    </div>
+    <div class="field">
+      <label for="privacyPolicyUrl">Policy link URL</label>
+      <input type="url" id="privacyPolicyUrl" placeholder="https://example.com/privacy">
+    </div>
+  </div>
+  <p class="hint">Accept and Reject are always rendered with identical styling. Regulators treat an
+    accept button that is easier to click than reject as invalid consent, so this is not
+    configurable.</p>
+</section>
+
+<!-- ----------------------------------------------------------------- Advanced -->
+<section class="panel" id="p-advanced" role="tabpanel">
+  <h3>Storage</h3>
+  <div class="grid">
+    <div class="field">
+      <label for="cookieName">Cookie name</label>
+      <input type="text" id="cookieName" placeholder="adobe_consent">
+    </div>
+    <div class="field">
+      <label for="cookieDomain">Cookie domain</label>
+      <input type="text" id="cookieDomain" placeholder=".example.com">
+      <div class="desc">Set this to share the decision across subdomains.</div>
+    </div>
+    <div class="field">
+      <label for="expiryDays">Cookie lifetime (days)</label>
+      <input type="number" id="expiryDays" min="1" step="1" placeholder="365">
+    </div>
+  </div>
+
+  <h3>Consent receipts</h3>
+  <div class="field">
+    <label for="receiptEndpoint">Receipt endpoint</label>
+    <input type="url" id="receiptEndpoint" placeholder="https://example.com/api/consent-receipts">
+    <div class="desc">Each decision is POSTed as JSON via <code>sendBeacon</code> — an auditable
+      record of who consented to what, when, and to which wording. Blank keeps receipts on the
+      client only.</div>
+  </div>
+
+  <h3>Behavior</h3>
+  <div class="checkbox">
+    <input type="checkbox" id="headless">
+    <label for="headless"><strong>Headless</strong> — run the consent engine but render no UI.
+      Use when your own design system draws the dialog.</label>
+  </div>
+  <div class="checkbox">
+    <input type="checkbox" id="debug">
+    <label for="debug"><strong>Debug logging</strong> — also switches on automatically whenever
+      Launch debugging is on.</label>
+  </div>
+</section>
+
+<script src="https://assets.adobedtm.com/activation/reactor/extensionbridge/extensionbridge.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var DEFAULT_CATEGORIES = [
+    { id:'essential', label:'Essential', summary:'always on',
+      description:'Required for the site to work — security, load balancing, and remembering your privacy choices.',
+      required:true },
+    { id:'analytics', label:'Analytics', summary:'understand usage',
+      description:'Helps us measure how the site performs and what to fix next.', required:false },
+    { id:'personalization', label:'Personalization', summary:'tailored content',
+      description:'Lets us remember your preferences and tailor what you see.', required:false },
+    { id:'advertising', label:'Advertising', summary:'relevant offers',
+      description:'Used to show more relevant offers here and elsewhere.', required:false }
+  ];
+
+  var TEXT_FIELDS = ['region','geoEndpoint','layout','position','badgePosition','title','body',
+    'acceptAll','rejectAll','save','preferences','privacyPolicy','privacyPolicyUrl','surface',
+    'text','accent','accentText','radius','cookieName','cookieDomain','model',
+    'webSdkStandardVersion','webSdkInstanceNames','analyticsInstanceGlobal','dataLayerName',
+    'directCallId','receiptEndpoint','mappingCollect','mappingShare','mappingPersonalize',
+    'mappingAdId','mappingAnalytics','mappingTarget','mappingAudienceManager'];
+
+  var NUMBER_FIELDS = ['policyVersion','reconsentDays','expiryDays'];
+
+  var BOOL_FIELDS = ['honorGpc','honorDnt','autoBlock','blocking','showBadge','headless','debug',
+    'webSdkEnabled','optInEnabled','analyticsEnabled','dataLayerEnabled','launchDirectCallEnabled'];
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  // ------------------------------------------------------------------- tabs
+  var tabs = document.querySelectorAll('.tab');
+  Array.prototype.forEach.call(tabs, function (tab) {
+    tab.addEventListener('click', function () {
+      Array.prototype.forEach.call(tabs, function (other) {
+        other.setAttribute('aria-selected', String(other === tab));
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('.panel'), function (panel) {
+        panel.classList.toggle('active', panel.id === tab.getAttribute('data-panel'));
+      });
+    });
+  });
+
+  // ------------------------------------------------------------- categories
+  function addCategoryRow(category) {
+    category = category || { id:'', label:'', summary:'', description:'', required:false };
+    var tr = document.createElement('tr');
+
+    function cell(field, placeholder) {
+      var td = document.createElement('td');
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'cat-' + field;
+      input.value = category[field] || '';
+      if (placeholder) input.placeholder = placeholder;
+      td.appendChild(input);
+      return td;
+    }
+
+    tr.appendChild(cell('id', 'analytics'));
+    tr.appendChild(cell('label', 'Analytics'));
+    tr.appendChild(cell('summary', 'understand usage'));
+    tr.appendChild(cell('description', 'Shown when the row is expanded'));
+
+    var reqTd = document.createElement('td');
+    var req = document.createElement('input');
+    req.type = 'checkbox';
+    req.className = 'cat-required';
+    req.checked = !!category.required;
+    reqTd.appendChild(req);
+    tr.appendChild(reqTd);
+
+    var actionTd = document.createElement('td');
+    var remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'btn danger';
+    remove.textContent = 'Remove';
+    remove.addEventListener('click', function () { tr.remove(); });
+    actionTd.appendChild(remove);
+    tr.appendChild(actionTd);
+
+    $('catRows').appendChild(tr);
+  }
+
+  $('addCat').addEventListener('click', function () { addCategoryRow(); });
+  $('loadDefaults').addEventListener('click', function () {
+    $('catRows').innerHTML = '';
+    DEFAULT_CATEGORIES.forEach(addCategoryRow);
+  });
+
+  function readCategories() {
+    var rows = document.querySelectorAll('#catRows tr');
+    var out = [];
+    Array.prototype.forEach.call(rows, function (row) {
+      var get = function (cls) {
+        var node = row.querySelector('.cat-' + cls);
+        return node ? node.value.trim() : '';
+      };
+      var id = get('id');
+      var label = get('label');
+      if (!id || !label) return;
+
+      var category = { id: id, label: label };
+      if (get('summary')) category.summary = get('summary');
+      if (get('description')) category.description = get('description');
+      var req = row.querySelector('.cat-required');
+      if (req && req.checked) category.required = true;
+      out.push(category);
+    });
+    return out;
+  }
+
+  // ------------------------------------------------------------ bridge glue
+  window.extensionBridge.register({
+    init: function (info) {
+      var settings = (info && info.settings) || {};
+
+      TEXT_FIELDS.forEach(function (id) {
+        var node = $(id);
+        if (node && settings[id] !== undefined && settings[id] !== null) node.value = settings[id];
+      });
+
+      NUMBER_FIELDS.forEach(function (id) {
+        var node = $(id);
+        if (node && typeof settings[id] === 'number') node.value = String(settings[id]);
+      });
+
+      // A brand-new configuration has no saved settings, so the checked
+      // defaults already in the markup are what should stand.
+      var isNew = !info || !info.settings;
+      BOOL_FIELDS.forEach(function (id) {
+        var node = $(id);
+        if (!node) return;
+        if (!isNew && settings[id] !== undefined) node.checked = !!settings[id];
+      });
+
+      $('catRows').innerHTML = '';
+      if (Array.isArray(settings.categories) && settings.categories.length) {
+        settings.categories.forEach(addCategoryRow);
+      }
+    },
+
+    getSettings: function () {
+      var settings = {};
+
+      TEXT_FIELDS.forEach(function (id) {
+        var node = $(id);
+        if (!node) return;
+        var value = node.value.trim();
+        if (value) settings[id] = value;
+      });
+
+      NUMBER_FIELDS.forEach(function (id) {
+        var node = $(id);
+        if (!node) return;
+        var value = parseInt(node.value, 10);
+        // The schema sets a minimum of 1, so never send 0 or NaN.
+        if (!isNaN(value) && value >= 1) settings[id] = value;
+      });
+
+      BOOL_FIELDS.forEach(function (id) {
+        var node = $(id);
+        if (node) settings[id] = !!node.checked;
+      });
+
+      var categories = readCategories();
+      if (categories.length) settings.categories = categories;
+
+      return settings;
+    },
+
+    validate: function () {
+      var categories = readCategories();
+      var seen = {};
+      for (var i = 0; i < categories.length; i++) {
+        var id = categories[i].id;
+        if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
+          alert('Category id "' + id + '" may only contain letters, numbers, hyphens, and underscores.');
+          return false;
+        }
+        if (seen[id]) {
+          alert('Category id "' + id + '" is used more than once.');
+          return false;
+        }
+        seen[id] = true;
+      }
+      var rows = document.querySelectorAll('#catRows tr').length;
+      if (rows > 0 && categories.length !== rows) {
+        alert('Every category needs both an id and a label.');
+        return false;
+      }
+      return true;
+    }
+  });
+})();
+</script>
+</body>
+</html>

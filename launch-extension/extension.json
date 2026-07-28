@@ -1,0 +1,400 @@
+{
+  "name": "adobe-consent",
+  "platform": "web",
+  "version": "1.0.0",
+  "displayName": "Adobe Consent — Cookie Consent Manager",
+  "description": "A fast, accessible, self-hosted cookie consent manager that wires consent straight into the AEP Web SDK, the ECID Opt-In service, Adobe Analytics, and the Adobe Client Data Layer. No third-party CMP, no extra network requests, no custom code.",
+  "author": {
+    "name": "adobe-consent contributors",
+    "url": "https://github.com/scotttavares/Adobe-Analytics-DTM"
+  },
+  "iconPath": "resources/icons/consent.svg",
+  "viewBasePath": "src/view/",
+  "main": "src/lib/main.js",
+  "configuration": {
+    "viewPath": "configuration/configuration.html",
+    "schema": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+        "policyVersion": {
+          "type": "number",
+          "minimum": 1
+        },
+        "model": {
+          "type": "string",
+          "enum": ["opt_in", "opt_out", "notice_only"]
+        },
+        "region": {
+          "type": "string"
+        },
+        "geoEndpoint": {
+          "type": "string"
+        },
+        "honorGpc": {
+          "type": "boolean"
+        },
+        "honorDnt": {
+          "type": "boolean"
+        },
+        "autoBlock": {
+          "type": "boolean"
+        },
+        "reconsentDays": {
+          "type": "number",
+          "minimum": 1
+        },
+        "debug": {
+          "type": "boolean"
+        },
+        "headless": {
+          "type": "boolean"
+        },
+        "layout": {
+          "type": "string",
+          "enum": ["modal", "bar", "box"]
+        },
+        "position": {
+          "type": "string",
+          "enum": ["center", "bottom", "top", "bottom-left", "bottom-right"]
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "showBadge": {
+          "type": "boolean"
+        },
+        "badgePosition": {
+          "type": "string",
+          "enum": ["bottom-left", "bottom-right"]
+        },
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "acceptAll": {
+          "type": "string"
+        },
+        "rejectAll": {
+          "type": "string"
+        },
+        "save": {
+          "type": "string"
+        },
+        "preferences": {
+          "type": "string"
+        },
+        "privacyPolicy": {
+          "type": "string"
+        },
+        "privacyPolicyUrl": {
+          "type": "string"
+        },
+        "surface": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "accent": {
+          "type": "string"
+        },
+        "accentText": {
+          "type": "string"
+        },
+        "radius": {
+          "type": "string"
+        },
+        "cookieName": {
+          "type": "string"
+        },
+        "cookieDomain": {
+          "type": "string"
+        },
+        "expiryDays": {
+          "type": "number",
+          "minimum": 1
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "label": { "type": "string", "minLength": 1 },
+              "summary": { "type": "string" },
+              "description": { "type": "string" },
+              "required": { "type": "boolean" }
+            },
+            "required": ["id", "label"],
+            "additionalProperties": false
+          }
+        },
+        "webSdkEnabled": {
+          "type": "boolean"
+        },
+        "webSdkStandardVersion": {
+          "type": "string",
+          "enum": ["2.0", "1.0"]
+        },
+        "webSdkInstanceNames": {
+          "type": "string"
+        },
+        "optInEnabled": {
+          "type": "boolean"
+        },
+        "analyticsEnabled": {
+          "type": "boolean"
+        },
+        "analyticsInstanceGlobal": {
+          "type": "string"
+        },
+        "dataLayerEnabled": {
+          "type": "boolean"
+        },
+        "dataLayerName": {
+          "type": "string"
+        },
+        "launchDirectCallEnabled": {
+          "type": "boolean"
+        },
+        "directCallId": {
+          "type": "string"
+        },
+        "receiptEndpoint": {
+          "type": "string"
+        },
+        "mappingCollect": { "type": "string" },
+        "mappingShare": { "type": "string" },
+        "mappingPersonalize": { "type": "string" },
+        "mappingAdId": { "type": "string" },
+        "mappingAnalytics": { "type": "string" },
+        "mappingTarget": { "type": "string" },
+        "mappingAudienceManager": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "events": [
+    {
+      "name": "consent-changed",
+      "displayName": "Consent Changed",
+      "categoryName": "Consent",
+      "libPath": "src/lib/events/consentChanged.js",
+      "viewPath": "events/consentChanged.html",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "includeInitial": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "consent-granted",
+      "displayName": "Consent Granted for Category",
+      "categoryName": "Consent",
+      "libPath": "src/lib/events/consentGranted.js",
+      "viewPath": "events/consentCategory.html",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": ["category"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "consent-revoked",
+      "displayName": "Consent Revoked for Category",
+      "categoryName": "Consent",
+      "libPath": "src/lib/events/consentRevoked.js",
+      "viewPath": "events/consentCategory.html",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": ["category"],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "name": "has-consent",
+      "displayName": "Has Consent",
+      "categoryName": "Consent",
+      "libPath": "src/lib/conditions/hasConsent.js",
+      "viewPath": "conditions/hasConsent.html",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": ["category"],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "actions": [
+    {
+      "name": "show-preferences",
+      "displayName": "Show Preference Center",
+      "categoryName": "Consent",
+      "libPath": "src/lib/actions/showPreferences.js",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "show-banner",
+      "displayName": "Show Consent Banner",
+      "categoryName": "Consent",
+      "libPath": "src/lib/actions/showBanner.js",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "set-consent",
+      "displayName": "Set Consent",
+      "categoryName": "Consent",
+      "libPath": "src/lib/actions/setConsent.js",
+      "viewPath": "actions/setConsent.html",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": ["acceptAll", "rejectAll", "update"]
+          },
+          "grant": {
+            "type": "string"
+          },
+          "deny": {
+            "type": "string"
+          }
+        },
+        "required": ["mode"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "reset-consent",
+      "displayName": "Reset Consent",
+      "categoryName": "Consent",
+      "libPath": "src/lib/actions/resetConsent.js",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "rescan-tags",
+      "displayName": "Re-scan Blocked Tags",
+      "categoryName": "Consent",
+      "libPath": "src/lib/actions/rescanTags.js",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    }
+  ],
+  "dataElements": [
+    {
+      "name": "consent-status",
+      "displayName": "Consent Status",
+      "categoryName": "Consent",
+      "libPath": "src/lib/dataElements/consentStatus.js",
+      "viewPath": "dataElements/consentStatus.html",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "minLength": 1
+          },
+          "format": {
+            "type": "string",
+            "enum": ["boolean", "yn", "inout", "10"]
+          }
+        },
+        "required": ["category"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "consent-summary",
+      "displayName": "Consent Summary String",
+      "categoryName": "Consent",
+      "libPath": "src/lib/dataElements/consentSummary.js",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "consent-region",
+      "displayName": "Consent Region",
+      "categoryName": "Consent",
+      "libPath": "src/lib/dataElements/consentRegion.js",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "consent-xdm",
+      "displayName": "Consent XDM Object",
+      "categoryName": "Consent",
+      "libPath": "src/lib/dataElements/consentXdm.js",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    }
+  ],
+  "sharedModules": [
+    {
+      "name": "consent-api",
+      "libPath": "src/lib/sharedModules/consentApi.js"
+    }
+  ]
+}

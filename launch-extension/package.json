@@ -1,0 +1,12 @@
+{
+  "name": "adobe-consent-launch-extension",
+  "version": "1.0.0",
+  "description": "Adobe Launch (Tags) extension packaging for the adobe-consent CMP.",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "package": "npx @adobe/reactor-packager",
+    "sandbox": "npx @adobe/reactor-sandbox",
+    "upload": "npx @adobe/reactor-uploader"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "name": "adobe-consent",
+  "version": "1.0.0",
+  "description": "A fast, accessible, Adobe-native cookie consent manager (CMP) that wires straight into Adobe Launch/Tags, Adobe Analytics, the AEP Web SDK, and CJA.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/adobe-consent.cjs",
+  "module": "./dist/adobe-consent.esm.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/adobe-consent.esm.js",
+      "require": "./dist/adobe-consent.cjs",
+      "default": "./dist/adobe-consent.esm.js"
+    },
+    "./dist/*": "./dist/*"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "./dist/adobe-consent.min.js"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "verify": "node scripts/verify-demo.mjs",
+    "demo": "node scripts/serve.mjs",
+    "extension:package": "npm run build && cd launch-extension && npx @adobe/reactor-packager",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "cookie-consent",
+    "cmp",
+    "gdpr",
+    "ccpa",
+    "cpra",
+    "adobe",
+    "adobe-launch",
+    "adobe-tags",
+    "adobe-analytics",
+    "adobe-experience-platform",
+    "web-sdk",
+    "alloy",
+    "cja",
+    "consent-management",
+    "privacy",
+    "gpc"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "esbuild": "^0.24.2",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
