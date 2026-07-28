@@ -192,12 +192,21 @@ return "";
 Paste each block **verbatim** — never edit by hand; the catalog + generator own these.
 All flags: force lowercase **off**, clean text **off**, storage duration **None**.
 
-Add this to each element's **Notes** panel (provenance pointer — do not restate logic):
+Add this to each element's **Notes** panel (business-friendly provenance — swap the
+"What this powers" line per element, and put a real contact in the Owner line):
 
 ```
-GENERATED code — do not edit here.
-Source of truth: Adobe-Analytics-DTM repo → websdk-property/catalog/ (events-catalog.json + property.json).
-To change: edit the catalog, run scripts/generate-blueprint.mjs, re-paste from docs/MANUAL-BUILD-SHEET.md.
+Auto-generated tracking code — please don't edit on this screen.
+Edits made here will be overwritten at the next update and can silently break
+Amazon News reporting.
+
+What this powers: <one plain-English line for this element>.
+
+To request a tracking change: tracking definitions live in a governed
+configuration (Adobe-Analytics-DTM repository, websdk-property folder).
+Changes made there regenerate this code so every event stays consistent.
+
+Owner: analytics implementation team — contact before making any change here.
 ```
 
 ### `data-analyticsBase`

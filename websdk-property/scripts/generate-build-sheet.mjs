@@ -132,12 +132,21 @@ async function main() {
   L.push('Paste each block **verbatim** — never edit by hand; the catalog + generator own these.');
   L.push('All flags: force lowercase **off**, clean text **off**, storage duration **None**.');
   L.push('');
-  L.push('Add this to each element\'s **Notes** panel (provenance pointer — do not restate logic):');
+  L.push('Add this to each element\'s **Notes** panel (business-friendly provenance — swap the');
+  L.push('"What this powers" line per element, and put a real contact in the Owner line):');
   L.push('');
   L.push('```');
-  L.push('GENERATED code — do not edit here.');
-  L.push('Source of truth: Adobe-Analytics-DTM repo → websdk-property/catalog/ (events-catalog.json + property.json).');
-  L.push('To change: edit the catalog, run scripts/generate-blueprint.mjs, re-paste from docs/MANUAL-BUILD-SHEET.md.');
+  L.push("Auto-generated tracking code — please don't edit on this screen.");
+  L.push('Edits made here will be overwritten at the next update and can silently break');
+  L.push('Amazon News reporting.');
+  L.push('');
+  L.push('What this powers: <one plain-English line for this element>.');
+  L.push('');
+  L.push('To request a tracking change: tracking definitions live in a governed');
+  L.push('configuration (Adobe-Analytics-DTM repository, websdk-property folder).');
+  L.push('Changes made there regenerate this code so every event stays consistent.');
+  L.push('');
+  L.push('Owner: analytics implementation team — contact before making any change here.');
   L.push('```');
   L.push('');
   builders.forEach((d) => {
