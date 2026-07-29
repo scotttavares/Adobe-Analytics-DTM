@@ -55,6 +55,20 @@ Quarantined rather than silently carried:
 - **`Internal Campaign`** was `console.log();` (always undefined), so
   `eVar5`/`event4` have never populated. Re-implemented reading an assumed
   `icid` query parameter, **flagged as a decision** in the catalog.
+- **`Sort By Tracking` + `XDM Sort By`** — an enabled-but-**never-published**
+  draft pair (last modified May 2024; Details panel: "Not yet published", "No
+  libraries using this revision", not live — verified by contrast with a live
+  rule's panel, which reads "Live in production"). Production has never fired
+  `sortBy`, so the pair is **excluded** rather than carried; if sort-by
+  tracking is wanted it is new scope, specced fresh in the catalog
+  (`events-catalog.json → excludedRules`).
+- Revision hygiene observed while verifying: `Internal Search ClickThrough`'s
+  Send-event action has a head revision (Jan 2024) newer than what production
+  runs ("Last Published: Not yet published" on the latest revision while the
+  rule itself is "Live in production"). No impact here — payload mappings come
+  from the workbook, which reflects the production build — but the old
+  property carries unpublished edits, one more reason cutover parity checks
+  run against production behavior, not the old property's edit screens.
 - Cosmetic drift: leading spaces in the four Scroll interaction names
   (trimmed), double spaces in two Map rule names (normalized) — both listed in
   `anomaliesCarriedForNow` so reporting owners can confirm.

@@ -82,6 +82,10 @@
     {
       "name": "XDM Video Play",
       "reason": "Orphan in source property \u2014 no 'Video Play' rule exists, and its event1 mapping (event11) duplicates XDM Video Start. Not carried."
+    },
+    {
+      "name": "XDM Sort By",
+      "reason": "Never published: exists only as the payload of the never-published Sort By Tracking rule (both last modified May 2024, absent from every library and from the workbook's production build). Excluded with the rule - see events-catalog.json excludedRules. If sort-by tracking becomes real scope, define its mapping fresh in the catalog."
     }
   ],
   "dataElements": [

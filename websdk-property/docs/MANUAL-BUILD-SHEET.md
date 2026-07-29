@@ -7,7 +7,7 @@ Work top to bottom. **Copy names and values exactly** (payloads reference data
 elements by name at runtime — a typo builds green and collects nothing).
 Prereqs already done: property, 4 extensions, library `20260728 - v1.0`.
 
-Totals: **75 data elements**, **37 rules**.
+Totals: **75 data elements**, **36 rules**.
 
 ---
 
@@ -650,19 +650,7 @@ event as `Consent Selection`.
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
 
-### 29. `Sort By Tracking`
-
-> ⚠️ **DO NOT BUILD YET** — the field mappings below still say `CONFIRM-VIA-EXPORT`. This rule exists in the old property but was added after the workbook export, so its eVars/events/link name must be copied from the old rule (its action + the data element it sends) before this rule is created.
-
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `sortBy` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
-    - linkName = `CONFIRM-VIA-EXPORT`
-    - linkType = `o`
-    - Use the action's clear/remove affordance so values from a PREVIOUS event
-      on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
-
-### 30. `Video Start`
+### 29. `Video Start`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoPlaying` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
@@ -675,7 +663,7 @@ event as `Consent Selection`.
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
 
-### 31. `Video 25 percentage complete`
+### 30. `Video 25 percentage complete`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoViewed25` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
@@ -687,7 +675,7 @@ event as `Consent Selection`.
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
 
-### 32. `Video 50 percentage complete`
+### 31. `Video 50 percentage complete`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoViewed50` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
@@ -700,7 +688,7 @@ event as `Consent Selection`.
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
 
-### 33. `Video 75 percentage complete`
+### 32. `Video 75 percentage complete`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoViewed75` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
@@ -713,7 +701,7 @@ event as `Consent Selection`.
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
 
-### 34. `Video 100 percentage complete`
+### 33. `Video 100 percentage complete`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoComplete` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
@@ -726,7 +714,7 @@ event as `Consent Selection`.
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
 
-### 35. `Video Pause`
+### 34. `Video Pause`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoPause` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
@@ -738,7 +726,7 @@ event as `Consent Selection`.
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
 
-### 36. `Article Interaction Tracking`
+### 35. `Article Interaction Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `ArticleViewed` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
@@ -752,7 +740,7 @@ event as `Consent Selection`.
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
 
-### 37. `Consent - Apply Visitor Choice`
+### 36. `Consent - Apply Visitor Choice`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `consentSelection` · Time scope: **All**
 - **Action**: Adobe Experience Platform Web SDK → *Set consent* — instance `alloy` · standard **Adobe 2.0** · general = `%consent-generalValue%`

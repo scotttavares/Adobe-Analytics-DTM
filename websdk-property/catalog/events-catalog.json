@@ -574,19 +574,6 @@
       "acdlTimeScope": "all"
     },
     {
-      "rule": "Sort By Tracking",
-      "payloadDataElement": "data-SortBy",
-      "replaces": null,
-      "acdlEvent": "sortBy",
-      "acdlTimeScope": "all",
-      "linkName": "CONFIRM-VIA-EXPORT",
-      "linkType": "o",
-      "events": [],
-      "eVars": {},
-      "payloadStatus": "CONFIRM-VIA-EXPORT",
-      "_note": "Discovered live in the old property 2026-07-29 while verifying event names - added after the Launch Inspector export (same situation as Article Interaction Tracking), so the workbook carries no payload for it. Event name 'sortBy' verified from the rule's event config in the UI. Its eVars/events/link name must be copied from the old rule's action + the data element it sends before this rule can be built."
-    },
-    {
       "rule": "Video Start",
       "payloadDataElement": "data-Video Start",
       "replaces": "XDM Video Start",
@@ -719,6 +706,14 @@
     "Scroll interaction names carry a leading space in the source (' Scroll 25 Percentage'), trimmed here \u2014 confirm reporting relies on the trimmed form before publish.",
     "Rule names 'Map  Button Click'/'Map  Button Close' had a double space in the source; normalized to single space.",
     "Old-property event naming is deliberately inconsistent (moreAmazonNews vs AmazonRedirectLinkClick vs FileDownloaded vs formComplete) \u2014 carried EXACTLY as captured; do not normalize, the site's code owns these strings.",
-    "Sort By Tracking is a second rule added to the live property after the Launch Inspector export (first was Article Interaction Tracking). Its data-layer event (sortBy) is verified; its payload mappings are still unknown and block the blueprint until copied from the old rule."
+    "Sort By Tracking (and its XDM Sort By element) turned out to be an enabled-but-never-published draft pair from May 2024 - excluded from this migration, documented in excludedRules. Corollary still open: verify Article Interaction Tracking's Details panel shows 'Live in production' - if it is also unpublished, the event28 collision is latent (not active) and that rule needs the same exclusion decision."
+  ],
+  "excludedRules": [
+    {
+      "rule": "Sort By Tracking",
+      "reason": "Enabled in the old property's rule list but NEVER PUBLISHED: the rule's Details panel shows Last Published 'Not yet published', 'No libraries using this revision', status 'Not live', last modified May 2, 2024 (Rounak Kumar) - over a year before the workbook's production build (2025-08-05). Production has never fired sortBy, so carrying it would break parity, and its payload was never finished (single Send event action referencing %XDM Sort By%, an element that is also absent from the production build). Verified from UI screenshots 2026-07-29; the contrast check: the live rule Internal Search ClickThrough's Details panel shows 'Live in production' in the same position.",
+      "acdlEventObserved": "sortBy",
+      "decisionForOwner": "If Amazon News wants sort-by tracking, treat it as NEW scope in the new property: define the payload (eVars/events), add a catalog entry, re-generate. Do not copy the half-built old rule."
+    }
   ]
 }
