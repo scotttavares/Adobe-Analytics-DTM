@@ -10,10 +10,8 @@
       "catalog/events-catalog.json",
       "(no ACDL overrides file)"
     ],
-    "draft": true,
-    "unresolved": [
-      "webSdkInstance.edgeDomain is a placeholder — complete the first-party domain setup (docs/MANUAL-STEPS.md #4) or generate with --interim-third-party-edge to launch on edge.adobedc.net"
-    ]
+    "draft": false,
+    "unresolved": []
   },
   "company": {
     "id": "SET-VIA-WHOAMI"
@@ -62,7 +60,7 @@
             "stagingEdgeConfigId": "01c5cd30-5087-4bcf-b43c-f26dd8eb37a3",
             "developmentEdgeConfigId": "8ba971eb-e510-4ae2-943c-2f0bef0b7b42",
             "orgId": "E2FF058362D6F0310A495E5B@AdobeOrg",
-            "edgeDomain": "FIRST-PARTY-DOMAIN-TBD.aboutamazon.com",
+            "edgeDomain": "smetrics.aboutamazon.com",
             "edgeBasePath": "ee",
             "defaultConsent": "in",
             "idMigrationEnabled": true,

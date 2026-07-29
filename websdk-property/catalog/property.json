@@ -1,28 +1,34 @@
 {
   "_purpose": "Property-level configuration for the NEW Web SDK property (audit Option 1). Consumed by scripts/generate-blueprint.mjs. Every audit finding that is fixable inside the Tags property is encoded here; fixes that live outside the property (datastream, Target Admin, DNS, Next.js embed) are in docs/MANUAL-STEPS.md.",
-
   "company": {
     "id": "SET-VIA-WHOAMI",
     "_note": "Reactor company id (CO...). Run `node scripts/reactor.mjs whoami` with credentials to obtain, then set here or pass --company-id to publish.mjs."
   },
-
   "property": {
     "name": "AboutAmazon-US (WebSDK)",
-    "domains": ["aboutamazon.com"],
+    "domains": [
+      "aboutamazon.com"
+    ],
     "platform": "web",
-    "_note": "New property, created alongside the existing AboutAmazon-US. The old property stays untouched until cutover (docs/RUNBOOK.md phase 5). NAME MUST MATCH EXACTLY the property created in the Data Collection UI on 2026-07-28 ('AboutAmazon-US (WebSDK)', no space in 'WebSDK') — publish.mjs finds-or-creates by exact name, and a mismatch would create a duplicate property. Property settings chosen at creation: platform Web, domain aboutamazon.com, 'Run rule components in sequence' CHECKED (matches the source property's Sequencing: Enabled), the other two advanced options unchecked."
+    "_note": "New property, created alongside the existing AboutAmazon-US. The old property stays untouched until cutover (docs/RUNBOOK.md phase 5). NAME MUST MATCH EXACTLY the property created in the Data Collection UI on 2026-07-28 ('AboutAmazon-US (WebSDK)', no space in 'WebSDK') \u2014 publish.mjs finds-or-creates by exact name, and a mismatch would create a duplicate property. Property settings chosen at creation: platform Web, domain aboutamazon.com, 'Run rule components in sequence' CHECKED (matches the source property's Sequencing: Enabled), the other two advanced options unchecked."
   },
-
   "orgId": "E2FF058362D6F0310A495E5B@AdobeOrg",
-
   "environments": [
-    { "name": "Development", "stage": "development" },
-    { "name": "Staging", "stage": "staging" },
-    { "name": "Production", "stage": "production" }
+    {
+      "name": "Development",
+      "stage": "development"
+    },
+    {
+      "name": "Staging",
+      "stage": "staging"
+    },
+    {
+      "name": "Production",
+      "stage": "production"
+    }
   ],
-
   "datastreams": {
-    "_note": "Same datastreams the source property already uses (confirmed in the audit's Environment Inventory and the workbook's Adobe sheet). Analytics report-suite separation is correct at the datastream level (aboutamzndev / aboutamznstg / aboutamznprod), which is why removing the classic Analytics extension also removes Finding 2. Target service must be enabled on ALL THREE datastreams for Option 1 (today only Production has it) — see docs/MANUAL-STEPS.md #2.",
+    "_note": "Same datastreams the source property already uses (confirmed in the audit's Environment Inventory and the workbook's Adobe sheet). Analytics report-suite separation is correct at the datastream level (aboutamzndev / aboutamznstg / aboutamznprod), which is why removing the classic Analytics extension also removes Finding 2. Target service must be enabled on ALL THREE datastreams for Option 1 (today only Production has it) \u2014 see docs/MANUAL-STEPS.md #2.",
     "production": "5a6faec7-e010-4f43-b07f-b15a304ac780",
     "staging": "01c5cd30-5087-4bcf-b43c-f26dd8eb37a3",
     "development": "8ba971eb-e510-4ae2-943c-2f0bef0b7b42",
@@ -32,12 +38,11 @@
       "_note": "Fourth datastream flagged by the audit as purpose-unconfirmed (id shown truncated in the audit deck). NOT wired anywhere in this property. Ask the Amazon team what it is for before deleting (audit Ownership item #6)."
     }
   },
-
   "webSdkInstance": {
     "name": "alloy",
     "edgeBasePath": "ee",
-    "edgeDomain": "FIRST-PARTY-DOMAIN-TBD.aboutamazon.com",
-    "_edgeDomain_decision": "Fix 3 (audit slide 29): serve the Edge Network from a first-party subdomain instead of edge.adobedc.net. Requires the Adobe-managed certificate / CNAME process in docs/MANUAL-STEPS.md #4 BEFORE this value is real. generate-blueprint.mjs emits edge.adobedc.net with --interim-third-party-edge so the property can go live ahead of DNS, but preflight lists it as an open audit item until the first-party domain is set.",
+    "edgeDomain": "smetrics.aboutamazon.com",
+    "_edgeDomain_decision": "RESOLVED 2026-07-29: first-party hostname smetrics.aboutamazon.com, CNAME to s3tp0itpog.data.adobedc.net (Adobe-managed cert flow). Adobe Enterprise Support ticket E-002373472 (A. Halstead); DNS record implemented by aboutamazon IT (J. Schimmel), confirmed in the ticket thread 2026-07-29. Before the PRODUCTION publish, verify TLS end-to-end - nslookup proves DNS only: open https://smetrics.aboutamazon.com/ee/v1/ (or curl -sv) and confirm a valid Adobe-served certificate for the hostname. Audit Fix 3 / Finding 5: ECID now set in a durable first-party context; re-run the fragmentation segmentation ~30 days after cutover to measure recovery.",
     "defaultConsent": "in",
     "_defaultConsent_decision": "Site currently collects with no consent gate, so 'in' preserves behavior (no data loss on day one). Moving to 'pending' requires the CMP integration decision in docs/MANUAL-STEPS.md #6; the 'Consent - Apply Visitor Choice' rule in this property is the hook for it.",
     "idMigrationEnabled": true,
@@ -49,46 +54,72 @@
     "prehidingStyle": "body { opacity: 0 !important }",
     "_prehidingStyle_note": "Findings 6+8 mitigation. This style is applied by the SDK for synchronous deployments; for the async/lazyOnload embed the inline snippet in snippets/prehiding-snippet.html must be placed BEFORE the Launch script tag (see docs/MANUAL-STEPS.md #5).",
     "clickCollectionEnabled": false,
-    "_clickCollectionEnabled_note": "The site's click tracking is bespoke (ACDL push -> rules). Automatic link collection on top of that would double-count link activity (two server calls per tracked click — billing + bounce/hit-depth distortion) — the same class of problem as Finding 1. Deliberately off, with one DECISION RULE: the old property's Web SDK extension may have click collection ON (older extension versions defaulted true; the workbook doesn't record it). After Phase 1's export-current.mjs captures the old extension settings, MATCH the old property's value here for v1.0 (cutover comparability), then change deliberately in v1.1 if wanted. For cross-confirmation QA, enable temporarily in a Development-only build (RUNBOOK Phase 4) instead of production; the session-storage event-grouping variant (Beta in v2.37) is the acceptable permanent shape if ever wanted, since grouped clicks ride the next page view instead of firing separate hits.",
-    "context": ["web", "device", "environment", "placeContext"]
-  },
-
-  "extensions": {
-    "installed": [
-      { "name": "core", "displayName": "Core" },
-      { "name": "adobe-client-data-layer", "displayName": "Adobe Client Data Layer", "settings": { "dataLayer": "adobeDataLayer" }, "_note": "Same data layer name as the source property. Settings key is validated against the live extension package schema at install time (extension is not open source)." },
-      { "name": "adobe-alloy", "displayName": "Adobe Experience Platform Web SDK", "_note": "Instance settings assembled by generate-blueprint.mjs from webSdkInstance above." },
-      { "name": "common-web-sdk-plugins", "displayName": "Common Web SDK Plugins", "_note": "Provides Previous Page Name / Repeat Vs New / Time Parting / Time Since Last Visit / Visit Duration / Visit Number data elements, same as source property." }
-    ],
-    "deliberatelyAbsent": [
-      { "name": "adobe-analytics", "reason": "Finding 1 (double-counting) + Finding 2 (all environments pointed at aboutamznprod). Analytics flows through the Web SDK datastream only. Absence of this extension IS the fix." },
-      { "name": "adobe-target", "reason": "Finding 3: at.js 1.8.3 extension confirmed dormant in source. Target delivery moves to the Web SDK/datastream (Option 1)." },
-      { "name": "adobe-target-v2", "reason": "Findings 3/4/8 + the two-pathway root cause (audit slides 26-27): at.js 2.11.7 drove a separate tt.omtrdc.net round-trip with no shared identity. Replaced by renderDecisions on the page-view sendEvent." }
+    "_clickCollectionEnabled_note": "The site's click tracking is bespoke (ACDL push -> rules). Automatic link collection on top of that would double-count link activity (two server calls per tracked click \u2014 billing + bounce/hit-depth distortion) \u2014 the same class of problem as Finding 1. Deliberately off, with one DECISION RULE: the old property's Web SDK extension may have click collection ON (older extension versions defaulted true; the workbook doesn't record it). After Phase 1's export-current.mjs captures the old extension settings, MATCH the old property's value here for v1.0 (cutover comparability), then change deliberately in v1.1 if wanted. For cross-confirmation QA, enable temporarily in a Development-only build (RUNBOOK Phase 4) instead of production; the session-storage event-grouping variant (Beta in v2.37) is the acceptable permanent shape if ever wanted, since grouped clicks ride the next page view instead of firing separate hits.",
+    "context": [
+      "web",
+      "device",
+      "environment",
+      "placeContext"
     ]
   },
-
+  "extensions": {
+    "installed": [
+      {
+        "name": "core",
+        "displayName": "Core"
+      },
+      {
+        "name": "adobe-client-data-layer",
+        "displayName": "Adobe Client Data Layer",
+        "settings": {
+          "dataLayer": "adobeDataLayer"
+        },
+        "_note": "Same data layer name as the source property. Settings key is validated against the live extension package schema at install time (extension is not open source)."
+      },
+      {
+        "name": "adobe-alloy",
+        "displayName": "Adobe Experience Platform Web SDK",
+        "_note": "Instance settings assembled by generate-blueprint.mjs from webSdkInstance above."
+      },
+      {
+        "name": "common-web-sdk-plugins",
+        "displayName": "Common Web SDK Plugins",
+        "_note": "Provides Previous Page Name / Repeat Vs New / Time Parting / Time Since Last Visit / Visit Duration / Visit Number data elements, same as source property."
+      }
+    ],
+    "deliberatelyAbsent": [
+      {
+        "name": "adobe-analytics",
+        "reason": "Finding 1 (double-counting) + Finding 2 (all environments pointed at aboutamznprod). Analytics flows through the Web SDK datastream only. Absence of this extension IS the fix."
+      },
+      {
+        "name": "adobe-target",
+        "reason": "Finding 3: at.js 1.8.3 extension confirmed dormant in source. Target delivery moves to the Web SDK/datastream (Option 1)."
+      },
+      {
+        "name": "adobe-target-v2",
+        "reason": "Findings 3/4/8 + the two-pathway root cause (audit slides 26-27): at.js 2.11.7 drove a separate tt.omtrdc.net round-trip with no shared identity. Replaced by renderDecisions on the page-view sendEvent."
+      }
+    ]
+  },
   "targetLegacyReference": {
     "clientCode": "aboutamzn",
     "serverDomain": "aboutamzn.tt.omtrdc.net",
     "globalMboxName": "target-global-mbox",
     "productionTargetEnvironmentId": 43837,
-    "_note": "Kept for traceability only — none of these are configured in the new property. The datastream's Target service (property token + environment) governs delivery. The old live rule's hardcoded at_property custom code (audit Finding 3 update) has no equivalent here by design."
+    "_note": "Kept for traceability only \u2014 none of these are configured in the new property. The datastream's Target service (property token + environment) governs delivery. The old live rule's hardcoded at_property custom code (audit Finding 3 update) has no equivalent here by design."
   },
-
   "payloadArchitecture": "adobe-variable",
-  "_payloadArchitecture_note": "adobe-variable (default, decided 2026-07-28): Adobe's documented pattern for the Analytics data-object migration — three Web SDK VARIABLE data elements (data-pageView, data-interaction, data-siteError; Data object, Analytics solution) populated by form-based UPDATE VARIABLE actions inside each rule, then sent by the Send Event action. Chosen because (a) it is the pattern Adobe's own migration docs prescribe, defensible to the client verbatim, and (b) the inheriting client team is UI-first — mappings live in rule-action forms, not custom code. The mapping SPEC still lives in events-catalog.json (the build sheet renders per-rule form instructions from it, and the export-diff verification checks the hand-entered forms against it). Known trade to verify in QA: the shared data-interaction variable persists for the page lifetime, so back-to-back non-navigating events (form start then scroll) can carry the earlier event's eVars unless each rule's Update Variable action clears prior values — use the action's clear/transforms affordance and run the residue test in RUNBOOK Phase 4. Alternative generated-code modes remain available: --consolidated (one code dispatcher) and --per-event (one code element per interaction).",
-
+  "_payloadArchitecture_note": "adobe-variable (default, decided 2026-07-28): Adobe's documented pattern for the Analytics data-object migration \u2014 three Web SDK VARIABLE data elements (data-pageView, data-interaction, data-siteError; Data object, Analytics solution) populated by form-based UPDATE VARIABLE actions inside each rule, then sent by the Send Event action. Chosen because (a) it is the pattern Adobe's own migration docs prescribe, defensible to the client verbatim, and (b) the inheriting client team is UI-first \u2014 mappings live in rule-action forms, not custom code. The mapping SPEC still lives in events-catalog.json (the build sheet renders per-rule form instructions from it, and the export-diff verification checks the hand-entered forms against it). Known trade to verify in QA: the shared data-interaction variable persists for the page lifetime, so back-to-back non-navigating events (form start then scroll) can carry the earlier event's eVars unless each rule's Update Variable action clears prior values \u2014 use the action's clear/transforms affordance and run the residue test in RUNBOOK Phase 4. Alternative generated-code modes remain available: --consolidated (one code dispatcher) and --per-event (one code element per interaction).",
   "consentRule": {
     "enabled": true,
     "generalValueDataElement": "consent-generalValue",
-    "_note": "New rule 'Consent - Apply Visitor Choice' (Fix 4 groundwork): maps the site's existing cookie-consent selection (data layer) to alloy setConsent in/out. The mapping data element treats explicit opt-out ('reject'/'decline'/'opt-out'/'no') as out, everything else as in — CONFIRM the site's actual consentSelected values before publish (see docs/MANUAL-STEPS.md #6)."
+    "_note": "New rule 'Consent - Apply Visitor Choice' (Fix 4 groundwork): maps the site's existing cookie-consent selection (data layer) to alloy setConsent in/out. The mapping data element treats explicit opt-out ('reject'/'decline'/'opt-out'/'no') as out, everything else as in \u2014 CONFIRM the site's actual consentSelected values before publish (see docs/MANUAL-STEPS.md #6)."
   },
-
   "publishPolicy": "stage-auto",
-
   "compliance": {
     "profiles": [],
     "ipObfuscation": false,
-    "_note": "News site — no financial/healthcare profile. Consent architecture is a roadmap item (audit Fix 4); rules are not consent-gated at launch to preserve current collection behavior. Revisit when the CMP decision lands."
+    "_note": "News site \u2014 no financial/healthcare profile. Consent architecture is a roadmap item (audit Fix 4); rules are not consent-gated at launch to preserve current collection behavior. Revisit when the CMP decision lands."
   }
 }

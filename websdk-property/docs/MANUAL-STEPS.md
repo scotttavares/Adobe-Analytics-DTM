@@ -42,18 +42,24 @@ Analytics. The Analytics-side component group already exists (audit confirmed).
 ECID cookie is set in a durable first-party context (the audit quantified
 ~57.5% of visitors fragmenting under the current setup).
 
-1. Choose the subdomain (e.g. `data.aboutamazon.com` or
-   `metrics.aboutamazon.com`) with Amazon's DNS owners.
-2. Open the Adobe **first-party device ID / managed-certificate** request
-   (Experience League: "First-party device IDs" + "Adobe-managed certificate
-   program") for that hostname; Adobe supplies the exact CNAME target and
-   provisions TLS.
-3. After Adobe confirms the cert is live, create the DNS CNAME.
-4. Set `webSdkInstance.edgeDomain` in `catalog/property.json` to the hostname,
-   re-run `generate-blueprint.mjs` (without `--interim-third-party-edge`),
-   re-publish.
-5. Re-run the audit's browser/OS ECID-fragmentation segmentation ~30 days
-   later to measure the improvement (audit slide 19's method).
+**Status 2026-07-29: DNS DONE.** Adobe Enterprise Support ticket
+**E-002373472**: CNAME `smetrics.aboutamazon.com` →
+`s3tp0itpog.data.adobedc.net`, implemented by aboutamazon IT and confirmed in
+the ticket thread. `catalog/property.json → webSdkInstance.edgeDomain` is set
+to the hostname and the blueprint generates without the interim flag.
+
+Remaining sub-steps:
+
+1. **In the new property's UI** (manual build): Extensions → Adobe Experience
+   Platform Web SDK → Configure → set **Edge domain** =
+   `smetrics.aboutamazon.com` (replacing the default `edge.adobedc.net`),
+   save, and include the extension change in the library build.
+2. **Before the production publish, verify TLS end-to-end** — `nslookup
+   smetrics.aboutamazon.com` proves DNS only. Load
+   `https://smetrics.aboutamazon.com/ee/v1/` in a browser (or `curl -sv`) and
+   confirm a valid certificate served for the hostname with no warnings.
+3. Re-run the audit's browser/OS ECID-fragmentation segmentation ~30 days
+   after cutover to measure the improvement (audit slide 19's method).
 
 Option B in the audit (FPID, your server sets the ID cookie) is more durable
 against ITP but needs server-side work — a separate decision with the
