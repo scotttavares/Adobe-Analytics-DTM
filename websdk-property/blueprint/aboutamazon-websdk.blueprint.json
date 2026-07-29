@@ -191,7 +191,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Country",
+      "name": "Geo: Country",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -358,7 +358,7 @@
       "storageDuration": null
     },
     {
-      "name": "Language",
+      "name": "Geo: Language",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -382,7 +382,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Locale",
+      "name": "Geo: Locale",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -1033,7 +1033,7 @@
                   "eVar12": "%Page: URL%",
                   "eVar13": "%Core: Page Query String%",
                   "eVar15": "%User Type%",
-                  "eVar18": "%Language%",
+                  "eVar18": "%Geo: Language%",
                   "eVar25": "%Publish Date%",
                   "eVar29": "%Category%",
                   "eVar30": "%Tags%",
@@ -1043,7 +1043,7 @@
                   "eVar40": "%UTM_Content%",
                   "eVar41": "%UTM_Campaign%",
                   "eVar42": "%UTM_Term%",
-                  "eVar47": "%Country%",
+                  "eVar47": "%Geo: Country%",
                   "prop1": "%Page: Name%",
                   "prop2": "%Core: Referrer%",
                   "prop3": "%Core: Timestamp%",
@@ -1061,7 +1061,7 @@
                   "prop16": "%Plugin: Repeat Vs New%",
                   "prop17": "%Plugin: Visit Duration%",
                   "prop18": "%Page: Title%",
-                  "prop20": "%Locale%",
+                  "prop20": "%Geo: Locale%",
                   "list1": "%Site Error%",
                   "list2": "%Hidden Tags%",
                   "events": "event2"

@@ -25,7 +25,7 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 5 | `Consent: Click Count` | `web.webInteractions.consentSelection.value` | — | — |  |
 | 6 | `Consent: Selected` | `web.webInteractions.cookieConsent.consentSelected` | ✅ | ✅ |  |
 | 7 | `Content Type` | `web.webPageDetails.pageType` | — | — |  |
-| 8 | `Country` | `web.webPageDetails.country` | — | ✅ |  |
+| 8 | `Geo: Country` | `web.webPageDetails.country` | — | ✅ |  |
 | 9 | `Link: CTA Button` | `web.webInteractions.CTAButtonName` | ✅ | ✅ |  |
 | 10 | `Link: Destination` | `web.webInteractions.DestinationLink` | ✅ | ✅ |  |
 | 11 | `Domain` | `web.webPageDetails.site` | ✅ | ✅ |  |
@@ -37,9 +37,9 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 17 | `Form: Location` | `web.webInteractions.formLocation` | ✅ | ✅ |  |
 | 18 | `Form: Name` | `web.webInteractions.formName` | ✅ | ✅ |  |
 | 19 | `Hidden Tags` | `web.webPageDetails.hiddenTags` | ✅ | ✅ |  |
-| 20 | `Language` | `web.webPageDetails.language` | ✅ | ✅ |  |
+| 20 | `Geo: Language` | `web.webPageDetails.language` | ✅ | ✅ |  |
 | 21 | `Link: Name` | `web.webInteractions.linkName` | ✅ | ✅ |  |
-| 22 | `Locale` | `web.webPageDetails.locale` | ✅ | ✅ |  |
+| 22 | `Geo: Locale` | `web.webPageDetails.locale` | ✅ | ✅ |  |
 | 23 | `Login ID` | `loginID` | ✅ | ✅ |  |
 | 24 | `Map: Button Name` | `map.mapButtonName` | ✅ | ✅ |  |
 | 25 | `Map: Name` | `map.mapName` | ✅ | ✅ |  |
@@ -294,7 +294,7 @@ event as `Consent Selection`.
     - eVar12 = `%Page: URL%`
     - eVar13 = `%Core: Page Query String%`
     - eVar15 = `%User Type%`
-    - eVar18 = `%Language%`
+    - eVar18 = `%Geo: Language%`
     - eVar25 = `%Publish Date%`
     - eVar29 = `%Category%`
     - eVar30 = `%Tags%`
@@ -304,7 +304,7 @@ event as `Consent Selection`.
     - eVar40 = `%UTM_Content%`
     - eVar41 = `%UTM_Campaign%`
     - eVar42 = `%UTM_Term%`
-    - eVar47 = `%Country%`
+    - eVar47 = `%Geo: Country%`
     - prop1 = `%Page: Name%`
     - prop2 = `%Core: Referrer%`
     - prop3 = `%Core: Timestamp%`
@@ -322,7 +322,7 @@ event as `Consent Selection`.
     - prop16 = `%Plugin: Repeat Vs New%`
     - prop17 = `%Plugin: Visit Duration%`
     - prop18 = `%Page: Title%`
-    - prop20 = `%Locale%`
+    - prop20 = `%Geo: Locale%`
     - list1 = `%Site Error%`
     - list2 = `%Hidden Tags%`
     - events = `event2`
