@@ -35,7 +35,7 @@ leftover fields from the previous row** (shared variable residue).
 | ☐ | Amazon Stories Link Click Tracking | `storyLinkClick` | `Amazon Stories Link Tracking` / `o` | event22 | eVar45←%Link: Stories Text% |
 | ☐ | Consent Selection | `consentSelection` | `Cookie Consent Selection` / `o` | — | eVar48←%Consent: Selected% |
 | ☐ | File Download Tracking | `FileDownloaded` | `File Download` / `d` | event16 | eVar33←%File: Name% · eVar34←%File: Type% |
-| ☐ | Filter Click Tracking | `FilterApplied` | `News Filter Click` / `o` | event25 | eVar27←%Filter% |
+| ☐ | Filter Click Tracking | `FilterApplied` | `News Filter Click` / `o` | event25 | eVar27←%News Filter% |
 | ☐ | Form Complete | `formComplete` | `Form Complete` / `o` | event10 | eVar10←%Form: Name% · eVar19←%Form: Location% |
 | ☐ | Form Error Tracking | `formError` | `Form Error` / `o` | event8 | eVar10←%Form: Name% · eVar19←%Form: Location% |
 | ☐ | Form Start | `formStart` | `Form Start` / `o` | event9 | eVar10←%Form: Name% · eVar19←%Form: Location% |

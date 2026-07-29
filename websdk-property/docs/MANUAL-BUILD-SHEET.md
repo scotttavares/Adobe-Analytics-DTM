@@ -28,11 +28,11 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 8 | `Geo: Country` | `web.webPageDetails.country` | — | ✅ |  |
 | 9 | `Link: CTA Button` | `web.webInteractions.CTAButtonName` | ✅ | ✅ |  |
 | 10 | `Link: Destination` | `web.webInteractions.DestinationLink` | ✅ | ✅ |  |
-| 11 | `Domain` | `web.webPageDetails.site` | ✅ | ✅ |  |
+| 11 | `Site: Domain` | `web.webPageDetails.site` | ✅ | ✅ |  |
 | 12 | `File: Name` | `web.webInteractions.FileName` | ✅ | ✅ |  |
 | 13 | `File: Type` | `web.webInteractions.FileType` | ✅ | ✅ |  |
 | 14 | `File: URL` | `web.webInteractions.FileUrl` | — | — |  |
-| 15 | `Filter` | `web.webInteractions.Filter` | ✅ | ✅ |  |
+| 15 | `News Filter` | `web.webInteractions.Filter` | ✅ | ✅ |  |
 | 16 | `Form: Error Name` | `web.webInteractions.formErrorMessage` | ✅ | ✅ |  |
 | 17 | `Form: Location` | `web.webInteractions.formLocation` | ✅ | ✅ |  |
 | 18 | `Form: Name` | `web.webInteractions.formName` | ✅ | ✅ |  |
@@ -59,7 +59,7 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 39 | `Search: Result Page Type` | `internalSearchInfo.searchResultPageType` | — | — | `Search Result Page` |
 | 40 | `Search: Results` | `web.webInteractions.searchResults` | ✅ | ✅ |  |
 | 41 | `Search: Term` | `web.webInteractions.searchTerm` | ✅ | ✅ |  |
-| 42 | `Site Error` | `web.webPageDetails.siteError` | ✅ | ✅ |  |
+| 42 | `Page: Error` | `web.webPageDetails.siteError` | ✅ | ✅ |  |
 | 43 | `Site: Section` | `web.webPageDetails.siteSection` | ✅ | ✅ |  |
 | 44 | `Site: Section 2` | `web.webPageDetails.siteSectionTwo` | — | — |  |
 | 45 | `Site: Section 3` | `web.webPageDetails.siteSectionThree` | ✅ | ✅ |  |
@@ -285,7 +285,7 @@ event as `Consent Selection`.
     - pageURL = `%Page: URL%`
     - referrer = `%Core: Referrer%`
     - campaign = `%Campaign: External%`
-    - eVar1 = `%Domain%`
+    - eVar1 = `%Site: Domain%`
     - eVar2 = `%Plugin: Previous Page Name%`
     - eVar3 = `%Page: Name%`
     - eVar4 = `%Site: Section%`
@@ -323,7 +323,7 @@ event as `Consent Selection`.
     - prop17 = `%Plugin: Visit Duration%`
     - prop18 = `%Page: Title%`
     - prop20 = `%Geo: Locale%`
-    - list1 = `%Site Error%`
+    - list1 = `%Page: Error%`
     - list2 = `%Content: Hidden Tags%`
     - events = `event2`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
@@ -337,7 +337,7 @@ event as `Consent Selection`.
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `errorInteraction` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-siteError`. Set:
     - pageName = `errorPage`
-    - list1 = `%Site Error%`
+    - list1 = `%Page: Error%`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webpagedetails.pageViews` · data `%data-siteError%`
@@ -410,7 +410,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `News Filter Click`
     - linkType = `o`
-    - eVar27 = `%Filter%`
+    - eVar27 = `%News Filter%`
     - events = `event25`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).

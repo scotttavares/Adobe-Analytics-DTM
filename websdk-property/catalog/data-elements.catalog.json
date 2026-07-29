@@ -62,10 +62,13 @@
       "Hidden Tags": "Content: Hidden Tags",
       "Campaign": "Campaign: External",
       "Internal Campaign": "Campaign: Internal",
-      "Internal Campaign Count": "Campaign: Internal Count"
+      "Internal Campaign Count": "Campaign: Internal Count",
+      "Site Error": "Page: Error",
+      "Domain": "Site: Domain",
+      "Filter": "News Filter"
     },
     "parityNote": "Old-vs-new beacon QA maps names through this ledger; settings are unchanged, so values are identical.",
-    "featureGroups": "Business values that belong to a site feature are grouped 'Feature: value', dropping the redundant leading word (dropdown reads 'Search: Term', 'Page: Name'). Domain groups: Search, Form, Video, Map, Article, Consent, Page, Site, File, Link (click-target values), Geo (Country/Language/Locale), Content (Category/Type/Tags/Hidden Tags), Campaign (External/Internal/Internal Count). This DOMAIN axis (which feature uses the value) shares a colon with the SOURCE axis of Plugin:/Core: (which extension produced it) by the owner's choice (2026-07-29). Global dimensions were grouped too (owner confirmed, before any rule referenced them). Still bare, deliberately: cross-cutting singletons with no feature home (Domain, Publish Date, Scroll Depth, Social Interaction Info, Site Error, Login ID)  and UTM_* (self-group by name)."
+    "featureGroups": "Business values that belong to a site feature are grouped 'Feature: value', dropping the redundant leading word (dropdown reads 'Search: Term', 'Page: Name'). Domain groups: Search, Form, Video, Map, Article, Consent, Page, Site, File, Link (click-target values), Geo (Country/Language/Locale), Content (Category/Type/Tags/Hidden Tags), Campaign (External/Internal/Internal Count). This DOMAIN axis (which feature uses the value) shares a colon with the SOURCE axis of Plugin:/Core: (which extension produced it) by the owner's choice (2026-07-29). Global dimensions were grouped too (owner confirmed, before any rule referenced them). Still bare, deliberately: cross-cutting singletons with no feature home (Publish Date, Scroll Depth, Social Interaction Info, Login ID; News Filter kept bare but renamed from 'Filter' to disambiguate from Search: Filter). Domain groups into Site: (site identity) and Site Error into Page: (a per-page event, despite both sitting under web.webPageDetails)  and UTM_* (self-group by name)."
   },
   "_source": "aboutamazon.com.xlsx \u2014 DataElements sheet (108 elements; 72 carried, 28 XDM replaced by generated builders, remainder excluded with reasons below)",
   "delegates": {
@@ -313,7 +316,7 @@
       }
     },
     {
-      "name": "Domain",
+      "name": "Site: Domain",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -365,7 +368,7 @@
       }
     },
     {
-      "name": "Filter",
+      "name": "News Filter",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -794,7 +797,7 @@
       }
     },
     {
-      "name": "Site Error",
+      "name": "Page: Error",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,

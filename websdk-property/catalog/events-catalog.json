@@ -29,7 +29,7 @@
         }
       ],
       "eVars": {
-        "eVar1": "Domain",
+        "eVar1": "Site: Domain",
         "eVar2": "Plugin: Previous Page Name",
         "eVar3": "Page: Name",
         "eVar4": "Site: Section",
@@ -72,7 +72,7 @@
       },
       "lists": {
         "list1": [
-          "Site Error"
+          "Page: Error"
         ],
         "list2": [
           "Content: Hidden Tags"
@@ -93,7 +93,7 @@
       },
       "lists": {
         "list1": [
-          "Site Error"
+          "Page: Error"
         ]
       }
     },
@@ -205,7 +205,7 @@
         }
       ],
       "eVars": {
-        "eVar27": "Filter"
+        "eVar27": "News Filter"
       },
       "acdlTimeScope": "all"
     },

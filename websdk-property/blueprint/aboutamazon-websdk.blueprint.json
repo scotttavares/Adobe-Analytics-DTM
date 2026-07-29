@@ -227,7 +227,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Domain",
+      "name": "Site: Domain",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -275,7 +275,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Filter",
+      "name": "News Filter",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -668,7 +668,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Site Error",
+      "name": "Page: Error",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -1024,7 +1024,7 @@
                   "pageURL": "%Page: URL%",
                   "referrer": "%Core: Referrer%",
                   "campaign": "%Campaign: External%",
-                  "eVar1": "%Domain%",
+                  "eVar1": "%Site: Domain%",
                   "eVar2": "%Plugin: Previous Page Name%",
                   "eVar3": "%Page: Name%",
                   "eVar4": "%Site: Section%",
@@ -1062,7 +1062,7 @@
                   "prop17": "%Plugin: Visit Duration%",
                   "prop18": "%Page: Title%",
                   "prop20": "%Geo: Locale%",
-                  "list1": "%Site Error%",
+                  "list1": "%Page: Error%",
                   "list2": "%Content: Hidden Tags%",
                   "events": "event2"
                 }
@@ -1112,7 +1112,7 @@
               "__adobe": {
                 "analytics": {
                   "pageName": "errorPage",
-                  "list1": "%Site Error%"
+                  "list1": "%Page: Error%"
                 }
               }
             }
@@ -1389,7 +1389,7 @@
                 "analytics": {
                   "linkName": "News Filter Click",
                   "linkType": "o",
-                  "eVar27": "%Filter%",
+                  "eVar27": "%News Filter%",
                   "events": "event25"
                 }
               }
