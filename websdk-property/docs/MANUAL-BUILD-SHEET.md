@@ -248,7 +248,7 @@ Changes made there regenerate this code so every event stays consistent.
 Owner: analytics implementation team — contact before making any change here.
 ```
 
-### `consent-generalValue`
+### `Consent: General Value`
 
 ```javascript
 // GENERATED — maps the site cookie-consent selection to the Web SDK consent value.
@@ -753,7 +753,7 @@ event as `Consent Selection`.
 ### 35. `Consent - Apply Visitor Choice`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `consentSelection` · Time scope: **All**
-- **Action**: Adobe Experience Platform Web SDK → *Set consent* — instance `alloy` · standard **Adobe 2.0** · general = `%consent-generalValue%`
+- **Action**: Adobe Experience Platform Web SDK → *Set consent* — instance `alloy` · standard **Adobe 2.0** · general = `%Consent: General Value%`
 - Note: Maps the site banner selection to alloy setConsent. Runs on the same data-layer event as the Consent Selection tracking rule.
 
 ### 36. `Newsletter Test: Resolve Experience`

@@ -925,7 +925,7 @@
       "delegateDisplayName": "Getvisitnum"
     },
     {
-      "name": "consent-generalValue",
+      "name": "Consent: General Value",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::custom-code",
       "settings": {
@@ -2652,7 +2652,7 @@
                 "standard": "Adobe",
                 "version": "2.0",
                 "value": {
-                  "general": "%consent-generalValue%"
+                  "general": "%Consent: General Value%"
                 }
               }
             ]

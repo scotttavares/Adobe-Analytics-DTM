@@ -54,7 +54,7 @@ async function main() {
   const variables = byDelegate('adobe-alloy::dataElements::variable');
   const customCode = byDelegate('core::dataElements::custom-code');
   const payloadNames = new Set(
-    customCode.filter((d) => d.name.startsWith('data-') || d.name === 'consent-generalValue').map((d) => d.name),
+    customCode.filter((d) => d.name.startsWith('data-') || d.name === 'Consent: General Value').map((d) => d.name),
   );
   const utilityCode = customCode.filter((d) => !payloadNames.has(d.name));
   const builders = customCode.filter((d) => payloadNames.has(d.name));
@@ -281,7 +281,7 @@ async function main() {
       } else if (a.delegate_descriptor_id.endsWith('set-consent')) {
         L.push(
           `- ${label()}: Adobe Experience Platform Web SDK → *Set consent* — instance \`${a.settings.instanceName}\`` +
-            ` · standard **Adobe 2.0** · general = \`%${bp.dataElements.find((d) => d.name === 'consent-generalValue').name}%\``,
+            ` · standard **Adobe 2.0** · general = \`%${bp.dataElements.find((d) => d.name === 'Consent: General Value').name}%\``,
         );
       } else {
         L.push(`- ${label()}: \`${a.delegate_descriptor_id}\` — settings: \`${JSON.stringify(a.settings)}\``);
