@@ -33,6 +33,7 @@
     "verify": "node scripts/verify-demo.mjs",
     "verify:launch": "node scripts/verify-launch-sandbox.mjs",
     "verify:a11y": "node scripts/verify-a11y.mjs",
+    "verify:site": "node scripts/verify-site.mjs",
     "sandbox": "cd launch-extension && npx @adobe/reactor-sandbox",
     "demo": "node scripts/serve.mjs",
     "extension:package": "npm run build && cd launch-extension && npx @adobe/reactor-packager",

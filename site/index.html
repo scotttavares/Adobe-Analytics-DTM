@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>adobe-consent — an Adobe-native cookie consent manager</title>
+<meta name="description" content="A fast, accessible cookie consent manager that wires consent straight into the Adobe Web SDK, ECID Opt-In, Analytics, the Client Data Layer, and Launch/Tags. 14.6 KB, one request, zero layout shift.">
+<meta property="og:title" content="adobe-consent">
+<meta property="og:description" content="An Adobe-native cookie consent manager. 14.6 KB gzipped, one network request, zero layout shift.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Crect width='24' height='24' rx='5' fill='%230b1626'/%3E%3Cpath d='M12 3.5 5.5 6v4.9c0 3.9 2.6 7.4 6.5 8.4 3.9-1 6.5-4.5 6.5-8.4V6L12 3.5Z' stroke='%238fe3e8' stroke-width='1.3'/%3E%3Cpath d='M8.7 11.9 11 14.2l4.3-4.5' stroke='%23cfe98f' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --navy:#0b1626;
+    --navy-1:#0d1a2e;
+    --navy-2:#152238;
+    --navy-3:#1c2c46;
+    --mint:#8fe3e8;
+    --lime:#cfe98f;
+    --paper:#f7f9fc;
+    --ink:#eaf1fb;
+    --ink-dim:#b6c4dd;
+    --ink-faint:#8194b4;
+    --line:rgba(255,255,255,.10);
+    --line-2:rgba(255,255,255,.16);
+    --accent:linear-gradient(96deg,#8fe3e8 0%,#cfe98f 100%);
+    --maxw:1100px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body {
+    margin:0; background:var(--navy); color:var(--ink);
+    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  h1,h2,h3 { font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+             font-weight:700; letter-spacing:-.015em; line-height:1.12; }
+  a { color:var(--mint); text-decoration:none; }
+  a:hover { text-decoration:underline; text-underline-offset:3px; }
+  code, kbd, pre { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace; }
+  code:not(pre code) { background:rgba(255,255,255,.08); padding:2px 6px; border-radius:5px;
+                       font-size:.86em; color:#dfe9fb; }
+  .wrap { max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+
+  /* --- top nav --- */
+  header.site {
+    position:sticky; top:0; z-index:20; backdrop-filter:blur(10px);
+    background:rgba(11,22,38,.78); border-bottom:1px solid var(--line);
+  }
+  .nav-inner { display:flex; align-items:center; justify-content:space-between;
+               height:62px; gap:20px; }
+  .logo { display:flex; align-items:center; gap:10px; font-family:Georgia,serif;
+          font-size:17px; letter-spacing:.02em; color:#fff; }
+  .logo:hover { text-decoration:none; }
+  .logo .mark { width:26px; height:26px; flex:0 0 auto; }
+  .nav-links { display:flex; align-items:center; gap:26px; font-size:14.5px; }
+  .nav-links a { color:var(--ink-dim); }
+  .nav-links a:hover { color:#fff; text-decoration:none; }
+  .nav-cta { border:1px solid var(--line-2); border-radius:999px; padding:7px 16px;
+             color:#fff !important; font-weight:600; }
+  .nav-cta:hover { background:rgba(255,255,255,.08); }
+  @media (max-width:720px){ .nav-links a:not(.nav-cta){ display:none; } }
+
+  /* --- hero --- */
+  .hero { position:relative; overflow:hidden; padding:96px 0 84px;
+    background:
+      radial-gradient(1100px 460px at 72% 8%, rgba(143,227,232,.18), transparent 62%),
+      radial-gradient(820px 420px at 12% 92%, rgba(207,233,143,.12), transparent 60%);
+  }
+  .hero .wrap { position:relative; z-index:1; }
+  .eyebrow { display:inline-flex; align-items:center; gap:8px; letter-spacing:.22em;
+             text-transform:uppercase; font-size:12px; font-weight:600; color:var(--mint);
+             border:1px solid var(--line-2); border-radius:999px; padding:6px 14px; margin-bottom:26px; }
+  .hero h1 { font-size:clamp(42px,7vw,76px); margin:0 0 22px; color:#fff; max-width:15ch; }
+  .hero h1 .grad { background:var(--accent); -webkit-background-clip:text; background-clip:text;
+                   -webkit-text-fill-color:transparent; }
+  .hero p.lede { font-size:clamp(17px,2.2vw,21px); color:var(--ink-dim); max-width:56ch; margin:0 0 34px; }
+  .cta-row { display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
+  .btn { display:inline-flex; align-items:center; gap:9px; font:inherit; font-weight:600;
+         font-size:15.5px; padding:14px 26px; border-radius:999px; cursor:pointer;
+         border:1.5px solid transparent; transition:transform .12s ease, box-shadow .18s ease, background .18s; }
+  .btn:hover { transform:translateY(-1px); text-decoration:none; }
+  .btn.primary { background:var(--accent); color:#0d1a2e; box-shadow:0 6px 24px rgba(143,227,232,.22); }
+  .btn.ghost { border-color:var(--line-2); color:#fff; }
+  .btn.ghost:hover { background:rgba(255,255,255,.07); }
+  .btn svg { width:18px; height:18px; }
+
+  .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:64px;
+           background:var(--line); border:1px solid var(--line); border-radius:16px; overflow:hidden; }
+  .stat { background:var(--navy-1); padding:26px 24px; }
+  .stat .big { font-family:Georgia,serif; font-size:34px; color:#fff; line-height:1; margin-bottom:8px; }
+  .stat .big .u { font-size:16px; color:var(--ink-faint); font-family:system-ui,sans-serif; }
+  .stat .lbl { font-size:13.5px; color:var(--ink-dim); }
+  @media (max-width:640px){ .stats{ grid-template-columns:1fr; } }
+
+  /* --- sections --- */
+  section.band { padding:80px 0; border-top:1px solid var(--line); }
+  .kicker { letter-spacing:.2em; text-transform:uppercase; font-size:12px; font-weight:600;
+            color:var(--mint); margin:0 0 14px; }
+  section.band h2 { font-size:clamp(28px,4vw,40px); margin:0 0 18px; color:#fff; }
+  section.band > .wrap > p.intro { font-size:17.5px; color:var(--ink-dim); max-width:64ch; margin:0 0 40px; }
+
+  .cols { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+  @media (max-width:840px){ .cols{ grid-template-columns:1fr; } }
+  .card { background:var(--navy-1); border:1px solid var(--line); border-radius:14px; padding:26px; }
+  .card h3 { font-size:19px; margin:0 0 10px; color:#fff; }
+  .card p { margin:0; color:var(--ink-dim); font-size:15px; }
+  .card .ic { width:38px; height:38px; border-radius:10px; display:grid; place-items:center;
+              background:rgba(143,227,232,.12); margin-bottom:16px; }
+  .card .ic svg { width:20px; height:20px; stroke:var(--mint); }
+
+  /* --- adobe table --- */
+  .tbl { width:100%; border-collapse:collapse; margin-top:8px; font-size:15px;
+         border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .tbl th, .tbl td { text-align:left; padding:15px 18px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .tbl thead th { background:var(--navy-2); color:#fff; font-size:13px; letter-spacing:.04em;
+                  text-transform:uppercase; font-weight:600; }
+  .tbl tbody tr:last-child td { border-bottom:0; }
+  .tbl tbody tr { background:var(--navy-1); }
+  .tbl td:first-child { color:#fff; font-weight:600; white-space:nowrap; }
+  .tbl td code { font-size:.82em; }
+  .tbl-scroll { overflow-x:auto; }
+
+  /* --- code --- */
+  .code { background:#08111f; border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .code-head { display:flex; align-items:center; gap:8px; padding:12px 16px;
+               border-bottom:1px solid var(--line); background:var(--navy-1); }
+  .code-head .dot { width:11px; height:11px; border-radius:50%; }
+  .code-head .fn { margin-left:8px; font-size:13px; color:var(--ink-faint); }
+  pre { margin:0; padding:20px 22px; overflow-x:auto; font-size:13.6px; line-height:1.7; color:#d6e2f5; }
+  pre .c { color:#6b83a8; } pre .k { color:#8fe3e8; } pre .s { color:#cfe98f; }
+  pre .f { color:#e6b3ff; } pre .n { color:#ffc98f; }
+  .two { display:grid; grid-template-columns:1.05fr .95fr; gap:30px; align-items:center; }
+  @media (max-width:840px){ .two{ grid-template-columns:1fr; } }
+  .two h2 { margin-top:0; }
+  .two ul { margin:18px 0 0; padding:0; list-style:none; }
+  .two li { position:relative; padding:8px 0 8px 30px; color:var(--ink-dim); font-size:15.5px; }
+  .two li::before { content:''; position:absolute; left:0; top:15px; width:16px; height:9px;
+                    border-left:2.5px solid var(--mint); border-bottom:2.5px solid var(--mint);
+                    transform:rotate(-45deg); }
+
+  /* --- compliance --- */
+  .pills { display:flex; flex-wrap:wrap; gap:12px; }
+  .pill { background:var(--navy-1); border:1px solid var(--line); border-radius:12px;
+          padding:16px 18px; font-size:14.5px; color:var(--ink-dim); flex:1 1 260px; }
+  .pill b { color:#fff; font-weight:600; display:block; font-size:15px; margin-bottom:3px; }
+
+  /* --- install --- */
+  .install-tabs { display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
+  .install-tabs button { font:inherit; font-size:14px; font-weight:600; padding:9px 18px;
+    border-radius:999px; cursor:pointer; border:1px solid var(--line-2); background:transparent; color:var(--ink-dim); }
+  .install-tabs button[aria-selected="true"] { background:var(--accent); color:#0d1a2e; border-color:transparent; }
+  .install-panel { display:none; } .install-panel.active { display:block; }
+
+  /* --- comparison --- */
+  .cmp td:first-child { white-space:normal; }
+  .cmp .yes { color:var(--lime); font-weight:600; }
+  .cmp .no { color:var(--ink-faint); }
+  .flag-note { font-size:13px; color:var(--ink-faint); margin-top:14px; }
+
+  /* --- final cta --- */
+  .final { text-align:center; padding:90px 0; border-top:1px solid var(--line);
+    background:radial-gradient(700px 300px at 50% 0%, rgba(143,227,232,.14), transparent 65%); }
+  .final h2 { font-size:clamp(30px,5vw,46px); color:#fff; margin:0 0 18px; }
+  .final p { color:var(--ink-dim); font-size:18px; max-width:52ch; margin:0 auto 32px; }
+  .final .cta-row { justify-content:center; }
+
+  footer.site { border-top:1px solid var(--line); padding:40px 0; color:var(--ink-faint); font-size:14px; }
+  .foot-inner { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; align-items:center; }
+  .foot-inner a { color:var(--ink-dim); }
+  footer .linklike { background:none; border:0; color:var(--ink-dim); font:inherit; font-size:14px;
+                     text-decoration:underline; text-underline-offset:3px; cursor:pointer; padding:0; }
+
+  .disc { background:rgba(207,233,143,.07); border:1px solid rgba(207,233,143,.2); border-radius:12px;
+          padding:14px 18px; font-size:13.5px; color:var(--ink-dim); margin-top:26px; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top">
+      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 1.75 4 4.9v6.02c0 4.77 3.2 9.15 8 10.33 4.8-1.18 8-5.56 8-10.33V4.9l-8-3.15Z"
+              stroke="url(#g)" stroke-width="1.6"/>
+        <path d="M8.4 11.9 11 14.6l4.8-5" stroke="url(#g)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs><linearGradient id="g" x1="4" y1="2" x2="20" y2="22">
+          <stop stop-color="#8fe3e8"/><stop offset="1" stop-color="#cfe98f"/></linearGradient></defs>
+      </svg>
+      adobe-consent
+    </a>
+    <nav class="nav-links">
+      <a href="#why">Why</a>
+      <a href="#adobe">Adobe</a>
+      <a href="#install">Install</a>
+      <a href="#compare">Compare</a>
+      <a class="nav-cta" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div id="top"></div>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Cookie consent · built for Adobe</span>
+    <h1>Consent that speaks <span class="grad">Adobe</span> natively.</h1>
+    <p class="lede">A fast, accessible cookie consent manager that drives the AEP Web SDK, the ECID
+      Opt-In service, Adobe Analytics, the Client Data Layer, and Launch/Tags directly — no per-site
+      glue code — and installs as a native Launch extension.</p>
+    <div class="cta-row">
+      <button class="btn primary" id="launchBanner" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Launch the banner
+      </button>
+      <a class="btn ghost" href="https://adobe-consent-demo.vercel.app" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Interactive demo
+      </a>
+      <a class="btn ghost" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">View source</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="big">14.6<span class="u"> KB</span></div><div class="lbl">gzipped, one file — the whole thing</div></div>
+      <div class="stat"><div class="big">1 <span class="u">request</span></div><div class="lbl">zero as a Launch extension — it's inlined</div></div>
+      <div class="stat"><div class="big">0.000<span class="u"> CLS</span></div><div class="lbl">no layout shift, measured in Chromium</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="why">
+  <div class="wrap">
+    <p class="kicker">Why another CMP</p>
+    <h2>Most consent banners treat Adobe as an afterthought.</h2>
+    <p class="intro">That shows up in three places. This one was built the other way around.</p>
+    <div class="cols">
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg></div>
+        <h3>Weight</h3>
+        <p>A hosted CMP loads a stub, then a config, then the real SDK — three round trips before a
+          banner can paint. Benchmarks put OneTrust near 184&nbsp;KB across 16 requests. This is one
+          14.6&nbsp;KB file, and as a Launch extension it's inlined into the Tags library: no extra
+          request at all.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6"/></svg></div>
+        <h3>Glue code</h3>
+        <p>The usual recipe: override <code>OptanonWrapper()</code>, parse a category string, hand-map
+          it onto <code>adobe.optIn</code>, then write a second mapping for <code>setConsent</code>.
+          Every site reinvents it and it breaks on vendor renames. Here the mapping is configuration
+          and the Adobe calls are the library's job.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9M12 7v5l3 2M21 4l-3 3-2-2"/></svg></div>
+        <h3>Compliance defaults</h3>
+        <p>Only 11.8% of UK top-10k sites using the five biggest CMPs met minimal GDPR consent
+          requirements. Those are configuration failures the products permit. This one doesn't:
+          reject is as prominent as accept, nothing is pre-ticked, Escape never means yes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="gate">
+  <div class="wrap two">
+    <div>
+      <p class="kicker">The one API worth learning</p>
+      <h2><code style="font-size:.7em">gate()</code> replaces every “did they consent yet?” branch.</h2>
+      <p class="intro" style="margin-bottom:0">Hand it a category and a callback. It runs now if that
+        category is already granted, and otherwise waits until the visitor grants it — then runs once.
+        Your tag never needs to know about consent state at all.</p>
+      <ul>
+        <li>Fires immediately for returning visitors who already agreed</li>
+        <li>Queues cleanly on a first visit, releases on the click</li>
+        <li>Also dispatched as DOM events, so nothing needs to import the library</li>
+      </ul>
+    </div>
+    <div class="code">
+      <div class="code-head">
+        <span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span>
+        <span class="fn">app.js</span>
+      </div>
+<pre><span class="c">// runs now, or the moment analytics is granted</span>
+<span class="k">AdobeConsent</span>.instance.<span class="f">gate</span>(<span class="s">'analytics'</span>, () =&gt; {
+  loadAnalytics();
+});
+
+<span class="c">// or listen without importing anything</span>
+document.<span class="f">addEventListener</span>(<span class="s">'adobeConsent:change'</span>, (e) =&gt; {
+  console.<span class="f">log</span>(e.detail.granted, e.detail.revoked);
+});</pre>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="adobe">
+  <div class="wrap">
+    <p class="kicker">What it does on your behalf</p>
+    <h2>Five Adobe surfaces, wired on every load and every change.</h2>
+    <p class="intro">Each adapter feature-detects its target and does nothing when that product isn't
+      on the page — so leaving all five on is safe.</p>
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th>Surface</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td>AEP Web SDK</td><td><code>setConsent</code> in the Adobe 2.0 / 1.0 standard, on every instance found via <code>__alloyNS</code></td></tr>
+          <tr><td>ECID Opt-In</td><td>staged <code>approve</code> + <code>deny</code>, then one <code>complete()</code> — unknown categories filtered against the loaded VisitorAPI</td></tr>
+          <tr><td>AppMeasurement</td><td>sets <code>s.abort</code> and <code>s.optOut</code>, catching hardcoded <code>s.t()</code> calls that live outside Tags</td></tr>
+          <tr><td>Client Data Layer</td><td>pushes a <code>consent-updated</code> event with the resolved Adobe purposes</td></tr>
+          <tr><td>Launch / Tags</td><td>fires the <code>adobe-consent-changed</code> direct call rule</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cols" style="margin-top:22px">
+      <div class="card">
+        <h3>A real Launch extension</h3>
+        <p>3 events, 1 condition, 5 actions, 4 data elements, and a shared module — with a tabbed
+          config UI. Category pickers populate from your own configured categories. Validated by
+          Adobe's own packager and run inside a real Turbine build in CI.</p>
+      </div>
+      <div class="card">
+        <h3>CJA-ready measurement</h3>
+        <p>A single low-cardinality <em>Consent Summary</em> data element —
+          <code>essential+analytics|accept_all|EU</code> — lets you report consent rate, method mix,
+          and regional split from one dimension instead of four.</p>
+      </div>
+      <div class="card">
+        <h3>Tags stay blocked until granted</h3>
+        <p>Mark a script <code>type="text/plain"</code> with a category and it stays inert until
+          consent. A MutationObserver catches late injections; blocked iframes get a click-to-enable
+          placeholder instead of vanishing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="compliance">
+  <div class="wrap">
+    <p class="kicker">Compliance posture</p>
+    <h2>These are behaviors, not settings.</h2>
+    <p class="intro">The failure rate across the industry is the argument for opinionated defaults.
+      The choices below can't be misconfigured away.</p>
+    <div class="pills">
+      <div class="pill"><b>Reject = Accept</b>Same size, same styling, first layer. The CNIL fines against Google (€150M) and Meta (€60M) turned on exactly this asymmetry.</div>
+      <div class="pill"><b>Nothing pre-ticked</b>In opt-in regions, per CJEU <em>Planet49</em>. Inactivity and Escape are recorded as a rejection, never as consent.</div>
+      <div class="pill"><b>GPC honored by default</b>Global Privacy Control is binding under CPRA and Colorado law — the basis of Sephora's $1.2M settlement.</div>
+      <div class="pill"><b>Auditable receipts</b>Every decision records id, timestamp, method, region, policy version, the wording shown, and a digest.</div>
+      <div class="pill"><b>Operable dialog</b>role=dialog, focus trap, focus restore, background inert, reduced-motion and forced-colors support. Zero axe-core violations.</div>
+      <div class="pill"><b>Region-aware</b>Opt-in for the EEA/UK/CH/BR, opt-out for US states and Canada, resolved with specificity matching and no first-paint block.</div>
+    </div>
+    <div class="disc">This is engineering, not legal advice. Your categories, copy, and retention still
+      need a lawyer's eye.</div>
+  </div>
+</section>
+
+<section class="band" id="install">
+  <div class="wrap">
+    <p class="kicker">Install</p>
+    <h2>Three ways in.</h2>
+    <p class="intro">Recommended path is the Launch extension — you get events, a condition, actions,
+      and data elements with no custom code.</p>
+    <div class="install-tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-p="p-launch">Launch extension</button>
+      <button role="tab" aria-selected="false" data-p="p-script">Script tag</button>
+      <button role="tab" aria-selected="false" data-p="p-npm">npm</button>
+    </div>
+
+    <div class="install-panel active" id="p-launch">
+      <div class="code">
+        <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">terminal</span></div>
+<pre>npm install
+npm run build              <span class="c"># produces the vendored bundle</span>
+cd launch-extension
+npx @adobe/reactor-packager <span class="c"># → package-adobe-consent-1.0.0.zip</span>
+npx @adobe/reactor-uploader package-adobe-consent-1.0.0.zip \
+  --auth.client-id=... --auth.client-secret=...</pre>
+      </div>
+    </div>
+
+    <div class="install-panel" id="p-script">
+      <div class="code">
+        <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">index.html</span></div>
+<pre><span class="c">&lt;!-- configure inline; the library auto-inits on load --&gt;</span>
+&lt;<span class="k">script</span> src=<span class="s">"/adobe-consent.min.js"</span>
+        data-adobe-consent
+        data-config=<span class="s">'{"policyVersion":1,"honorGpc":true}'</span>&gt;&lt;/<span class="k">script</span>&gt;</pre>
+      </div>
+    </div>
+
+    <div class="install-panel" id="p-npm">
+      <div class="code">
+        <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">app.ts</span></div>
+<pre><span class="k">import</span> { init } <span class="k">from</span> <span class="s">'adobe-consent'</span>;
+
+<span class="k">const</span> consent = <span class="f">init</span>({ policyVersion: <span class="n">1</span> });
+consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&gt; loadPixel());</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="compare">
+  <div class="wrap">
+    <p class="kicker">How it compares</p>
+    <h2>Against the CMPs an Adobe shop actually evaluates.</h2>
+    <div class="tbl-scroll">
+      <table class="tbl cmp">
+        <thead><tr><th>&nbsp;</th><th>adobe-consent</th><th>OneTrust</th><th>Cookiebot</th></tr></thead>
+        <tbody>
+          <tr><td>Requests before the banner paints</td><td class="yes">0 (inlined in Tags)</td><td class="no">3 dependent</td><td class="no">1, synchronous</td></tr>
+          <tr><td>Web SDK <code>setConsent</code></td><td class="yes">automatic</td><td class="no">custom rules</td><td class="no">fully custom</td></tr>
+          <tr><td>ECID Opt-In</td><td class="yes">automatic</td><td class="no">hand-mapped code</td><td class="no">fully custom</td></tr>
+          <tr><td>Reject as prominent as accept</td><td class="yes">enforced</td><td class="no">configurable</td><td class="no">configurable</td></tr>
+          <tr><td>Self-hosted</td><td class="yes">entirely</td><td class="no">no</td><td class="no">no</td></tr>
+          <tr><td>Cost</td><td class="yes">MIT</td><td class="no">~$1.1k/mo/domain*</td><td class="no">free → €90/mo*</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="flag-note">Where it's honestly behind: no IAB TCF / Google Consent Mode, and no site
+      scanning to auto-discover cookies — both genuine reasons to reach for a commercial CMP. The full
+      comparison in the repo cites its sources; figures marked * are third-party or competitor-run
+      estimates, flagged as such.</p>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>The banner on this page is the product.</h2>
+    <p>No mockup, no screenshot — the notice you saw on load is adobe-consent running on its own site,
+      driving five (stubbed) Adobe surfaces you can watch in the demo.</p>
+    <div class="cta-row">
+      <button class="btn primary" id="launchBanner2" type="button">Launch the banner again</button>
+      <a class="btn ghost" href="https://adobe-consent-demo.vercel.app" target="_blank" rel="noopener">Open the interactive demo</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap foot-inner">
+    <div>MIT-licensed · a demonstration project. “Adobe”, “Adobe Analytics”, and “Adobe Launch” are trademarks of Adobe Inc.; this project is not affiliated with or endorsed by Adobe.</div>
+    <div>
+      <button class="linklike" id="footerPrefs" type="button">Privacy choices</button>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // The site dogfoods the library. Force an opt-in region so every visitor sees
+  // the real first-layer experience; a short re-consent window keeps it from
+  // nagging on every navigation once a choice is made.
+  window.adobeConsentConfig = {
+    policyVersion: 1,
+    geo: { region: 'EU' },
+    ui: {
+      position: 'bottom',
+      text: {
+        title: 'Your privacy, your call',
+        body: 'This site runs adobe-consent — the very library it documents. Choose what you are comfortable with; essential cookies keep the page working either way. Nothing here actually ships data to Adobe, but every decision drives the real integration code.',
+        privacyPolicy: 'It’s open source',
+        privacyPolicyUrl: 'https://github.com/scotttavares/Adobe-Analytics-DTM'
+      }
+    }
+  };
+</script>
+<script src="./adobe-consent.min.js"></script>
+<script>
+  (function () {
+    function mgr() { return window.AdobeConsent && window.AdobeConsent.instance; }
+    function relaunch() { var m = mgr(); if (m) m.reset(); }
+    function prefs() { var m = mgr(); if (m) m.openPreferences(); }
+    var a = document.getElementById('launchBanner');
+    var b = document.getElementById('launchBanner2');
+    var f = document.getElementById('footerPrefs');
+    if (a) a.addEventListener('click', relaunch);
+    if (b) b.addEventListener('click', relaunch);
+    if (f) f.addEventListener('click', prefs);
+
+    // Tab switcher for the install section.
+    var tabs = document.querySelectorAll('.install-tabs button');
+    Array.prototype.forEach.call(tabs, function (tab) {
+      tab.addEventListener('click', function () {
+        Array.prototype.forEach.call(tabs, function (o) { o.setAttribute('aria-selected', String(o === tab)); });
+        Array.prototype.forEach.call(document.querySelectorAll('.install-panel'), function (p) {
+          p.classList.toggle('active', p.id === tab.getAttribute('data-p'));
+        });
+      });
+    });
+  })();
+</script>
+</body>
+</html>

@@ -73,6 +73,15 @@ for (const config of builds) {
   await build(config);
 }
 
+// The marketing site dogfoods the library — it loads the same minified bundle
+// the docs describe. Keep its copy in lockstep with the build so the site can
+// never quietly ship a stale library.
+const siteDir = resolve(root, 'site');
+if (existsSync(resolve(siteDir, 'index.html'))) {
+  copyFileSync(resolve(out, 'adobe-consent.min.js'), resolve(siteDir, 'adobe-consent.min.js'));
+  console.log('  synced site/adobe-consent.min.js');
+}
+
 const min = readFileSync(resolve(out, 'adobe-consent.min.js'));
 const report = {
   version: pkg.version,

@@ -10,6 +10,9 @@ thing lives inside the property you already publish.
 
 **14.6 KB gzipped. One network request. Zero layout shift.**
 
+- **Landing page** — [adobe-consent-site.vercel.app](https://adobe-consent-site.vercel.app) (runs the real banner on itself)
+- **Interactive demo** — [adobe-consent-demo.vercel.app](https://adobe-consent-demo.vercel.app) (watch the Adobe calls fire live)
+
 ![The consent dialog](demo/screenshot-banner.png)
 
 ---
