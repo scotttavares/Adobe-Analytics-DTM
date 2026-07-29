@@ -85,18 +85,18 @@ Type **Query String Parameter**, case-insensitive **ON** for all.
 
 ## 3. Data elements — Core: Page Info
 
-- `Referrer` — attribute **referrer** — force lowercase: **ON** · clean text: **ON** · storage duration: None
+- `Core: Referrer` — attribute **referrer** — force lowercase: **ON** · clean text: **ON** · storage duration: None
 
 ## 4. Data elements — Common Web SDK Plugins
 
 Pick the matching plugin type for each. Where a setting is not listed, leave the default.
 
-- `Previous Page Name` — type **getpreviousvalue** — variableToCheck = `%Page Name%` — force lowercase: **ON** · clean text: **ON** · storage duration: None
-- `Repeat Vs New` — type **getnewrepeat** — all defaults — force lowercase: **ON** · clean text: **ON** · storage duration: None
-- `Time Parting` — type **gettimeparting** — all defaults — force lowercase: **ON** · clean text: **ON** · storage duration: None
-- `Time Since Last Visit` — type **gettimesincelastvisit** — all defaults — force lowercase: **off** · clean text: **off** · storage duration: None
-- `Visit Duration` — type **getvisitduration** — all defaults — force lowercase: **off** · clean text: **off** · storage duration: None
-- `Visit Number` — type **getvisitnum** — all defaults — force lowercase: **ON** · clean text: **ON** · storage duration: None
+- `Plugin: Previous Page Name` — type **getpreviousvalue** — variableToCheck = `%Page Name%` — force lowercase: **ON** · clean text: **ON** · storage duration: None
+- `Plugin: Repeat Vs New` — type **getnewrepeat** — all defaults — force lowercase: **ON** · clean text: **ON** · storage duration: None
+- `Plugin: Time Parting` — type **gettimeparting** — all defaults — force lowercase: **ON** · clean text: **ON** · storage duration: None
+- `Plugin: Time Since Last Visit` — type **gettimesincelastvisit** — all defaults — force lowercase: **off** · clean text: **off** · storage duration: None
+- `Plugin: Visit Duration` — type **getvisitduration** — all defaults — force lowercase: **off** · clean text: **off** · storage duration: None
+- `Plugin: Visit Number` — type **getvisitnum** — all defaults — force lowercase: **ON** · clean text: **ON** · storage duration: None
 
 ## 5. Data elements — Core: Custom Code (utility)
 
@@ -124,7 +124,7 @@ if (_satellite.getVar("Page URL").indexOf("utm_source") !== -1 ||
 }
 ```
 
-### `Clean URL`
+### `Core: Clean URL`
 
 force lowercase: **off** · clean text: **off** · storage duration: None
 
@@ -155,7 +155,7 @@ force lowercase: **off** · clean text: **off** · storage duration: None
 if(_satellite.getVar("Internal Campaign")!=undefined){return "1"}
 ```
 
-### `Page Query String`
+### `Core: Page Query String`
 
 force lowercase: **ON** · clean text: **ON** · storage duration: None
 
@@ -170,7 +170,7 @@ var urlParams = getAllParamsAfterQuestionMark();
 return urlParams;
 ```
 
-### `Timestamp`
+### `Core: Timestamp`
 
 force lowercase: **off** · clean text: **off** · storage duration: None
 
@@ -283,22 +283,22 @@ event as `Consent Selection`.
     - pageName = `%Page Name%`
     - channel = `%Site Section%`
     - pageURL = `%Page URL%`
-    - referrer = `%Referrer%`
+    - referrer = `%Core: Referrer%`
     - campaign = `%Campaign%`
     - eVar1 = `%Domain%`
-    - eVar2 = `%Previous Page Name%`
+    - eVar2 = `%Plugin: Previous Page Name%`
     - eVar3 = `%Page Name%`
     - eVar4 = `%Site Section%`
     - eVar5 = `%Internal Campaign%`
     - eVar9 = `%Content Type%`
     - eVar12 = `%Page URL%`
-    - eVar13 = `%Page Query String%`
+    - eVar13 = `%Core: Page Query String%`
     - eVar15 = `%User Type%`
     - eVar18 = `%Language%`
     - eVar25 = `%Publish Date%`
     - eVar29 = `%Category%`
     - eVar30 = `%Tags%`
-    - eVar37 = `%Visit Duration%`
+    - eVar37 = `%Plugin: Visit Duration%`
     - eVar38 = `%UTM_Source%`
     - eVar39 = `%UTM_Medium%`
     - eVar40 = `%UTM_Content%`
@@ -306,21 +306,21 @@ event as `Consent Selection`.
     - eVar42 = `%UTM_Term%`
     - eVar47 = `%Country%`
     - prop1 = `%Page Name%`
-    - prop2 = `%Referrer%`
-    - prop3 = `%Timestamp%`
+    - prop2 = `%Core: Referrer%`
+    - prop3 = `%Core: Timestamp%`
     - prop4 = `%Page Title%`
-    - prop5 = `%Clean URL%`
+    - prop5 = `%Core: Clean URL%`
     - prop6 = `%Site Section%`
     - prop7 = `%Site Section2%`
     - prop8 = `%Site Section3%`
     - prop9 = `%Site Section4%`
     - prop10 = `%Site Section5%`
-    - prop11 = `%Previous Page Name%`
+    - prop11 = `%Plugin: Previous Page Name%`
     - prop12 = `%Page URL%`
-    - prop14 = `%Visit Number%`
-    - prop15 = `%Time Since Last Visit%`
-    - prop16 = `%Repeat Vs New%`
-    - prop17 = `%Visit Duration%`
+    - prop14 = `%Plugin: Visit Number%`
+    - prop15 = `%Plugin: Time Since Last Visit%`
+    - prop16 = `%Plugin: Repeat Vs New%`
+    - prop17 = `%Plugin: Visit Duration%`
     - prop18 = `%Page Title%`
     - prop20 = `%Locale%`
     - list1 = `%Site Error%`

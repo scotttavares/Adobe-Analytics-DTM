@@ -1,5 +1,21 @@
 {
-  "_purpose": "Dimension/utility data elements carried over 1:1 from the source property AboutAmazon-US (Launch Inspector export, build 2025-08-05). Names are kept identical to the source so payload references (%Name%) and the client team's mental model survive the migration. Consumed by scripts/generate-blueprint.mjs.",
+  "_purpose": "Dimension/utility data elements carried over 1:1 from the source property AboutAmazon-US (Launch Inspector export, build 2025-08-05). Settings are kept identical to the source; names follow the property owner's convention (below). Consumed by scripts/generate-blueprint.mjs.",
+  "_naming": {
+    "convention": "Adopted from the property owner during the 2026-07-29 entry pass, applied BEFORE any rule referenced an element (renames were free). Bare names = business values read from the data layer (ACDL computed state; UTM_* query params self-group by name). 'Plugin: ' prefix = visit mechanics computed by Common Web SDK Plugins. 'Core: ' prefix = browser-derived utilities via the Core extension (page info / custom code reading the browser, not the data layer). Business-meaning custom-code elements (Campaign, Internal Campaign, Internal Campaign Count, User Type) stay bare deliberately - the prefix describes mechanics, and these map to eVars analysts discuss by business name.",
+    "renamedFromSource": {
+      "Referrer": "Core: Referrer",
+      "Timestamp": "Core: Timestamp",
+      "Clean URL": "Core: Clean URL",
+      "Page Query String": "Core: Page Query String",
+      "Previous Page Name": "Plugin: Previous Page Name",
+      "Repeat Vs New": "Plugin: Repeat Vs New",
+      "Time Parting": "Plugin: Time Parting",
+      "Time Since Last Visit": "Plugin: Time Since Last Visit",
+      "Visit Duration": "Plugin: Visit Duration",
+      "Visit Number": "Plugin: Visit Number"
+    },
+    "parityNote": "Old-vs-new beacon QA maps names through this ledger; settings are unchanged, so values are identical."
+  },
   "_source": "aboutamazon.com.xlsx \u2014 DataElements sheet (108 elements; 72 carried, 28 XDM replaced by generated builders, remainder excluded with reasons below)",
   "delegates": {
     "acdl-computed-state": {
@@ -155,7 +171,7 @@
       }
     },
     {
-      "name": "Clean URL",
+      "name": "Core: Clean URL",
       "sourceExtension": "Core",
       "sourceType": "Custom Code",
       "forceLowerCase": false,
@@ -507,7 +523,7 @@
       }
     },
     {
-      "name": "Page Query String",
+      "name": "Core: Page Query String",
       "sourceExtension": "Core",
       "sourceType": "Custom Code",
       "forceLowerCase": true,
@@ -559,7 +575,7 @@
       }
     },
     {
-      "name": "Previous Page Name",
+      "name": "Plugin: Previous Page Name",
       "sourceExtension": "Common Web SDK Plugins",
       "sourceType": "Getpreviousvalue",
       "forceLowerCase": true,
@@ -599,7 +615,7 @@
       }
     },
     {
-      "name": "Referrer",
+      "name": "Core: Referrer",
       "sourceExtension": "Core",
       "sourceType": "Page Info",
       "forceLowerCase": true,
@@ -638,7 +654,7 @@
       }
     },
     {
-      "name": "Repeat Vs New",
+      "name": "Plugin: Repeat Vs New",
       "sourceExtension": "Common Web SDK Plugins",
       "sourceType": "Getnewrepeat",
       "forceLowerCase": true,
@@ -844,7 +860,7 @@
       }
     },
     {
-      "name": "Time Parting",
+      "name": "Plugin: Time Parting",
       "sourceExtension": "Common Web SDK Plugins",
       "sourceType": "Gettimeparting",
       "forceLowerCase": true,
@@ -855,7 +871,7 @@
       "settings": {}
     },
     {
-      "name": "Time Since Last Visit",
+      "name": "Plugin: Time Since Last Visit",
       "sourceExtension": "Common Web SDK Plugins",
       "sourceType": "Gettimesincelastvisit",
       "forceLowerCase": false,
@@ -866,7 +882,7 @@
       "settings": {}
     },
     {
-      "name": "Timestamp",
+      "name": "Core: Timestamp",
       "sourceExtension": "Core",
       "sourceType": "Custom Code",
       "forceLowerCase": false,
@@ -988,7 +1004,7 @@
       }
     },
     {
-      "name": "Visit Duration",
+      "name": "Plugin: Visit Duration",
       "sourceExtension": "Common Web SDK Plugins",
       "sourceType": "Getvisitduration",
       "forceLowerCase": false,
@@ -999,7 +1015,7 @@
       "settings": {}
     },
     {
-      "name": "Visit Number",
+      "name": "Plugin: Visit Number",
       "sourceExtension": "Common Web SDK Plugins",
       "sourceType": "Getvisitnum",
       "forceLowerCase": true,
