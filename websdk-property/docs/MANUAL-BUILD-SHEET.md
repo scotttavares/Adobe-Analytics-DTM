@@ -26,7 +26,7 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 6 | `Consent: Selected` | `web.webInteractions.cookieConsent.consentSelected` | ✅ | ✅ |  |
 | 7 | `Content: Type` | `web.webPageDetails.pageType` | — | — |  |
 | 8 | `Geo: Country` | `web.webPageDetails.country` | — | ✅ |  |
-| 9 | `Link: CTA Button` | `web.webInteractions.CTAButtonName` | ✅ | ✅ |  |
+| 9 | `Link: CTA Button Name` | `web.webInteractions.CTAButtonName` | ✅ | ✅ |  |
 | 10 | `Link: Destination` | `web.webInteractions.DestinationLink` | ✅ | ✅ |  |
 | 11 | `Site: Domain` | `web.webPageDetails.site` | ✅ | ✅ |  |
 | 12 | `File: Name` | `web.webInteractions.FileName` | ✅ | ✅ |  |
@@ -43,8 +43,8 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 23 | `User: Login ID` | `loginID` | ✅ | ✅ |  |
 | 24 | `Map: Button Name` | `map.mapButtonName` | ✅ | ✅ |  |
 | 25 | `Map: Name` | `map.mapName` | ✅ | ✅ |  |
-| 26 | `Link: Menu` | `web.webInteractions.MenuLinkName` | ✅ | ✅ |  |
-| 27 | `Link: More Amazon News Text` | `web.webInteractions.moreAmazonNewsText` | ✅ | ✅ |  |
+| 26 | `Link: Menu Name` | `web.webInteractions.MenuLinkName` | ✅ | ✅ |  |
+| 27 | `Link: More Amazon News` | `web.webInteractions.moreAmazonNewsText` | ✅ | ✅ |  |
 | 28 | `Page: Name` | `web.webPageDetails.pageName` | — | — |  |
 | 29 | `Page: Title` | `web.webPageDetails.pageTitle` | — | — |  |
 | 30 | `Page: URL` | `web.webPageDetails.pageUrl` | ✅ | ✅ |  |
@@ -348,7 +348,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `More Amazon News Click`
     - linkType = `o`
-    - eVar44 = `%Link: More Amazon News Text%`
+    - eVar44 = `%Link: More Amazon News%`
     - events = `event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -462,7 +462,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `CTA Button Click`
     - linkType = `o`
-    - eVar22 = `%Link: CTA Button%`
+    - eVar22 = `%Link: CTA Button Name%`
     - eVar23 = `%Link: Destination%`
     - events = `event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
@@ -554,7 +554,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Menu Click`
     - linkType = `o`
-    - eVar24 = `%Link: Menu%`
+    - eVar24 = `%Link: Menu Name%`
     - events = `event23`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).

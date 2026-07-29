@@ -44,11 +44,11 @@
       "File Name": "File: Name",
       "File Type": "File: Type",
       "Amazon Redirect Link": "Link: Amazon Redirect",
-      "CTA Button Name": "Link: CTA Button",
+      "CTA Button Name": "Link: CTA Button Name",
       "Destination Link": "Link: Destination",
       "Link Name": "Link: Name",
-      "Menu Link Name": "Link: Menu",
-      "More Amazon News Text": "Link: More Amazon News Text",
+      "Menu Link Name": "Link: Menu Name",
+      "More Amazon News Text": "Link: More Amazon News",
       "Redirect Link Text": "Link: Redirect Text",
       "Related Tag Link": "Link: Related Tag",
       "Related Tag Link URL": "Link: Related Tag URL",
@@ -305,7 +305,7 @@
       }
     },
     {
-      "name": "Link: CTA Button",
+      "name": "Link: CTA Button Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -553,7 +553,7 @@
       }
     },
     {
-      "name": "Link: Menu",
+      "name": "Link: Menu Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -566,7 +566,7 @@
       }
     },
     {
-      "name": "Link: More Amazon News Text",
+      "name": "Link: More Amazon News",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,

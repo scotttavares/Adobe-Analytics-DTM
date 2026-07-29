@@ -30,7 +30,7 @@ leftover fields from the previous row** (shared variable residue).
 
 | ✓ | Rule | Push event | linkName / linkType | events | eVars ← source |
 |---|---|---|---|---|---|
-| ☐ | Amazon More News Tracking | `moreAmazonNews` | `More Amazon News Click` / `o` | event22 | eVar44←%Link: More Amazon News Text% |
+| ☐ | Amazon More News Tracking | `moreAmazonNews` | `More Amazon News Click` / `o` | event22 | eVar44←%Link: More Amazon News% |
 | ☐ | Amazon Redirect Link Click | `AmazonRedirectLinkClick` | `Amazon Redirect Link Click` / `o` | event21, event22 | eVar23←%Link: Destination% · eVar28←%Link: Redirect Text% |
 | ☐ | Amazon Stories Link Click Tracking | `storyLinkClick` | `Amazon Stories Link Tracking` / `o` | event22 | eVar45←%Link: Stories Text% |
 | ☐ | Consent Selection | `consentSelection` | `Cookie Consent Selection` / `o` | — | eVar48←%Consent: Selected% |
@@ -39,14 +39,14 @@ leftover fields from the previous row** (shared variable residue).
 | ☐ | Form Complete | `formComplete` | `Form Complete` / `o` | event10 | eVar10←%Form: Name% · eVar19←%Form: Location% |
 | ☐ | Form Error Tracking | `formError` | `Form Error` / `o` | event8 | eVar10←%Form: Name% · eVar19←%Form: Location% |
 | ☐ | Form Start | `formStart` | `Form Start` / `o` | event9 | eVar10←%Form: Name% · eVar19←%Form: Location% |
-| ☐ | Global CTA Button Tracking | `CTAButtonClicked` | `CTA Button Click` / `o` | event22 | eVar22←%Link: CTA Button% · eVar23←%Link: Destination% |
+| ☐ | Global CTA Button Tracking | `CTAButtonClicked` | `CTA Button Click` / `o` | event22 | eVar22←%Link: CTA Button Name% · eVar23←%Link: Destination% |
 | ☐ | Internal Search Click | `internalSearch` | `Internal Search` / `o` | event26 | eVar6←%Search: Term% · eVar7←%Search: Results% · eVar8←%Search: Result Page Type% |
 | ☐ | Internal Search ClickThrough | `internalSearchClickThrough` | `Internal Search Click Through` / `o` | event7 | eVar6←%Search: Term% · eVar32←%Search: Result Click Name% |
 | ☐ | Map Button Click | `mapButtonClick` | `Map Button Click` / `o` | event32 | eVar49←%Map: Name% · eVar50←%Map: Button Name% |
 | ☐ | Map Button Close | `mapButtonClose` | `Map Button Close` / `o` | event33 | eVar49←%Map: Name% · eVar50←%Map: Button Name% |
 | ☐ | Map Zoom In | `mapZoomIn` | `Map ZoomIn` / `o` | event34 | eVar49←%Map: Name% · eVar50←%Map: Button Name% |
 | ☐ | Map Zoom Out | `mapZoomOut` | `Map Zoom Out` / `o` | event31 | eVar49←%Map: Name% · eVar50←%Map: Button Name% |
-| ☐ | Menu Link Click Tracking | `MenuLinkClicked` | `Menu Click` / `o` | event23 | eVar24←%Link: Menu% |
+| ☐ | Menu Link Click Tracking | `MenuLinkClicked` | `Menu Click` / `o` | event23 | eVar24←%Link: Menu Name% |
 | ☐ | Null Search Tracking | `nullSearch` | `Null Search` / `o` | event6 | eVar6←%Search: Term% · eVar7←%Search: Results% · eVar8←%Search: Result Page Type% |
 | ☐ | Redirect Link Click Tracking | `RedirectLinkClick` | `Redirect Link Click` / `o` | event21, event22 | eVar21←%Link: Redirect Text% · eVar23←%Link: Destination% |
 | ☐ | Related Tag Click Tracking | `TagClick` | `Related Tag Click` / `o` | event29 | eVar43←%Link: Related Tag% · eVar46←%Link: Related Tag URL% |

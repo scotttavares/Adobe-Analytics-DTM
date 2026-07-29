@@ -203,7 +203,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Link: CTA Button",
+      "name": "Link: CTA Button Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -430,7 +430,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Link: Menu",
+      "name": "Link: Menu Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -442,7 +442,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Link: More Amazon News Text",
+      "name": "Link: More Amazon News",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -1157,7 +1157,7 @@
                 "analytics": {
                   "linkName": "More Amazon News Click",
                   "linkType": "o",
-                  "eVar44": "%Link: More Amazon News Text%",
+                  "eVar44": "%Link: More Amazon News%",
                   "events": "event22"
                 }
               }
@@ -1577,7 +1577,7 @@
                 "analytics": {
                   "linkName": "CTA Button Click",
                   "linkType": "o",
-                  "eVar22": "%Link: CTA Button%",
+                  "eVar22": "%Link: CTA Button Name%",
                   "eVar23": "%Link: Destination%",
                   "events": "event22"
                 }
@@ -1907,7 +1907,7 @@
                 "analytics": {
                   "linkName": "Menu Click",
                   "linkType": "o",
-                  "eVar24": "%Link: Menu%",
+                  "eVar24": "%Link: Menu Name%",
                   "events": "event23"
                 }
               }

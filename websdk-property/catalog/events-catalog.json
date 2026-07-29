@@ -114,7 +114,7 @@
         }
       ],
       "eVars": {
-        "eVar44": "Link: More Amazon News Text"
+        "eVar44": "Link: More Amazon News"
       },
       "acdlTimeScope": "all"
     },
@@ -281,7 +281,7 @@
         }
       ],
       "eVars": {
-        "eVar22": "Link: CTA Button",
+        "eVar22": "Link: CTA Button Name",
         "eVar23": "Link: Destination"
       },
       "acdlTimeScope": "all"
@@ -408,7 +408,7 @@
         }
       ],
       "eVars": {
-        "eVar24": "Link: Menu"
+        "eVar24": "Link: Menu Name"
       },
       "acdlTimeScope": "all"
     },
