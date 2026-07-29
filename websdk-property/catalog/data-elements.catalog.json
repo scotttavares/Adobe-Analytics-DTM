@@ -59,10 +59,13 @@
       "Category": "Content: Category",
       "Content Type": "Content: Type",
       "Tags": "Content: Tags",
-      "Hidden Tags": "Content: Hidden Tags"
+      "Hidden Tags": "Content: Hidden Tags",
+      "Campaign": "Campaign: External",
+      "Internal Campaign": "Campaign: Internal",
+      "Internal Campaign Count": "Campaign: Internal Count"
     },
     "parityNote": "Old-vs-new beacon QA maps names through this ledger; settings are unchanged, so values are identical.",
-    "featureGroups": "Business values that belong to a site feature are grouped 'Feature: value', dropping the redundant leading word (dropdown reads 'Search: Term', 'Page: Name'). Domain groups: Search, Form, Video, Map, Article, Consent, Page, Site, File, Link (click-target values), Geo (Country/Language/Locale), Content (Category/Type/Tags/Hidden Tags). This DOMAIN axis (which feature uses the value) shares a colon with the SOURCE axis of Plugin:/Core: (which extension produced it) by the owner's choice (2026-07-29). Global dimensions were grouped too (owner confirmed, before any rule referenced them). Still bare, deliberately: cross-cutting singletons with no feature home (Domain, Publish Date, Scroll Depth, Social Interaction Info, Site Error, Login ID), the Campaign family (business-named custom code), and UTM_* (self-group by name)."
+    "featureGroups": "Business values that belong to a site feature are grouped 'Feature: value', dropping the redundant leading word (dropdown reads 'Search: Term', 'Page: Name'). Domain groups: Search, Form, Video, Map, Article, Consent, Page, Site, File, Link (click-target values), Geo (Country/Language/Locale), Content (Category/Type/Tags/Hidden Tags), Campaign (External/Internal/Internal Count). This DOMAIN axis (which feature uses the value) shares a colon with the SOURCE axis of Plugin:/Core: (which extension produced it) by the owner's choice (2026-07-29). Global dimensions were grouped too (owner confirmed, before any rule referenced them). Still bare, deliberately: cross-cutting singletons with no feature home (Domain, Publish Date, Scroll Depth, Social Interaction Info, Site Error, Login ID)  and UTM_* (self-group by name)."
   },
   "_source": "aboutamazon.com.xlsx \u2014 DataElements sheet (108 elements; 72 carried, 28 XDM replaced by generated builders, remainder excluded with reasons below)",
   "delegates": {
@@ -193,7 +196,7 @@
       }
     },
     {
-      "name": "Campaign",
+      "name": "Campaign: External",
       "sourceExtension": "Core",
       "sourceType": "Custom Code",
       "forceLowerCase": true,
@@ -427,7 +430,7 @@
       }
     },
     {
-      "name": "Internal Campaign",
+      "name": "Campaign: Internal",
       "sourceExtension": "Core",
       "sourceType": "Custom Code",
       "forceLowerCase": false,
@@ -441,7 +444,7 @@
       "decision": "Confirm internal campaign query parameter (assumed `icid`). Source implementation was a no-op stub."
     },
     {
-      "name": "Internal Campaign Count",
+      "name": "Campaign: Internal Count",
       "sourceExtension": "Core",
       "sourceType": "Custom Code",
       "forceLowerCase": false,
@@ -450,7 +453,7 @@
       "defaultValue": null,
       "delegate": "core-custom-code",
       "settings": {
-        "source": "if(_satellite.getVar(\"Internal Campaign\")!=undefined){return \"1\"}"
+        "source": "if(_satellite.getVar(\"Campaign: Internal\")!=undefined){return \"1\"}"
       }
     },
     {

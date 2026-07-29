@@ -18,14 +18,14 @@
       "channel": "Site: Section",
       "pageURL": "Page: URL",
       "referrer": "Core: Referrer",
-      "campaign": "Campaign",
+      "campaign": "Campaign: External",
       "events": [
         {
           "event": "event2"
         },
         {
           "event": "event4",
-          "valueFrom": "Internal Campaign Count"
+          "valueFrom": "Campaign: Internal Count"
         }
       ],
       "eVars": {
@@ -33,7 +33,7 @@
         "eVar2": "Plugin: Previous Page Name",
         "eVar3": "Page: Name",
         "eVar4": "Site: Section",
-        "eVar5": "Internal Campaign",
+        "eVar5": "Campaign: Internal",
         "eVar9": "Content: Type",
         "eVar12": "Page: URL",
         "eVar13": "Core: Page Query String",

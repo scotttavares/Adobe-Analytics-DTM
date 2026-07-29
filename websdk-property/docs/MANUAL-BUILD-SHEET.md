@@ -100,7 +100,7 @@ Pick the matching plugin type for each. Where a setting is not listed, leave the
 
 ## 5. Data elements — Core: Custom Code (utility)
 
-### `Campaign`
+### `Campaign: External`
 
 force lowercase: **ON** · clean text: **ON** · storage duration: None
 
@@ -132,7 +132,7 @@ force lowercase: **off** · clean text: **off** · storage duration: None
 return document.location.protocol+"//"+document.location.host+document.location.pathname;
 ```
 
-### `Internal Campaign`
+### `Campaign: Internal`
 
 force lowercase: **off** · clean text: **off** · storage duration: None
 
@@ -147,12 +147,12 @@ var p = new URLSearchParams(window.location.search);
 return p.get('icid') || undefined;
 ```
 
-### `Internal Campaign Count`
+### `Campaign: Internal Count`
 
 force lowercase: **off** · clean text: **off** · storage duration: None
 
 ```javascript
-if(_satellite.getVar("Internal Campaign")!=undefined){return "1"}
+if(_satellite.getVar("Campaign: Internal")!=undefined){return "1"}
 ```
 
 ### `Core: Page Query String`
@@ -284,12 +284,12 @@ event as `Consent Selection`.
     - channel = `%Site: Section%`
     - pageURL = `%Page: URL%`
     - referrer = `%Core: Referrer%`
-    - campaign = `%Campaign%`
+    - campaign = `%Campaign: External%`
     - eVar1 = `%Domain%`
     - eVar2 = `%Plugin: Previous Page Name%`
     - eVar3 = `%Page: Name%`
     - eVar4 = `%Site: Section%`
-    - eVar5 = `%Internal Campaign%`
+    - eVar5 = `%Campaign: Internal%`
     - eVar9 = `%Content: Type%`
     - eVar12 = `%Page: URL%`
     - eVar13 = `%Core: Page Query String%`

@@ -121,7 +121,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Campaign",
+      "name": "Campaign: External",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::custom-code",
       "settings": {
@@ -335,7 +335,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Internal Campaign",
+      "name": "Campaign: Internal",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::custom-code",
       "settings": {
@@ -347,11 +347,11 @@
       "_decision": "Confirm internal campaign query parameter (assumed `icid`). Source implementation was a no-op stub."
     },
     {
-      "name": "Internal Campaign Count",
+      "name": "Campaign: Internal Count",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::custom-code",
       "settings": {
-        "source": "if(_satellite.getVar(\"Internal Campaign\")!=undefined){return \"1\"}"
+        "source": "if(_satellite.getVar(\"Campaign: Internal\")!=undefined){return \"1\"}"
       },
       "forceLowerCase": false,
       "cleanText": false,
@@ -1023,12 +1023,12 @@
                   "channel": "%Site: Section%",
                   "pageURL": "%Page: URL%",
                   "referrer": "%Core: Referrer%",
-                  "campaign": "%Campaign%",
+                  "campaign": "%Campaign: External%",
                   "eVar1": "%Domain%",
                   "eVar2": "%Plugin: Previous Page Name%",
                   "eVar3": "%Page: Name%",
                   "eVar4": "%Site: Section%",
-                  "eVar5": "%Internal Campaign%",
+                  "eVar5": "%Campaign: Internal%",
                   "eVar9": "%Content: Type%",
                   "eVar12": "%Page: URL%",
                   "eVar13": "%Core: Page Query String%",
