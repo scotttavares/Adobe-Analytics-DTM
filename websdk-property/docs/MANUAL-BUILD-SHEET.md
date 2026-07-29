@@ -139,12 +139,12 @@ force lowercase: **off** · clean text: **off** · storage duration: None
 > DECISION: Confirm internal campaign query parameter (assumed `icid`). Source implementation was a no-op stub.
 
 ```javascript
-// DECISION NEEDED: source property implementation was `console.log();` (always undefined),
-// so eVar5/event4 have never populated. Best-guess implementation below reads an `icid`
-// query parameter. Confirm the real internal-campaign parameter with the site team
-// before publish, or restore the no-op if internal campaign tracking is not used.
-var p = new URLSearchParams(window.location.search);
-return p.get('icid') || undefined;
+// DEFERRED (owner decision 2026-07-29): internal-campaign tracking is not implemented - parity
+// with the source property, where this element was a console.log() no-op that always returned
+// undefined, so eVar5 and event4 have never populated. Kept inert on purpose until the site team
+// confirms the real internal-campaign parameter (docs/MANUAL-STEPS.md #6). Implement here then and
+// event4 (fed by Campaign: Internal Count) comes alive.
+return undefined;
 ```
 
 ### `Campaign: Internal Count`

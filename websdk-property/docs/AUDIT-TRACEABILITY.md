@@ -54,9 +54,15 @@ Quarantined rather than silently carried:
 - **`ECID` data element** was `return _satellite.getVar("ECID")` — a recursive
   self-reference that always returned undefined. Dropped (the SDK manages
   identity; nothing referenced it).
-- **`Internal Campaign`** was `console.log();` (always undefined), so
-  `eVar5`/`event4` have never populated. Re-implemented reading an assumed
-  `icid` query parameter, **flagged as a decision** in the catalog.
+- **`Internal Campaign`** (now `Campaign: Internal`) was `console.log();`
+  (always undefined), so `eVar5`/`event4` have never populated. **Decision
+  made 2026-07-29 (property owner): keep it a no-op** — internal-campaign
+  tracking is deferred, parity with the source, `event4` stays off (it is
+  already filtered out of the generated page view). The element carries a
+  documented `return undefined;` (behaviorally identical to the source, no
+  console noise). To activate later: implement the real internal-campaign
+  parameter here (site-team confirmation, MANUAL-STEPS #6) and `event4`
+  comes alive.
 - **Rules-list census (2026-07-29): 40 rules in the old property, all
   accounted for.** 35 were in the workbook's production build — the 34
   analytics rules this property carries forward plus `All Pages - Library
