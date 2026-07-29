@@ -678,36 +678,16 @@
         "eVar11": "Video Name"
       },
       "acdlTimeScope": "all"
-    },
-    {
-      "rule": "Article Interaction Tracking",
-      "payloadDataElement": "data-Article",
-      "replaces": "XDM Article",
-      "acdlEvent": "ArticleViewed",
-      "acdlTimeScope": "all",
-      "linkName": "Article",
-      "linkType": "o",
-      "events": [
-        {
-          "event": "event28"
-        }
-      ],
-      "eVars": {
-        "eVar25": "Publish Date",
-        "eVar37": "Article Name",
-        "eVar38": "Article Content Type"
-      },
-      "_note": "Discovered live in the old property 2026-07-29 \u2014 added after the workbook export, which is why XDM Article looked like an orphan. Its broken %Article Publish Date% reference is corrected here to %Publish Date%. WARNING: event28 is double-booked with Video Pause and both rules are LIVE \u2014 this is now an active metric collision in production, not a latent one; analytics owner must pick a resolution (see anomalies)."
     }
   ],
   "anomaliesCarriedForNow": [
-    "event28 is double-booked between Article Interaction Tracking (live since post-workbook) and Video Pause \u2014 an ACTIVE collision in the old property confirmed 2026-07-29: article views and video pauses increment the same metric. Carried for parity; the analytics owner should re-number one of them (a one-line catalog change) at or after cutover, with the date documented.",
     "event22 is intentionally shared across CTA Button Click, Amazon Redirect Link, Redirect Link Click, Amazon Stories, and More Amazon News (global CTA click metric) \u2014 carried as-is.",
     "Scroll interaction names carry a leading space in the source (' Scroll 25 Percentage'), trimmed here \u2014 confirm reporting relies on the trimmed form before publish.",
     "Rule names 'Map  Button Click'/'Map  Button Close' had a double space in the source; normalized to single space.",
     "Old-property event naming is deliberately inconsistent (moreAmazonNews vs AmazonRedirectLinkClick vs FileDownloaded vs formComplete) \u2014 carried EXACTLY as captured; do not normalize, the site's code owns these strings.",
-    "Sort By Tracking (and its XDM Sort By element) turned out to be an enabled-but-never-published draft pair from May 2024 - excluded from this migration, documented in excludedRules. Corollary still open: verify Article Interaction Tracking's Details panel shows 'Live in production' - if it is also unpublished, the event28 collision is latent (not active) and that rule needs the same exclusion decision.",
-    "Newsletter Test chain (3 rules, LIVE in production, added after the workbook's 2025-08-05 build; head revisions edited Jul 23 2026 by the property owner remain unpublished). Fully captured 2026-07-29: (1) 'Resolve Experience' - Core Library Loaded (Page Top), custom code alloy sendEvent with renderDecisions:false + decisionScopes ['newsletter-signup-contextual'], stores props[0] on window.__newsletterProposition, dispatches CustomEvent 'adobeTarget:flag' {name:'newsletter:design', value: content.variant ('contextual'|'generic'|'interstitial')} for the site to render - NOTE this is an EXTRA edge request on every page. (2) 'Proposition Display Notification' - Core Element Exists '.signup-form.interrupter', guided Decisioning Proposition Display send with XDM %Newsletter Proposition Data Element% (post-workbook data element, definition still uncaptured) + include-rendered-propositions. (3) 'Form Success' - Core Custom Event 'Form:onSuccess' on body, custom code sends ONE decisioning.propositionInteract with the stored proposition (fallback pageview 'newsletter:confirmation:<placement>'; placement from event.detail.location, today only 'Footer'|'Article Interrupter'). OWNER DECISION: retire before cutover (exclude all 3 + the data element) vs continue (re-spec natively: fold the decision scope into the consolidated page view's SINGLE request - removing the extra per-page request - consume the response via the Web SDK 'Send event complete' rule event to store/dispatch, carry Display Notification nearly verbatim, keep Form Success as-is; capture the data element definition first)."
+    "Newsletter Test chain (3 rules, LIVE in production, added after the workbook's 2025-08-05 build; head revisions edited Jul 23 2026 by the property owner remain unpublished). Fully captured 2026-07-29: (1) 'Resolve Experience' - Core Library Loaded (Page Top), custom code alloy sendEvent with renderDecisions:false + decisionScopes ['newsletter-signup-contextual'], stores props[0] on window.__newsletterProposition, dispatches CustomEvent 'adobeTarget:flag' {name:'newsletter:design', value: content.variant ('contextual'|'generic'|'interstitial')} for the site to render - NOTE this is an EXTRA edge request on every page. (2) 'Proposition Display Notification' - Core Element Exists '.signup-form.interrupter', guided Decisioning Proposition Display send with XDM %Newsletter Proposition Data Element% (post-workbook data element, definition still uncaptured) + include-rendered-propositions. (3) 'Form Success' - Core Custom Event 'Form:onSuccess' on body, custom code sends ONE decisioning.propositionInteract with the stored proposition (fallback pageview 'newsletter:confirmation:<placement>'; placement from event.detail.location, today only 'Footer'|'Article Interrupter'). OWNER DECISION: retire before cutover (exclude all 3 + the data element) vs continue (re-spec natively: fold the decision scope into the consolidated page view's SINGLE request - removing the extra per-page request - consume the response via the Web SDK 'Send event complete' rule event to store/dispatch, carry Display Notification nearly verbatim, keep Form Success as-is; capture the data element definition first).",
+    "event28 is double-booked between Video Pause (live in production) and the never-published Article Interaction Tracking draft. The collision is LATENT: production fires event28 only from Video Pause, and this property carries that mapping 1:1. If article tracking is ever revived, assign it a fresh event number (see excludedRules).",
+    "Rules-list census (2026-07-29): the old property's 40 rules = 35 in the workbook's production build (34 analytics rules carried + the Target v2 rule excluded by design) + 2 never-published drafts excluded with evidence (Article Interaction Tracking, Sort By Tracking) + the 3-rule Newsletter Test chain (LIVE, owner decision pending - see its entry)."
   ],
   "excludedRules": [
     {
@@ -720,6 +700,27 @@
       "rule": "All Pages - Library Loaded",
       "reason": "The live Target v2 rule (workbook-verified: Core Library Loaded -> custom-code targetPageParams() hardcoding at_property 15f050b0-58c7-9ec5-9671-898e7edeb81a -> Adobe Target v2 Load Target -> Fire Page Load with bodyHidingEnabled:false). This is audit Findings 3 and 8 in rule form. Deliberately NOT carried: Target delivery moves to the datastream via renderDecisions:true on the consolidated page view, anti-flicker moves to the prehiding snippet, and the at_property token is governed by the datastream's Target property token instead of custom code.",
       "disposition": "Superseded by construction - see AUDIT-TRACEABILITY Findings 3, 8 and the two-pathway row."
+    },
+    {
+      "rule": "Article Interaction Tracking",
+      "reason": "Never published, same signature as Sort By Tracking: Details panel shows Enabled but not live, Last Published 'Not yet published', 'No libraries using this revision', last modified by the same author (Rounak Kumar, Dec 202x), and the Send event action's XDM field appears unwired. This CORRECTS an earlier decision in this migration: the rule was first assumed live and carried; the publish-state check flipped it. The workbook's classification of XDM Article as an orphan data element was accurate for production, and the event28 double-booking with Video Pause is LATENT, not active - production fires event28 only from Video Pause.",
+      "acdlEventObserved": "ArticleViewed",
+      "payloadIfRevived": {
+        "linkName": "Article",
+        "linkType": "o",
+        "events": [
+          {
+            "event": "event28"
+          }
+        ],
+        "eVars": {
+          "eVar25": "Publish Date",
+          "eVar37": "Article Name",
+          "eVar38": "Article Content Type"
+        },
+        "note": "Preserved from the draft + the XDM Article element (with the broken %Article Publish Date% reference corrected to %Publish Date%). If article tracking becomes real scope, re-number the event away from event28 (Video Pause owns it in production) and add a fresh catalog entry."
+      },
+      "decisionForOwner": "Treat article tracking as new scope; do not copy the half-built draft as-is."
     }
   ]
 }

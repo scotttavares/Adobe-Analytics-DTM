@@ -46,9 +46,11 @@ Quarantined rather than silently carried:
   tracking is actually wanted.
 - **`XDM Video Play`** — orphan (no rule) duplicating Video Start's `event11`.
   Excluded.
-- **`event28` double-booked** between XDM Article and XDM Video Pause. Video
-  Pause keeps `event28` for parity; flagged in
-  `events-catalog.json → anomaliesCarriedForNow` for the analytics owner.
+- **`event28` double-booked** between XDM Article and XDM Video Pause — but
+  **latent, not active**: the Article rule that would send it turned out to be
+  a never-published draft (below), so production fires `event28` only from
+  Video Pause. Carried 1:1; if article tracking is revived it must take a
+  fresh event number (`events-catalog.json → excludedRules`).
 - **`ECID` data element** was `return _satellite.getVar("ECID")` — a recursive
   self-reference that always returned undefined. Dropped (the SDK manages
   identity; nothing referenced it).
@@ -61,15 +63,18 @@ Quarantined rather than silently carried:
   Loaded`, which is the live Target v2 rule (hardcoded `at_property` custom
   code, `bodyHidingEnabled: false` — Findings 3/8 in rule form) and is
   excluded **by design**, superseded by `renderDecisions: true` + the
-  prehiding snippet. The remaining 5: `Article Interaction Tracking`
-  (post-export, carried; publish state still to verify), `Sort By Tracking`
-  (never-published draft, excluded — below), and **three `Newsletter Test:`
-  rules** (`Form Success`, `Proposition Display Notification`, `Resolve
-  Experience`) that are absent from the production build — publish state
-  unverified; check each rule's Details panel before deciding carry vs
-  exclude. Their names suggest a Web SDK personalization experiment
-  (propositions / display notifications), which if live must be reconciled
-  with the consolidated page-view design.
+  prehiding snippet. The remaining 5: **two never-published drafts excluded
+  with evidence** — `Article Interaction Tracking` and `Sort By Tracking`,
+  both by the same author, both showing "Not yet published" / "No libraries
+  using this revision" / not live in their Details panels (Article was
+  briefly carried here until its publish-state check flipped it; its payload
+  is preserved in `excludedRules` for revival under a fresh event number) —
+  and the **three `Newsletter Test:` rules** (`Form Success`, `Proposition
+  Display Notification`, `Resolve Experience`): a LIVE single-request
+  personalization prototype added to production after the workbook export,
+  fully captured in `events-catalog.json → anomaliesCarriedForNow`, awaiting
+  the owner's continue-vs-retire decision and, if continued, a native re-spec
+  on the consolidated page view.
 - **`Sort By Tracking` + `XDM Sort By`** — an enabled-but-**never-published**
   draft pair (last modified May 2024; Details panel: "Not yet published", "No
   libraries using this revision", not live — verified by contrast with a live

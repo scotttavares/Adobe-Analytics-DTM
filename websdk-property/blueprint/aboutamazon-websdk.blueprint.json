@@ -2618,54 +2618,6 @@
       ]
     },
     {
-      "name": "Article Interaction Tracking",
-      "consentCategory": "C0002",
-      "event": {
-        "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
-        "delegateDisplayName": "Data Pushed",
-        "settings": {
-          "event": "ArticleViewed"
-        },
-        "timeScope": "all"
-      },
-      "conditions": [],
-      "actions": [
-        {
-          "extension": "adobe-alloy",
-          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
-          "delegateDisplayName": "Update variable",
-          "category": "analytics",
-          "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
-            "data": {
-              "__adobe": {
-                "analytics": {
-                  "linkName": "Article",
-                  "linkType": "o",
-                  "eVar25": "%Publish Date%",
-                  "eVar37": "%Article Name%",
-                  "eVar38": "%Article Content Type%",
-                  "events": "event28"
-                }
-              }
-            }
-          }
-        },
-        {
-          "extension": "adobe-alloy",
-          "delegate_descriptor_id": "adobe-alloy::actions::send-event",
-          "category": "analytics",
-          "settings": {
-            "instanceName": "alloy",
-            "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
-          }
-        }
-      ]
-    },
-    {
       "name": "Consent - Apply Visitor Choice",
       "infrastructure": true,
       "_note": "Maps the site banner selection to alloy setConsent. Runs on the same data-layer event as the Consent Selection tracking rule.",

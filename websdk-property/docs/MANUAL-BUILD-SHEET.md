@@ -7,7 +7,7 @@ Work top to bottom. **Copy names and values exactly** (payloads reference data
 elements by name at runtime — a typo builds green and collects nothing).
 Prereqs already done: property, 4 extensions, library `20260728 - v1.0`.
 
-Totals: **75 data elements**, **36 rules**.
+Totals: **75 data elements**, **35 rules**.
 
 ---
 
@@ -726,21 +726,7 @@ event as `Consent Selection`.
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
 
-### 35. `Article Interaction Tracking`
-
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `ArticleViewed` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
-    - linkName = `Article`
-    - linkType = `o`
-    - eVar25 = `%Publish Date%`
-    - eVar37 = `%Article Name%`
-    - eVar38 = `%Article Content Type%`
-    - events = `event28`
-    - Use the action's clear/remove affordance so values from a PREVIOUS event
-      on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
-
-### 36. `Consent - Apply Visitor Choice`
+### 35. `Consent - Apply Visitor Choice`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `consentSelection` · Time scope: **All**
 - **Action**: Adobe Experience Platform Web SDK → *Set consent* — instance `alloy` · standard **Adobe 2.0** · general = `%consent-generalValue%`
