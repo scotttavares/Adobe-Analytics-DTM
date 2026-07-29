@@ -20,19 +20,25 @@ execution guide is [docs/RUNBOOK.md](docs/RUNBOOK.md).
 - **4 extensions**: Core, Adobe Client Data Layer, AEP Web SDK, Common Web SDK
   Plugins. Deliberately absent: classic Adobe Analytics (Findings 1–2) and both
   classic Target extensions (Findings 3, 4, 8) — their absence *is* the fix.
-- **75 data elements**: 71 carried 1:1 from the current property (same names,
+- **76 data elements**: 71 carried 1:1 from the current property (same names,
   same settings), plus 3 Web SDK **Variable** elements (`data-pageView`,
   `data-interaction`, `data-siteError` — Adobe's documented Analytics
   data-object pattern; values are filled by form-based **Update variable**
   actions in each rule, so the inheriting team maintains mappings in the UI,
-  not in code) and the consent mapper. The mapping SPEC still lives in
-  `catalog/events-catalog.json`; the build sheet renders per-rule form
-  instructions from it and the export-diff verifies hand entry against it.
-  Generated-code alternatives remain: `--consolidated` (one code dispatcher)
-  and `--per-event` (one code element per interaction).
-- **35 rules**: one consolidated page view (Analytics + Target
-  `renderDecisions` on a single edge request), 32 interaction/consent-tracking
-  rules, a site-error rule, and a new `Consent - Apply Visitor Choice` rule.
+  not in code), the consent mapper, and the newsletter test's proposition
+  element. The mapping SPEC still lives in `catalog/events-catalog.json`; the
+  build sheet renders per-rule form instructions from it and the export-diff
+  verifies hand entry against it. Generated-code alternatives remain:
+  `--consolidated` (one code dispatcher) and `--per-event` (one code element
+  per interaction).
+- **38 rules**: one consolidated page view (Analytics + Target
+  `renderDecisions` **and** the newsletter test's decision scope on a single
+  edge request), 32 interaction/consent-tracking rules, a site-error rule, a
+  new `Consent - Apply Visitor Choice` rule, and the 3-rule **newsletter
+  sign-up test** carried natively from the owner's live pilot
+  (`events-catalog.json → newsletterTest` — response handler on *Send event
+  complete*, display notification, combined conversion event; site contract
+  unchanged).
 
 ## The shared-builder pattern (Finding 9)
 
@@ -71,18 +77,16 @@ schema (without eVar/prop numbering) is the right move.
 | `snippets/prehiding-snippet.html` | Anti-flicker snippet for the page `<head>` (Findings 6+8) |
 | `docs/` | Runbook, manual steps, audit traceability |
 
-## Honest state: what is still unresolved
+## State: fully resolved (2026-07-29)
 
-The blueprint is generated as a **draft** and both `preflight.mjs` and
-`publish.mjs` refuse drafts. Two things keep it draft, both by design:
-
-1. **Data-layer event names.** The Launch Inspector workbook this build derives
-   from does not export *which* `adobeDataLayer` event each of the 35 rules
-   listens for. Run `scripts/export-current.mjs` (read-only) against the
-   existing property to capture them verbatim, then re-generate.
-2. **First-party edge domain** (audit Fix 3) needs the DNS/cert process in
-   MANUAL-STEPS #4 — or generate with `--interim-third-party-edge` to launch on
-   `edge.adobedc.net` first and cut over later (preflight will keep reminding).
+The blueprint generates with **zero unresolved items** and `preflight.mjs`
+passes all checks. The two former draft-blockers are closed: every rule's
+`adobeDataLayer` event name was verified verbatim from the live property, and
+the first-party edge domain is real (`smetrics.aboutamazon.com`, Adobe ticket
+E-002373472 — verify TLS on the hostname before the production publish, per
+MANUAL-STEPS #4). The draft-gating machinery stays: any future catalog entry
+with a `CONFIRM-VIA-EXPORT` sentinel or unknown payload re-drafts the
+blueprint, and `preflight.mjs`/`publish.mjs` refuse drafts.
 
 No Adobe credentials are stored in this repo; all scripts read
 `REACTOR_CLIENT_ID` / `REACTOR_CLIENT_SECRET` / `REACTOR_ORG_ID` /

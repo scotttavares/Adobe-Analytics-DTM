@@ -686,9 +686,8 @@
     "Scroll interaction names carry a leading space in the source (' Scroll 25 Percentage'), trimmed here \u2014 confirm reporting relies on the trimmed form before publish.",
     "Rule names 'Map  Button Click'/'Map  Button Close' had a double space in the source; normalized to single space.",
     "Old-property event naming is deliberately inconsistent (moreAmazonNews vs AmazonRedirectLinkClick vs FileDownloaded vs formComplete) \u2014 carried EXACTLY as captured; do not normalize, the site's code owns these strings.",
-    "Newsletter Test chain (3 rules, LIVE in production, added after the workbook's 2025-08-05 build; head revisions edited Jul 23 2026 by the property owner remain unpublished). Fully captured 2026-07-29: (1) 'Resolve Experience' - Core Library Loaded (Page Top), custom code alloy sendEvent with renderDecisions:false + decisionScopes ['newsletter-signup-contextual'], stores props[0] on window.__newsletterProposition, dispatches CustomEvent 'adobeTarget:flag' {name:'newsletter:design', value: content.variant ('contextual'|'generic'|'interstitial')} for the site to render - NOTE this is an EXTRA edge request on every page. (2) 'Proposition Display Notification' - Core Element Exists '.signup-form.interrupter', guided Decisioning Proposition Display send with XDM %Newsletter Proposition Data Element% (post-workbook data element, definition still uncaptured) + include-rendered-propositions. (3) 'Form Success' - Core Custom Event 'Form:onSuccess' on body, custom code sends ONE decisioning.propositionInteract with the stored proposition (fallback pageview 'newsletter:confirmation:<placement>'; placement from event.detail.location, today only 'Footer'|'Article Interrupter'). OWNER DECISION: retire before cutover (exclude all 3 + the data element) vs continue (re-spec natively: fold the decision scope into the consolidated page view's SINGLE request - removing the extra per-page request - consume the response via the Web SDK 'Send event complete' rule event to store/dispatch, carry Display Notification nearly verbatim, keep Form Success as-is; capture the data element definition first).",
     "event28 is double-booked between Video Pause (live in production) and the never-published Article Interaction Tracking draft. The collision is LATENT: production fires event28 only from Video Pause, and this property carries that mapping 1:1. If article tracking is ever revived, assign it a fresh event number (see excludedRules).",
-    "Rules-list census (2026-07-29): the old property's 40 rules = 35 in the workbook's production build (34 analytics rules carried + the Target v2 rule excluded by design) + 2 never-published drafts excluded with evidence (Article Interaction Tracking, Sort By Tracking) + the 3-rule Newsletter Test chain (LIVE, owner decision pending - see its entry)."
+    "Newsletter Test: DECIDED 2026-07-29 - the live test continues, folded in natively (see the newsletterTest section: scope on the single page-view request, Send-event-complete response handler, display + conversion rules carried; 4 documented deviations from the pilot). The old property's 3 pilot rules stay there and retire at cutover with the embed swap."
   ],
   "excludedRules": [
     {
@@ -723,5 +722,137 @@
       },
       "decisionForOwner": "Treat article tracking as new scope; do not copy the half-built draft as-is."
     }
-  ]
+  ],
+  "newsletterTest": {
+    "_decision": "Property owner 2026-07-29: the live newsletter sign-up test CONTINUES through cutover, folded in natively (supersedes the old property's 3-rule pilot chain, which stays behind in the old property and retires with it at cutover).",
+    "enabled": true,
+    "scope": "newsletter-signup-contextual",
+    "consentCategory": "C0004",
+    "_consentNote": "Classified Targeting/personalization (C0004) pending MANUAL-STEPS #6 confirmation. When consent gating goes live, the page view's decisionScopes must also be conditioned on this category (or the scope request split back out) - flagged in MANUAL-STEPS #6.",
+    "siteContract": {
+      "flagEvent": "adobeTarget:flag",
+      "flagName": "newsletter:design",
+      "propositionGlobal": "window.__newsletterProposition",
+      "signupDomEvent": "Form:onSuccess",
+      "displaySelector": ".signup-form.interrupter",
+      "_note": "Unchanged from the pilot - zero site-side work required."
+    },
+    "deviationsFromPilot": [
+      "The scope rides the consolidated page view's SINGLE edge request (decisionScopes on the Global Page Load Rule's Send event) - the pilot's separate per-page sendEvent is eliminated.",
+      "The Target answer is consumed via the Web SDK 'Send event complete' rule event instead of a .then() in custom code - same handling, UI-visible rule.",
+      "'Include rendered propositions' is OFF on the display notification (was checked in the pilot, where it was a no-op; here renderDecisions:true would make it over-report).",
+      "The old 'Newsletter Proposition Data Element' is re-specced from Adobe's documented display-notification payload (id/scope/scopeDetails + propositionEventType.display) rather than copied."
+    ],
+    "dataElement": {
+      "name": "Newsletter Proposition Data Element",
+      "codeLines": [
+        "// XDM payload for the 'design was shown' notification (Decisioning Proposition",
+        "// Display). Supplies the newsletter proposition EXPLICITLY because the site -",
+        "// not the SDK - renders this design; 'include rendered propositions' stays OFF",
+        "// so unrelated auto-rendered (VEC) propositions never pollute the test's",
+        "// display counts (deliberate deviation from the pilot, where renderDecisions",
+        "// was never true and the checkbox was a no-op).",
+        "var p = window.__newsletterProposition;",
+        "if (!p) return undefined;",
+        "return {",
+        "  _experience: {",
+        "    decisioning: {",
+        "      propositions: [{ id: p.id, scope: p.scope, scopeDetails: p.scopeDetails }],",
+        "      propositionEventType: { display: 1 }",
+        "    }",
+        "  }",
+        "};"
+      ]
+    },
+    "rules": [
+      {
+        "name": "Newsletter Test: Resolve Experience",
+        "eventType": "send-event-complete",
+        "actionName": "Get Personalization Decision (response handler)",
+        "codeLines": [
+          "// Newsletter sign-up test - CONTINUED from the pilot built in the old property.",
+          "// The page-view request already asked Target for the newsletter scope on the ONE",
+          "// edge call this property makes per page; this rule runs when that call completes",
+          "// and hands Target's answer to the site. Site contract UNCHANGED from the pilot:",
+          "// window.__newsletterProposition + CustomEvent 'adobeTarget:flag'.",
+          "var propositions = (event && event.propositions) || [];",
+          "var match = null;",
+          "for (var i = 0; i < propositions.length; i++) {",
+          "  if (propositions[i].scope === 'newsletter-signup-contextual') { match = propositions[i]; break; }",
+          "}",
+          "if (!match) return; // visitor not in the test, or a send that didn't carry the scope",
+          "window.__newsletterProposition = match; // report-back handle (display + sign-up credit)",
+          "var item = match.items && match.items[0];",
+          "var content = item && item.data && item.data.content;",
+          "if (!content || !content.variant) return;",
+          "window.dispatchEvent(new CustomEvent('adobeTarget:flag', {",
+          "  detail: {",
+          "    name: 'newsletter:design', // which feature this message is about",
+          "    value: content.variant     // which version to show ('contextual' | 'generic' | 'interstitial')",
+          "  }",
+          "}));"
+        ]
+      },
+      {
+        "name": "Newsletter Test: Proposition Display Notification",
+        "eventType": "element-exists",
+        "elementSelector": ".signup-form.interrupter",
+        "eventName": "Contextual Variant Rendered"
+      },
+      {
+        "name": "Newsletter Test: Form Success",
+        "eventType": "custom-event",
+        "domEventType": "Form:onSuccess",
+        "elementSelector": "body",
+        "eventName": "Form Success Event",
+        "actionName": "Send Newsletter Confirmation Event",
+        "codeLines": [
+          "// The message we get when someone actually signs up. It contains:",
+          "// { formName: 'Newsletter Module', location: 'Footer' | 'Article Interrupter' }",
+          "// NOTE (Known Gap, carried from the pilot): location only ever has these two",
+          "// values today - contextual / generic / interstitial are NOT distinguished yet.",
+          "var detail = (event && event.detail) || {};",
+          "var placement = detail.location || 'unknown'; // which part of the page they signed up from",
+          "",
+          "if (window.__newsletterProposition) {",
+          "  // Combined event: tells Target AND Analytics a real sign-up happened, AND",
+          "  // credits the specific design that produced it - both signals on the one",
+          "  // request Target's service actually evaluates.",
+          "  var xdmPayload = {",
+          "    eventType: 'decisioning.propositionInteract',",
+          "    web: {",
+          "      webPageDetails: {",
+          "        name: 'newsletter:confirmation:' + placement,",
+          "        URL: 'newsletter:confirmation:' + placement",
+          "      }",
+          "    },",
+          "    _experience: {",
+          "      decisioning: {",
+          "        propositions: [window.__newsletterProposition],",
+          "        propositionEventType: { interact: 1 }",
+          "      }",
+          "    }",
+          "  };",
+          "  console.log('[Newsletter Test] Sending combined confirmation event:', xdmPayload);",
+          "  alloy('sendEvent', { xdm: xdmPayload });",
+          "} else {",
+          "  // Fallback: proposition unavailable - still record the confirmation so",
+          "  // Analytics has the signal, even though Target attribution is lost.",
+          "  console.warn('[Newsletter Test] No proposition on window.__newsletterProposition - falling back to plain pageview (Target attribution lost for this signup).');",
+          "  alloy('sendEvent', {",
+          "    xdm: {",
+          "      eventType: 'web.webpagedetails.pageViews',",
+          "      web: {",
+          "        webPageDetails: {",
+          "          name: 'newsletter:confirmation:' + placement,",
+          "          URL: 'newsletter:confirmation:' + placement",
+          "        }",
+          "      }",
+          "    }",
+          "  });",
+          "}"
+        ]
+      }
+    ]
+  }
 }

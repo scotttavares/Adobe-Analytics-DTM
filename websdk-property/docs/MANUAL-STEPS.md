@@ -96,6 +96,12 @@ decisions are Amazon's:
    until the visitor chooses). That is the full consent-first architecture the
    audit's Fix 4 describes; it requires legal sign-off because it changes
    collected volume.
+3. Newsletter test classification: the three `Newsletter Test:` rules carry
+   `consentCategory: C0004` (Targeting) as a working classification — confirm
+   against the banner's actual category taxonomy. When per-category gating
+   goes live, note that the test's decision scope rides the page-view rule
+   (categorized C0002): the `decisionScopes` entry must then be conditioned
+   on C0004 as well, or the scope request split back into its own gated rule.
 
 ## 7. Open question from the audit (unchanged)
 

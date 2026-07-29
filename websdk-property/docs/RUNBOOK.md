@@ -101,6 +101,18 @@ and promotes its own (named to this convention automatically).
 - Fire each interaction on a test page and check the `data.__adobe.analytics`
   payload carries the same eVars/events as the old property's XDM elements
   (the snapshot from Phase 1 is the parity reference).
+- **Newsletter test (carried natively)** — on a page where the test is live:
+  (a) the page-view `interact` request carries
+  `decisionScopes: ["newsletter-signup-contextual"]` and there is **no
+  separate** per-page personalization call (the pilot's extra request is
+  gone); (b) when Target returns the scope, `window.__newsletterProposition`
+  is set and the `adobeTarget:flag` CustomEvent fires with the variant;
+  (c) rendering the interrupter variant sends ONE
+  `decisioning.propositionDisplay` whose propositions contain only the
+  newsletter proposition; (d) submitting the form (`Form:onSuccess`) sends
+  ONE `decisioning.propositionInteract` named
+  `newsletter:confirmation:<placement>`; (e) a visitor NOT in the test gets
+  no flag event and no display/interact sends.
 - Optional cross-confirmation pass (dev only): temporarily enable the Web
   SDK extension's click collection (internal/external/download), build to
   **Development only**, replay the test actions, and reconcile auto-collected

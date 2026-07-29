@@ -209,12 +209,30 @@ async function main() {
       L.push('');
     }
     const ev = r.event;
-    const evName = ev.settings && ev.settings.event ? ev.settings.event : '(see settings)';
-    const scope = ev.timeScope ? ev.timeScope.charAt(0).toUpperCase() + ev.timeScope.slice(1) : 'All';
-    L.push(
-      `- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · ` +
-        `Event/Key: \`${evName}\` · Time scope: **${scope}**`,
-    );
+    const evDelegate = ev.delegate_descriptor_id || '';
+    if (evDelegate.endsWith('send-event-complete')) {
+      L.push(
+        `- **Event**: Adobe Experience Platform Web SDK → *Send event complete* — instance \`${ev.settings.instanceName}\`` +
+          ' (fires after each Send event; the code below acts only on the page view\'s response)',
+      );
+    } else if (evDelegate.endsWith('element-exists')) {
+      L.push(
+        `- **Event**: Core → *Element Exists*${ev.eventName ? ` — Name: \`${ev.eventName}\`` : ''} · ` +
+          `Elements matching the CSS selector: \`${ev.settings.elementSelector}\``,
+      );
+    } else if (evDelegate.endsWith('custom-event')) {
+      L.push(
+        `- **Event**: Core → *Custom Event*${ev.eventName ? ` — Name: \`${ev.eventName}\`` : ''} · ` +
+          `Custom Event Type: \`${ev.settings.type}\` · specific elements matching: \`${ev.settings.elementSelector}\``,
+      );
+    } else {
+      const evName = ev.settings && ev.settings.event ? ev.settings.event : '(see settings)';
+      const scope = ev.timeScope ? ev.timeScope.charAt(0).toUpperCase() + ev.timeScope.slice(1) : 'All';
+      L.push(
+        `- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · ` +
+          `Event/Key: \`${evName}\` · Time scope: **${scope}**`,
+      );
+    }
     let actionNo = 0;
     const label = () => {
       actionNo += 1;
@@ -232,11 +250,34 @@ async function main() {
         L.push('      on the same page do not linger (residue test: RUNBOOK Phase 4).');
       } else if (a.delegate_descriptor_id.endsWith('send-event')) {
         const s = a.settings;
+        const isGuidedDisplay = s.type === 'decisioning.propositionDisplay';
         L.push(
           `- ${label()}: Adobe Experience Platform Web SDK → *Send event* — instance \`${s.instanceName}\`` +
             `${s.renderDecisions ? ' · **Render visual personalization decisions: ✅ ON**' : ''}` +
-            ` · type \`${s.type}\` · data \`${s.data}\``,
+            `${isGuidedDisplay ? ' · **Use guided events: ✅** → *Decisioning Proposition Display*' : ` · type \`${s.type}\``}` +
+            `${s.xdm ? ` · XDM \`${s.xdm}\`` : ''}${s.data ? ` · data \`${s.data}\`` : ''}`,
         );
+        if (s.decisionScopes && s.decisionScopes.length) {
+          L.push(
+            `    - Personalization → Scopes → **Manually enter scopes** → Add scope: \`${s.decisionScopes.join('`, `')}\`` +
+              ' (the newsletter test rides this same single request)',
+          );
+        }
+        if (isGuidedDisplay) {
+          L.push('    - Leave **Include rendered propositions UNCHECKED** — the site renders this');
+          L.push('      design itself; auto-rendered (VEC) propositions would over-report displays.');
+        }
+      } else if (a.delegate_descriptor_id.endsWith('custom-code')) {
+        const s = a.settings;
+        L.push(
+          `- ${label()}: Core → *Custom Code* — Language: **JavaScript**${a.actionName ? ` · Name: \`${a.actionName}\`` : ''} · ` +
+            'Open Editor and paste exactly:',
+        );
+        L.push('');
+        L.push('  ```javascript');
+        for (const line of String(s.source).split('\n')) L.push(`  ${line}`);
+        L.push('  ```');
+        L.push('');
       } else if (a.delegate_descriptor_id.endsWith('set-consent')) {
         L.push(
           `- ${label()}: Adobe Experience Platform Web SDK → *Set consent* — instance \`${a.settings.instanceName}\`` +

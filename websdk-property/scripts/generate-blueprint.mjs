@@ -552,6 +552,7 @@ async function main() {
   // (renderDecisions for Target via the datastream) and measures (Analytics via
   // the same datastream). Replaces the source property's separate
   // "All Pages - Library Loaded" at.js chain AND its Web SDK page-view send.
+  const nt = events.newsletterTest && events.newsletterTest.enabled ? events.newsletterTest : null;
   const pvSendEvent = {
     extension: 'adobe-alloy',
     delegate_descriptor_id: 'adobe-alloy::actions::send-event',
@@ -559,6 +560,9 @@ async function main() {
     settings: {
       instanceName: property.webSdkInstance.name,
       renderDecisions: true,
+      // The newsletter test's scope rides THIS request — no separate per-page
+      // personalization call (the pilot's Resolve Experience made one).
+      ...(nt ? { decisionScopes: [nt.scope] } : {}),
       type: pv.xdmEventType,
       data: `%${pv.payloadDataElement}%`,
     },
@@ -689,6 +693,95 @@ async function main() {
         },
       ],
     });
+  }
+
+  // Newsletter sign-up test — the owner's live single-request pilot, continued
+  // natively (decision + deviations recorded in events-catalog.json →
+  // newsletterTest). The scope was added to the page-view send above; here:
+  // the response handler, the display notification, and the conversion rule.
+  if (nt) {
+    const src = (lines) => lines.join('\n');
+    dataElements.push({
+      name: nt.dataElement.name,
+      extension: 'core',
+      delegate_descriptor_id: 'core::dataElements::custom-code',
+      settings: { source: src(nt.dataElement.codeLines) },
+      forceLowerCase: false,
+      cleanText: false,
+      storageDuration: null,
+    });
+
+    const ntRules = {
+      'send-event-complete': (r) => ({
+        event: {
+          extension: 'adobe-alloy',
+          delegate_descriptor_id: 'adobe-alloy::events::send-event-complete',
+          delegateDisplayName: 'Send event complete',
+          settings: { instanceName: property.webSdkInstance.name },
+        },
+        actions: [
+          {
+            extension: 'core',
+            delegate_descriptor_id: 'core::actions::custom-code',
+            delegateDisplayName: 'Custom Code',
+            category: 'personalization',
+            actionName: r.actionName,
+            settings: { language: 'javascript', source: src(r.codeLines) },
+          },
+        ],
+      }),
+      'element-exists': (r) => ({
+        event: {
+          extension: 'core',
+          delegate_descriptor_id: 'core::events::element-exists',
+          delegateDisplayName: 'Element Exists',
+          eventName: r.eventName,
+          settings: { elementSelector: r.elementSelector },
+        },
+        actions: [
+          {
+            extension: 'adobe-alloy',
+            delegate_descriptor_id: 'adobe-alloy::actions::send-event',
+            category: 'personalization',
+            settings: {
+              instanceName: property.webSdkInstance.name,
+              type: 'decisioning.propositionDisplay',
+              xdm: `%${nt.dataElement.name}%`,
+            },
+          },
+        ],
+      }),
+      'custom-event': (r) => ({
+        event: {
+          extension: 'core',
+          delegate_descriptor_id: 'core::events::custom-event',
+          delegateDisplayName: 'Custom Event',
+          eventName: r.eventName,
+          settings: { type: r.domEventType, elementSelector: r.elementSelector },
+        },
+        actions: [
+          {
+            extension: 'core',
+            delegate_descriptor_id: 'core::actions::custom-code',
+            delegateDisplayName: 'Custom Code',
+            category: 'personalization',
+            actionName: r.actionName,
+            settings: { language: 'javascript', source: src(r.codeLines) },
+          },
+        ],
+      }),
+    };
+    for (const r of nt.rules) {
+      const built = ntRules[r.eventType](r);
+      rules.push({
+        name: r.name,
+        consentCategory: nt.consentCategory,
+        _note: nt._decision,
+        event: built.event,
+        conditions: [],
+        actions: built.actions,
+      });
+    }
   }
 
   // ----------------------------------------------------------------- blueprint

@@ -71,10 +71,9 @@ Quarantined rather than silently carried:
   is preserved in `excludedRules` for revival under a fresh event number) —
   and the **three `Newsletter Test:` rules** (`Form Success`, `Proposition
   Display Notification`, `Resolve Experience`): a LIVE single-request
-  personalization prototype added to production after the workbook export,
-  fully captured in `events-catalog.json → anomaliesCarriedForNow`, awaiting
-  the owner's continue-vs-retire decision and, if continued, a native re-spec
-  on the consolidated page view.
+  personalization prototype added to production after the workbook export.
+  **Decided 2026-07-29: the test continues, folded in natively** (below); the
+  pilot rules stay in the old property and retire at cutover.
 - **`Sort By Tracking` + `XDM Sort By`** — an enabled-but-**never-published**
   draft pair (last modified May 2024; Details panel: "Not yet published", "No
   libraries using this revision", not live — verified by contrast with a live
@@ -108,6 +107,22 @@ Quarantined rather than silently carried:
   Finding 1).
 - **New rule** `Consent - Apply Visitor Choice` (Fix 4 groundwork) — the site
   already *tracked* the consent choice; now it also *applies* it.
+- **Newsletter sign-up test carried natively** (owner's decision,
+  2026-07-29). The owner's live pilot — itself a proof of the audit's
+  single-request principle, scoped to one test — continues in this property
+  with four deliberate improvements over the pilot's mechanics
+  (`events-catalog.json → newsletterTest.deviationsFromPilot`): the
+  `newsletter-signup-contextual` scope rides the consolidated page view's
+  **single** edge request (the pilot made a second per-page call); the
+  response is consumed by a **Send event complete** rule instead of code in a
+  `.then()`; *Include rendered propositions* is off on the display
+  notification (a no-op in the pilot, an over-reporting bug waiting to happen
+  next to `renderDecisions: true`); and the proposition data element is
+  specced from Adobe's documented notification payload. The site contract —
+  `adobeTarget:flag`, `window.__newsletterProposition`, `Form:onSuccess` — is
+  unchanged: **zero site-side work**. Consent classification C0004 pending
+  MANUAL-STEPS #6; when gating goes live the page view's `decisionScopes`
+  must be conditioned on that category too.
 - **Payload architecture: Adobe's Variable / Update Variable pattern**
   (property owner's decision, 2026-07-28, superseding the earlier
   consolidated-code-dispatcher decision the same day). Rationale: (a) it is

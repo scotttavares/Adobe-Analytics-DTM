@@ -7,7 +7,7 @@ Work top to bottom. **Copy names and values exactly** (payloads reference data
 elements by name at runtime — a typo builds green and collects nothing).
 Prereqs already done: property, 4 extensions, library `20260728 - v1.0`.
 
-Totals: **75 data elements**, **35 rules**.
+Totals: **76 data elements**, **38 rules**.
 
 ---
 
@@ -187,6 +187,29 @@ force lowercase: **off** · clean text: **off** · storage duration: None
 return "";
 ```
 
+### `Newsletter Proposition Data Element`
+
+force lowercase: **off** · clean text: **off** · storage duration: None
+
+```javascript
+// XDM payload for the 'design was shown' notification (Decisioning Proposition
+// Display). Supplies the newsletter proposition EXPLICITLY because the site -
+// not the SDK - renders this design; 'include rendered propositions' stays OFF
+// so unrelated auto-rendered (VEC) propositions never pollute the test's
+// display counts (deliberate deviation from the pilot, where renderDecisions
+// was never true and the checkbox was a no-op).
+var p = window.__newsletterProposition;
+if (!p) return undefined;
+return {
+  _experience: {
+    decisioning: {
+      propositions: [{ id: p.id, scope: p.scope, scopeDetails: p.scopeDetails }],
+      propositionEventType: { display: 1 }
+    }
+  }
+};
+```
+
 ## 6a. Payload variables — Adobe Experience Platform Web SDK: Variable
 
 These are Adobe's native payload containers (the documented Analytics-migration
@@ -306,6 +329,7 @@ event as `Consent Selection`.
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · **Render visual personalization decisions: ✅ ON** · type `web.webpagedetails.pageViews` · data `%data-pageView%`
+    - Personalization → Scopes → **Manually enter scopes** → Add scope: `newsletter-signup-contextual` (the newsletter test rides this same single request)
 - Note: Single page-view request: personalization (renderDecisions) + Analytics ride the same edge call — the durable fix for the audit's two-pathway root cause (slides 26-27).
 
 ### 2. `Site Error`
@@ -731,6 +755,99 @@ event as `Consent Selection`.
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `consentSelection` · Time scope: **All**
 - **Action**: Adobe Experience Platform Web SDK → *Set consent* — instance `alloy` · standard **Adobe 2.0** · general = `%consent-generalValue%`
 - Note: Maps the site banner selection to alloy setConsent. Runs on the same data-layer event as the Consent Selection tracking rule.
+
+### 36. `Newsletter Test: Resolve Experience`
+
+- **Event**: Adobe Experience Platform Web SDK → *Send event complete* — instance `alloy` (fires after each Send event; the code below acts only on the page view's response)
+- **Action**: Core → *Custom Code* — Language: **JavaScript** · Name: `Get Personalization Decision (response handler)` · Open Editor and paste exactly:
+
+  ```javascript
+  // Newsletter sign-up test - CONTINUED from the pilot built in the old property.
+  // The page-view request already asked Target for the newsletter scope on the ONE
+  // edge call this property makes per page; this rule runs when that call completes
+  // and hands Target's answer to the site. Site contract UNCHANGED from the pilot:
+  // window.__newsletterProposition + CustomEvent 'adobeTarget:flag'.
+  var propositions = (event && event.propositions) || [];
+  var match = null;
+  for (var i = 0; i < propositions.length; i++) {
+    if (propositions[i].scope === 'newsletter-signup-contextual') { match = propositions[i]; break; }
+  }
+  if (!match) return; // visitor not in the test, or a send that didn't carry the scope
+  window.__newsletterProposition = match; // report-back handle (display + sign-up credit)
+  var item = match.items && match.items[0];
+  var content = item && item.data && item.data.content;
+  if (!content || !content.variant) return;
+  window.dispatchEvent(new CustomEvent('adobeTarget:flag', {
+    detail: {
+      name: 'newsletter:design', // which feature this message is about
+      value: content.variant     // which version to show ('contextual' | 'generic' | 'interstitial')
+    }
+  }));
+  ```
+
+- Note: Property owner 2026-07-29: the live newsletter sign-up test CONTINUES through cutover, folded in natively (supersedes the old property's 3-rule pilot chain, which stays behind in the old property and retires with it at cutover).
+
+### 37. `Newsletter Test: Proposition Display Notification`
+
+- **Event**: Core → *Element Exists* — Name: `Contextual Variant Rendered` · Elements matching the CSS selector: `.signup-form.interrupter`
+- **Action**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · **Use guided events: ✅** → *Decisioning Proposition Display* · XDM `%Newsletter Proposition Data Element%`
+    - Leave **Include rendered propositions UNCHECKED** — the site renders this
+      design itself; auto-rendered (VEC) propositions would over-report displays.
+- Note: Property owner 2026-07-29: the live newsletter sign-up test CONTINUES through cutover, folded in natively (supersedes the old property's 3-rule pilot chain, which stays behind in the old property and retires with it at cutover).
+
+### 38. `Newsletter Test: Form Success`
+
+- **Event**: Core → *Custom Event* — Name: `Form Success Event` · Custom Event Type: `Form:onSuccess` · specific elements matching: `body`
+- **Action**: Core → *Custom Code* — Language: **JavaScript** · Name: `Send Newsletter Confirmation Event` · Open Editor and paste exactly:
+
+  ```javascript
+  // The message we get when someone actually signs up. It contains:
+  // { formName: 'Newsletter Module', location: 'Footer' | 'Article Interrupter' }
+  // NOTE (Known Gap, carried from the pilot): location only ever has these two
+  // values today - contextual / generic / interstitial are NOT distinguished yet.
+  var detail = (event && event.detail) || {};
+  var placement = detail.location || 'unknown'; // which part of the page they signed up from
+  
+  if (window.__newsletterProposition) {
+    // Combined event: tells Target AND Analytics a real sign-up happened, AND
+    // credits the specific design that produced it - both signals on the one
+    // request Target's service actually evaluates.
+    var xdmPayload = {
+      eventType: 'decisioning.propositionInteract',
+      web: {
+        webPageDetails: {
+          name: 'newsletter:confirmation:' + placement,
+          URL: 'newsletter:confirmation:' + placement
+        }
+      },
+      _experience: {
+        decisioning: {
+          propositions: [window.__newsletterProposition],
+          propositionEventType: { interact: 1 }
+        }
+      }
+    };
+    console.log('[Newsletter Test] Sending combined confirmation event:', xdmPayload);
+    alloy('sendEvent', { xdm: xdmPayload });
+  } else {
+    // Fallback: proposition unavailable - still record the confirmation so
+    // Analytics has the signal, even though Target attribution is lost.
+    console.warn('[Newsletter Test] No proposition on window.__newsletterProposition - falling back to plain pageview (Target attribution lost for this signup).');
+    alloy('sendEvent', {
+      xdm: {
+        eventType: 'web.webpagedetails.pageViews',
+        web: {
+          webPageDetails: {
+            name: 'newsletter:confirmation:' + placement,
+            URL: 'newsletter:confirmation:' + placement
+          }
+        }
+      }
+    });
+  }
+  ```
+
+- Note: Property owner 2026-07-29: the live newsletter sign-up test CONTINUES through cutover, folded in natively (supersedes the old property's 3-rule pilot chain, which stays behind in the old property and retires with it at cutover).
 
 ---
 

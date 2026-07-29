@@ -981,6 +981,17 @@
       "forceLowerCase": false,
       "cleanText": false,
       "storageDuration": null
+    },
+    {
+      "name": "Newsletter Proposition Data Element",
+      "extension": "core",
+      "delegate_descriptor_id": "core::dataElements::custom-code",
+      "settings": {
+        "source": "// XDM payload for the 'design was shown' notification (Decisioning Proposition\n// Display). Supplies the newsletter proposition EXPLICITLY because the site -\n// not the SDK - renders this design; 'include rendered propositions' stays OFF\n// so unrelated auto-rendered (VEC) propositions never pollute the test's\n// display counts (deliberate deviation from the pilot, where renderDecisions\n// was never true and the checkbox was a no-op).\nvar p = window.__newsletterProposition;\nif (!p) return undefined;\nreturn {\n  _experience: {\n    decisioning: {\n      propositions: [{ id: p.id, scope: p.scope, scopeDetails: p.scopeDetails }],\n      propositionEventType: { display: 1 }\n    }\n  }\n};"
+      },
+      "forceLowerCase": false,
+      "cleanText": false,
+      "storageDuration": null
     }
   ],
   "rules": [
@@ -1068,6 +1079,9 @@
           "settings": {
             "instanceName": "alloy",
             "renderDecisions": true,
+            "decisionScopes": [
+              "newsletter-signup-contextual"
+            ],
             "type": "web.webpagedetails.pageViews",
             "data": "%data-pageView%"
           }
@@ -2644,6 +2658,89 @@
                 }
               }
             ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Newsletter Test: Resolve Experience",
+      "consentCategory": "C0004",
+      "_note": "Property owner 2026-07-29: the live newsletter sign-up test CONTINUES through cutover, folded in natively (supersedes the old property's 3-rule pilot chain, which stays behind in the old property and retires with it at cutover).",
+      "event": {
+        "extension": "adobe-alloy",
+        "delegate_descriptor_id": "adobe-alloy::events::send-event-complete",
+        "delegateDisplayName": "Send event complete",
+        "settings": {
+          "instanceName": "alloy"
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "extension": "core",
+          "delegate_descriptor_id": "core::actions::custom-code",
+          "delegateDisplayName": "Custom Code",
+          "category": "personalization",
+          "actionName": "Get Personalization Decision (response handler)",
+          "settings": {
+            "language": "javascript",
+            "source": "// Newsletter sign-up test - CONTINUED from the pilot built in the old property.\n// The page-view request already asked Target for the newsletter scope on the ONE\n// edge call this property makes per page; this rule runs when that call completes\n// and hands Target's answer to the site. Site contract UNCHANGED from the pilot:\n// window.__newsletterProposition + CustomEvent 'adobeTarget:flag'.\nvar propositions = (event && event.propositions) || [];\nvar match = null;\nfor (var i = 0; i < propositions.length; i++) {\n  if (propositions[i].scope === 'newsletter-signup-contextual') { match = propositions[i]; break; }\n}\nif (!match) return; // visitor not in the test, or a send that didn't carry the scope\nwindow.__newsletterProposition = match; // report-back handle (display + sign-up credit)\nvar item = match.items && match.items[0];\nvar content = item && item.data && item.data.content;\nif (!content || !content.variant) return;\nwindow.dispatchEvent(new CustomEvent('adobeTarget:flag', {\n  detail: {\n    name: 'newsletter:design', // which feature this message is about\n    value: content.variant     // which version to show ('contextual' | 'generic' | 'interstitial')\n  }\n}));"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Newsletter Test: Proposition Display Notification",
+      "consentCategory": "C0004",
+      "_note": "Property owner 2026-07-29: the live newsletter sign-up test CONTINUES through cutover, folded in natively (supersedes the old property's 3-rule pilot chain, which stays behind in the old property and retires with it at cutover).",
+      "event": {
+        "extension": "core",
+        "delegate_descriptor_id": "core::events::element-exists",
+        "delegateDisplayName": "Element Exists",
+        "eventName": "Contextual Variant Rendered",
+        "settings": {
+          "elementSelector": ".signup-form.interrupter"
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::send-event",
+          "category": "personalization",
+          "settings": {
+            "instanceName": "alloy",
+            "type": "decisioning.propositionDisplay",
+            "xdm": "%Newsletter Proposition Data Element%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Newsletter Test: Form Success",
+      "consentCategory": "C0004",
+      "_note": "Property owner 2026-07-29: the live newsletter sign-up test CONTINUES through cutover, folded in natively (supersedes the old property's 3-rule pilot chain, which stays behind in the old property and retires with it at cutover).",
+      "event": {
+        "extension": "core",
+        "delegate_descriptor_id": "core::events::custom-event",
+        "delegateDisplayName": "Custom Event",
+        "eventName": "Form Success Event",
+        "settings": {
+          "type": "Form:onSuccess",
+          "elementSelector": "body"
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "extension": "core",
+          "delegate_descriptor_id": "core::actions::custom-code",
+          "delegateDisplayName": "Custom Code",
+          "category": "personalization",
+          "actionName": "Send Newsletter Confirmation Event",
+          "settings": {
+            "language": "javascript",
+            "source": "// The message we get when someone actually signs up. It contains:\n// { formName: 'Newsletter Module', location: 'Footer' | 'Article Interrupter' }\n// NOTE (Known Gap, carried from the pilot): location only ever has these two\n// values today - contextual / generic / interstitial are NOT distinguished yet.\nvar detail = (event && event.detail) || {};\nvar placement = detail.location || 'unknown'; // which part of the page they signed up from\n\nif (window.__newsletterProposition) {\n  // Combined event: tells Target AND Analytics a real sign-up happened, AND\n  // credits the specific design that produced it - both signals on the one\n  // request Target's service actually evaluates.\n  var xdmPayload = {\n    eventType: 'decisioning.propositionInteract',\n    web: {\n      webPageDetails: {\n        name: 'newsletter:confirmation:' + placement,\n        URL: 'newsletter:confirmation:' + placement\n      }\n    },\n    _experience: {\n      decisioning: {\n        propositions: [window.__newsletterProposition],\n        propositionEventType: { interact: 1 }\n      }\n    }\n  };\n  console.log('[Newsletter Test] Sending combined confirmation event:', xdmPayload);\n  alloy('sendEvent', { xdm: xdmPayload });\n} else {\n  // Fallback: proposition unavailable - still record the confirmation so\n  // Analytics has the signal, even though Target attribution is lost.\n  console.warn('[Newsletter Test] No proposition on window.__newsletterProposition - falling back to plain pageview (Target attribution lost for this signup).');\n  alloy('sendEvent', {\n    xdm: {\n      eventType: 'web.webpagedetails.pageViews',\n      web: {\n        webPageDetails: {\n          name: 'newsletter:confirmation:' + placement,\n          URL: 'newsletter:confirmation:' + placement\n        }\n      }\n    }\n  });\n}"
           }
         }
       ]
