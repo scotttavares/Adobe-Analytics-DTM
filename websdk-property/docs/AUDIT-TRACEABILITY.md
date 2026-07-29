@@ -55,6 +55,21 @@ Quarantined rather than silently carried:
 - **`Internal Campaign`** was `console.log();` (always undefined), so
   `eVar5`/`event4` have never populated. Re-implemented reading an assumed
   `icid` query parameter, **flagged as a decision** in the catalog.
+- **Rules-list census (2026-07-29): 40 rules in the old property, all
+  accounted for.** 35 were in the workbook's production build — the 34
+  analytics rules this property carries forward plus `All Pages - Library
+  Loaded`, which is the live Target v2 rule (hardcoded `at_property` custom
+  code, `bodyHidingEnabled: false` — Findings 3/8 in rule form) and is
+  excluded **by design**, superseded by `renderDecisions: true` + the
+  prehiding snippet. The remaining 5: `Article Interaction Tracking`
+  (post-export, carried; publish state still to verify), `Sort By Tracking`
+  (never-published draft, excluded — below), and **three `Newsletter Test:`
+  rules** (`Form Success`, `Proposition Display Notification`, `Resolve
+  Experience`) that are absent from the production build — publish state
+  unverified; check each rule's Details panel before deciding carry vs
+  exclude. Their names suggest a Web SDK personalization experiment
+  (propositions / display notifications), which if live must be reconciled
+  with the consolidated page-view design.
 - **`Sort By Tracking` + `XDM Sort By`** — an enabled-but-**never-published**
   draft pair (last modified May 2024; Details panel: "Not yet published", "No
   libraries using this revision", not live — verified by contrast with a live

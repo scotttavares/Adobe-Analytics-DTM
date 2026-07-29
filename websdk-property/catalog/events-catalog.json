@@ -706,7 +706,8 @@
     "Scroll interaction names carry a leading space in the source (' Scroll 25 Percentage'), trimmed here \u2014 confirm reporting relies on the trimmed form before publish.",
     "Rule names 'Map  Button Click'/'Map  Button Close' had a double space in the source; normalized to single space.",
     "Old-property event naming is deliberately inconsistent (moreAmazonNews vs AmazonRedirectLinkClick vs FileDownloaded vs formComplete) \u2014 carried EXACTLY as captured; do not normalize, the site's code owns these strings.",
-    "Sort By Tracking (and its XDM Sort By element) turned out to be an enabled-but-never-published draft pair from May 2024 - excluded from this migration, documented in excludedRules. Corollary still open: verify Article Interaction Tracking's Details panel shows 'Live in production' - if it is also unpublished, the event28 collision is latent (not active) and that rule needs the same exclusion decision."
+    "Sort By Tracking (and its XDM Sort By element) turned out to be an enabled-but-never-published draft pair from May 2024 - excluded from this migration, documented in excludedRules. Corollary still open: verify Article Interaction Tracking's Details panel shows 'Live in production' - if it is also unpublished, the event28 collision is latent (not active) and that rule needs the same exclusion decision.",
+    "Live Rules list (2026-07-29) shows 40 rules = 35 in the workbook's production build (34 analytics rules carried + the Target v2 rule excluded by design) + Article Interaction Tracking + Sort By Tracking (excluded draft) + 3 'Newsletter Test: *' rules (Form Success / Proposition Display Notification / Resolve Experience). The Newsletter Test rules are NOT in the workbook's production build; their publish state is unverified - check each rule's Details panel (Live in production vs Not live) before deciding carry vs exclude."
   ],
   "excludedRules": [
     {
@@ -714,6 +715,11 @@
       "reason": "Enabled in the old property's rule list but NEVER PUBLISHED: the rule's Details panel shows Last Published 'Not yet published', 'No libraries using this revision', status 'Not live', last modified May 2, 2024 (Rounak Kumar) - over a year before the workbook's production build (2025-08-05). Production has never fired sortBy, so carrying it would break parity, and its payload was never finished (single Send event action referencing %XDM Sort By%, an element that is also absent from the production build). Verified from UI screenshots 2026-07-29; the contrast check: the live rule Internal Search ClickThrough's Details panel shows 'Live in production' in the same position.",
       "acdlEventObserved": "sortBy",
       "decisionForOwner": "If Amazon News wants sort-by tracking, treat it as NEW scope in the new property: define the payload (eVars/events), add a catalog entry, re-generate. Do not copy the half-built old rule."
+    },
+    {
+      "rule": "All Pages - Library Loaded",
+      "reason": "The live Target v2 rule (workbook-verified: Core Library Loaded -> custom-code targetPageParams() hardcoding at_property 15f050b0-58c7-9ec5-9671-898e7edeb81a -> Adobe Target v2 Load Target -> Fire Page Load with bodyHidingEnabled:false). This is audit Findings 3 and 8 in rule form. Deliberately NOT carried: Target delivery moves to the datastream via renderDecisions:true on the consolidated page view, anti-flicker moves to the prehiding snippet, and the at_property token is governed by the datastream's Target property token instead of custom code.",
+      "disposition": "Superseded by construction - see AUDIT-TRACEABILITY Findings 3, 8 and the two-pathway row."
     }
   ]
 }
