@@ -441,7 +441,7 @@ async function main() {
           '// GENERATED — maps the site cookie-consent selection to the Web SDK consent value.',
           '// DECISION (docs/MANUAL-STEPS.md #6): confirm the real consentSelected values pushed',
           '// by the site banner; explicit opt-out strings map to "out", everything else to "in".',
-          'var sel = (_satellite.getVar("Consent Selected") || "").toString().toLowerCase();',
+          'var sel = (_satellite.getVar("Consent: Selected") || "").toString().toLowerCase();',
           'var optOut = ["reject", "rejected", "decline", "declined", "opt-out", "optout", "opt out", "no", "false", "out"];',
           'return optOut.indexOf(sel) !== -1 ? "out" : "in";',
         ].join('\n'),
@@ -460,7 +460,7 @@ async function main() {
   const se = events.siteError;
 
   if (arch === 'adobe-variable') {
-    for (const varName of [pv.payloadDataElement, 'data-interaction', se.payloadDataElement]) {
+    for (const varName of [pv.payloadDataElement, 'Data: Interaction', se.payloadDataElement]) {
       dataElements.push({
         name: varName,
         extension: 'adobe-alloy',
@@ -535,7 +535,7 @@ async function main() {
       return `${SENTINEL}::${it.rule}`;
     };
     dataElements.push({
-      name: 'data-interaction',
+      name: 'Data: Interaction',
       extension: 'core',
       delegate_descriptor_id: 'core::dataElements::custom-code',
       settings: { source: emitInteractionDispatcher(events.interactions, keyForRule) },
@@ -619,7 +619,7 @@ async function main() {
   });
 
   // Interactions. adobe-variable: form-based Update Variable (this event's
-  // mapping) + Send Event on the shared data-interaction variable.
+  // mapping) + Send Event on the shared Data: Interaction variable.
   // consolidated: single Send Event on the code dispatcher. per-event: single
   // Send Event on that event's own code element.
   for (const it of events.interactions) {
@@ -638,14 +638,14 @@ async function main() {
       settings: {
         instanceName: property.webSdkInstance.name,
         type: 'web.webinteraction.linkClicks',
-        data: arch === 'per-event' ? `%${it.payloadDataElement}%` : '%data-interaction%',
+        data: arch === 'per-event' ? `%${it.payloadDataElement}%` : '%Data: Interaction%',
       },
     };
     const actions =
       arch === 'adobe-variable'
         ? [
             updateVariableAction(
-              'data-interaction',
+              'Data: Interaction',
               analyticsFormObject(
                 { eVars: it.eVars, events: it.events, lists: it.lists },
                 { linkName: it.linkName, linkType: it.linkType },

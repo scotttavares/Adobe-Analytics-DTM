@@ -32,7 +32,7 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 12 | `File: Name` | `web.webInteractions.FileName` | ✅ | ✅ |  |
 | 13 | `File: Type` | `web.webInteractions.FileType` | ✅ | ✅ |  |
 | 14 | `File: URL` | `web.webInteractions.FileUrl` | — | — |  |
-| 15 | `News Filter` | `web.webInteractions.Filter` | ✅ | ✅ |  |
+| 15 | `News: Filter` | `web.webInteractions.Filter` | ✅ | ✅ |  |
 | 16 | `Form: Error Name` | `web.webInteractions.formErrorMessage` | ✅ | ✅ |  |
 | 17 | `Form: Location` | `web.webInteractions.formLocation` | ✅ | ✅ |  |
 | 18 | `Form: Name` | `web.webInteractions.formName` | ✅ | ✅ |  |
@@ -65,7 +65,7 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 45 | `Site: Section 3` | `web.webPageDetails.siteSectionThree` | ✅ | ✅ |  |
 | 46 | `Site: Section 4` | `siteSection4` | ✅ | ✅ |  |
 | 47 | `Site: Section 5` | `siteSection5` | ✅ | ✅ |  |
-| 48 | `Social Interaction Info` | `web.webInteractions.socialInteractionInfo` | ✅ | ✅ |  |
+| 48 | `Social: Interaction Info` | `web.webInteractions.socialInteractionInfo` | ✅ | ✅ |  |
 | 49 | `Link: Stories Text` | `web.webInteractions.storiesLinkText` | ✅ | ✅ |  |
 | 50 | `Content: Tags` | `web.webPageDetails.tags` | ✅ | ✅ |  |
 | 51 | `Video: Name` | `web.webInteractions.video.title` | ✅ | ✅ |  |
@@ -77,11 +77,11 @@ Type **Query String Parameter**, case-insensitive **ON** for all.
 
 | Name | Parameter | Force lowercase | Clean text |
 |---|---|---|---|
-| `UTM_Campaign` | `UTM_Campaign` | ✅ | ✅ |
-| `UTM_Content` | `UTM_Content` | — | — |
-| `UTM_Medium` | `UTM_Medium` | ✅ | ✅ |
-| `UTM_Source` | `UTM_Source` | ✅ | ✅ |
-| `UTM_Term` | `UTM_Term` | ✅ | ✅ |
+| `UTM: Campaign` | `UTM_Campaign` | ✅ | ✅ |
+| `UTM: Content` | `UTM_Content` | — | — |
+| `UTM: Medium` | `UTM_Medium` | ✅ | ✅ |
+| `UTM: Source` | `UTM_Source` | ✅ | ✅ |
+| `UTM: Term` | `UTM_Term` | ✅ | ✅ |
 
 ## 3. Data elements — Core: Page Info
 
@@ -105,18 +105,18 @@ Pick the matching plugin type for each. Where a setting is not listed, leave the
 force lowercase: **ON** · clean text: **ON** · storage duration: None
 
 ```javascript
-var utm_source = _satellite.getVar("UTM_Source") || "";
-var utm_medium = _satellite.getVar("UTM_Medium") || "";
-var utm_content = _satellite.getVar("UTM_Content") || "";
-var utm_campaign = _satellite.getVar("UTM_Campaign") || "";
-var utm_term = _satellite.getVar("UTM_Term") || "";
+var utm_source = _satellite.getVar("UTM: Source") || "";
+var utm_medium = _satellite.getVar("UTM: Medium") || "";
+var utm_content = _satellite.getVar("UTM: Content") || "";
+var utm_campaign = _satellite.getVar("UTM: Campaign") || "";
+var utm_term = _satellite.getVar("UTM: Term") || "";
 
 // Check if any UTM parameter exists in the URL
-if (_satellite.getVar("Page URL").indexOf("utm_source") !== -1 || 
-    _satellite.getVar("Page URL").indexOf("utm_medium") !== -1 || 
-    _satellite.getVar("Page URL").indexOf("utm_campaign") !== -1 || 
-    _satellite.getVar("Page URL").indexOf("utm_content") !== -1 || 
-    _satellite.getVar("Page URL").indexOf("utm_term") !== -1) {
+if (_satellite.getVar("Page: URL").indexOf("utm_source") !== -1 || 
+    _satellite.getVar("Page: URL").indexOf("utm_medium") !== -1 || 
+    _satellite.getVar("Page: URL").indexOf("utm_campaign") !== -1 || 
+    _satellite.getVar("Page: URL").indexOf("utm_content") !== -1 || 
+    _satellite.getVar("Page: URL").indexOf("utm_term") !== -1) {
 
     // Construct the Campaign string
     var Campaign = utm_source + "|" + utm_medium + "|" + utm_content + "|" + utm_campaign+"|"+utm_term;
@@ -187,7 +187,7 @@ force lowercase: **off** · clean text: **off** · storage duration: None
 return "";
 ```
 
-### `Newsletter Proposition Data Element`
+### `Target: Newsletter Proposition Data Element`
 
 force lowercase: **off** · clean text: **off** · storage duration: None
 
@@ -218,9 +218,9 @@ action (section 7). Create each with: extension **Adobe Experience Platform
 Web SDK**, type **Variable**, property to populate **Data**, solution
 **Adobe Analytics** checked (leave Audience Manager and Target unchecked).
 
-- `data-pageView`
-- `data-interaction`
-- `data-siteError`
+- `Data: Page View`
+- `Data: Interaction`
+- `Data: Site Error`
 
 Notes-panel line for all three: "Adobe Web SDK Variable — the container each
 rule fills via its Update variable action and sends to Adobe. Field mappings
@@ -254,7 +254,7 @@ Owner: analytics implementation team — contact before making any change here.
 // GENERATED — maps the site cookie-consent selection to the Web SDK consent value.
 // DECISION (docs/MANUAL-STEPS.md #6): confirm the real consentSelected values pushed
 // by the site banner; explicit opt-out strings map to "out", everything else to "in".
-var sel = (_satellite.getVar("Consent Selected") || "").toString().toLowerCase();
+var sel = (_satellite.getVar("Consent: Selected") || "").toString().toLowerCase();
 var optOut = ["reject", "rejected", "decline", "declined", "opt-out", "optout", "opt out", "no", "false", "out"];
 return optOut.indexOf(sel) !== -1 ? "out" : "in";
 ```
@@ -279,7 +279,7 @@ event as `Consent Selection`.
 ### 1. `Global Page Load Rule`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `pageLoaded` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-pageView`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Page View`. Set:
     - pageName = `%Page: Name%`
     - channel = `%Site: Section%`
     - pageURL = `%Page: URL%`
@@ -299,11 +299,11 @@ event as `Consent Selection`.
     - eVar29 = `%Content: Category%`
     - eVar30 = `%Content: Tags%`
     - eVar37 = `%Plugin: Visit Duration%`
-    - eVar38 = `%UTM_Source%`
-    - eVar39 = `%UTM_Medium%`
-    - eVar40 = `%UTM_Content%`
-    - eVar41 = `%UTM_Campaign%`
-    - eVar42 = `%UTM_Term%`
+    - eVar38 = `%UTM: Source%`
+    - eVar39 = `%UTM: Medium%`
+    - eVar40 = `%UTM: Content%`
+    - eVar41 = `%UTM: Campaign%`
+    - eVar42 = `%UTM: Term%`
     - eVar47 = `%Geo: Country%`
     - prop1 = `%Page: Name%`
     - prop2 = `%Core: Referrer%`
@@ -328,36 +328,36 @@ event as `Consent Selection`.
     - events = `event2`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · **Render visual personalization decisions: ✅ ON** · type `web.webpagedetails.pageViews` · data `%data-pageView%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · **Render visual personalization decisions: ✅ ON** · type `web.webpagedetails.pageViews` · data `%Data: Page View%`
     - Personalization → Scopes → **Manually enter scopes** → Add scope: `newsletter-signup-contextual` (the newsletter test rides this same single request)
 - Note: Single page-view request: personalization (renderDecisions) + Analytics ride the same edge call — the durable fix for the audit's two-pathway root cause (slides 26-27).
 
 ### 2. `Site Error`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `errorInteraction` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-siteError`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Site Error`. Set:
     - pageName = `errorPage`
     - list1 = `%Page: Error%`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webpagedetails.pageViews` · data `%data-siteError%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webpagedetails.pageViews` · data `%Data: Site Error%`
 
 ### 3. `Amazon More News Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `moreAmazonNews` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `More Amazon News Click`
     - linkType = `o`
     - eVar44 = `%Link: More Amazon News Text%`
     - events = `event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 4. `Amazon Redirect Link Click`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `AmazonRedirectLinkClick` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Amazon Redirect Link Click`
     - linkType = `o`
     - eVar23 = `%Link: Destination%`
@@ -365,36 +365,36 @@ event as `Consent Selection`.
     - events = `event21,event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 5. `Amazon Stories Link Click Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `storyLinkClick` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Amazon Stories Link Tracking`
     - linkType = `o`
     - eVar45 = `%Link: Stories Text%`
     - events = `event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 6. `Consent Selection`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `consentSelection` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Cookie Consent Selection`
     - linkType = `o`
     - eVar48 = `%Consent: Selected%`
     - events = `event30=%Consent: Click Count%`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 7. `File Download Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `FileDownloaded` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `File Download`
     - linkType = `d`
     - eVar33 = `%File: Name%`
@@ -402,24 +402,24 @@ event as `Consent Selection`.
     - events = `event16`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 8. `Filter Click Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `FilterApplied` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `News Filter Click`
     - linkType = `o`
-    - eVar27 = `%News Filter%`
+    - eVar27 = `%News: Filter%`
     - events = `event25`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 9. `Form Complete`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `formComplete` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Form Complete`
     - linkType = `o`
     - eVar10 = `%Form: Name%`
@@ -427,12 +427,12 @@ event as `Consent Selection`.
     - events = `event10`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 10. `Form Error Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `formError` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Form Error`
     - linkType = `o`
     - eVar10 = `%Form: Name%`
@@ -441,12 +441,12 @@ event as `Consent Selection`.
     - events = `event8`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 11. `Form Start`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `formStart` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Form Start`
     - linkType = `o`
     - eVar10 = `%Form: Name%`
@@ -454,12 +454,12 @@ event as `Consent Selection`.
     - events = `event9`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 12. `Global CTA Button Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CTAButtonClicked` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `CTA Button Click`
     - linkType = `o`
     - eVar22 = `%Link: CTA Button%`
@@ -467,12 +467,12 @@ event as `Consent Selection`.
     - events = `event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 13. `Internal Search Click`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `internalSearch` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Internal Search`
     - linkType = `o`
     - eVar6 = `%Search: Term%`
@@ -481,12 +481,12 @@ event as `Consent Selection`.
     - events = `event26`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 14. `Internal Search ClickThrough`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `internalSearchClickThrough` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Internal Search Click Through`
     - linkType = `o`
     - eVar6 = `%Search: Term%`
@@ -494,12 +494,12 @@ event as `Consent Selection`.
     - events = `event7`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 15. `Map Button Click`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `mapButtonClick` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Map Button Click`
     - linkType = `o`
     - eVar49 = `%Map: Name%`
@@ -507,12 +507,12 @@ event as `Consent Selection`.
     - events = `event32`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 16. `Map Button Close`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `mapButtonClose` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Map Button Close`
     - linkType = `o`
     - eVar49 = `%Map: Name%`
@@ -520,12 +520,12 @@ event as `Consent Selection`.
     - events = `event33`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 17. `Map Zoom In`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `mapZoomIn` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Map ZoomIn`
     - linkType = `o`
     - eVar49 = `%Map: Name%`
@@ -533,12 +533,12 @@ event as `Consent Selection`.
     - events = `event34`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 18. `Map Zoom Out`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `mapZoomOut` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Map Zoom Out`
     - linkType = `o`
     - eVar49 = `%Map: Name%`
@@ -546,24 +546,24 @@ event as `Consent Selection`.
     - events = `event31`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 19. `Menu Link Click Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `MenuLinkClicked` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Menu Click`
     - linkType = `o`
     - eVar24 = `%Link: Menu%`
     - events = `event23`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 20. `Null Search Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `nullSearch` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Null Search`
     - linkType = `o`
     - eVar6 = `%Search: Term%`
@@ -572,12 +572,12 @@ event as `Consent Selection`.
     - events = `event6`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 21. `Redirect Link Click Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `RedirectLinkClick` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Redirect Link Click`
     - linkType = `o`
     - eVar21 = `%Link: Redirect Text%`
@@ -585,12 +585,12 @@ event as `Consent Selection`.
     - events = `event21,event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 22. `Related Tag Click Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `TagClick` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Related Tag Click`
     - linkType = `o`
     - eVar43 = `%Link: Related Tag%`
@@ -598,60 +598,60 @@ event as `Consent Selection`.
     - events = `event29`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 23. `Scroll 25 percentage`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `scrollReach25` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Scroll 25 Percentage`
     - linkType = `o`
     - eVar20 = `%Scroll Depth%`
     - events = `event17`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 24. `Scroll 50 percentage`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `scrollReach50` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Scroll 50 Percentage`
     - linkType = `o`
     - eVar20 = `%Scroll Depth%`
     - events = `event18`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 25. `Scroll 75 percentage`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `scrollReach75` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Scroll 75 Percentage`
     - linkType = `o`
     - eVar20 = `%Scroll Depth%`
     - events = `event19`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 26. `Scroll 100 percentage`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `scrollReach100` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Scroll 100 Percentage`
     - linkType = `o`
     - eVar20 = `%Scroll Depth%`
     - events = `event20`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 27. `Search Close Click`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `SearchClosed` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Internal Search Close Click`
     - linkType = `o`
     - eVar6 = `%Search: Term%`
@@ -660,24 +660,24 @@ event as `Consent Selection`.
     - events = `event27`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 28. `Social Interaction Tracking`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `socialInteraction` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Social Interaction`
     - linkType = `o`
-    - eVar17 = `%Social Interaction Info%`
+    - eVar17 = `%Social: Interaction Info%`
     - events = `event1`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 29. `Video Start`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoPlaying` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Video Start`
     - linkType = `o`
     - eVar11 = `%Video: Name%`
@@ -685,24 +685,24 @@ event as `Consent Selection`.
     - events = `event11`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 30. `Video 25 percentage complete`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoViewed25` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Video 25 Percent completion`
     - linkType = `o`
     - eVar11 = `%Video: Name%`
     - events = `event13`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 31. `Video 50 percentage complete`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoViewed50` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Video 50 Percent completion`
     - linkType = `o`
     - eVar11 = `%Video: Name%`
@@ -710,12 +710,12 @@ event as `Consent Selection`.
     - events = `event14`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 32. `Video 75 percentage complete`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoViewed75` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Video 75 Percent completion`
     - linkType = `o`
     - eVar11 = `%Video: Name%`
@@ -723,12 +723,12 @@ event as `Consent Selection`.
     - events = `event15`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 33. `Video 100 percentage complete`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoComplete` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Video Complete`
     - linkType = `o`
     - eVar11 = `%Video: Name%`
@@ -736,19 +736,19 @@ event as `Consent Selection`.
     - events = `event12`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 34. `Video Pause`
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `videoPause` · Time scope: **All**
-- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+- **Action 1**: Web SDK → *Update variable* — variable `Data: Interaction`. Set:
     - linkName = `Video Pause`
     - linkType = `o`
     - eVar11 = `%Video: Name%`
     - events = `event28`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
-- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%Data: Interaction%`
 
 ### 35. `Consent - Apply Visitor Choice`
 
@@ -790,7 +790,7 @@ event as `Consent Selection`.
 ### 37. `Newsletter Test: Proposition Display Notification`
 
 - **Event**: Core → *Element Exists* — Name: `Contextual Variant Rendered` · Elements matching the CSS selector: `.signup-form.interrupter`
-- **Action**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · **Use guided events: ✅** → *Decisioning Proposition Display* · XDM `%Newsletter Proposition Data Element%`
+- **Action**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · **Use guided events: ✅** → *Decisioning Proposition Display* · XDM `%Target: Newsletter Proposition Data Element%`
     - Leave **Include rendered propositions UNCHECKED** — the site renders this
       design itself; auto-rendered (VEC) propositions would over-report displays.
 - Note: Property owner 2026-07-29: the live newsletter sign-up test CONTINUES through cutover, folded in natively (supersedes the old property's 3-rule pilot chain, which stays behind in the old property and retires with it at cutover).

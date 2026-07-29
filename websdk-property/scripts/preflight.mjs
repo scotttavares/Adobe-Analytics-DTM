@@ -360,6 +360,36 @@ function checkOpenAuditItems(bp) {
   );
 }
 
+// Dangling reference guard: a custom-code element that calls
+// _satellite.getVar("X") where X is not the name of any data element in the
+// build. This is the failure mode a data-element RENAME introduces — getVar
+// targets are plain strings and do not auto-update. Caught structurally so a
+// rename can never silently break a cross-referencing element (e.g. the
+// "Page URL" -> "Page: URL" drift in Campaign: External).
+function checkDanglingReferences(bp) {
+  const names = new Set((bp.dataElements || []).map((d) => d.name));
+  const dangling = [];
+  for (const d of bp.dataElements || []) {
+    const src = d.settings && typeof d.settings.source === 'string' ? d.settings.source : null;
+    if (!src) continue;
+    const re = /getVar\(\s*["']([^"']+)["']\s*\)/g;
+    let m;
+    while ((m = re.exec(src)) !== null) {
+      if (!names.has(m[1])) dangling.push(`[${d.name}] getVar("${m[1]}")`);
+    }
+  }
+  const uniq = [...new Set(dangling)];
+  if (uniq.length) {
+    fail(
+      'Dangling data-element references',
+      `${uniq.length} custom-code getVar() call(s) point at a name that is not a data element ` +
+        `(rename drift — update the source to the new name): ${uniq.join(' ; ')}`,
+    );
+  } else {
+    pass('Dangling data-element references', 'every custom-code getVar() resolves to a current data element');
+  }
+}
+
 // -----------------------------------------------------------------------------
 // Main
 // -----------------------------------------------------------------------------
@@ -427,6 +457,7 @@ async function main() {
 
   // Run all checks (they push into `results`).
   checkDraftBlueprint(bp);
+  checkDanglingReferences(bp);
   checkPii(bp);
   checkConsentGating(bp);
   checkFairLending(bp, profiles);

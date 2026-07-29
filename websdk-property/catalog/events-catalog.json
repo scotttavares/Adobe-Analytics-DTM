@@ -8,7 +8,7 @@
   },
   "pageView": {
     "rule": "Global Page Load Rule",
-    "payloadDataElement": "data-pageView",
+    "payloadDataElement": "Data: Page View",
     "replaces": "XDM Page Level",
     "acdlEvent": "pageLoaded",
     "renderDecisions": true,
@@ -43,11 +43,11 @@
         "eVar29": "Content: Category",
         "eVar30": "Content: Tags",
         "eVar37": "Plugin: Visit Duration",
-        "eVar38": "UTM_Source",
-        "eVar39": "UTM_Medium",
-        "eVar40": "UTM_Content",
-        "eVar41": "UTM_Campaign",
-        "eVar42": "UTM_Term",
+        "eVar38": "UTM: Source",
+        "eVar39": "UTM: Medium",
+        "eVar40": "UTM: Content",
+        "eVar41": "UTM: Campaign",
+        "eVar42": "UTM: Term",
         "eVar47": "Geo: Country"
       },
       "props": {
@@ -83,7 +83,7 @@
   },
   "siteError": {
     "rule": "Site Error",
-    "payloadDataElement": "data-siteError",
+    "payloadDataElement": "Data: Site Error",
     "replaces": "XDM Site Error",
     "acdlEvent": "errorInteraction",
     "xdmEventType": "web.webpagedetails.pageViews",
@@ -205,7 +205,7 @@
         }
       ],
       "eVars": {
-        "eVar27": "News Filter"
+        "eVar27": "News: Filter"
       },
       "acdlTimeScope": "all"
     },
@@ -570,7 +570,7 @@
         }
       ],
       "eVars": {
-        "eVar17": "Social Interaction Info"
+        "eVar17": "Social: Interaction Info"
       },
       "acdlTimeScope": "all"
     },
@@ -744,7 +744,7 @@
       "The old 'Newsletter Proposition Data Element' is re-specced from Adobe's documented display-notification payload (id/scope/scopeDetails + propositionEventType.display) rather than copied."
     ],
     "dataElement": {
-      "name": "Newsletter Proposition Data Element",
+      "name": "Target: Newsletter Proposition Data Element",
       "codeLines": [
         "// XDM payload for the 'design was shown' notification (Decisioning Proposition",
         "// Display). Supplies the newsletter proposition EXPLICITLY because the site -",

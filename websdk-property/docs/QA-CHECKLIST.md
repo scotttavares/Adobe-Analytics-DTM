@@ -35,7 +35,7 @@ leftover fields from the previous row** (shared variable residue).
 | ☐ | Amazon Stories Link Click Tracking | `storyLinkClick` | `Amazon Stories Link Tracking` / `o` | event22 | eVar45←%Link: Stories Text% |
 | ☐ | Consent Selection | `consentSelection` | `Cookie Consent Selection` / `o` | — | eVar48←%Consent: Selected% |
 | ☐ | File Download Tracking | `FileDownloaded` | `File Download` / `d` | event16 | eVar33←%File: Name% · eVar34←%File: Type% |
-| ☐ | Filter Click Tracking | `FilterApplied` | `News Filter Click` / `o` | event25 | eVar27←%News Filter% |
+| ☐ | Filter Click Tracking | `FilterApplied` | `News Filter Click` / `o` | event25 | eVar27←%News: Filter% |
 | ☐ | Form Complete | `formComplete` | `Form Complete` / `o` | event10 | eVar10←%Form: Name% · eVar19←%Form: Location% |
 | ☐ | Form Error Tracking | `formError` | `Form Error` / `o` | event8 | eVar10←%Form: Name% · eVar19←%Form: Location% |
 | ☐ | Form Start | `formStart` | `Form Start` / `o` | event9 | eVar10←%Form: Name% · eVar19←%Form: Location% |
@@ -55,7 +55,7 @@ leftover fields from the previous row** (shared variable residue).
 | ☐ | Scroll 75 percentage | `scrollReach75` | `Scroll 75 Percentage` / `o` | event19 | eVar20←%Scroll Depth% |
 | ☐ | Scroll 100 percentage | `scrollReach100` | `Scroll 100 Percentage` / `o` | event20 | eVar20←%Scroll Depth% |
 | ☐ | Search Close Click | `SearchClosed` | `Internal Search Close Click` / `o` | event27 | eVar6←%Search: Term% · eVar7←%Search: Results% · eVar8←%Search: Result Page Type% |
-| ☐ | Social Interaction Tracking | `socialInteraction` | `Social Interaction` / `o` | event1 | eVar17←%Social Interaction Info% |
+| ☐ | Social Interaction Tracking | `socialInteraction` | `Social Interaction` / `o` | event1 | eVar17←%Social: Interaction Info% |
 | ☐ | Video Start | `videoPlaying` | `Video Start` / `o` | event11 | eVar11←%Video: Name% · eVar35←%Video: Type% |
 | ☐ | Video 25 percentage complete | `videoViewed25` | `Video 25 Percent completion` / `o` | event13 | eVar11←%Video: Name% |
 | ☐ | Video 50 percentage complete | `videoViewed50` | `Video 50 Percent completion` / `o` | event14 | eVar11←%Video: Name% · eVar35←%Video: Type% |

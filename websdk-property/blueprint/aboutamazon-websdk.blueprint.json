@@ -125,7 +125,7 @@
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::custom-code",
       "settings": {
-        "source": "var utm_source = _satellite.getVar(\"UTM_Source\") || \"\";\nvar utm_medium = _satellite.getVar(\"UTM_Medium\") || \"\";\nvar utm_content = _satellite.getVar(\"UTM_Content\") || \"\";\nvar utm_campaign = _satellite.getVar(\"UTM_Campaign\") || \"\";\nvar utm_term = _satellite.getVar(\"UTM_Term\") || \"\";\n\n// Check if any UTM parameter exists in the URL\nif (_satellite.getVar(\"Page URL\").indexOf(\"utm_source\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_medium\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_campaign\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_content\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_term\") !== -1) {\n\n    // Construct the Campaign string\n    var Campaign = utm_source + \"|\" + utm_medium + \"|\" + utm_content + \"|\" + utm_campaign+\"|\"+utm_term;\n    return Campaign;\n}"
+        "source": "var utm_source = _satellite.getVar(\"UTM: Source\") || \"\";\nvar utm_medium = _satellite.getVar(\"UTM: Medium\") || \"\";\nvar utm_content = _satellite.getVar(\"UTM: Content\") || \"\";\nvar utm_campaign = _satellite.getVar(\"UTM: Campaign\") || \"\";\nvar utm_term = _satellite.getVar(\"UTM: Term\") || \"\";\n\n// Check if any UTM parameter exists in the URL\nif (_satellite.getVar(\"Page: URL\").indexOf(\"utm_source\") !== -1 || \n    _satellite.getVar(\"Page: URL\").indexOf(\"utm_medium\") !== -1 || \n    _satellite.getVar(\"Page: URL\").indexOf(\"utm_campaign\") !== -1 || \n    _satellite.getVar(\"Page: URL\").indexOf(\"utm_content\") !== -1 || \n    _satellite.getVar(\"Page: URL\").indexOf(\"utm_term\") !== -1) {\n\n    // Construct the Campaign string\n    var Campaign = utm_source + \"|\" + utm_medium + \"|\" + utm_content + \"|\" + utm_campaign+\"|\"+utm_term;\n    return Campaign;\n}"
       },
       "forceLowerCase": true,
       "cleanText": true,
@@ -275,7 +275,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "News Filter",
+      "name": "News: Filter",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -740,7 +740,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Social Interaction Info",
+      "name": "Social: Interaction Info",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -818,7 +818,7 @@
       "storageDuration": null
     },
     {
-      "name": "UTM_Campaign",
+      "name": "UTM: Campaign",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::query-string-parameter",
       "settings": {
@@ -830,7 +830,7 @@
       "storageDuration": null
     },
     {
-      "name": "UTM_Content",
+      "name": "UTM: Content",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::query-string-parameter",
       "settings": {
@@ -842,7 +842,7 @@
       "storageDuration": null
     },
     {
-      "name": "UTM_Medium",
+      "name": "UTM: Medium",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::query-string-parameter",
       "settings": {
@@ -854,7 +854,7 @@
       "storageDuration": null
     },
     {
-      "name": "UTM_Source",
+      "name": "UTM: Source",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::query-string-parameter",
       "settings": {
@@ -866,7 +866,7 @@
       "storageDuration": null
     },
     {
-      "name": "UTM_Term",
+      "name": "UTM: Term",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::query-string-parameter",
       "settings": {
@@ -929,19 +929,19 @@
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::custom-code",
       "settings": {
-        "source": "// GENERATED — maps the site cookie-consent selection to the Web SDK consent value.\n// DECISION (docs/MANUAL-STEPS.md #6): confirm the real consentSelected values pushed\n// by the site banner; explicit opt-out strings map to \"out\", everything else to \"in\".\nvar sel = (_satellite.getVar(\"Consent Selected\") || \"\").toString().toLowerCase();\nvar optOut = [\"reject\", \"rejected\", \"decline\", \"declined\", \"opt-out\", \"optout\", \"opt out\", \"no\", \"false\", \"out\"];\nreturn optOut.indexOf(sel) !== -1 ? \"out\" : \"in\";"
+        "source": "// GENERATED — maps the site cookie-consent selection to the Web SDK consent value.\n// DECISION (docs/MANUAL-STEPS.md #6): confirm the real consentSelected values pushed\n// by the site banner; explicit opt-out strings map to \"out\", everything else to \"in\".\nvar sel = (_satellite.getVar(\"Consent: Selected\") || \"\").toString().toLowerCase();\nvar optOut = [\"reject\", \"rejected\", \"decline\", \"declined\", \"opt-out\", \"optout\", \"opt out\", \"no\", \"false\", \"out\"];\nreturn optOut.indexOf(sel) !== -1 ? \"out\" : \"in\";"
       },
       "forceLowerCase": false,
       "cleanText": false,
       "storageDuration": null
     },
     {
-      "name": "data-pageView",
+      "name": "Data: Page View",
       "extension": "adobe-alloy",
       "delegate_descriptor_id": "adobe-alloy::dataElements::variable",
       "delegateDisplayName": "Variable",
       "settings": {
-        "cacheId": "0a443443-6ae6-4619-8fad-9e34f620feb5",
+        "cacheId": "43dcb005-e494-46f7-848c-a041cb9784b2",
         "solutions": [
           "analytics"
         ]
@@ -951,12 +951,12 @@
       "storageDuration": null
     },
     {
-      "name": "data-interaction",
+      "name": "Data: Interaction",
       "extension": "adobe-alloy",
       "delegate_descriptor_id": "adobe-alloy::dataElements::variable",
       "delegateDisplayName": "Variable",
       "settings": {
-        "cacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+        "cacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
         "solutions": [
           "analytics"
         ]
@@ -966,12 +966,12 @@
       "storageDuration": null
     },
     {
-      "name": "data-siteError",
+      "name": "Data: Site Error",
       "extension": "adobe-alloy",
       "delegate_descriptor_id": "adobe-alloy::dataElements::variable",
       "delegateDisplayName": "Variable",
       "settings": {
-        "cacheId": "87931ddb-c7da-4bd3-8b3b-e9ce67487832",
+        "cacheId": "bff8473d-029f-4324-873e-8119059cbafe",
         "solutions": [
           "analytics"
         ]
@@ -981,7 +981,7 @@
       "storageDuration": null
     },
     {
-      "name": "Newsletter Proposition Data Element",
+      "name": "Target: Newsletter Proposition Data Element",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::custom-code",
       "settings": {
@@ -1014,8 +1014,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-pageView",
-            "dataElementCacheId": "0a443443-6ae6-4619-8fad-9e34f620feb5",
+            "dataElementId": "RESOLVE-DE-ID:Data: Page View",
+            "dataElementCacheId": "43dcb005-e494-46f7-848c-a041cb9784b2",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1038,11 +1038,11 @@
                   "eVar29": "%Content: Category%",
                   "eVar30": "%Content: Tags%",
                   "eVar37": "%Plugin: Visit Duration%",
-                  "eVar38": "%UTM_Source%",
-                  "eVar39": "%UTM_Medium%",
-                  "eVar40": "%UTM_Content%",
-                  "eVar41": "%UTM_Campaign%",
-                  "eVar42": "%UTM_Term%",
+                  "eVar38": "%UTM: Source%",
+                  "eVar39": "%UTM: Medium%",
+                  "eVar40": "%UTM: Content%",
+                  "eVar41": "%UTM: Campaign%",
+                  "eVar42": "%UTM: Term%",
                   "eVar47": "%Geo: Country%",
                   "prop1": "%Page: Name%",
                   "prop2": "%Core: Referrer%",
@@ -1081,7 +1081,7 @@
               "newsletter-signup-contextual"
             ],
             "type": "web.webpagedetails.pageViews",
-            "data": "%data-pageView%"
+            "data": "%Data: Page View%"
           }
         }
       ]
@@ -1106,8 +1106,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-siteError",
-            "dataElementCacheId": "87931ddb-c7da-4bd3-8b3b-e9ce67487832",
+            "dataElementId": "RESOLVE-DE-ID:Data: Site Error",
+            "dataElementCacheId": "bff8473d-029f-4324-873e-8119059cbafe",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1125,7 +1125,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webpagedetails.pageViews",
-            "data": "%data-siteError%"
+            "data": "%Data: Site Error%"
           }
         }
       ]
@@ -1150,8 +1150,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1171,7 +1171,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1196,8 +1196,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1218,7 +1218,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1243,8 +1243,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1264,7 +1264,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1289,8 +1289,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1310,7 +1310,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1335,8 +1335,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1357,7 +1357,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1382,14 +1382,14 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
                   "linkName": "News Filter Click",
                   "linkType": "o",
-                  "eVar27": "%News Filter%",
+                  "eVar27": "%News: Filter%",
                   "events": "event25"
                 }
               }
@@ -1403,7 +1403,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1428,8 +1428,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1450,7 +1450,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1475,8 +1475,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1498,7 +1498,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1523,8 +1523,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1545,7 +1545,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1570,8 +1570,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1592,7 +1592,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1617,8 +1617,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1640,7 +1640,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1665,8 +1665,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1687,7 +1687,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1712,8 +1712,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1734,7 +1734,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1759,8 +1759,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1781,7 +1781,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1806,8 +1806,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1828,7 +1828,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1853,8 +1853,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1875,7 +1875,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1900,8 +1900,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1921,7 +1921,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1946,8 +1946,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -1969,7 +1969,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -1994,8 +1994,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2016,7 +2016,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2041,8 +2041,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2063,7 +2063,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2088,8 +2088,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2109,7 +2109,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2134,8 +2134,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2155,7 +2155,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2180,8 +2180,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2201,7 +2201,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2226,8 +2226,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2247,7 +2247,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2272,8 +2272,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2295,7 +2295,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2320,14 +2320,14 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
                   "linkName": "Social Interaction",
                   "linkType": "o",
-                  "eVar17": "%Social Interaction Info%",
+                  "eVar17": "%Social: Interaction Info%",
                   "events": "event1"
                 }
               }
@@ -2341,7 +2341,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2366,8 +2366,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2388,7 +2388,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2413,8 +2413,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2434,7 +2434,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2459,8 +2459,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2481,7 +2481,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2506,8 +2506,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2528,7 +2528,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2553,8 +2553,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2575,7 +2575,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2600,8 +2600,8 @@
           "delegateDisplayName": "Update variable",
           "category": "analytics",
           "settings": {
-            "dataElementId": "RESOLVE-DE-ID:data-interaction",
-            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "dataElementId": "RESOLVE-DE-ID:Data: Interaction",
+            "dataElementCacheId": "d206af12-689e-4b62-8272-c4b0af780e26",
             "data": {
               "__adobe": {
                 "analytics": {
@@ -2621,7 +2621,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "web.webinteraction.linkClicks",
-            "data": "%data-interaction%"
+            "data": "%Data: Interaction%"
           }
         }
       ]
@@ -2709,7 +2709,7 @@
           "settings": {
             "instanceName": "alloy",
             "type": "decisioning.propositionDisplay",
-            "xdm": "%Newsletter Proposition Data Element%"
+            "xdm": "%Target: Newsletter Proposition Data Element%"
           }
         }
       ]

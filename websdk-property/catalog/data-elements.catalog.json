@@ -68,10 +68,21 @@
       "Filter": "News Filter",
       "User Type": "User: Type",
       "Login ID": "User: Login ID",
-      "Publish Date": "Content: Publish Date"
+      "Publish Date": "Content: Publish Date",
+      "UTM_Source": "UTM: Source",
+      "UTM_Medium": "UTM: Medium",
+      "UTM_Content": "UTM: Content",
+      "UTM_Campaign": "UTM: Campaign",
+      "UTM_Term": "UTM: Term",
+      "News Filter": "News: Filter",
+      "Social Interaction Info": "Social: Interaction Info",
+      "data-pageView": "Data: Page View",
+      "data-interaction": "Data: Interaction",
+      "data-siteError": "Data: Site Error",
+      "Newsletter Proposition Data Element": "Target: Newsletter Proposition Data Element"
     },
     "parityNote": "Old-vs-new beacon QA maps names through this ledger; settings are unchanged, so values are identical.",
-    "featureGroups": "Business values that belong to a site feature are grouped 'Feature: value', dropping the redundant leading word (dropdown reads 'Search: Term', 'Page: Name'). Domain groups: Search, Form, Video, Map, Article, Consent, Page, Site, File, Link (click-target values), Geo (Country/Language/Locale), Content (Category/Type/Tags/Hidden Tags), Campaign (External/Internal/Internal Count), User (Type/Login ID). This DOMAIN axis (which feature uses the value) shares a colon with the SOURCE axis of Plugin:/Core: (which extension produced it) by the owner's choice (2026-07-29). Global dimensions were grouped too (owner confirmed, before any rule referenced them). Still bare, deliberately: cross-cutting singletons with no feature home (Scroll Depth, Social Interaction Info; News Filter kept bare but renamed from 'Filter' to disambiguate from Search: Filter). Domain groups into Site: (site identity) and Site Error into Page: (a per-page event, despite both sitting under web.webPageDetails)  and UTM_* (self-group by name).",
+    "featureGroups": "Business values that belong to a site feature are grouped 'Feature: value', dropping the redundant leading word (dropdown reads 'Search: Term', 'Page: Name'). Domain groups: Search, Form, Video, Map, Article, Consent, Page, Site, File, Link (click-target values), Geo (Country/Language/Locale), Content (Category/Type/Tags/Hidden Tags), Campaign (External/Internal/Internal Count), User (Type/Login ID). This DOMAIN axis (which feature uses the value) shares a colon with the SOURCE axis of Plugin:/Core: (which extension produced it) by the owner's choice (2026-07-29). Global dimensions were grouped too (owner confirmed, before any rule referenced them). Still bare, deliberately: cross-cutting singletons with no feature home (Scroll Depth, Social Interaction Info; News Filter kept bare but renamed from 'Filter' to disambiguate from Search: Filter). Domain groups into Site: (site identity) and Site Error into Page: (a per-page event, despite both sitting under web.webPageDetails)  UTM: (renamed from UTM_ at the owner's UI choice; the elements' query-string settings.name still reads the real utm_* param). Payload Web SDK Variable elements use Data: (Page View / Interaction / Site Error). Also owner-added singleton groups News:, Social:, and Target: (the newsletter proposition element).",
     "_functionalFlags": "User: Type is a return \"\" no-op stub (eVar15 has never populated); User: Login ID is an orphan (reads loginID but no payload sends it). Grouped for tidiness at the owner's request; both still need a use-or-exclude decision like Campaign: Internal. Publish Date grouped as Content: (content metadata) though its data-layer path is web.webPageDetails.publishDate."
   },
   "_source": "aboutamazon.com.xlsx \u2014 DataElements sheet (108 elements; 72 carried, 28 XDM replaced by generated builders, remainder excluded with reasons below)",
@@ -212,7 +223,7 @@
       "defaultValue": null,
       "delegate": "core-custom-code",
       "settings": {
-        "source": "var utm_source = _satellite.getVar(\"UTM_Source\") || \"\";\nvar utm_medium = _satellite.getVar(\"UTM_Medium\") || \"\";\nvar utm_content = _satellite.getVar(\"UTM_Content\") || \"\";\nvar utm_campaign = _satellite.getVar(\"UTM_Campaign\") || \"\";\nvar utm_term = _satellite.getVar(\"UTM_Term\") || \"\";\n\n// Check if any UTM parameter exists in the URL\nif (_satellite.getVar(\"Page URL\").indexOf(\"utm_source\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_medium\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_campaign\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_content\") !== -1 || \n    _satellite.getVar(\"Page URL\").indexOf(\"utm_term\") !== -1) {\n\n    // Construct the Campaign string\n    var Campaign = utm_source + \"|\" + utm_medium + \"|\" + utm_content + \"|\" + utm_campaign+\"|\"+utm_term;\n    return Campaign;\n}"
+        "source": "var utm_source = _satellite.getVar(\"UTM: Source\") || \"\";\nvar utm_medium = _satellite.getVar(\"UTM: Medium\") || \"\";\nvar utm_content = _satellite.getVar(\"UTM: Content\") || \"\";\nvar utm_campaign = _satellite.getVar(\"UTM: Campaign\") || \"\";\nvar utm_term = _satellite.getVar(\"UTM: Term\") || \"\";\n\n// Check if any UTM parameter exists in the URL\nif (_satellite.getVar(\"Page: URL\").indexOf(\"utm_source\") !== -1 || \n    _satellite.getVar(\"Page: URL\").indexOf(\"utm_medium\") !== -1 || \n    _satellite.getVar(\"Page: URL\").indexOf(\"utm_campaign\") !== -1 || \n    _satellite.getVar(\"Page: URL\").indexOf(\"utm_content\") !== -1 || \n    _satellite.getVar(\"Page: URL\").indexOf(\"utm_term\") !== -1) {\n\n    // Construct the Campaign string\n    var Campaign = utm_source + \"|\" + utm_medium + \"|\" + utm_content + \"|\" + utm_campaign+\"|\"+utm_term;\n    return Campaign;\n}"
       }
     },
     {
@@ -372,7 +383,7 @@
       }
     },
     {
-      "name": "News Filter",
+      "name": "News: Filter",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -879,7 +890,7 @@
       }
     },
     {
-      "name": "Social Interaction Info",
+      "name": "Social: Interaction Info",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -966,7 +977,7 @@
       }
     },
     {
-      "name": "UTM_Campaign",
+      "name": "UTM: Campaign",
       "sourceExtension": "Core",
       "sourceType": "Query String Parameter",
       "forceLowerCase": true,
@@ -980,7 +991,7 @@
       }
     },
     {
-      "name": "UTM_Content",
+      "name": "UTM: Content",
       "sourceExtension": "Core",
       "sourceType": "Query String Parameter",
       "forceLowerCase": false,
@@ -994,7 +1005,7 @@
       }
     },
     {
-      "name": "UTM_Medium",
+      "name": "UTM: Medium",
       "sourceExtension": "Core",
       "sourceType": "Query String Parameter",
       "forceLowerCase": true,
@@ -1008,7 +1019,7 @@
       }
     },
     {
-      "name": "UTM_Source",
+      "name": "UTM: Source",
       "sourceExtension": "Core",
       "sourceType": "Query String Parameter",
       "forceLowerCase": true,
@@ -1022,7 +1033,7 @@
       }
     },
     {
-      "name": "UTM_Term",
+      "name": "UTM: Term",
       "sourceExtension": "Core",
       "sourceType": "Query String Parameter",
       "forceLowerCase": true,
