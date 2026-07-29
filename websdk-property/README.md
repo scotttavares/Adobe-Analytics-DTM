@@ -73,7 +73,8 @@ schema (without eVar/prop numbering) is the right move.
 | `catalog/events-catalog.json` | Single source of truth for every event payload (page view, 32 interactions, site error) |
 | `catalog/acdl-events.overrides.example.json` | Shape of the file `export-current.mjs` produces (real data-layer event names) |
 | `blueprint/aboutamazon-websdk.blueprint.json` | Generated build plan — currently a **draft** (see below) |
-| `scripts/` | Reactor API client + generate / preflight / publish / rollback / export tooling |
+| `scripts/` | Reactor API client + generate / preflight / publish / rollback / export tooling, plus `verify-entry.mjs` (machine-diff of the hand-entered property vs the blueprint) and `generate-qa-checklist.mjs` |
+| `docs/QA-CHECKLIST.md` | Generated Phase 4 pass: per-rule trigger + expected beacon, newsletter 5-point, residue test, Finding 1 evidence |
 | `snippets/prehiding-snippet.html` | Anti-flicker snippet for the page `<head>` (Findings 6+8) |
 | `docs/` | Runbook, manual steps, audit traceability |
 

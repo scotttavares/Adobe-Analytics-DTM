@@ -93,6 +93,13 @@ and promotes its own (named to this convention automatically).
 
 ## Phase 4 — Verify in Adobe (before any embed change on the site)
 
+Run [docs/QA-CHECKLIST.md](QA-CHECKLIST.md) — the generated per-rule
+trigger/expectation pass (re-generate with
+`node scripts/generate-qa-checklist.mjs` after any catalog change). After the
+manual entry passes, machine-diff the property against the blueprint:
+`node scripts/verify-entry.mjs` (read-only; needs the Phase 0 credentials).
+The bullets below are the same checks in narrative form:
+
 - Assurance/Debugger on a dev URL with the new **Development** embed code:
   one `interact` call to the datastream per page view, `renderDecisions: true`,
   Analytics mapping visible in the datastream's Analytics service.

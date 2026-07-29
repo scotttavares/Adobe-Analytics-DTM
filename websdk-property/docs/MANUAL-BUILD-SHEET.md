@@ -854,8 +854,7 @@ event as `Consent Selection`.
 ## 8. Finish
 
 1. Library `20260728 - v1.0 - Initial Web SDK Implementation` → **Add All Changed Resources** → Save & Build for Development.
-2. Run the Phase 4 QA pass in docs/RUNBOOK.md against the Development embed code.
-3. Optional but recommended once credentials exist: run `scripts/export-current.mjs`
-   against **this new property** and diff the export against the blueprint —
-   machine-verifying the manual entry (typo hunt) before staging/production.
+2. Run docs/QA-CHECKLIST.md (generated per-rule trigger/expectation pass) against the Development embed code.
+3. Machine-verify the manual entry before staging/production: `node scripts/verify-entry.mjs`
+   (read-only diff of the live property vs the blueprint — needs the RUNBOOK Phase 0 credentials).
 

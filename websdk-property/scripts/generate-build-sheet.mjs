@@ -295,10 +295,9 @@ async function main() {
   L.push('## 8. Finish');
   L.push('');
   L.push('1. Library `20260728 - v1.0 - Initial Web SDK Implementation` → **Add All Changed Resources** → Save & Build for Development.');
-  L.push('2. Run the Phase 4 QA pass in docs/RUNBOOK.md against the Development embed code.');
-  L.push('3. Optional but recommended once credentials exist: run `scripts/export-current.mjs`');
-  L.push('   against **this new property** and diff the export against the blueprint —');
-  L.push('   machine-verifying the manual entry (typo hunt) before staging/production.');
+  L.push('2. Run docs/QA-CHECKLIST.md (generated per-rule trigger/expectation pass) against the Development embed code.');
+  L.push('3. Machine-verify the manual entry before staging/production: `node scripts/verify-entry.mjs`');
+  L.push('   (read-only diff of the live property vs the blueprint — needs the RUNBOOK Phase 0 credentials).');
   L.push('');
 
   await writeFile(outPath, `${L.join('\n')}\n`, 'utf8');
