@@ -14,9 +14,9 @@
     "renderDecisions": true,
     "xdmEventType": "web.webpagedetails.pageViews",
     "analytics": {
-      "pageName": "Page Name",
-      "channel": "Site Section",
-      "pageURL": "Page URL",
+      "pageName": "Page: Name",
+      "channel": "Site: Section",
+      "pageURL": "Page: URL",
       "referrer": "Core: Referrer",
       "campaign": "Campaign",
       "events": [
@@ -31,11 +31,11 @@
       "eVars": {
         "eVar1": "Domain",
         "eVar2": "Plugin: Previous Page Name",
-        "eVar3": "Page Name",
-        "eVar4": "Site Section",
+        "eVar3": "Page: Name",
+        "eVar4": "Site: Section",
         "eVar5": "Internal Campaign",
         "eVar9": "Content Type",
-        "eVar12": "Page URL",
+        "eVar12": "Page: URL",
         "eVar13": "Core: Page Query String",
         "eVar15": "User Type",
         "eVar18": "Language",
@@ -51,23 +51,23 @@
         "eVar47": "Country"
       },
       "props": {
-        "prop1": "Page Name",
+        "prop1": "Page: Name",
         "prop2": "Core: Referrer",
         "prop3": "Core: Timestamp",
-        "prop4": "Page Title",
+        "prop4": "Page: Title",
         "prop5": "Core: Clean URL",
-        "prop6": "Site Section",
-        "prop7": "Site Section2",
-        "prop8": "Site Section3",
-        "prop9": "Site Section4",
-        "prop10": "Site Section5",
+        "prop6": "Site: Section",
+        "prop7": "Site: Section 2",
+        "prop8": "Site: Section 3",
+        "prop9": "Site: Section 4",
+        "prop10": "Site: Section 5",
         "prop11": "Plugin: Previous Page Name",
-        "prop12": "Page URL",
+        "prop12": "Page: URL",
         "prop14": "Plugin: Visit Number",
         "prop15": "Plugin: Time Since Last Visit",
         "prop16": "Plugin: Repeat Vs New",
         "prop17": "Plugin: Visit Duration",
-        "prop18": "Page Title",
+        "prop18": "Page: Title",
         "prop20": "Locale"
       },
       "lists": {
@@ -114,7 +114,7 @@
         }
       ],
       "eVars": {
-        "eVar44": "More Amazon News Text"
+        "eVar44": "Link: More Amazon News Text"
       },
       "acdlTimeScope": "all"
     },
@@ -134,8 +134,8 @@
         }
       ],
       "eVars": {
-        "eVar23": "Destination Link",
-        "eVar28": "Redirect Link Text"
+        "eVar23": "Link: Destination",
+        "eVar28": "Link: Redirect Text"
       },
       "acdlTimeScope": "all"
     },
@@ -152,7 +152,7 @@
         }
       ],
       "eVars": {
-        "eVar45": "Stories Link Text"
+        "eVar45": "Link: Stories Text"
       },
       "acdlTimeScope": "all"
     },
@@ -166,11 +166,11 @@
       "events": [
         {
           "event": "event30",
-          "valueFrom": "Consent Click Count"
+          "valueFrom": "Consent: Click Count"
         }
       ],
       "eVars": {
-        "eVar48": "Consent Selected"
+        "eVar48": "Consent: Selected"
       },
       "acdlTimeScope": "all"
     },
@@ -187,8 +187,8 @@
         }
       ],
       "eVars": {
-        "eVar33": "File Name",
-        "eVar34": "File Type"
+        "eVar33": "File: Name",
+        "eVar34": "File: Type"
       },
       "acdlTimeScope": "all"
     },
@@ -222,8 +222,8 @@
         }
       ],
       "eVars": {
-        "eVar10": "Form Name",
-        "eVar19": "Form Location"
+        "eVar10": "Form: Name",
+        "eVar19": "Form: Location"
       },
       "acdlTimeScope": "all"
     },
@@ -240,12 +240,12 @@
         }
       ],
       "eVars": {
-        "eVar10": "Form Name",
-        "eVar19": "Form Location"
+        "eVar10": "Form: Name",
+        "eVar19": "Form: Location"
       },
       "lists": {
         "list1": [
-          "Form Error Name"
+          "Form: Error Name"
         ]
       },
       "acdlTimeScope": "all"
@@ -263,8 +263,8 @@
         }
       ],
       "eVars": {
-        "eVar10": "Form Name",
-        "eVar19": "Form Location"
+        "eVar10": "Form: Name",
+        "eVar19": "Form: Location"
       },
       "acdlTimeScope": "all"
     },
@@ -281,8 +281,8 @@
         }
       ],
       "eVars": {
-        "eVar22": "CTA Button Name",
-        "eVar23": "Destination Link"
+        "eVar22": "Link: CTA Button",
+        "eVar23": "Link: Destination"
       },
       "acdlTimeScope": "all"
     },
@@ -299,9 +299,9 @@
         }
       ],
       "eVars": {
-        "eVar6": "Search Term",
-        "eVar7": "Search Results",
-        "eVar8": "Search Result PageType"
+        "eVar6": "Search: Term",
+        "eVar7": "Search: Results",
+        "eVar8": "Search: Result Page Type"
       },
       "acdlTimeScope": "all"
     },
@@ -318,8 +318,8 @@
         }
       ],
       "eVars": {
-        "eVar6": "Search Term",
-        "eVar32": "Search Result Click Name"
+        "eVar6": "Search: Term",
+        "eVar32": "Search: Result Click Name"
       },
       "acdlTimeScope": "all"
     },
@@ -336,8 +336,8 @@
         }
       ],
       "eVars": {
-        "eVar49": "Map Name",
-        "eVar50": "Map Button Name"
+        "eVar49": "Map: Name",
+        "eVar50": "Map: Button Name"
       },
       "acdlTimeScope": "all"
     },
@@ -354,8 +354,8 @@
         }
       ],
       "eVars": {
-        "eVar49": "Map Name",
-        "eVar50": "Map Button Name"
+        "eVar49": "Map: Name",
+        "eVar50": "Map: Button Name"
       },
       "acdlTimeScope": "all"
     },
@@ -372,8 +372,8 @@
         }
       ],
       "eVars": {
-        "eVar49": "Map Name",
-        "eVar50": "Map Button Name"
+        "eVar49": "Map: Name",
+        "eVar50": "Map: Button Name"
       },
       "acdlTimeScope": "all"
     },
@@ -390,8 +390,8 @@
         }
       ],
       "eVars": {
-        "eVar49": "Map Name",
-        "eVar50": "Map Button Name"
+        "eVar49": "Map: Name",
+        "eVar50": "Map: Button Name"
       },
       "acdlTimeScope": "all"
     },
@@ -408,7 +408,7 @@
         }
       ],
       "eVars": {
-        "eVar24": "Menu Link Name"
+        "eVar24": "Link: Menu"
       },
       "acdlTimeScope": "all"
     },
@@ -425,9 +425,9 @@
         }
       ],
       "eVars": {
-        "eVar6": "Search Term",
-        "eVar7": "Search Results",
-        "eVar8": "Search Result PageType"
+        "eVar6": "Search: Term",
+        "eVar7": "Search: Results",
+        "eVar8": "Search: Result Page Type"
       },
       "acdlTimeScope": "all"
     },
@@ -447,8 +447,8 @@
         }
       ],
       "eVars": {
-        "eVar21": "Redirect Link Text",
-        "eVar23": "Destination Link"
+        "eVar21": "Link: Redirect Text",
+        "eVar23": "Link: Destination"
       },
       "acdlTimeScope": "all"
     },
@@ -465,8 +465,8 @@
         }
       ],
       "eVars": {
-        "eVar43": "Related Tag Link",
-        "eVar46": "Related Tag Link URL"
+        "eVar43": "Link: Related Tag",
+        "eVar46": "Link: Related Tag URL"
       },
       "acdlTimeScope": "all"
     },
@@ -483,7 +483,7 @@
         }
       ],
       "eVars": {
-        "eVar20": "ScrollInfo Depth"
+        "eVar20": "Scroll Depth"
       },
       "acdlTimeScope": "all"
     },
@@ -500,7 +500,7 @@
         }
       ],
       "eVars": {
-        "eVar20": "ScrollInfo Depth"
+        "eVar20": "Scroll Depth"
       },
       "acdlTimeScope": "all"
     },
@@ -517,7 +517,7 @@
         }
       ],
       "eVars": {
-        "eVar20": "ScrollInfo Depth"
+        "eVar20": "Scroll Depth"
       },
       "acdlTimeScope": "all"
     },
@@ -534,7 +534,7 @@
         }
       ],
       "eVars": {
-        "eVar20": "ScrollInfo Depth"
+        "eVar20": "Scroll Depth"
       },
       "acdlTimeScope": "all"
     },
@@ -551,9 +551,9 @@
         }
       ],
       "eVars": {
-        "eVar6": "Search Term",
-        "eVar7": "Search Results",
-        "eVar8": "Search Result PageType"
+        "eVar6": "Search: Term",
+        "eVar7": "Search: Results",
+        "eVar8": "Search: Result Page Type"
       },
       "acdlTimeScope": "all"
     },
@@ -587,8 +587,8 @@
         }
       ],
       "eVars": {
-        "eVar11": "Video Name",
-        "eVar35": "Video Type"
+        "eVar11": "Video: Name",
+        "eVar35": "Video: Type"
       },
       "acdlTimeScope": "all"
     },
@@ -605,7 +605,7 @@
         }
       ],
       "eVars": {
-        "eVar11": "Video Name"
+        "eVar11": "Video: Name"
       },
       "acdlTimeScope": "all"
     },
@@ -622,8 +622,8 @@
         }
       ],
       "eVars": {
-        "eVar11": "Video Name",
-        "eVar35": "Video Type"
+        "eVar11": "Video: Name",
+        "eVar35": "Video: Type"
       },
       "acdlTimeScope": "all"
     },
@@ -640,8 +640,8 @@
         }
       ],
       "eVars": {
-        "eVar11": "Video Name",
-        "eVar35": "Video Type"
+        "eVar11": "Video: Name",
+        "eVar35": "Video: Type"
       },
       "acdlTimeScope": "all"
     },
@@ -658,8 +658,8 @@
         }
       ],
       "eVars": {
-        "eVar11": "Video Name",
-        "eVar35": "Video Type"
+        "eVar11": "Video: Name",
+        "eVar35": "Video: Type"
       },
       "acdlTimeScope": "all"
     },
@@ -676,7 +676,7 @@
         }
       ],
       "eVars": {
-        "eVar11": "Video Name"
+        "eVar11": "Video: Name"
       },
       "acdlTimeScope": "all"
     }
@@ -715,8 +715,8 @@
         ],
         "eVars": {
           "eVar25": "Publish Date",
-          "eVar37": "Article Name",
-          "eVar38": "Article Content Type"
+          "eVar37": "Article: Name",
+          "eVar38": "Article: Content Type"
         },
         "note": "Preserved from the draft + the XDM Article element (with the broken %Article Publish Date% reference corrected to %Publish Date%). If article tracking becomes real scope, re-number the event away from event28 (Video Pause owns it in production) and add a fresh catalog entry."
       },

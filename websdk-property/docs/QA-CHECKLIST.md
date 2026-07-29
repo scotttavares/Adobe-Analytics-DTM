@@ -30,38 +30,38 @@ leftover fields from the previous row** (shared variable residue).
 
 | ✓ | Rule | Push event | linkName / linkType | events | eVars ← source |
 |---|---|---|---|---|---|
-| ☐ | Amazon More News Tracking | `moreAmazonNews` | `More Amazon News Click` / `o` | event22 | eVar44←%More Amazon News Text% |
-| ☐ | Amazon Redirect Link Click | `AmazonRedirectLinkClick` | `Amazon Redirect Link Click` / `o` | event21, event22 | eVar23←%Destination Link% · eVar28←%Redirect Link Text% |
-| ☐ | Amazon Stories Link Click Tracking | `storyLinkClick` | `Amazon Stories Link Tracking` / `o` | event22 | eVar45←%Stories Link Text% |
-| ☐ | Consent Selection | `consentSelection` | `Cookie Consent Selection` / `o` | — | eVar48←%Consent Selected% |
-| ☐ | File Download Tracking | `FileDownloaded` | `File Download` / `d` | event16 | eVar33←%File Name% · eVar34←%File Type% |
+| ☐ | Amazon More News Tracking | `moreAmazonNews` | `More Amazon News Click` / `o` | event22 | eVar44←%Link: More Amazon News Text% |
+| ☐ | Amazon Redirect Link Click | `AmazonRedirectLinkClick` | `Amazon Redirect Link Click` / `o` | event21, event22 | eVar23←%Link: Destination% · eVar28←%Link: Redirect Text% |
+| ☐ | Amazon Stories Link Click Tracking | `storyLinkClick` | `Amazon Stories Link Tracking` / `o` | event22 | eVar45←%Link: Stories Text% |
+| ☐ | Consent Selection | `consentSelection` | `Cookie Consent Selection` / `o` | — | eVar48←%Consent: Selected% |
+| ☐ | File Download Tracking | `FileDownloaded` | `File Download` / `d` | event16 | eVar33←%File: Name% · eVar34←%File: Type% |
 | ☐ | Filter Click Tracking | `FilterApplied` | `News Filter Click` / `o` | event25 | eVar27←%Filter% |
-| ☐ | Form Complete | `formComplete` | `Form Complete` / `o` | event10 | eVar10←%Form Name% · eVar19←%Form Location% |
-| ☐ | Form Error Tracking | `formError` | `Form Error` / `o` | event8 | eVar10←%Form Name% · eVar19←%Form Location% |
-| ☐ | Form Start | `formStart` | `Form Start` / `o` | event9 | eVar10←%Form Name% · eVar19←%Form Location% |
-| ☐ | Global CTA Button Tracking | `CTAButtonClicked` | `CTA Button Click` / `o` | event22 | eVar22←%CTA Button Name% · eVar23←%Destination Link% |
-| ☐ | Internal Search Click | `internalSearch` | `Internal Search` / `o` | event26 | eVar6←%Search Term% · eVar7←%Search Results% · eVar8←%Search Result PageType% |
-| ☐ | Internal Search ClickThrough | `internalSearchClickThrough` | `Internal Search Click Through` / `o` | event7 | eVar6←%Search Term% · eVar32←%Search Result Click Name% |
-| ☐ | Map Button Click | `mapButtonClick` | `Map Button Click` / `o` | event32 | eVar49←%Map Name% · eVar50←%Map Button Name% |
-| ☐ | Map Button Close | `mapButtonClose` | `Map Button Close` / `o` | event33 | eVar49←%Map Name% · eVar50←%Map Button Name% |
-| ☐ | Map Zoom In | `mapZoomIn` | `Map ZoomIn` / `o` | event34 | eVar49←%Map Name% · eVar50←%Map Button Name% |
-| ☐ | Map Zoom Out | `mapZoomOut` | `Map Zoom Out` / `o` | event31 | eVar49←%Map Name% · eVar50←%Map Button Name% |
-| ☐ | Menu Link Click Tracking | `MenuLinkClicked` | `Menu Click` / `o` | event23 | eVar24←%Menu Link Name% |
-| ☐ | Null Search Tracking | `nullSearch` | `Null Search` / `o` | event6 | eVar6←%Search Term% · eVar7←%Search Results% · eVar8←%Search Result PageType% |
-| ☐ | Redirect Link Click Tracking | `RedirectLinkClick` | `Redirect Link Click` / `o` | event21, event22 | eVar21←%Redirect Link Text% · eVar23←%Destination Link% |
-| ☐ | Related Tag Click Tracking | `TagClick` | `Related Tag Click` / `o` | event29 | eVar43←%Related Tag Link% · eVar46←%Related Tag Link URL% |
-| ☐ | Scroll 25 percentage | `scrollReach25` | `Scroll 25 Percentage` / `o` | event17 | eVar20←%ScrollInfo Depth% |
-| ☐ | Scroll 50 percentage | `scrollReach50` | `Scroll 50 Percentage` / `o` | event18 | eVar20←%ScrollInfo Depth% |
-| ☐ | Scroll 75 percentage | `scrollReach75` | `Scroll 75 Percentage` / `o` | event19 | eVar20←%ScrollInfo Depth% |
-| ☐ | Scroll 100 percentage | `scrollReach100` | `Scroll 100 Percentage` / `o` | event20 | eVar20←%ScrollInfo Depth% |
-| ☐ | Search Close Click | `SearchClosed` | `Internal Search Close Click` / `o` | event27 | eVar6←%Search Term% · eVar7←%Search Results% · eVar8←%Search Result PageType% |
+| ☐ | Form Complete | `formComplete` | `Form Complete` / `o` | event10 | eVar10←%Form: Name% · eVar19←%Form: Location% |
+| ☐ | Form Error Tracking | `formError` | `Form Error` / `o` | event8 | eVar10←%Form: Name% · eVar19←%Form: Location% |
+| ☐ | Form Start | `formStart` | `Form Start` / `o` | event9 | eVar10←%Form: Name% · eVar19←%Form: Location% |
+| ☐ | Global CTA Button Tracking | `CTAButtonClicked` | `CTA Button Click` / `o` | event22 | eVar22←%Link: CTA Button% · eVar23←%Link: Destination% |
+| ☐ | Internal Search Click | `internalSearch` | `Internal Search` / `o` | event26 | eVar6←%Search: Term% · eVar7←%Search: Results% · eVar8←%Search: Result Page Type% |
+| ☐ | Internal Search ClickThrough | `internalSearchClickThrough` | `Internal Search Click Through` / `o` | event7 | eVar6←%Search: Term% · eVar32←%Search: Result Click Name% |
+| ☐ | Map Button Click | `mapButtonClick` | `Map Button Click` / `o` | event32 | eVar49←%Map: Name% · eVar50←%Map: Button Name% |
+| ☐ | Map Button Close | `mapButtonClose` | `Map Button Close` / `o` | event33 | eVar49←%Map: Name% · eVar50←%Map: Button Name% |
+| ☐ | Map Zoom In | `mapZoomIn` | `Map ZoomIn` / `o` | event34 | eVar49←%Map: Name% · eVar50←%Map: Button Name% |
+| ☐ | Map Zoom Out | `mapZoomOut` | `Map Zoom Out` / `o` | event31 | eVar49←%Map: Name% · eVar50←%Map: Button Name% |
+| ☐ | Menu Link Click Tracking | `MenuLinkClicked` | `Menu Click` / `o` | event23 | eVar24←%Link: Menu% |
+| ☐ | Null Search Tracking | `nullSearch` | `Null Search` / `o` | event6 | eVar6←%Search: Term% · eVar7←%Search: Results% · eVar8←%Search: Result Page Type% |
+| ☐ | Redirect Link Click Tracking | `RedirectLinkClick` | `Redirect Link Click` / `o` | event21, event22 | eVar21←%Link: Redirect Text% · eVar23←%Link: Destination% |
+| ☐ | Related Tag Click Tracking | `TagClick` | `Related Tag Click` / `o` | event29 | eVar43←%Link: Related Tag% · eVar46←%Link: Related Tag URL% |
+| ☐ | Scroll 25 percentage | `scrollReach25` | `Scroll 25 Percentage` / `o` | event17 | eVar20←%Scroll Depth% |
+| ☐ | Scroll 50 percentage | `scrollReach50` | `Scroll 50 Percentage` / `o` | event18 | eVar20←%Scroll Depth% |
+| ☐ | Scroll 75 percentage | `scrollReach75` | `Scroll 75 Percentage` / `o` | event19 | eVar20←%Scroll Depth% |
+| ☐ | Scroll 100 percentage | `scrollReach100` | `Scroll 100 Percentage` / `o` | event20 | eVar20←%Scroll Depth% |
+| ☐ | Search Close Click | `SearchClosed` | `Internal Search Close Click` / `o` | event27 | eVar6←%Search: Term% · eVar7←%Search: Results% · eVar8←%Search: Result Page Type% |
 | ☐ | Social Interaction Tracking | `socialInteraction` | `Social Interaction` / `o` | event1 | eVar17←%Social Interaction Info% |
-| ☐ | Video Start | `videoPlaying` | `Video Start` / `o` | event11 | eVar11←%Video Name% · eVar35←%Video Type% |
-| ☐ | Video 25 percentage complete | `videoViewed25` | `Video 25 Percent completion` / `o` | event13 | eVar11←%Video Name% |
-| ☐ | Video 50 percentage complete | `videoViewed50` | `Video 50 Percent completion` / `o` | event14 | eVar11←%Video Name% · eVar35←%Video Type% |
-| ☐ | Video 75 percentage complete | `videoViewed75` | `Video 75 Percent completion` / `o` | event15 | eVar11←%Video Name% · eVar35←%Video Type% |
-| ☐ | Video 100 percentage complete | `videoComplete` | `Video Complete` / `o` | event12 | eVar11←%Video Name% · eVar35←%Video Type% |
-| ☐ | Video Pause | `videoPause` | `Video Pause` / `o` | event28 | eVar11←%Video Name% |
+| ☐ | Video Start | `videoPlaying` | `Video Start` / `o` | event11 | eVar11←%Video: Name% · eVar35←%Video: Type% |
+| ☐ | Video 25 percentage complete | `videoViewed25` | `Video 25 Percent completion` / `o` | event13 | eVar11←%Video: Name% |
+| ☐ | Video 50 percentage complete | `videoViewed50` | `Video 50 Percent completion` / `o` | event14 | eVar11←%Video: Name% · eVar35←%Video: Type% |
+| ☐ | Video 75 percentage complete | `videoViewed75` | `Video 75 Percent completion` / `o` | event15 | eVar11←%Video: Name% · eVar35←%Video: Type% |
+| ☐ | Video 100 percentage complete | `videoComplete` | `Video Complete` / `o` | event12 | eVar11←%Video: Name% · eVar35←%Video: Type% |
+| ☐ | Video Pause | `videoPause` | `Video Pause` / `o` | event28 | eVar11←%Video: Name% |
 
 ## 3. Site error — `Site Error`
 

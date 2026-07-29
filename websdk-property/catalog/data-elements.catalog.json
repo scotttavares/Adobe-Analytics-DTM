@@ -12,9 +12,50 @@
       "Time Parting": "Plugin: Time Parting",
       "Time Since Last Visit": "Plugin: Time Since Last Visit",
       "Visit Duration": "Plugin: Visit Duration",
-      "Visit Number": "Plugin: Visit Number"
+      "Visit Number": "Plugin: Visit Number",
+      "Search Filter": "Search: Filter",
+      "Search Result Click Name": "Search: Result Click Name",
+      "Search Result PageType": "Search: Result Page Type",
+      "Search Results": "Search: Results",
+      "Search Term": "Search: Term",
+      "Form Error Name": "Form: Error Name",
+      "Form Location": "Form: Location",
+      "Form Name": "Form: Name",
+      "Video Name": "Video: Name",
+      "Video Type": "Video: Type",
+      "Map Button Name": "Map: Button Name",
+      "Map Name": "Map: Name",
+      "Article Content Type": "Article: Content Type",
+      "Article Name": "Article: Name",
+      "Consent Selected": "Consent: Selected",
+      "Consent Click Count": "Consent: Click Count",
+      "File Url": "File: URL",
+      "LoginID": "Login ID",
+      "ScrollInfo Depth": "Scroll Depth",
+      "Page Name": "Page: Name",
+      "Page Title": "Page: Title",
+      "Page URL": "Page: URL",
+      "Page View Count": "Page: View Count",
+      "Site Section": "Site: Section",
+      "Site Section2": "Site: Section 2",
+      "Site Section3": "Site: Section 3",
+      "Site Section4": "Site: Section 4",
+      "Site Section5": "Site: Section 5",
+      "File Name": "File: Name",
+      "File Type": "File: Type",
+      "Amazon Redirect Link": "Link: Amazon Redirect",
+      "CTA Button Name": "Link: CTA Button",
+      "Destination Link": "Link: Destination",
+      "Link Name": "Link: Name",
+      "Menu Link Name": "Link: Menu",
+      "More Amazon News Text": "Link: More Amazon News Text",
+      "Redirect Link Text": "Link: Redirect Text",
+      "Related Tag Link": "Link: Related Tag",
+      "Related Tag Link URL": "Link: Related Tag URL",
+      "Stories Link Text": "Link: Stories Text"
     },
-    "parityNote": "Old-vs-new beacon QA maps names through this ledger; settings are unchanged, so values are identical."
+    "parityNote": "Old-vs-new beacon QA maps names through this ledger; settings are unchanged, so values are identical.",
+    "featureGroups": "Business values that belong to a site feature are grouped 'Feature: value', dropping the redundant leading word (dropdown reads 'Search: Term', 'Page: Name'). Domain groups: Search, Form, Video, Map, Article, Consent, Page, Site, File, Link (click-target values). This DOMAIN axis (which feature uses the value) shares a colon with the SOURCE axis of Plugin:/Core: (which extension produced it) by the owner's choice (2026-07-29). Global dimensions were grouped too (owner confirmed, before any rule referenced them). Still bare, deliberately: cross-cutting singletons with no feature home (Country, Language, Locale, Domain, Category, Content Type, Tags, Hidden Tags, Publish Date, Scroll Depth, Social Interaction Info, Site Error, Login ID), the Campaign family (business-named custom code), and UTM_* (self-group by name)."
   },
   "_source": "aboutamazon.com.xlsx \u2014 DataElements sheet (108 elements; 72 carried, 28 XDM replaced by generated builders, remainder excluded with reasons below)",
   "delegates": {
@@ -106,7 +147,7 @@
   ],
   "dataElements": [
     {
-      "name": "Amazon Redirect Link",
+      "name": "Link: Amazon Redirect",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -119,7 +160,7 @@
       }
     },
     {
-      "name": "Article Content Type",
+      "name": "Article: Content Type",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -132,7 +173,7 @@
       }
     },
     {
-      "name": "Article Name",
+      "name": "Article: Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -184,7 +225,7 @@
       }
     },
     {
-      "name": "Consent Click Count",
+      "name": "Consent: Click Count",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": false,
@@ -197,7 +238,7 @@
       }
     },
     {
-      "name": "Consent Selected",
+      "name": "Consent: Selected",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -236,7 +277,7 @@
       }
     },
     {
-      "name": "CTA Button Name",
+      "name": "Link: CTA Button",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -249,7 +290,7 @@
       }
     },
     {
-      "name": "Destination Link",
+      "name": "Link: Destination",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -275,7 +316,7 @@
       }
     },
     {
-      "name": "File Name",
+      "name": "File: Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -288,7 +329,7 @@
       }
     },
     {
-      "name": "File Type",
+      "name": "File: Type",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -301,7 +342,7 @@
       }
     },
     {
-      "name": "File Url",
+      "name": "File: URL",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": false,
@@ -327,7 +368,7 @@
       }
     },
     {
-      "name": "Form Error Name",
+      "name": "Form: Error Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -340,7 +381,7 @@
       }
     },
     {
-      "name": "Form Location",
+      "name": "Form: Location",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -353,7 +394,7 @@
       }
     },
     {
-      "name": "Form Name",
+      "name": "Form: Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -419,7 +460,7 @@
       }
     },
     {
-      "name": "Link Name",
+      "name": "Link: Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -445,7 +486,7 @@
       }
     },
     {
-      "name": "LoginID",
+      "name": "Login ID",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -458,7 +499,7 @@
       }
     },
     {
-      "name": "Map Button Name",
+      "name": "Map: Button Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -471,7 +512,7 @@
       }
     },
     {
-      "name": "Map Name",
+      "name": "Map: Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -484,7 +525,7 @@
       }
     },
     {
-      "name": "Menu Link Name",
+      "name": "Link: Menu",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -497,7 +538,7 @@
       }
     },
     {
-      "name": "More Amazon News Text",
+      "name": "Link: More Amazon News Text",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -510,7 +551,7 @@
       }
     },
     {
-      "name": "Page Name",
+      "name": "Page: Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": false,
@@ -536,7 +577,7 @@
       }
     },
     {
-      "name": "Page Title",
+      "name": "Page: Title",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": false,
@@ -549,7 +590,7 @@
       }
     },
     {
-      "name": "Page URL",
+      "name": "Page: URL",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -562,7 +603,7 @@
       }
     },
     {
-      "name": "Page View Count",
+      "name": "Page: View Count",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -602,7 +643,7 @@
       }
     },
     {
-      "name": "Redirect Link Text",
+      "name": "Link: Redirect Text",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -628,7 +669,7 @@
       }
     },
     {
-      "name": "Related Tag Link",
+      "name": "Link: Related Tag",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -641,7 +682,7 @@
       }
     },
     {
-      "name": "Related Tag Link URL",
+      "name": "Link: Related Tag URL",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -665,7 +706,7 @@
       "settings": {}
     },
     {
-      "name": "ScrollInfo Depth",
+      "name": "Scroll Depth",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -678,7 +719,7 @@
       }
     },
     {
-      "name": "Search Filter",
+      "name": "Search: Filter",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -691,7 +732,7 @@
       }
     },
     {
-      "name": "Search Result Click Name",
+      "name": "Search: Result Click Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -704,7 +745,7 @@
       }
     },
     {
-      "name": "Search Result PageType",
+      "name": "Search: Result Page Type",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": false,
@@ -717,7 +758,7 @@
       }
     },
     {
-      "name": "Search Results",
+      "name": "Search: Results",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -730,7 +771,7 @@
       }
     },
     {
-      "name": "Search Term",
+      "name": "Search: Term",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -756,7 +797,7 @@
       }
     },
     {
-      "name": "Site Section",
+      "name": "Site: Section",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -769,7 +810,7 @@
       }
     },
     {
-      "name": "Site Section2",
+      "name": "Site: Section 2",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": false,
@@ -782,7 +823,7 @@
       }
     },
     {
-      "name": "Site Section3",
+      "name": "Site: Section 3",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -795,7 +836,7 @@
       }
     },
     {
-      "name": "Site Section4",
+      "name": "Site: Section 4",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -808,7 +849,7 @@
       }
     },
     {
-      "name": "Site Section5",
+      "name": "Site: Section 5",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -834,7 +875,7 @@
       }
     },
     {
-      "name": "Stories Link Text",
+      "name": "Link: Stories Text",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -978,7 +1019,7 @@
       }
     },
     {
-      "name": "Video Name",
+      "name": "Video: Name",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -991,7 +1032,7 @@
       }
     },
     {
-      "name": "Video Type",
+      "name": "Video: Type",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,

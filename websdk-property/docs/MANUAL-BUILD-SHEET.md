@@ -18,58 +18,58 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 
 | # | Name | Data layer path | Force lowercase | Clean text | Default |
 |---|---|---|---|---|---|
-| 1 | `Amazon Redirect Link` | `web.webInteractions.AmazonRedirectLinkText` | ✅ | ✅ |  |
-| 2 | `Article Content Type` | `web.webInteractions.Article.ContentType` | ✅ | ✅ |  |
-| 3 | `Article Name` | `web.webInteractions.Article.ArticleName` | ✅ | ✅ |  |
+| 1 | `Link: Amazon Redirect` | `web.webInteractions.AmazonRedirectLinkText` | ✅ | ✅ |  |
+| 2 | `Article: Content Type` | `web.webInteractions.Article.ContentType` | ✅ | ✅ |  |
+| 3 | `Article: Name` | `web.webInteractions.Article.ArticleName` | ✅ | ✅ |  |
 | 4 | `Category` | `web.webPageDetails.category` | — | — |  |
-| 5 | `Consent Click Count` | `web.webInteractions.consentSelection.value` | — | — |  |
-| 6 | `Consent Selected` | `web.webInteractions.cookieConsent.consentSelected` | ✅ | ✅ |  |
+| 5 | `Consent: Click Count` | `web.webInteractions.consentSelection.value` | — | — |  |
+| 6 | `Consent: Selected` | `web.webInteractions.cookieConsent.consentSelected` | ✅ | ✅ |  |
 | 7 | `Content Type` | `web.webPageDetails.pageType` | — | — |  |
 | 8 | `Country` | `web.webPageDetails.country` | — | ✅ |  |
-| 9 | `CTA Button Name` | `web.webInteractions.CTAButtonName` | ✅ | ✅ |  |
-| 10 | `Destination Link` | `web.webInteractions.DestinationLink` | ✅ | ✅ |  |
+| 9 | `Link: CTA Button` | `web.webInteractions.CTAButtonName` | ✅ | ✅ |  |
+| 10 | `Link: Destination` | `web.webInteractions.DestinationLink` | ✅ | ✅ |  |
 | 11 | `Domain` | `web.webPageDetails.site` | ✅ | ✅ |  |
-| 12 | `File Name` | `web.webInteractions.FileName` | ✅ | ✅ |  |
-| 13 | `File Type` | `web.webInteractions.FileType` | ✅ | ✅ |  |
-| 14 | `File Url` | `web.webInteractions.FileUrl` | — | — |  |
+| 12 | `File: Name` | `web.webInteractions.FileName` | ✅ | ✅ |  |
+| 13 | `File: Type` | `web.webInteractions.FileType` | ✅ | ✅ |  |
+| 14 | `File: URL` | `web.webInteractions.FileUrl` | — | — |  |
 | 15 | `Filter` | `web.webInteractions.Filter` | ✅ | ✅ |  |
-| 16 | `Form Error Name` | `web.webInteractions.formErrorMessage` | ✅ | ✅ |  |
-| 17 | `Form Location` | `web.webInteractions.formLocation` | ✅ | ✅ |  |
-| 18 | `Form Name` | `web.webInteractions.formName` | ✅ | ✅ |  |
+| 16 | `Form: Error Name` | `web.webInteractions.formErrorMessage` | ✅ | ✅ |  |
+| 17 | `Form: Location` | `web.webInteractions.formLocation` | ✅ | ✅ |  |
+| 18 | `Form: Name` | `web.webInteractions.formName` | ✅ | ✅ |  |
 | 19 | `Hidden Tags` | `web.webPageDetails.hiddenTags` | ✅ | ✅ |  |
 | 20 | `Language` | `web.webPageDetails.language` | ✅ | ✅ |  |
-| 21 | `Link Name` | `web.webInteractions.linkName` | ✅ | ✅ |  |
+| 21 | `Link: Name` | `web.webInteractions.linkName` | ✅ | ✅ |  |
 | 22 | `Locale` | `web.webPageDetails.locale` | ✅ | ✅ |  |
-| 23 | `LoginID` | `loginID` | ✅ | ✅ |  |
-| 24 | `Map Button Name` | `map.mapButtonName` | ✅ | ✅ |  |
-| 25 | `Map Name` | `map.mapName` | ✅ | ✅ |  |
-| 26 | `Menu Link Name` | `web.webInteractions.MenuLinkName` | ✅ | ✅ |  |
-| 27 | `More Amazon News Text` | `web.webInteractions.moreAmazonNewsText` | ✅ | ✅ |  |
-| 28 | `Page Name` | `web.webPageDetails.pageName` | — | — |  |
-| 29 | `Page Title` | `web.webPageDetails.pageTitle` | — | — |  |
-| 30 | `Page URL` | `web.webPageDetails.pageUrl` | ✅ | ✅ |  |
-| 31 | `Page View Count` | `web.webPageDetails.pageLoaded.value` | ✅ | ✅ |  |
+| 23 | `Login ID` | `loginID` | ✅ | ✅ |  |
+| 24 | `Map: Button Name` | `map.mapButtonName` | ✅ | ✅ |  |
+| 25 | `Map: Name` | `map.mapName` | ✅ | ✅ |  |
+| 26 | `Link: Menu` | `web.webInteractions.MenuLinkName` | ✅ | ✅ |  |
+| 27 | `Link: More Amazon News Text` | `web.webInteractions.moreAmazonNewsText` | ✅ | ✅ |  |
+| 28 | `Page: Name` | `web.webPageDetails.pageName` | — | — |  |
+| 29 | `Page: Title` | `web.webPageDetails.pageTitle` | — | — |  |
+| 30 | `Page: URL` | `web.webPageDetails.pageUrl` | ✅ | ✅ |  |
+| 31 | `Page: View Count` | `web.webPageDetails.pageLoaded.value` | ✅ | ✅ |  |
 | 32 | `Publish Date` | `web.webPageDetails.publishDate` | — | — |  |
-| 33 | `Redirect Link Text` | `web.webInteractions.RedirectLinkText` | ✅ | ✅ |  |
-| 34 | `Related Tag Link` | `web.webInteractions.TagLinkClick` | ✅ | ✅ |  |
-| 35 | `Related Tag Link URL` | `web.webInteractions.linkUrl` | ✅ | ✅ |  |
-| 36 | `ScrollInfo Depth` | `web.webInteractions.scrollInfo.depth` | ✅ | ✅ |  |
-| 37 | `Search Filter` | `web.webInteractions.searchFilter` | ✅ | ✅ |  |
-| 38 | `Search Result Click Name` | `web.webInteractions.searchResultClickName` | ✅ | ✅ |  |
-| 39 | `Search Result PageType` | `internalSearchInfo.searchResultPageType` | — | — | `Search Result Page` |
-| 40 | `Search Results` | `web.webInteractions.searchResults` | ✅ | ✅ |  |
-| 41 | `Search Term` | `web.webInteractions.searchTerm` | ✅ | ✅ |  |
+| 33 | `Link: Redirect Text` | `web.webInteractions.RedirectLinkText` | ✅ | ✅ |  |
+| 34 | `Link: Related Tag` | `web.webInteractions.TagLinkClick` | ✅ | ✅ |  |
+| 35 | `Link: Related Tag URL` | `web.webInteractions.linkUrl` | ✅ | ✅ |  |
+| 36 | `Scroll Depth` | `web.webInteractions.scrollInfo.depth` | ✅ | ✅ |  |
+| 37 | `Search: Filter` | `web.webInteractions.searchFilter` | ✅ | ✅ |  |
+| 38 | `Search: Result Click Name` | `web.webInteractions.searchResultClickName` | ✅ | ✅ |  |
+| 39 | `Search: Result Page Type` | `internalSearchInfo.searchResultPageType` | — | — | `Search Result Page` |
+| 40 | `Search: Results` | `web.webInteractions.searchResults` | ✅ | ✅ |  |
+| 41 | `Search: Term` | `web.webInteractions.searchTerm` | ✅ | ✅ |  |
 | 42 | `Site Error` | `web.webPageDetails.siteError` | ✅ | ✅ |  |
-| 43 | `Site Section` | `web.webPageDetails.siteSection` | ✅ | ✅ |  |
-| 44 | `Site Section2` | `web.webPageDetails.siteSectionTwo` | — | — |  |
-| 45 | `Site Section3` | `web.webPageDetails.siteSectionThree` | ✅ | ✅ |  |
-| 46 | `Site Section4` | `siteSection4` | ✅ | ✅ |  |
-| 47 | `Site Section5` | `siteSection5` | ✅ | ✅ |  |
+| 43 | `Site: Section` | `web.webPageDetails.siteSection` | ✅ | ✅ |  |
+| 44 | `Site: Section 2` | `web.webPageDetails.siteSectionTwo` | — | — |  |
+| 45 | `Site: Section 3` | `web.webPageDetails.siteSectionThree` | ✅ | ✅ |  |
+| 46 | `Site: Section 4` | `siteSection4` | ✅ | ✅ |  |
+| 47 | `Site: Section 5` | `siteSection5` | ✅ | ✅ |  |
 | 48 | `Social Interaction Info` | `web.webInteractions.socialInteractionInfo` | ✅ | ✅ |  |
-| 49 | `Stories Link Text` | `web.webInteractions.storiesLinkText` | ✅ | ✅ |  |
+| 49 | `Link: Stories Text` | `web.webInteractions.storiesLinkText` | ✅ | ✅ |  |
 | 50 | `Tags` | `web.webPageDetails.tags` | ✅ | ✅ |  |
-| 51 | `Video Name` | `web.webInteractions.video.title` | ✅ | ✅ |  |
-| 52 | `Video Type` | `web.webInteractions.VideoType` | ✅ | ✅ |  |
+| 51 | `Video: Name` | `web.webInteractions.video.title` | ✅ | ✅ |  |
+| 52 | `Video: Type` | `web.webInteractions.VideoType` | ✅ | ✅ |  |
 
 ## 2. Data elements — Core: Query String Parameter
 
@@ -280,18 +280,18 @@ event as `Consent Selection`.
 
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `pageLoaded` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-pageView`. Set:
-    - pageName = `%Page Name%`
-    - channel = `%Site Section%`
-    - pageURL = `%Page URL%`
+    - pageName = `%Page: Name%`
+    - channel = `%Site: Section%`
+    - pageURL = `%Page: URL%`
     - referrer = `%Core: Referrer%`
     - campaign = `%Campaign%`
     - eVar1 = `%Domain%`
     - eVar2 = `%Plugin: Previous Page Name%`
-    - eVar3 = `%Page Name%`
-    - eVar4 = `%Site Section%`
+    - eVar3 = `%Page: Name%`
+    - eVar4 = `%Site: Section%`
     - eVar5 = `%Internal Campaign%`
     - eVar9 = `%Content Type%`
-    - eVar12 = `%Page URL%`
+    - eVar12 = `%Page: URL%`
     - eVar13 = `%Core: Page Query String%`
     - eVar15 = `%User Type%`
     - eVar18 = `%Language%`
@@ -305,23 +305,23 @@ event as `Consent Selection`.
     - eVar41 = `%UTM_Campaign%`
     - eVar42 = `%UTM_Term%`
     - eVar47 = `%Country%`
-    - prop1 = `%Page Name%`
+    - prop1 = `%Page: Name%`
     - prop2 = `%Core: Referrer%`
     - prop3 = `%Core: Timestamp%`
-    - prop4 = `%Page Title%`
+    - prop4 = `%Page: Title%`
     - prop5 = `%Core: Clean URL%`
-    - prop6 = `%Site Section%`
-    - prop7 = `%Site Section2%`
-    - prop8 = `%Site Section3%`
-    - prop9 = `%Site Section4%`
-    - prop10 = `%Site Section5%`
+    - prop6 = `%Site: Section%`
+    - prop7 = `%Site: Section 2%`
+    - prop8 = `%Site: Section 3%`
+    - prop9 = `%Site: Section 4%`
+    - prop10 = `%Site: Section 5%`
     - prop11 = `%Plugin: Previous Page Name%`
-    - prop12 = `%Page URL%`
+    - prop12 = `%Page: URL%`
     - prop14 = `%Plugin: Visit Number%`
     - prop15 = `%Plugin: Time Since Last Visit%`
     - prop16 = `%Plugin: Repeat Vs New%`
     - prop17 = `%Plugin: Visit Duration%`
-    - prop18 = `%Page Title%`
+    - prop18 = `%Page: Title%`
     - prop20 = `%Locale%`
     - list1 = `%Site Error%`
     - list2 = `%Hidden Tags%`
@@ -348,7 +348,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `More Amazon News Click`
     - linkType = `o`
-    - eVar44 = `%More Amazon News Text%`
+    - eVar44 = `%Link: More Amazon News Text%`
     - events = `event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -360,8 +360,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Amazon Redirect Link Click`
     - linkType = `o`
-    - eVar23 = `%Destination Link%`
-    - eVar28 = `%Redirect Link Text%`
+    - eVar23 = `%Link: Destination%`
+    - eVar28 = `%Link: Redirect Text%`
     - events = `event21,event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -373,7 +373,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Amazon Stories Link Tracking`
     - linkType = `o`
-    - eVar45 = `%Stories Link Text%`
+    - eVar45 = `%Link: Stories Text%`
     - events = `event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -385,8 +385,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Cookie Consent Selection`
     - linkType = `o`
-    - eVar48 = `%Consent Selected%`
-    - events = `event30=%Consent Click Count%`
+    - eVar48 = `%Consent: Selected%`
+    - events = `event30=%Consent: Click Count%`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
@@ -397,8 +397,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `File Download`
     - linkType = `d`
-    - eVar33 = `%File Name%`
-    - eVar34 = `%File Type%`
+    - eVar33 = `%File: Name%`
+    - eVar34 = `%File: Type%`
     - events = `event16`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -422,8 +422,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Form Complete`
     - linkType = `o`
-    - eVar10 = `%Form Name%`
-    - eVar19 = `%Form Location%`
+    - eVar10 = `%Form: Name%`
+    - eVar19 = `%Form: Location%`
     - events = `event10`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -435,9 +435,9 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Form Error`
     - linkType = `o`
-    - eVar10 = `%Form Name%`
-    - eVar19 = `%Form Location%`
-    - list1 = `%Form Error Name%`
+    - eVar10 = `%Form: Name%`
+    - eVar19 = `%Form: Location%`
+    - list1 = `%Form: Error Name%`
     - events = `event8`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -449,8 +449,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Form Start`
     - linkType = `o`
-    - eVar10 = `%Form Name%`
-    - eVar19 = `%Form Location%`
+    - eVar10 = `%Form: Name%`
+    - eVar19 = `%Form: Location%`
     - events = `event9`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -462,8 +462,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `CTA Button Click`
     - linkType = `o`
-    - eVar22 = `%CTA Button Name%`
-    - eVar23 = `%Destination Link%`
+    - eVar22 = `%Link: CTA Button%`
+    - eVar23 = `%Link: Destination%`
     - events = `event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -475,9 +475,9 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Internal Search`
     - linkType = `o`
-    - eVar6 = `%Search Term%`
-    - eVar7 = `%Search Results%`
-    - eVar8 = `%Search Result PageType%`
+    - eVar6 = `%Search: Term%`
+    - eVar7 = `%Search: Results%`
+    - eVar8 = `%Search: Result Page Type%`
     - events = `event26`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -489,8 +489,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Internal Search Click Through`
     - linkType = `o`
-    - eVar6 = `%Search Term%`
-    - eVar32 = `%Search Result Click Name%`
+    - eVar6 = `%Search: Term%`
+    - eVar32 = `%Search: Result Click Name%`
     - events = `event7`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -502,8 +502,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map Button Click`
     - linkType = `o`
-    - eVar49 = `%Map Name%`
-    - eVar50 = `%Map Button Name%`
+    - eVar49 = `%Map: Name%`
+    - eVar50 = `%Map: Button Name%`
     - events = `event32`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -515,8 +515,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map Button Close`
     - linkType = `o`
-    - eVar49 = `%Map Name%`
-    - eVar50 = `%Map Button Name%`
+    - eVar49 = `%Map: Name%`
+    - eVar50 = `%Map: Button Name%`
     - events = `event33`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -528,8 +528,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map ZoomIn`
     - linkType = `o`
-    - eVar49 = `%Map Name%`
-    - eVar50 = `%Map Button Name%`
+    - eVar49 = `%Map: Name%`
+    - eVar50 = `%Map: Button Name%`
     - events = `event34`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -541,8 +541,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map Zoom Out`
     - linkType = `o`
-    - eVar49 = `%Map Name%`
-    - eVar50 = `%Map Button Name%`
+    - eVar49 = `%Map: Name%`
+    - eVar50 = `%Map: Button Name%`
     - events = `event31`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -554,7 +554,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Menu Click`
     - linkType = `o`
-    - eVar24 = `%Menu Link Name%`
+    - eVar24 = `%Link: Menu%`
     - events = `event23`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -566,9 +566,9 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Null Search`
     - linkType = `o`
-    - eVar6 = `%Search Term%`
-    - eVar7 = `%Search Results%`
-    - eVar8 = `%Search Result PageType%`
+    - eVar6 = `%Search: Term%`
+    - eVar7 = `%Search: Results%`
+    - eVar8 = `%Search: Result Page Type%`
     - events = `event6`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -580,8 +580,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Redirect Link Click`
     - linkType = `o`
-    - eVar21 = `%Redirect Link Text%`
-    - eVar23 = `%Destination Link%`
+    - eVar21 = `%Link: Redirect Text%`
+    - eVar23 = `%Link: Destination%`
     - events = `event21,event22`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -593,8 +593,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Related Tag Click`
     - linkType = `o`
-    - eVar43 = `%Related Tag Link%`
-    - eVar46 = `%Related Tag Link URL%`
+    - eVar43 = `%Link: Related Tag%`
+    - eVar46 = `%Link: Related Tag URL%`
     - events = `event29`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -606,7 +606,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Scroll 25 Percentage`
     - linkType = `o`
-    - eVar20 = `%ScrollInfo Depth%`
+    - eVar20 = `%Scroll Depth%`
     - events = `event17`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -618,7 +618,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Scroll 50 Percentage`
     - linkType = `o`
-    - eVar20 = `%ScrollInfo Depth%`
+    - eVar20 = `%Scroll Depth%`
     - events = `event18`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -630,7 +630,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Scroll 75 Percentage`
     - linkType = `o`
-    - eVar20 = `%ScrollInfo Depth%`
+    - eVar20 = `%Scroll Depth%`
     - events = `event19`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -642,7 +642,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Scroll 100 Percentage`
     - linkType = `o`
-    - eVar20 = `%ScrollInfo Depth%`
+    - eVar20 = `%Scroll Depth%`
     - events = `event20`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -654,9 +654,9 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Internal Search Close Click`
     - linkType = `o`
-    - eVar6 = `%Search Term%`
-    - eVar7 = `%Search Results%`
-    - eVar8 = `%Search Result PageType%`
+    - eVar6 = `%Search: Term%`
+    - eVar7 = `%Search: Results%`
+    - eVar8 = `%Search: Result Page Type%`
     - events = `event27`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -680,8 +680,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video Start`
     - linkType = `o`
-    - eVar11 = `%Video Name%`
-    - eVar35 = `%Video Type%`
+    - eVar11 = `%Video: Name%`
+    - eVar35 = `%Video: Type%`
     - events = `event11`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -693,7 +693,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video 25 Percent completion`
     - linkType = `o`
-    - eVar11 = `%Video Name%`
+    - eVar11 = `%Video: Name%`
     - events = `event13`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -705,8 +705,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video 50 Percent completion`
     - linkType = `o`
-    - eVar11 = `%Video Name%`
-    - eVar35 = `%Video Type%`
+    - eVar11 = `%Video: Name%`
+    - eVar35 = `%Video: Type%`
     - events = `event14`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -718,8 +718,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video 75 Percent completion`
     - linkType = `o`
-    - eVar11 = `%Video Name%`
-    - eVar35 = `%Video Type%`
+    - eVar11 = `%Video: Name%`
+    - eVar35 = `%Video: Type%`
     - events = `event15`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -731,8 +731,8 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video Complete`
     - linkType = `o`
-    - eVar11 = `%Video Name%`
-    - eVar35 = `%Video Type%`
+    - eVar11 = `%Video: Name%`
+    - eVar35 = `%Video: Type%`
     - events = `event12`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).
@@ -744,7 +744,7 @@ event as `Consent Selection`.
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video Pause`
     - linkType = `o`
-    - eVar11 = `%Video Name%`
+    - eVar11 = `%Video: Name%`
     - events = `event28`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).

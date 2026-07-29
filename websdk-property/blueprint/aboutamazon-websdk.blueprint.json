@@ -85,7 +85,7 @@
   ],
   "dataElements": [
     {
-      "name": "Amazon Redirect Link",
+      "name": "Link: Amazon Redirect",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -97,7 +97,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Article Content Type",
+      "name": "Article: Content Type",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -109,7 +109,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Article Name",
+      "name": "Article: Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -155,7 +155,7 @@
       "storageDuration": null
     },
     {
-      "name": "Consent Click Count",
+      "name": "Consent: Click Count",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -167,7 +167,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Consent Selected",
+      "name": "Consent: Selected",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -203,7 +203,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "CTA Button Name",
+      "name": "Link: CTA Button",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -215,7 +215,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Destination Link",
+      "name": "Link: Destination",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -239,7 +239,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "File Name",
+      "name": "File: Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -251,7 +251,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "File Type",
+      "name": "File: Type",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -263,7 +263,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "File Url",
+      "name": "File: URL",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -287,7 +287,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Form Error Name",
+      "name": "Form: Error Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -299,7 +299,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Form Location",
+      "name": "Form: Location",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -311,7 +311,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Form Name",
+      "name": "Form: Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -370,7 +370,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Link Name",
+      "name": "Link: Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -394,7 +394,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "LoginID",
+      "name": "Login ID",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -403,12 +403,10 @@
       "forceLowerCase": true,
       "cleanText": true,
       "storageDuration": null,
-      "delegateDisplayName": "Datalayer Computed State",
-      "piiClass": "pseudonymous",
-      "consentCategory": "C0002"
+      "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Map Button Name",
+      "name": "Map: Button Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -420,7 +418,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Map Name",
+      "name": "Map: Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -432,7 +430,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Menu Link Name",
+      "name": "Link: Menu",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -444,7 +442,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "More Amazon News Text",
+      "name": "Link: More Amazon News Text",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -456,7 +454,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Page Name",
+      "name": "Page: Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -479,7 +477,7 @@
       "storageDuration": null
     },
     {
-      "name": "Page Title",
+      "name": "Page: Title",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -491,7 +489,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Page URL",
+      "name": "Page: URL",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -503,7 +501,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Page View Count",
+      "name": "Page: View Count",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -540,7 +538,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Redirect Link Text",
+      "name": "Link: Redirect Text",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -563,7 +561,7 @@
       "storageDuration": null
     },
     {
-      "name": "Related Tag Link",
+      "name": "Link: Related Tag",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -575,7 +573,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Related Tag Link URL",
+      "name": "Link: Related Tag URL",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -597,7 +595,7 @@
       "delegateDisplayName": "Getnewrepeat"
     },
     {
-      "name": "ScrollInfo Depth",
+      "name": "Scroll Depth",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -609,7 +607,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Search Filter",
+      "name": "Search: Filter",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -621,7 +619,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Search Result Click Name",
+      "name": "Search: Result Click Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -633,7 +631,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Search Result PageType",
+      "name": "Search: Result Page Type",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -646,7 +644,7 @@
       "defaultValue": "Search Result Page"
     },
     {
-      "name": "Search Results",
+      "name": "Search: Results",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -658,7 +656,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Search Term",
+      "name": "Search: Term",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -682,7 +680,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Site Section",
+      "name": "Site: Section",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -694,7 +692,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Site Section2",
+      "name": "Site: Section 2",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -706,7 +704,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Site Section3",
+      "name": "Site: Section 3",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -718,7 +716,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Site Section4",
+      "name": "Site: Section 4",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -730,7 +728,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Site Section5",
+      "name": "Site: Section 5",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -754,7 +752,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Stories Link Text",
+      "name": "Link: Stories Text",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -880,7 +878,7 @@
       "storageDuration": null
     },
     {
-      "name": "Video Name",
+      "name": "Video: Name",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -892,7 +890,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Video Type",
+      "name": "Video: Type",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -1021,18 +1019,18 @@
             "data": {
               "__adobe": {
                 "analytics": {
-                  "pageName": "%Page Name%",
-                  "channel": "%Site Section%",
-                  "pageURL": "%Page URL%",
+                  "pageName": "%Page: Name%",
+                  "channel": "%Site: Section%",
+                  "pageURL": "%Page: URL%",
                   "referrer": "%Core: Referrer%",
                   "campaign": "%Campaign%",
                   "eVar1": "%Domain%",
                   "eVar2": "%Plugin: Previous Page Name%",
-                  "eVar3": "%Page Name%",
-                  "eVar4": "%Site Section%",
+                  "eVar3": "%Page: Name%",
+                  "eVar4": "%Site: Section%",
                   "eVar5": "%Internal Campaign%",
                   "eVar9": "%Content Type%",
-                  "eVar12": "%Page URL%",
+                  "eVar12": "%Page: URL%",
                   "eVar13": "%Core: Page Query String%",
                   "eVar15": "%User Type%",
                   "eVar18": "%Language%",
@@ -1046,23 +1044,23 @@
                   "eVar41": "%UTM_Campaign%",
                   "eVar42": "%UTM_Term%",
                   "eVar47": "%Country%",
-                  "prop1": "%Page Name%",
+                  "prop1": "%Page: Name%",
                   "prop2": "%Core: Referrer%",
                   "prop3": "%Core: Timestamp%",
-                  "prop4": "%Page Title%",
+                  "prop4": "%Page: Title%",
                   "prop5": "%Core: Clean URL%",
-                  "prop6": "%Site Section%",
-                  "prop7": "%Site Section2%",
-                  "prop8": "%Site Section3%",
-                  "prop9": "%Site Section4%",
-                  "prop10": "%Site Section5%",
+                  "prop6": "%Site: Section%",
+                  "prop7": "%Site: Section 2%",
+                  "prop8": "%Site: Section 3%",
+                  "prop9": "%Site: Section 4%",
+                  "prop10": "%Site: Section 5%",
                   "prop11": "%Plugin: Previous Page Name%",
-                  "prop12": "%Page URL%",
+                  "prop12": "%Page: URL%",
                   "prop14": "%Plugin: Visit Number%",
                   "prop15": "%Plugin: Time Since Last Visit%",
                   "prop16": "%Plugin: Repeat Vs New%",
                   "prop17": "%Plugin: Visit Duration%",
-                  "prop18": "%Page Title%",
+                  "prop18": "%Page: Title%",
                   "prop20": "%Locale%",
                   "list1": "%Site Error%",
                   "list2": "%Hidden Tags%",
@@ -1159,7 +1157,7 @@
                 "analytics": {
                   "linkName": "More Amazon News Click",
                   "linkType": "o",
-                  "eVar44": "%More Amazon News Text%",
+                  "eVar44": "%Link: More Amazon News Text%",
                   "events": "event22"
                 }
               }
@@ -1205,8 +1203,8 @@
                 "analytics": {
                   "linkName": "Amazon Redirect Link Click",
                   "linkType": "o",
-                  "eVar23": "%Destination Link%",
-                  "eVar28": "%Redirect Link Text%",
+                  "eVar23": "%Link: Destination%",
+                  "eVar28": "%Link: Redirect Text%",
                   "events": "event21,event22"
                 }
               }
@@ -1252,7 +1250,7 @@
                 "analytics": {
                   "linkName": "Amazon Stories Link Tracking",
                   "linkType": "o",
-                  "eVar45": "%Stories Link Text%",
+                  "eVar45": "%Link: Stories Text%",
                   "events": "event22"
                 }
               }
@@ -1298,8 +1296,8 @@
                 "analytics": {
                   "linkName": "Cookie Consent Selection",
                   "linkType": "o",
-                  "eVar48": "%Consent Selected%",
-                  "events": "event30=%Consent Click Count%"
+                  "eVar48": "%Consent: Selected%",
+                  "events": "event30=%Consent: Click Count%"
                 }
               }
             }
@@ -1344,8 +1342,8 @@
                 "analytics": {
                   "linkName": "File Download",
                   "linkType": "d",
-                  "eVar33": "%File Name%",
-                  "eVar34": "%File Type%",
+                  "eVar33": "%File: Name%",
+                  "eVar34": "%File: Type%",
                   "events": "event16"
                 }
               }
@@ -1437,8 +1435,8 @@
                 "analytics": {
                   "linkName": "Form Complete",
                   "linkType": "o",
-                  "eVar10": "%Form Name%",
-                  "eVar19": "%Form Location%",
+                  "eVar10": "%Form: Name%",
+                  "eVar19": "%Form: Location%",
                   "events": "event10"
                 }
               }
@@ -1484,9 +1482,9 @@
                 "analytics": {
                   "linkName": "Form Error",
                   "linkType": "o",
-                  "eVar10": "%Form Name%",
-                  "eVar19": "%Form Location%",
-                  "list1": "%Form Error Name%",
+                  "eVar10": "%Form: Name%",
+                  "eVar19": "%Form: Location%",
+                  "list1": "%Form: Error Name%",
                   "events": "event8"
                 }
               }
@@ -1532,8 +1530,8 @@
                 "analytics": {
                   "linkName": "Form Start",
                   "linkType": "o",
-                  "eVar10": "%Form Name%",
-                  "eVar19": "%Form Location%",
+                  "eVar10": "%Form: Name%",
+                  "eVar19": "%Form: Location%",
                   "events": "event9"
                 }
               }
@@ -1579,8 +1577,8 @@
                 "analytics": {
                   "linkName": "CTA Button Click",
                   "linkType": "o",
-                  "eVar22": "%CTA Button Name%",
-                  "eVar23": "%Destination Link%",
+                  "eVar22": "%Link: CTA Button%",
+                  "eVar23": "%Link: Destination%",
                   "events": "event22"
                 }
               }
@@ -1626,9 +1624,9 @@
                 "analytics": {
                   "linkName": "Internal Search",
                   "linkType": "o",
-                  "eVar6": "%Search Term%",
-                  "eVar7": "%Search Results%",
-                  "eVar8": "%Search Result PageType%",
+                  "eVar6": "%Search: Term%",
+                  "eVar7": "%Search: Results%",
+                  "eVar8": "%Search: Result Page Type%",
                   "events": "event26"
                 }
               }
@@ -1674,8 +1672,8 @@
                 "analytics": {
                   "linkName": "Internal Search Click Through",
                   "linkType": "o",
-                  "eVar6": "%Search Term%",
-                  "eVar32": "%Search Result Click Name%",
+                  "eVar6": "%Search: Term%",
+                  "eVar32": "%Search: Result Click Name%",
                   "events": "event7"
                 }
               }
@@ -1721,8 +1719,8 @@
                 "analytics": {
                   "linkName": "Map Button Click",
                   "linkType": "o",
-                  "eVar49": "%Map Name%",
-                  "eVar50": "%Map Button Name%",
+                  "eVar49": "%Map: Name%",
+                  "eVar50": "%Map: Button Name%",
                   "events": "event32"
                 }
               }
@@ -1768,8 +1766,8 @@
                 "analytics": {
                   "linkName": "Map Button Close",
                   "linkType": "o",
-                  "eVar49": "%Map Name%",
-                  "eVar50": "%Map Button Name%",
+                  "eVar49": "%Map: Name%",
+                  "eVar50": "%Map: Button Name%",
                   "events": "event33"
                 }
               }
@@ -1815,8 +1813,8 @@
                 "analytics": {
                   "linkName": "Map ZoomIn",
                   "linkType": "o",
-                  "eVar49": "%Map Name%",
-                  "eVar50": "%Map Button Name%",
+                  "eVar49": "%Map: Name%",
+                  "eVar50": "%Map: Button Name%",
                   "events": "event34"
                 }
               }
@@ -1862,8 +1860,8 @@
                 "analytics": {
                   "linkName": "Map Zoom Out",
                   "linkType": "o",
-                  "eVar49": "%Map Name%",
-                  "eVar50": "%Map Button Name%",
+                  "eVar49": "%Map: Name%",
+                  "eVar50": "%Map: Button Name%",
                   "events": "event31"
                 }
               }
@@ -1909,7 +1907,7 @@
                 "analytics": {
                   "linkName": "Menu Click",
                   "linkType": "o",
-                  "eVar24": "%Menu Link Name%",
+                  "eVar24": "%Link: Menu%",
                   "events": "event23"
                 }
               }
@@ -1955,9 +1953,9 @@
                 "analytics": {
                   "linkName": "Null Search",
                   "linkType": "o",
-                  "eVar6": "%Search Term%",
-                  "eVar7": "%Search Results%",
-                  "eVar8": "%Search Result PageType%",
+                  "eVar6": "%Search: Term%",
+                  "eVar7": "%Search: Results%",
+                  "eVar8": "%Search: Result Page Type%",
                   "events": "event6"
                 }
               }
@@ -2003,8 +2001,8 @@
                 "analytics": {
                   "linkName": "Redirect Link Click",
                   "linkType": "o",
-                  "eVar21": "%Redirect Link Text%",
-                  "eVar23": "%Destination Link%",
+                  "eVar21": "%Link: Redirect Text%",
+                  "eVar23": "%Link: Destination%",
                   "events": "event21,event22"
                 }
               }
@@ -2050,8 +2048,8 @@
                 "analytics": {
                   "linkName": "Related Tag Click",
                   "linkType": "o",
-                  "eVar43": "%Related Tag Link%",
-                  "eVar46": "%Related Tag Link URL%",
+                  "eVar43": "%Link: Related Tag%",
+                  "eVar46": "%Link: Related Tag URL%",
                   "events": "event29"
                 }
               }
@@ -2097,7 +2095,7 @@
                 "analytics": {
                   "linkName": "Scroll 25 Percentage",
                   "linkType": "o",
-                  "eVar20": "%ScrollInfo Depth%",
+                  "eVar20": "%Scroll Depth%",
                   "events": "event17"
                 }
               }
@@ -2143,7 +2141,7 @@
                 "analytics": {
                   "linkName": "Scroll 50 Percentage",
                   "linkType": "o",
-                  "eVar20": "%ScrollInfo Depth%",
+                  "eVar20": "%Scroll Depth%",
                   "events": "event18"
                 }
               }
@@ -2189,7 +2187,7 @@
                 "analytics": {
                   "linkName": "Scroll 75 Percentage",
                   "linkType": "o",
-                  "eVar20": "%ScrollInfo Depth%",
+                  "eVar20": "%Scroll Depth%",
                   "events": "event19"
                 }
               }
@@ -2235,7 +2233,7 @@
                 "analytics": {
                   "linkName": "Scroll 100 Percentage",
                   "linkType": "o",
-                  "eVar20": "%ScrollInfo Depth%",
+                  "eVar20": "%Scroll Depth%",
                   "events": "event20"
                 }
               }
@@ -2281,9 +2279,9 @@
                 "analytics": {
                   "linkName": "Internal Search Close Click",
                   "linkType": "o",
-                  "eVar6": "%Search Term%",
-                  "eVar7": "%Search Results%",
-                  "eVar8": "%Search Result PageType%",
+                  "eVar6": "%Search: Term%",
+                  "eVar7": "%Search: Results%",
+                  "eVar8": "%Search: Result Page Type%",
                   "events": "event27"
                 }
               }
@@ -2375,8 +2373,8 @@
                 "analytics": {
                   "linkName": "Video Start",
                   "linkType": "o",
-                  "eVar11": "%Video Name%",
-                  "eVar35": "%Video Type%",
+                  "eVar11": "%Video: Name%",
+                  "eVar35": "%Video: Type%",
                   "events": "event11"
                 }
               }
@@ -2422,7 +2420,7 @@
                 "analytics": {
                   "linkName": "Video 25 Percent completion",
                   "linkType": "o",
-                  "eVar11": "%Video Name%",
+                  "eVar11": "%Video: Name%",
                   "events": "event13"
                 }
               }
@@ -2468,8 +2466,8 @@
                 "analytics": {
                   "linkName": "Video 50 Percent completion",
                   "linkType": "o",
-                  "eVar11": "%Video Name%",
-                  "eVar35": "%Video Type%",
+                  "eVar11": "%Video: Name%",
+                  "eVar35": "%Video: Type%",
                   "events": "event14"
                 }
               }
@@ -2515,8 +2513,8 @@
                 "analytics": {
                   "linkName": "Video 75 Percent completion",
                   "linkType": "o",
-                  "eVar11": "%Video Name%",
-                  "eVar35": "%Video Type%",
+                  "eVar11": "%Video: Name%",
+                  "eVar35": "%Video: Type%",
                   "events": "event15"
                 }
               }
@@ -2562,8 +2560,8 @@
                 "analytics": {
                   "linkName": "Video Complete",
                   "linkType": "o",
-                  "eVar11": "%Video Name%",
-                  "eVar35": "%Video Type%",
+                  "eVar11": "%Video: Name%",
+                  "eVar35": "%Video: Type%",
                   "events": "event12"
                 }
               }
@@ -2609,7 +2607,7 @@
                 "analytics": {
                   "linkName": "Video Pause",
                   "linkType": "o",
-                  "eVar11": "%Video Name%",
+                  "eVar11": "%Video: Name%",
                   "events": "event28"
                 }
               }
