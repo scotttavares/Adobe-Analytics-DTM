@@ -21,10 +21,10 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 1 | `Link: Amazon Redirect` | `web.webInteractions.AmazonRedirectLinkText` | ✅ | ✅ |  |
 | 2 | `Article: Content Type` | `web.webInteractions.Article.ContentType` | ✅ | ✅ |  |
 | 3 | `Article: Name` | `web.webInteractions.Article.ArticleName` | ✅ | ✅ |  |
-| 4 | `Category` | `web.webPageDetails.category` | — | — |  |
+| 4 | `Content: Category` | `web.webPageDetails.category` | — | — |  |
 | 5 | `Consent: Click Count` | `web.webInteractions.consentSelection.value` | — | — |  |
 | 6 | `Consent: Selected` | `web.webInteractions.cookieConsent.consentSelected` | ✅ | ✅ |  |
-| 7 | `Content Type` | `web.webPageDetails.pageType` | — | — |  |
+| 7 | `Content: Type` | `web.webPageDetails.pageType` | — | — |  |
 | 8 | `Geo: Country` | `web.webPageDetails.country` | — | ✅ |  |
 | 9 | `Link: CTA Button` | `web.webInteractions.CTAButtonName` | ✅ | ✅ |  |
 | 10 | `Link: Destination` | `web.webInteractions.DestinationLink` | ✅ | ✅ |  |
@@ -36,7 +36,7 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 16 | `Form: Error Name` | `web.webInteractions.formErrorMessage` | ✅ | ✅ |  |
 | 17 | `Form: Location` | `web.webInteractions.formLocation` | ✅ | ✅ |  |
 | 18 | `Form: Name` | `web.webInteractions.formName` | ✅ | ✅ |  |
-| 19 | `Hidden Tags` | `web.webPageDetails.hiddenTags` | ✅ | ✅ |  |
+| 19 | `Content: Hidden Tags` | `web.webPageDetails.hiddenTags` | ✅ | ✅ |  |
 | 20 | `Geo: Language` | `web.webPageDetails.language` | ✅ | ✅ |  |
 | 21 | `Link: Name` | `web.webInteractions.linkName` | ✅ | ✅ |  |
 | 22 | `Geo: Locale` | `web.webPageDetails.locale` | ✅ | ✅ |  |
@@ -67,7 +67,7 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 47 | `Site: Section 5` | `siteSection5` | ✅ | ✅ |  |
 | 48 | `Social Interaction Info` | `web.webInteractions.socialInteractionInfo` | ✅ | ✅ |  |
 | 49 | `Link: Stories Text` | `web.webInteractions.storiesLinkText` | ✅ | ✅ |  |
-| 50 | `Tags` | `web.webPageDetails.tags` | ✅ | ✅ |  |
+| 50 | `Content: Tags` | `web.webPageDetails.tags` | ✅ | ✅ |  |
 | 51 | `Video: Name` | `web.webInteractions.video.title` | ✅ | ✅ |  |
 | 52 | `Video: Type` | `web.webInteractions.VideoType` | ✅ | ✅ |  |
 
@@ -290,14 +290,14 @@ event as `Consent Selection`.
     - eVar3 = `%Page: Name%`
     - eVar4 = `%Site: Section%`
     - eVar5 = `%Internal Campaign%`
-    - eVar9 = `%Content Type%`
+    - eVar9 = `%Content: Type%`
     - eVar12 = `%Page: URL%`
     - eVar13 = `%Core: Page Query String%`
     - eVar15 = `%User Type%`
     - eVar18 = `%Geo: Language%`
     - eVar25 = `%Publish Date%`
-    - eVar29 = `%Category%`
-    - eVar30 = `%Tags%`
+    - eVar29 = `%Content: Category%`
+    - eVar30 = `%Content: Tags%`
     - eVar37 = `%Plugin: Visit Duration%`
     - eVar38 = `%UTM_Source%`
     - eVar39 = `%UTM_Medium%`
@@ -324,7 +324,7 @@ event as `Consent Selection`.
     - prop18 = `%Page: Title%`
     - prop20 = `%Geo: Locale%`
     - list1 = `%Site Error%`
-    - list2 = `%Hidden Tags%`
+    - list2 = `%Content: Hidden Tags%`
     - events = `event2`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).

@@ -132,7 +132,7 @@
       "storageDuration": null
     },
     {
-      "name": "Category",
+      "name": "Content: Category",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -179,7 +179,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Content Type",
+      "name": "Content: Type",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -323,7 +323,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Hidden Tags",
+      "name": "Content: Hidden Tags",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -764,7 +764,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Tags",
+      "name": "Content: Tags",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -1029,14 +1029,14 @@
                   "eVar3": "%Page: Name%",
                   "eVar4": "%Site: Section%",
                   "eVar5": "%Internal Campaign%",
-                  "eVar9": "%Content Type%",
+                  "eVar9": "%Content: Type%",
                   "eVar12": "%Page: URL%",
                   "eVar13": "%Core: Page Query String%",
                   "eVar15": "%User Type%",
                   "eVar18": "%Geo: Language%",
                   "eVar25": "%Publish Date%",
-                  "eVar29": "%Category%",
-                  "eVar30": "%Tags%",
+                  "eVar29": "%Content: Category%",
+                  "eVar30": "%Content: Tags%",
                   "eVar37": "%Plugin: Visit Duration%",
                   "eVar38": "%UTM_Source%",
                   "eVar39": "%UTM_Medium%",
@@ -1063,7 +1063,7 @@
                   "prop18": "%Page: Title%",
                   "prop20": "%Geo: Locale%",
                   "list1": "%Site Error%",
-                  "list2": "%Hidden Tags%",
+                  "list2": "%Content: Hidden Tags%",
                   "events": "event2"
                 }
               }
