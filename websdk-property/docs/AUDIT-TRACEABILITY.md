@@ -56,13 +56,13 @@ Quarantined rather than silently carried:
   identity; nothing referenced it).
 - **`Internal Campaign`** (now `Campaign: Internal`) was `console.log();`
   (always undefined), so `eVar5`/`event4` have never populated. **Decision
-  made 2026-07-29 (property owner): keep it a no-op** — internal-campaign
-  tracking is deferred, parity with the source, `event4` stays off (it is
-  already filtered out of the generated page view). The element carries a
-  documented `return undefined;` (behaviorally identical to the source, no
-  console noise). To activate later: implement the real internal-campaign
-  parameter here (site-team confirmation, MANUAL-STEPS #6) and `event4`
-  comes alive.
+  made 2026-07-29 (property owner): keep it verbatim** — the element stays
+  exactly `console.log();` for byte-for-byte parity with the source;
+  internal-campaign tracking is deferred, `event4` stays off (already
+  filtered out of the generated page view). Rationale lives in the element's
+  `_note` (kept out of the code so it matches the built property exactly).
+  To activate later: implement the real internal-campaign parameter here
+  (site-team confirmation, MANUAL-STEPS #6) and `event4` comes alive.
 - **Rules-list census (2026-07-29): 40 rules in the old property, all
   accounted for.** 35 were in the workbook's production build — the 34
   analytics rules this property carries forward plus `All Pages - Library

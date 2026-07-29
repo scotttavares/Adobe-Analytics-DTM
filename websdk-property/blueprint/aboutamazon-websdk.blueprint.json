@@ -339,7 +339,7 @@
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::custom-code",
       "settings": {
-        "source": "// DEFERRED (owner decision 2026-07-29): internal-campaign tracking is not implemented - parity\n// with the source property, where this element was a console.log() no-op that always returned\n// undefined, so eVar5 and event4 have never populated. Kept inert on purpose until the site team\n// confirms the real internal-campaign parameter (docs/MANUAL-STEPS.md #6). Implement here then and\n// event4 (fed by Campaign: Internal Count) comes alive.\nreturn undefined;"
+        "source": "console.log();"
       },
       "forceLowerCase": false,
       "cleanText": false,

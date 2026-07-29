@@ -457,9 +457,10 @@
       "defaultValue": null,
       "delegate": "core-custom-code",
       "settings": {
-        "source": "// DEFERRED (owner decision 2026-07-29): internal-campaign tracking is not implemented - parity\n// with the source property, where this element was a console.log() no-op that always returned\n// undefined, so eVar5 and event4 have never populated. Kept inert on purpose until the site team\n// confirms the real internal-campaign parameter (docs/MANUAL-STEPS.md #6). Implement here then and\n// event4 (fed by Campaign: Internal Count) comes alive.\nreturn undefined;"
+        "source": "console.log();"
       },
-      "decision": "Confirm internal campaign query parameter (assumed `icid`). Source implementation was a no-op stub."
+      "decision": "Confirm internal campaign query parameter (assumed `icid`). Source implementation was a no-op stub.",
+      "_note": "Kept EXACTLY as the source property: console.log(); - a no-op that returns undefined. Owner confirmed 2026-07-29 it has always been this; internal-campaign tracking is deferred, so eVar5 stays empty and event4 never fires (event4 is filtered out of the generated page view). To activate later: implement the real internal-campaign parameter here (site-team confirmation, MANUAL-STEPS #6). Left verbatim for exact parity, not 'improved', by request."
     },
     {
       "name": "Campaign: Internal Count",
