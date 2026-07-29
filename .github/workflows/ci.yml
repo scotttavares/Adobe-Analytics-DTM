@@ -52,6 +52,9 @@ jobs:
       - name: Browser verification
         run: npm run verify
 
+      - name: Accessibility audit (axe-core + computed contrast)
+        run: npm run verify:a11y
+
       # Packaging only validates extension.json against a schema. This actually
       # builds a Turbine library from the extension and runs it in a browser,
       # which is what catches syntax the Tags build pipeline cannot parse.

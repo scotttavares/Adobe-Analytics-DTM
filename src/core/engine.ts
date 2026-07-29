@@ -112,9 +112,14 @@ export class ConsentEngine {
         if (region === this.regionInfo.region) return;
         this.applyRegion(region);
         if (this.pendingDecision) {
+          // Diff against what was actually in force under the fallback region.
+          // Passing no baseline would make `before` an empty object, so a
+          // tightening model (US fallback -> EU actual) would report nothing as
+          // revoked and every still-granted category as newly granted.
+          const previousEffective = { ...this.effective };
           this.effective = this.defaultDecision();
           this.log.log('region resolved late:', region, this.regionInfo.model);
-          this.emit('change', this.buildChangeEvent(null, true));
+          this.emit('change', this.buildChangeEvent(null, true, previousEffective));
           this.flushGates();
         }
       });
