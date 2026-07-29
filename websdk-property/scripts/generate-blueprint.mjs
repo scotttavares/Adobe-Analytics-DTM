@@ -619,6 +619,14 @@ async function main() {
   // consolidated: single Send Event on the code dispatcher. per-event: single
   // Send Event on that event's own code element.
   for (const it of events.interactions) {
+    // A rule can be event-name-resolved but payload-unknown (rules added to the
+    // live property after the workbook export carry no mappings anywhere yet).
+    if (it.payloadStatus === SENTINEL || it.linkName === SENTINEL) {
+      unresolved.push(
+        `rule "${it.rule}": payload mappings (${SENTINEL}) — copy eVars/events/link name ` +
+          `from the old rule's action and the data element it sends`,
+      );
+    }
     const sendEvent = {
       extension: 'adobe-alloy',
       delegate_descriptor_id: 'adobe-alloy::actions::send-event',

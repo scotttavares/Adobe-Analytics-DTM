@@ -85,7 +85,7 @@
     "rule": "Site Error",
     "payloadDataElement": "data-siteError",
     "replaces": "XDM Site Error",
-    "acdlEvent": "CONFIRM-VIA-EXPORT",
+    "acdlEvent": "errorInteraction",
     "xdmEventType": "web.webpagedetails.pageViews",
     "analytics": {
       "pageName": {
@@ -97,7 +97,8 @@
         ]
       }
     },
-    "note": "Error page view (source payload set webPageDetails.name='errorPage', isErrorPage:true, pageViews:1)."
+    "note": "Error page view (source payload set webPageDetails.name='errorPage', isErrorPage:true, pageViews:1).",
+    "acdlTimeScope": "all"
   },
   "interactions": [
     {
@@ -472,7 +473,7 @@
       "rule": "Scroll 25 percentage",
       "payloadDataElement": "data-Scroll 25 Percentage",
       "replaces": "XDM Scroll 25 Percentage",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "scrollReach25",
       "linkName": "Scroll 25 Percentage",
       "linkType": "o",
       "events": [
@@ -482,13 +483,14 @@
       ],
       "eVars": {
         "eVar20": "ScrollInfo Depth"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Scroll 50 percentage",
       "payloadDataElement": "data-Scroll 50 Percentage",
       "replaces": "XDM Scroll 50 Percentage",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "scrollReach50",
       "linkName": "Scroll 50 Percentage",
       "linkType": "o",
       "events": [
@@ -498,13 +500,14 @@
       ],
       "eVars": {
         "eVar20": "ScrollInfo Depth"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Scroll 75 percentage",
       "payloadDataElement": "data-Scroll 75 Percentage",
       "replaces": "XDM Scroll 75 Percentage",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "scrollReach75",
       "linkName": "Scroll 75 Percentage",
       "linkType": "o",
       "events": [
@@ -514,13 +517,14 @@
       ],
       "eVars": {
         "eVar20": "ScrollInfo Depth"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Scroll 100 percentage",
       "payloadDataElement": "data-Scroll 100 Percentage",
       "replaces": "XDM Scroll 100 Percentage",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "scrollReach100",
       "linkName": "Scroll 100 Percentage",
       "linkType": "o",
       "events": [
@@ -530,13 +534,14 @@
       ],
       "eVars": {
         "eVar20": "ScrollInfo Depth"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Search Close Click",
       "payloadDataElement": "data-Internal Search Close",
       "replaces": "XDM Internal Search Close",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "SearchClosed",
       "linkName": "Internal Search Close Click",
       "linkType": "o",
       "events": [
@@ -548,13 +553,14 @@
         "eVar6": "Search Term",
         "eVar7": "Search Results",
         "eVar8": "Search Result PageType"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Social Interaction Tracking",
       "payloadDataElement": "data-Social Interaction",
       "replaces": "XDM Social Interaction",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "socialInteraction",
       "linkName": "Social Interaction",
       "linkType": "o",
       "events": [
@@ -564,13 +570,27 @@
       ],
       "eVars": {
         "eVar17": "Social Interaction Info"
-      }
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Sort By Tracking",
+      "payloadDataElement": "data-SortBy",
+      "replaces": null,
+      "acdlEvent": "sortBy",
+      "acdlTimeScope": "all",
+      "linkName": "CONFIRM-VIA-EXPORT",
+      "linkType": "o",
+      "events": [],
+      "eVars": {},
+      "payloadStatus": "CONFIRM-VIA-EXPORT",
+      "_note": "Discovered live in the old property 2026-07-29 while verifying event names - added after the Launch Inspector export (same situation as Article Interaction Tracking), so the workbook carries no payload for it. Event name 'sortBy' verified from the rule's event config in the UI. Its eVars/events/link name must be copied from the old rule's action + the data element it sends before this rule can be built."
     },
     {
       "rule": "Video Start",
       "payloadDataElement": "data-Video Start",
       "replaces": "XDM Video Start",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "videoPlaying",
       "linkName": "Video Start",
       "linkType": "o",
       "events": [
@@ -581,13 +601,14 @@
       "eVars": {
         "eVar11": "Video Name",
         "eVar35": "Video Type"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Video 25 percentage complete",
       "payloadDataElement": "data-Video 25 Percent",
       "replaces": "XDM Video 25 Percent",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "videoViewed25",
       "linkName": "Video 25 Percent completion",
       "linkType": "o",
       "events": [
@@ -597,13 +618,14 @@
       ],
       "eVars": {
         "eVar11": "Video Name"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Video 50 percentage complete",
       "payloadDataElement": "data-Video 50 Percent",
       "replaces": "XDM Video 50 Percent",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "videoViewed50",
       "linkName": "Video 50 Percent completion",
       "linkType": "o",
       "events": [
@@ -614,13 +636,14 @@
       "eVars": {
         "eVar11": "Video Name",
         "eVar35": "Video Type"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Video 75 percentage complete",
       "payloadDataElement": "data-Video 75 Percent",
       "replaces": "XDM Video 75 Percent",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "videoViewed75",
       "linkName": "Video 75 Percent completion",
       "linkType": "o",
       "events": [
@@ -631,13 +654,14 @@
       "eVars": {
         "eVar11": "Video Name",
         "eVar35": "Video Type"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Video 100 percentage complete",
       "payloadDataElement": "data-Video Complete",
       "replaces": "XDM Video Complete",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "videoComplete",
       "linkName": "Video Complete",
       "linkType": "o",
       "events": [
@@ -648,13 +672,14 @@
       "eVars": {
         "eVar11": "Video Name",
         "eVar35": "Video Type"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Video Pause",
       "payloadDataElement": "data-Video Pause",
       "replaces": "XDM Video Pause",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "videoPause",
       "linkName": "Video Pause",
       "linkType": "o",
       "events": [
@@ -664,7 +689,8 @@
       ],
       "eVars": {
         "eVar11": "Video Name"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Article Interaction Tracking",
@@ -692,6 +718,7 @@
     "event22 is intentionally shared across CTA Button Click, Amazon Redirect Link, Redirect Link Click, Amazon Stories, and More Amazon News (global CTA click metric) \u2014 carried as-is.",
     "Scroll interaction names carry a leading space in the source (' Scroll 25 Percentage'), trimmed here \u2014 confirm reporting relies on the trimmed form before publish.",
     "Rule names 'Map  Button Click'/'Map  Button Close' had a double space in the source; normalized to single space.",
-    "Old-property event naming is deliberately inconsistent (moreAmazonNews vs AmazonRedirectLinkClick vs FileDownloaded vs formComplete) \u2014 carried EXACTLY as captured; do not normalize, the site's code owns these strings."
+    "Old-property event naming is deliberately inconsistent (moreAmazonNews vs AmazonRedirectLinkClick vs FileDownloaded vs formComplete) \u2014 carried EXACTLY as captured; do not normalize, the site's code owns these strings.",
+    "Sort By Tracking is a second rule added to the live property after the Launch Inspector export (first was Article Interaction Tracking). Its data-layer event (sortBy) is verified; its payload mappings are still unknown and block the blueprint until copied from the old rule."
   ]
 }

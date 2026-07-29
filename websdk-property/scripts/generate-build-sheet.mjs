@@ -196,6 +196,18 @@ async function main() {
   bp.rules.forEach((r, i) => {
     L.push(`### ${i + 1}. \`${r.name}\``);
     L.push('');
+    // A rule whose payload still carries the sentinel is known-by-name only —
+    // building it now would ship an empty beacon under a real event.
+    const payloadDraft = JSON.stringify(r.actions).includes(SENTINEL);
+    if (payloadDraft) {
+      L.push(
+        `> ⚠️ **DO NOT BUILD YET** — the field mappings below still say \`${SENTINEL}\`. ` +
+          'This rule exists in the old property but was added after the workbook export, so its ' +
+          'eVars/events/link name must be copied from the old rule (its action + the data element ' +
+          'it sends) before this rule is created.',
+      );
+      L.push('');
+    }
     const ev = r.event;
     const evName = ev.settings && ev.settings.event ? ev.settings.event : '(see settings)';
     const scope = ev.timeScope ? ev.timeScope.charAt(0).toUpperCase() + ev.timeScope.slice(1) : 'All';

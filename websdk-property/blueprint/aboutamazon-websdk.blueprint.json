@@ -13,20 +13,8 @@
     "draft": true,
     "unresolved": [
       "webSdkInstance.edgeDomain is a placeholder — complete the first-party domain setup (docs/MANUAL-STEPS.md #4) or generate with --interim-third-party-edge to launch on edge.adobedc.net",
-      "rule \"Site Error\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Internal Search ClickThrough\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Scroll 25 percentage\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Scroll 50 percentage\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Scroll 75 percentage\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Scroll 100 percentage\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Search Close Click\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Social Interaction Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Video Start\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Video 25 percentage complete\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Video 50 percentage complete\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Video 75 percentage complete\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Video 100 percentage complete\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Video Pause\": ACDL event name/settings (CONFIRM-VIA-EXPORT)"
+      "rule \"Sort By Tracking\": payload mappings (CONFIRM-VIA-EXPORT) — copy eVars/events/link name from the old rule's action and the data element it sends"
     ]
   },
   "company": {
@@ -1098,7 +1086,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "errorInteraction"
         },
         "timeScope": "all"
       },
@@ -2080,7 +2068,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "scrollReach25"
         },
         "timeScope": "all"
       },
@@ -2126,7 +2114,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "scrollReach50"
         },
         "timeScope": "all"
       },
@@ -2172,7 +2160,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "scrollReach75"
         },
         "timeScope": "all"
       },
@@ -2218,7 +2206,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "scrollReach100"
         },
         "timeScope": "all"
       },
@@ -2264,7 +2252,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "SearchClosed"
         },
         "timeScope": "all"
       },
@@ -2312,7 +2300,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "socialInteraction"
         },
         "timeScope": "all"
       },
@@ -2351,6 +2339,50 @@
       ]
     },
     {
+      "name": "Sort By Tracking",
+      "consentCategory": "C0002",
+      "event": {
+        "extension": "adobe-client-data-layer",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
+        "settings": {
+          "event": "sortBy"
+        },
+        "timeScope": "all"
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "CONFIRM-VIA-EXPORT",
+                  "linkType": "o"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::send-event",
+          "category": "analytics",
+          "settings": {
+            "instanceName": "alloy",
+            "type": "web.webinteraction.linkClicks",
+            "data": "%data-interaction%"
+          }
+        }
+      ]
+    },
+    {
       "name": "Video Start",
       "consentCategory": "C0002",
       "event": {
@@ -2358,7 +2390,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "videoPlaying"
         },
         "timeScope": "all"
       },
@@ -2405,7 +2437,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "videoViewed25"
         },
         "timeScope": "all"
       },
@@ -2451,7 +2483,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "videoViewed50"
         },
         "timeScope": "all"
       },
@@ -2498,7 +2530,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "videoViewed75"
         },
         "timeScope": "all"
       },
@@ -2545,7 +2577,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "videoComplete"
         },
         "timeScope": "all"
       },
@@ -2592,7 +2624,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "videoPause"
         },
         "timeScope": "all"
       },
