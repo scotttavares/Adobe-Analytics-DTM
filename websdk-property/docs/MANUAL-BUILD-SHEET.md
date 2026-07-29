@@ -461,7 +461,7 @@ event as `Consent Selection`.
 
 ### 14. `Internal Search ClickThrough`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `internalSearchClickThrough` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Internal Search Click Through`
     - linkType = `o`

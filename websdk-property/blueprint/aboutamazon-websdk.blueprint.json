@@ -12,8 +12,7 @@
     ],
     "draft": true,
     "unresolved": [
-      "webSdkInstance.edgeDomain is a placeholder — complete the first-party domain setup (docs/MANUAL-STEPS.md #4) or generate with --interim-third-party-edge to launch on edge.adobedc.net",
-      "rule \"Internal Search ClickThrough\": ACDL event name/settings (CONFIRM-VIA-EXPORT)"
+      "webSdkInstance.edgeDomain is a placeholder — complete the first-party domain setup (docs/MANUAL-STEPS.md #4) or generate with --interim-third-party-edge to launch on edge.adobedc.net"
     ]
   },
   "company": {
@@ -1644,7 +1643,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "internalSearchClickThrough"
         },
         "timeScope": "all"
       },

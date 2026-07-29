@@ -309,7 +309,7 @@
       "rule": "Internal Search ClickThrough",
       "payloadDataElement": "data-Internal Search Click Through",
       "replaces": "XDM Internal Search Click Through",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "internalSearchClickThrough",
       "linkName": "Internal Search Click Through",
       "linkType": "o",
       "events": [
@@ -320,7 +320,8 @@
       "eVars": {
         "eVar6": "Search Term",
         "eVar32": "Search Result Click Name"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Map Button Click",
