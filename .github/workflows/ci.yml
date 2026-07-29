@@ -52,6 +52,27 @@ jobs:
       - name: Browser verification
         run: npm run verify
 
+      # Packaging only validates extension.json against a schema. This actually
+      # builds a Turbine library from the extension and runs it in a browser,
+      # which is what catches syntax the Tags build pipeline cannot parse.
+      - name: Build a real Turbine library and run the extension in it
+        run: |
+          cd launch-extension
+          npx --yes @adobe/reactor-sandbox > /tmp/sandbox.log 2>&1 &
+          for i in $(seq 1 60); do
+            if grep -q "sandbox running" /tmp/sandbox.log 2>/dev/null; then break; fi
+            sleep 2
+          done
+          if ! grep -q "sandbox running" /tmp/sandbox.log; then
+            echo "::error::reactor-sandbox failed to start"
+            cat /tmp/sandbox.log
+            exit 1
+          fi
+          cd ..
+          node scripts/verify-launch-sandbox.mjs
+        env:
+          SANDBOX_URL: http://localhost:3000
+
       - name: Upload demo screenshots
         if: always()
         uses: actions/upload-artifact@v4

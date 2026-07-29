@@ -170,6 +170,52 @@ describe('ConsentEngine', () => {
     expect(changes[0]!.granted).toEqual([]);
   });
 
+  it('does not treat re-stating the same decision as a new decision', () => {
+    const engine = new ConsentEngine({ geo: { region: 'DE' } });
+    engine.start();
+    engine.acceptAll();
+
+    const first = engine.getState()!;
+    const changes: unknown[] = [];
+    engine.on('change', (e) => changes.push(e));
+
+    // A Launch rule calling update() with values already set must not clobber
+    // the recorded method or mint a duplicate receipt.
+    engine.update({ analytics: true });
+
+    const after = engine.getState()!;
+    expect(changes).toHaveLength(0);
+    expect(after.method).toBe('accept_all');
+    expect(after.id).toBe(first.id);
+    expect(engine.getReceipts()).toHaveLength(1);
+  });
+
+  it('still refreshes the affirmation time when re-stating a decision', () => {
+    const engine = new ConsentEngine({ geo: { region: 'DE' } });
+    engine.start();
+    engine.acceptAll();
+    const before = engine.getState()!.timestamp;
+
+    vi.spyOn(Date, 'now').mockReturnValue(before + 60_000);
+    engine.update({ analytics: true });
+    vi.restoreAllMocks();
+
+    expect(engine.getState()!.timestamp).toBe(before + 60_000);
+  });
+
+  it('still reports a genuine change', () => {
+    const engine = new ConsentEngine({ geo: { region: 'DE' } });
+    engine.start();
+    engine.acceptAll();
+
+    const changes: string[][] = [];
+    engine.on('change', (e) => changes.push(e.revoked));
+    engine.update({ advertising: false });
+
+    expect(changes).toEqual([['advertising']]);
+    expect(engine.getState()!.method).toBe('programmatic');
+  });
+
   it('treats Escape / dismissal as a rejection in an opt-in region', () => {
     const engine = new ConsentEngine({ geo: { region: 'DE' } });
     engine.start();

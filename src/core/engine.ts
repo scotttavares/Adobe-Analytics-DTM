@@ -14,7 +14,7 @@ import type {
   ConsentReceipt,
   ConsentState,
 } from './types';
-import { createLogger, merge, uid, type Logger } from './util';
+import { createLogger, merge, shallowEqual, uid, type Logger } from './util';
 
 type Listener = (payload: any) => void;
 
@@ -241,6 +241,19 @@ export class ConsentEngine {
     const previous = this.state ? this.snapshot() : null;
     const previousEffective = { ...this.effective };
     const categories = this.withRequired(decision);
+
+    // Re-stating the decision already in force is not a new decision. Refresh
+    // the affirmation time so the re-consent window restarts, but keep the
+    // original method and receipt id, and tell nobody — otherwise a rule that
+    // calls `update()` with values already set would overwrite "accept_all"
+    // with "programmatic" and mint a duplicate receipt.
+    if (this.state && shallowEqual(previousEffective, categories)) {
+      this.state = { ...this.state, timestamp: Date.now() };
+      this.storage.write(this.state);
+      this.log.log('decision re-affirmed unchanged:', method);
+      this.flushGates();
+      return this.snapshot();
+    }
 
     const next: ConsentState = {
       schema: 1,

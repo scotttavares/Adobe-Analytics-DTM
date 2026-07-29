@@ -266,11 +266,15 @@ still need a lawyer's eye.
 
 ```bash
 npm install
-npm run build      # esbuild -> dist/ + the extension's vendored bundle
-npm test           # 71 unit tests (vitest + jsdom)
-npm run verify     # 35 checks in real Chromium against the demo
-npm run demo       # http://localhost:8080/demo/index.html
+npm run build          # esbuild -> dist/ + the extension's vendored bundle
+npm test               # 74 unit tests (vitest + jsdom)
+npm run verify         # 35 checks in real Chromium against the demo
+npm run demo           # http://localhost:8080/demo/index.html
 npm run typecheck
+
+# Build a genuine Adobe Tags library from the extension and run it in a browser
+npm run sandbox        # leave running
+npm run verify:launch  # 18 checks against real Turbine
 ```
 
 The demo loads stub versions of alloy, `adobe.optIn`, AppMeasurement, the data

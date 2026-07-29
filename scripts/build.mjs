@@ -59,6 +59,13 @@ if (existsSync(resolve(root, 'launch-extension/extension.json'))) {
     outfile: resolve(extVendorDir, 'adobe-consent.js'),
     format: 'cjs',
     minify: true,
+    // Adobe's Tags build pipeline parses extension code with Babylon, which
+    // predates ES2019 and rejects optional catch binding (`catch {}` with no
+    // parameter). At an es2019 target esbuild *preserves* that syntax, and the
+    // resulting library fails to build with
+    // "SyntaxError: Unexpected token, expected (" inside parseTryStatement.
+    // Targeting es2015 transpiles it back to `catch (e)`.
+    target: ['es2015'],
   });
 }
 

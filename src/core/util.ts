@@ -28,6 +28,16 @@ export function digest(input: string): string {
   return ('00000000' + hash.toString(16)).slice(-8);
 }
 
+export function shallowEqual(
+  a: Record<string, boolean>,
+  b: Record<string, boolean>
+): boolean {
+  const aKeys = Object.keys(a);
+  if (aKeys.length !== Object.keys(b).length) return false;
+  for (const key of aKeys) if (a[key] !== b[key]) return false;
+  return true;
+}
+
 export function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof document !== 'undefined';
 }

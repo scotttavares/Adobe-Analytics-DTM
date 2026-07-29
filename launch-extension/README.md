@@ -37,11 +37,40 @@ The uploader uses Adobe I/O **OAuth Server-to-Server** credentials (JWT was
 retired in January 2025). It also reads
 `REACTOR_IO_INTEGRATION_CLIENT_ID` / `_CLIENT_SECRET` from the environment.
 
-To test the views locally without uploading:
+## Testing it for real
+
+Packaging only validates `extension.json` against Adobe's JSON schema. It says
+nothing about whether a Tags library can actually be *built* from the extension,
+or whether the modules run. The sandbox does both:
 
 ```bash
-npx @adobe/reactor-sandbox     # http://localhost:3000
+npm run sandbox          # from the repo root; serves http://localhost:3000
+npm run verify:launch    # in another shell — 18 assertions in real Chromium
 ```
+
+That builds a genuine Turbine library from `.sandbox/container.js` and asserts
+the extension boots inside it, the CMP is inlined rather than fetched, the
+configuration reaches the engine, the banner renders, and every data element
+resolves through `_satellite.getVar`. CI runs it on every push.
+
+### The ES-syntax constraint this caught
+
+Adobe's Tags build pipeline parses extension code with **Babylon**, a parser
+that predates ES2019. Optional catch binding —
+
+```js
+try { risky(); } catch { fallback(); }   // no parameter
+```
+
+— makes the library build fail with
+`SyntaxError: Unexpected token, expected (` inside `parseTryStatement`. The
+extension still packages and uploads cleanly; the failure only appears when a
+library is built, which is why it is easy to ship by accident.
+
+The vendored bundle is therefore built with an **es2015** target
+(`scripts/build.mjs`), which transpiles that syntax back to `catch (e)`. If you
+add hand-written code under `src/lib/`, keep it to conservative ES5-era syntax
+for the same reason.
 
 ## What the extension provides
 
