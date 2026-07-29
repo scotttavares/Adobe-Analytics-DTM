@@ -3,7 +3,8 @@
   "_analyticsTransport": "Per the audit's Fix 1/2 guidance (deck slide 28), payloads use the Web SDK `data.__adobe.analytics` object (the documented AppMeasurement-migration path) \u2014 no XDM schema required while Amazon News has no AEP subscription. eVar/prop/event numbers are byte-for-byte the source property's mappings.",
   "_acdlEventSentinel": {
     "value": "CONFIRM-VIA-EXPORT",
-    "meaning": "The source workbook (Launch Inspector) does not export WHICH adobeDataLayer event name each Datalayer Push Listener listens for. Run scripts/export-current.mjs against the existing AboutAmazon-US property to produce catalog/acdl-events.overrides.json with the real names; generate-blueprint.mjs refuses to emit a publishable blueprint while any acdlEvent is unresolved."
+    "meaning": "The source workbook (Launch Inspector) does not export WHICH adobeDataLayer event name each Datalayer Push Listener listens for. Run scripts/export-current.mjs against the existing AboutAmazon-US property to produce catalog/acdl-events.overrides.json with the real names; generate-blueprint.mjs refuses to emit a publishable blueprint while any acdlEvent is unresolved.",
+    "calibration": "Verified 2026-07-29 against the old property's 'Global CTA Button Tracking' rule: the ACDL event type is displayed 'Data Pushed'; per rule record the 'Listen to: Specific Event' -> 'Event / Key to register for' value plus the Time scope radio (All/Future/Past). First captured: CTAButtonClicked, Time scope All. Site convention appears PascalCase \u2014 do not infer the rest; read each rule."
   },
   "pageView": {
     "rule": "Global Page Load Rule",
@@ -260,7 +261,7 @@
       "rule": "Global CTA Button Tracking",
       "payloadDataElement": "data-CTA Button Click",
       "replaces": "XDM CTA Button Click",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "CTAButtonClicked",
       "linkName": "CTA Button Click",
       "linkType": "o",
       "events": [
@@ -271,7 +272,8 @@
       "eVars": {
         "eVar22": "CTA Button Name",
         "eVar23": "Destination Link"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Internal Search Click",

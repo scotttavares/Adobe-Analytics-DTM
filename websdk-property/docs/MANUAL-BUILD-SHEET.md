@@ -242,14 +242,20 @@ return optOut.indexOf(sel) !== -1 ? "out" : "in";
 
 Every rule: **one event + one action**, no conditions, event order left at the default (50).
 
-Where the event name below says `CONFIRM-VIA-EXPORT`, open the SAME-NAMED rule in the
-OLD AboutAmazon-US property, open its **Datalayer Push Listener** event, and copy
-BOTH the event name/specificity AND the past/future ("listen to") setting exactly.
-The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Selection`.
+Event setup per rule (verified against the old property's UI): extension
+**Adobe Client Data Layer**, event type **Data Pushed**, "Listen to" =
+**Specific Event**, the **Event / Key to register for** value shown below, and
+the **Time scope** shown (All = past + future, which catches pushes queued
+before Launch loads — the page-view rule depends on that).
+
+Where the event name still says `CONFIRM-VIA-EXPORT`, open the SAME-NAMED rule in the
+OLD AboutAmazon-US property and copy its "Event / Key to register for" value and
+Time scope exactly. The new `Consent - Apply Visitor Choice` rule uses the same
+event as `Consent Selection`.
 
 ### 1. `Global Page Load Rule`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-pageView`. Set:
     - pageName = `%Page Name%`
     - channel = `%Site Section%`
@@ -304,7 +310,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 2. `Site Error`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-siteError`. Set:
     - pageName = `errorPage`
     - list1 = `%Site Error%`
@@ -314,7 +320,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 3. `Amazon More News Tracking`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `More Amazon News Click`
     - linkType = `o`
@@ -326,7 +332,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 4. `Amazon Redirect Link Click`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Amazon Redirect Link Click`
     - linkType = `o`
@@ -339,7 +345,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 5. `Amazon Stories Link Click Tracking`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Amazon Stories Link Tracking`
     - linkType = `o`
@@ -351,7 +357,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 6. `Consent Selection`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Cookie Consent Selection`
     - linkType = `o`
@@ -363,7 +369,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 7. `File Download Tracking`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `File Download`
     - linkType = `d`
@@ -376,7 +382,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 8. `Filter Click Tracking`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `News Filter Click`
     - linkType = `o`
@@ -388,7 +394,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 9. `Form Complete`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Form Complete`
     - linkType = `o`
@@ -401,7 +407,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 10. `Form Error Tracking`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Form Error`
     - linkType = `o`
@@ -415,7 +421,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 11. `Form Start`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Form Start`
     - linkType = `o`
@@ -428,7 +434,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 12. `Global CTA Button Tracking`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CTAButtonClicked` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `CTA Button Click`
     - linkType = `o`
@@ -441,7 +447,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 13. `Internal Search Click`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Internal Search`
     - linkType = `o`
@@ -455,7 +461,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 14. `Internal Search ClickThrough`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Internal Search Click Through`
     - linkType = `o`
@@ -468,7 +474,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 15. `Map Button Click`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map Button Click`
     - linkType = `o`
@@ -481,7 +487,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 16. `Map Button Close`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map Button Close`
     - linkType = `o`
@@ -494,7 +500,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 17. `Map Zoom In`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map ZoomIn`
     - linkType = `o`
@@ -507,7 +513,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 18. `Map Zoom Out`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map Zoom Out`
     - linkType = `o`
@@ -520,7 +526,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 19. `Menu Link Click Tracking`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Menu Click`
     - linkType = `o`
@@ -532,7 +538,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 20. `Null Search Tracking`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Null Search`
     - linkType = `o`
@@ -546,7 +552,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 21. `Redirect Link Click Tracking`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Redirect Link Click`
     - linkType = `o`
@@ -559,7 +565,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 22. `Related Tag Click Tracking`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Related Tag Click`
     - linkType = `o`
@@ -572,7 +578,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 23. `Scroll 25 percentage`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Scroll 25 Percentage`
     - linkType = `o`
@@ -584,7 +590,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 24. `Scroll 50 percentage`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Scroll 50 Percentage`
     - linkType = `o`
@@ -596,7 +602,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 25. `Scroll 75 percentage`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Scroll 75 Percentage`
     - linkType = `o`
@@ -608,7 +614,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 26. `Scroll 100 percentage`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Scroll 100 Percentage`
     - linkType = `o`
@@ -620,7 +626,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 27. `Search Close Click`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Internal Search Close Click`
     - linkType = `o`
@@ -634,7 +640,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 28. `Social Interaction Tracking`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Social Interaction`
     - linkType = `o`
@@ -646,7 +652,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 29. `Video Start`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video Start`
     - linkType = `o`
@@ -659,7 +665,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 30. `Video 25 percentage complete`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video 25 Percent completion`
     - linkType = `o`
@@ -671,7 +677,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 31. `Video 50 percentage complete`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video 50 Percent completion`
     - linkType = `o`
@@ -684,7 +690,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 32. `Video 75 percentage complete`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video 75 Percent completion`
     - linkType = `o`
@@ -697,7 +703,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 33. `Video 100 percentage complete`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video Complete`
     - linkType = `o`
@@ -710,7 +716,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 34. `Video Pause`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Video Pause`
     - linkType = `o`
@@ -722,7 +728,7 @@ The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Se
 
 ### 35. `Consent - Apply Visitor Choice`
 
-- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: `CONFIRM-VIA-EXPORT`
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
 - **Action**: Adobe Experience Platform Web SDK → *Set consent* — instance `alloy` · standard **Adobe 2.0** · general = `%consent-generalValue%`
 - Note: Maps the site banner selection to alloy setConsent. Runs on the same data-layer event as the Consent Selection tracking rule.
 

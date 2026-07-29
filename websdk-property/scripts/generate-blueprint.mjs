@@ -280,9 +280,14 @@ async function main() {
       },
     };
   }
+  // Verified against the live old property 2026-07-29: the ACDL event type's
+  // display name is "Data Pushed" (the Launch Inspector workbook had labeled
+  // it "Datalayer Push Listener"). The delegate id below is derived from that
+  // display name; publish.mjs still resolves by display name against the live
+  // extension package as the safety net.
   const acdlDelegateDefault = {
-    delegate_descriptor_id: 'adobe-client-data-layer::events::datalayer-push-listener',
-    delegateDisplayName: 'Datalayer Push Listener',
+    delegate_descriptor_id: 'adobe-client-data-layer::events::data-pushed',
+    delegateDisplayName: 'Data Pushed',
   };
 
   // The plain event-name string for a rule (dispatcher key). Overrides win,
@@ -300,7 +305,8 @@ async function main() {
 
   // Resolve each rule's ACDL event: exact settings from the overrides file win;
   // otherwise emit the sentinel and mark the blueprint draft.
-  function acdlEventFor(ruleName, catalogValue) {
+  function acdlEventFor(ruleName, catalogValue, timeScope) {
+    const scope = timeScope || 'all';
     const o = overrides.rules && overrides.rules[ruleName];
     if (o && o.settings) {
       return {
@@ -308,6 +314,7 @@ async function main() {
         delegate_descriptor_id: o.delegate_descriptor_id || acdlDelegateDefault.delegate_descriptor_id,
         delegateDisplayName: acdlDelegateDefault.delegateDisplayName,
         settings: o.settings,
+        timeScope: scope,
       };
     }
     if (!catalogValue || catalogValue === SENTINEL) {
@@ -316,12 +323,14 @@ async function main() {
         extension: 'adobe-client-data-layer',
         ...acdlDelegateDefault,
         settings: { event: SENTINEL },
+        timeScope: scope,
       };
     }
     return {
       extension: 'adobe-client-data-layer',
       ...acdlDelegateDefault,
       settings: { event: catalogValue },
+      timeScope: scope,
     };
   }
 
@@ -578,7 +587,7 @@ async function main() {
     _note:
       'Single page-view request: personalization (renderDecisions) + Analytics ride the same ' +
       'edge call — the durable fix for the audit\'s two-pathway root cause (slides 26-27).',
-    event: acdlEventFor(pv.rule, pv.acdlEvent),
+    event: acdlEventFor(pv.rule, pv.acdlEvent, pv.acdlTimeScope),
     conditions: [],
     actions: pvActions,
   });
@@ -597,7 +606,7 @@ async function main() {
   rules.push({
     name: se.rule,
     consentCategory: 'C0002',
-    event: acdlEventFor(se.rule, se.acdlEvent),
+    event: acdlEventFor(se.rule, se.acdlEvent, se.acdlTimeScope),
     conditions: [],
     actions:
       arch === 'adobe-variable'
@@ -636,7 +645,7 @@ async function main() {
     rules.push({
       name: it.rule,
       consentCategory: 'C0002',
-      event: acdlEventFor(it.rule, it.acdlEvent),
+      event: acdlEventFor(it.rule, it.acdlEvent, it.acdlTimeScope),
       conditions: [],
       actions,
     });
@@ -652,7 +661,7 @@ async function main() {
       _note:
         'Maps the site banner selection to alloy setConsent. Runs on the same data-layer event ' +
         'as the Consent Selection tracking rule.',
-      event: acdlEventFor(ruleName, (events.interactions.find((i) => i.rule === 'Consent Selection') || {}).acdlEvent),
+      event: acdlEventFor(ruleName, (events.interactions.find((i) => i.rule === 'Consent Selection') || {}).acdlEvent, (events.interactions.find((i) => i.rule === 'Consent Selection') || {}).acdlTimeScope),
       conditions: [],
       actions: [
         {

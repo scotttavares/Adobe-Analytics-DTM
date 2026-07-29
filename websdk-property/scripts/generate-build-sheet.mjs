@@ -182,17 +182,27 @@ async function main() {
   L.push('');
   L.push('Every rule: **one event + one action**, no conditions, event order left at the default (50).');
   L.push('');
-  L.push(`Where the event name below says \`${SENTINEL}\`, open the SAME-NAMED rule in the`);
-  L.push('OLD AboutAmazon-US property, open its **Datalayer Push Listener** event, and copy');
-  L.push('BOTH the event name/specificity AND the past/future ("listen to") setting exactly.');
-  L.push('The new `Consent - Apply Visitor Choice` rule uses the same event as `Consent Selection`.');
+  L.push('Event setup per rule (verified against the old property\'s UI): extension');
+  L.push('**Adobe Client Data Layer**, event type **Data Pushed**, "Listen to" =');
+  L.push('**Specific Event**, the **Event / Key to register for** value shown below, and');
+  L.push('the **Time scope** shown (All = past + future, which catches pushes queued');
+  L.push('before Launch loads — the page-view rule depends on that).');
+  L.push('');
+  L.push(`Where the event name still says \`${SENTINEL}\`, open the SAME-NAMED rule in the`);
+  L.push('OLD AboutAmazon-US property and copy its "Event / Key to register for" value and');
+  L.push('Time scope exactly. The new `Consent - Apply Visitor Choice` rule uses the same');
+  L.push('event as `Consent Selection`.');
   L.push('');
   bp.rules.forEach((r, i) => {
     L.push(`### ${i + 1}. \`${r.name}\``);
     L.push('');
     const ev = r.event;
     const evName = ev.settings && ev.settings.event ? ev.settings.event : '(see settings)';
-    L.push(`- **Event**: Adobe Client Data Layer → *Datalayer Push Listener* — event: \`${evName}\``);
+    const scope = ev.timeScope ? ev.timeScope.charAt(0).toUpperCase() + ev.timeScope.slice(1) : 'All';
+    L.push(
+      `- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · ` +
+        `Event/Key: \`${evName}\` · Time scope: **${scope}**`,
+    );
     let actionNo = 0;
     const label = () => {
       actionNo += 1;

@@ -24,7 +24,6 @@
       "rule \"Form Complete\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Form Error Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Form Start\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Global CTA Button Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Internal Search Click\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Internal Search ClickThrough\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Map Button Click\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
@@ -1027,11 +1026,12 @@
       "_note": "Single page-view request: personalization (renderDecisions) + Analytics ride the same edge call — the durable fix for the audit's two-pathway root cause (slides 26-27).",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1115,11 +1115,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1158,11 +1159,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1203,11 +1205,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1249,11 +1252,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1294,11 +1298,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1339,11 +1344,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1385,11 +1391,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1430,11 +1437,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1476,11 +1484,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1523,11 +1532,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1569,11 +1579,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
-        }
+          "event": "CTAButtonClicked"
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1615,11 +1626,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1662,11 +1674,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1708,11 +1721,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1754,11 +1768,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1800,11 +1815,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1846,11 +1862,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1892,11 +1909,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1937,11 +1955,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -1984,11 +2003,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2030,11 +2050,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2076,11 +2097,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2121,11 +2143,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2166,11 +2189,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2211,11 +2235,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2256,11 +2281,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2303,11 +2329,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2348,11 +2375,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2394,11 +2422,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2439,11 +2468,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2485,11 +2515,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2531,11 +2562,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2577,11 +2609,12 @@
       "consentCategory": "C0002",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
@@ -2623,11 +2656,12 @@
       "_note": "Maps the site banner selection to alloy setConsent. Runs on the same data-layer event as the Consent Selection tracking rule.",
       "event": {
         "extension": "adobe-client-data-layer",
-        "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
-        "delegateDisplayName": "Datalayer Push Listener",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
         "settings": {
           "event": "CONFIRM-VIA-EXPORT"
-        }
+        },
+        "timeScope": "all"
       },
       "conditions": [],
       "actions": [
