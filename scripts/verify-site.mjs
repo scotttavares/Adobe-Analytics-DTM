@@ -1,7 +1,8 @@
 /**
  * Drives the marketing site in real Chromium: confirms it dogfoods the library
- * (the real banner renders on load), the CTAs re-launch it, the install tabs
- * switch, and nothing errors. Serves site/ over a throwaway static server.
+ * (the real banner renders on load), the inline Adobe-call inspector reflects
+ * real calls, the region resolver computes payloads from the real engine, the
+ * CTAs work, and nothing errors. Serves site/ over a throwaway static server.
  */
 import { chromium } from 'playwright';
 import { createServer } from 'node:http';
@@ -40,52 +41,79 @@ await page.waitForTimeout(700);
 
 check('page title is set', (await page.title()).includes('adobe-consent'));
 
-// Dogfooding: the real banner should be on the page from load.
+// --- dogfooding: the real banner is on the page ---
 const dialog = page.locator('#adobe-consent-root [role="dialog"]');
 check('the site renders its own consent banner on load', await dialog.isVisible().catch(() => false));
 check('banner uses the site-configured heading',
   (await dialog.locator('h2.title').textContent().catch(() => '')) === 'Your privacy, your call');
-check('all four categories present in the banner',
-  (await dialog.locator('input[type="checkbox"]').count()) === 4);
 
-// Accept, then prove it dismissed and left a decision.
-await dialog.locator('button.action', { hasText: 'Accept all' }).click();
+// --- live inspector: driving consent via the inline buttons logs Adobe calls ---
+await page.locator('#acAccept').click();
 await page.waitForTimeout(400);
-check('banner dismisses after a choice', !(await dialog.isVisible().catch(() => true)));
+
 const decided = await page.evaluate(() => window.AdobeConsent.instance.state?.method);
-check('decision recorded as accept_all', decided === 'accept_all', String(decided));
+check('inspector "Accept all" records accept_all', decided === 'accept_all', String(decided));
 
-// "Launch the banner" hero CTA resets and re-shows it.
-await page.locator('#launchBanner').click();
+const chipsOn = await page.locator('#liveChips .chip.on').count();
+check('consent chips reflect all-granted', chipsOn === 4, chipsOn + ' on');
+
+const logText = await page.locator('#callLog').innerText();
+check('inspector logged a setConsent call', /setConsent/.test(logText));
+check('inspector logged the ECID Opt-In complete', /adobe\.optIn/.test(logText) && /approved/.test(logText));
+check('inspector logged a data layer push', /adobeDataLayer/.test(logText));
+check('inspector logged a _satellite direct call', /_satellite/.test(logText));
+check('setConsent shows collect granted after accept', /collect:y/.test(logText), logText.match(/setConsent[^\n]*/)?.[0] || '');
+
+// --- reject via inspector flips it back ---
+await page.locator('#acReject').click();
 await page.waitForTimeout(400);
-check('hero CTA re-launches the banner', await dialog.isVisible().catch(() => false));
-await dialog.locator('button.action', { hasText: 'Reject all' }).click();
-await page.waitForTimeout(300);
+const logText2 = await page.locator('#callLog').innerText();
+check('reject re-asserts collect denied to alloy', /collect:n/.test(logText2));
+check('reject aborts AppMeasurement', /s\.abort = true/.test(logText2));
 
-// Footer "Privacy choices" opens the preference center.
+// --- region resolver: real engine computes per-region payloads ---
+check('region resolver defaults to opt-in for Germany',
+  /Opt-in/.test(await page.locator('#rrModel').innerText()));
+const dePayload = await page.locator('#rrPayload').innerText();
+check('Germany resolves to collect:n before any choice', /collect[^\n]*"n"/.test(dePayload), dePayload.split('\n').find((l) => /collect/.test(l)) || '');
+
+await page.locator('#regionSwitch button[data-region="US-CA"]').click();
+await page.waitForTimeout(250);
+const caModel = await page.locator('#rrModel').innerText();
+check('California resolves to opt-out', /Opt-out/.test(caModel), caModel);
+const caPayload = await page.locator('#rrPayload').innerText();
+check('California grants collect by default (opt-out)', /collect[^\n]*"y"/.test(caPayload), caPayload.split('\n').find((l) => /collect/.test(l)) || '');
+
+const caChipsOn = await page.locator('#rrChips .chip.on').count();
+check('California pre-grants categories (opt-out defaults)', caChipsOn >= 2, caChipsOn + ' on');
+
+// --- load-chain race animates when scrolled into view ---
+await page.locator('#onetrust').scrollIntoViewIfNeeded();
+await page.waitForTimeout(2600);
+const raced = await page.evaluate(() => {
+  const fills = document.querySelectorAll('#race .lane.ours .bar .fill');
+  return fills.length ? getComputedStyle(fills[0]).width : '0px';
+});
+check('OneTrust race animation ran (ours fills to full width)', parseFloat(raced) > 200, raced);
+
+// --- footer preference center + tabs ---
 await page.locator('#footerPrefs').click();
 await page.waitForTimeout(300);
 check('footer link opens the preference center', await dialog.isVisible().catch(() => false));
 await page.keyboard.press('Escape');
 await page.waitForTimeout(200);
 
-// Install tabs switch panels.
 await page.locator('.install-tabs button', { hasText: 'npm' }).click();
 await page.waitForTimeout(150);
-check('install tab switches to the npm panel', await page.locator('#p-npm.active').count() === 1);
+check('install tab switches to the npm panel', (await page.locator('#p-npm.active').count()) === 1);
 
-// Anchor nav present.
-check('section anchors present', await page.locator('#why, #adobe, #install, #compare').count() >= 4);
-
-// No horizontal overflow at desktop width.
-const overflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
-check('no horizontal page overflow', overflow);
-
-// Mobile pass.
+// --- layout integrity ---
+check('no horizontal page overflow',
+  await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1));
 await page.setViewportSize({ width: 390, height: 844 });
 await page.waitForTimeout(200);
-const mobileOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
-check('no horizontal overflow on mobile', mobileOverflow);
+check('no horizontal overflow on mobile',
+  await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1));
 await page.setViewportSize({ width: 1280, height: 900 });
 
 await page.evaluate(() => window.scrollTo(0, 0));
