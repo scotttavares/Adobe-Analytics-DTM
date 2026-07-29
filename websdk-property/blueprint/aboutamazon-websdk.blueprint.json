@@ -15,12 +15,6 @@
       "webSdkInstance.edgeDomain is a placeholder — complete the first-party domain setup (docs/MANUAL-STEPS.md #4) or generate with --interim-third-party-edge to launch on edge.adobedc.net",
       "rule \"Site Error\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Internal Search ClickThrough\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Map Zoom In\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Map Zoom Out\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Menu Link Click Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Null Search Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Redirect Link Click Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Related Tag Click Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Scroll 25 percentage\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Scroll 50 percentage\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Scroll 75 percentage\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
@@ -1804,7 +1798,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "mapZoomIn"
         },
         "timeScope": "all"
       },
@@ -1851,7 +1845,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "mapZoomOut"
         },
         "timeScope": "all"
       },
@@ -1898,7 +1892,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "MenuLinkClicked"
         },
         "timeScope": "all"
       },
@@ -1944,7 +1938,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "nullSearch"
         },
         "timeScope": "all"
       },
@@ -1992,7 +1986,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "RedirectLinkClick"
         },
         "timeScope": "all"
       },
@@ -2039,7 +2033,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "TagClick"
         },
         "timeScope": "all"
       },

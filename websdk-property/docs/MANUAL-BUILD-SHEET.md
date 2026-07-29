@@ -500,7 +500,7 @@ event as `Consent Selection`.
 
 ### 17. `Map Zoom In`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `mapZoomIn` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map ZoomIn`
     - linkType = `o`
@@ -513,7 +513,7 @@ event as `Consent Selection`.
 
 ### 18. `Map Zoom Out`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `mapZoomOut` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map Zoom Out`
     - linkType = `o`
@@ -526,7 +526,7 @@ event as `Consent Selection`.
 
 ### 19. `Menu Link Click Tracking`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `MenuLinkClicked` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Menu Click`
     - linkType = `o`
@@ -538,7 +538,7 @@ event as `Consent Selection`.
 
 ### 20. `Null Search Tracking`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `nullSearch` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Null Search`
     - linkType = `o`
@@ -552,7 +552,7 @@ event as `Consent Selection`.
 
 ### 21. `Redirect Link Click Tracking`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `RedirectLinkClick` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Redirect Link Click`
     - linkType = `o`
@@ -565,7 +565,7 @@ event as `Consent Selection`.
 
 ### 22. `Related Tag Click Tracking`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `TagClick` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Related Tag Click`
     - linkType = `o`

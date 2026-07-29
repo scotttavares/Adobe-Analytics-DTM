@@ -361,7 +361,7 @@
       "rule": "Map Zoom In",
       "payloadDataElement": "data-Map Zoom In",
       "replaces": "XDM Map Zoom In",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "mapZoomIn",
       "linkName": "Map ZoomIn",
       "linkType": "o",
       "events": [
@@ -372,13 +372,14 @@
       "eVars": {
         "eVar49": "Map Name",
         "eVar50": "Map Button Name"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Map Zoom Out",
       "payloadDataElement": "data-Map Zoom Out",
       "replaces": "XDM Map Zoom Out",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "mapZoomOut",
       "linkName": "Map Zoom Out",
       "linkType": "o",
       "events": [
@@ -389,13 +390,14 @@
       "eVars": {
         "eVar49": "Map Name",
         "eVar50": "Map Button Name"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Menu Link Click Tracking",
       "payloadDataElement": "data-Menu Click",
       "replaces": "XDM Menu Click",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "MenuLinkClicked",
       "linkName": "Menu Click",
       "linkType": "o",
       "events": [
@@ -405,13 +407,14 @@
       ],
       "eVars": {
         "eVar24": "Menu Link Name"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Null Search Tracking",
       "payloadDataElement": "data-Null Search",
       "replaces": "XDM Null Search",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "nullSearch",
       "linkName": "Null Search",
       "linkType": "o",
       "events": [
@@ -423,13 +426,14 @@
         "eVar6": "Search Term",
         "eVar7": "Search Results",
         "eVar8": "Search Result PageType"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Redirect Link Click Tracking",
       "payloadDataElement": "data-Redirect Link Click",
       "replaces": "XDM Redirect Link Click",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "RedirectLinkClick",
       "linkName": "Redirect Link Click",
       "linkType": "o",
       "events": [
@@ -443,13 +447,14 @@
       "eVars": {
         "eVar21": "Redirect Link Text",
         "eVar23": "Destination Link"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Related Tag Click Tracking",
       "payloadDataElement": "data-Related Tag",
       "replaces": "XDM Related Tag",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "TagClick",
       "linkName": "Related Tag Click",
       "linkType": "o",
       "events": [
@@ -460,7 +465,8 @@
       "eVars": {
         "eVar43": "Related Tag Link",
         "eVar46": "Related Tag Link URL"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Scroll 25 percentage",
