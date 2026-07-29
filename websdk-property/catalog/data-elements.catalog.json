@@ -1,7 +1,7 @@
 {
   "_purpose": "Dimension/utility data elements carried over 1:1 from the source property AboutAmazon-US (Launch Inspector export, build 2025-08-05). Settings are kept identical to the source; names follow the property owner's convention (below). Consumed by scripts/generate-blueprint.mjs.",
   "_naming": {
-    "convention": "Adopted from the property owner during the 2026-07-29 entry pass, applied BEFORE any rule referenced an element (renames were free). Bare names = business values read from the data layer (ACDL computed state; UTM_* query params self-group by name). 'Plugin: ' prefix = visit mechanics computed by Common Web SDK Plugins. 'Core: ' prefix = browser-derived utilities via the Core extension (page info / custom code reading the browser, not the data layer). Business-meaning custom-code elements (Campaign, Internal Campaign, Internal Campaign Count, User Type) stay bare deliberately - the prefix describes mechanics, and these map to eVars analysts discuss by business name.",
+    "convention": "Adopted from the property owner during the 2026-07-29 entry pass, applied BEFORE any rule referenced an element (renames were free). Bare names = business values read from the data layer (ACDL computed state; UTM_* query params self-group by name). 'Plugin: ' prefix = visit mechanics computed by Common Web SDK Plugins. 'Core: ' prefix = browser-derived utilities via the Core extension (page info / custom code reading the browser, not the data layer). NOTE: business-meaning custom-code elements were later grouped by domain too (Campaign:, User:) - see featureGroups.",
     "renamedFromSource": {
       "Referrer": "Core: Referrer",
       "Timestamp": "Core: Timestamp",
@@ -65,10 +65,14 @@
       "Internal Campaign Count": "Campaign: Internal Count",
       "Site Error": "Page: Error",
       "Domain": "Site: Domain",
-      "Filter": "News Filter"
+      "Filter": "News Filter",
+      "User Type": "User: Type",
+      "Login ID": "User: Login ID",
+      "Publish Date": "Content: Publish Date"
     },
     "parityNote": "Old-vs-new beacon QA maps names through this ledger; settings are unchanged, so values are identical.",
-    "featureGroups": "Business values that belong to a site feature are grouped 'Feature: value', dropping the redundant leading word (dropdown reads 'Search: Term', 'Page: Name'). Domain groups: Search, Form, Video, Map, Article, Consent, Page, Site, File, Link (click-target values), Geo (Country/Language/Locale), Content (Category/Type/Tags/Hidden Tags), Campaign (External/Internal/Internal Count). This DOMAIN axis (which feature uses the value) shares a colon with the SOURCE axis of Plugin:/Core: (which extension produced it) by the owner's choice (2026-07-29). Global dimensions were grouped too (owner confirmed, before any rule referenced them). Still bare, deliberately: cross-cutting singletons with no feature home (Publish Date, Scroll Depth, Social Interaction Info, Login ID; News Filter kept bare but renamed from 'Filter' to disambiguate from Search: Filter). Domain groups into Site: (site identity) and Site Error into Page: (a per-page event, despite both sitting under web.webPageDetails)  and UTM_* (self-group by name)."
+    "featureGroups": "Business values that belong to a site feature are grouped 'Feature: value', dropping the redundant leading word (dropdown reads 'Search: Term', 'Page: Name'). Domain groups: Search, Form, Video, Map, Article, Consent, Page, Site, File, Link (click-target values), Geo (Country/Language/Locale), Content (Category/Type/Tags/Hidden Tags), Campaign (External/Internal/Internal Count), User (Type/Login ID). This DOMAIN axis (which feature uses the value) shares a colon with the SOURCE axis of Plugin:/Core: (which extension produced it) by the owner's choice (2026-07-29). Global dimensions were grouped too (owner confirmed, before any rule referenced them). Still bare, deliberately: cross-cutting singletons with no feature home (Scroll Depth, Social Interaction Info; News Filter kept bare but renamed from 'Filter' to disambiguate from Search: Filter). Domain groups into Site: (site identity) and Site Error into Page: (a per-page event, despite both sitting under web.webPageDetails)  and UTM_* (self-group by name).",
+    "_functionalFlags": "User: Type is a return \"\" no-op stub (eVar15 has never populated); User: Login ID is an orphan (reads loginID but no payload sends it). Grouped for tidiness at the owner's request; both still need a use-or-exclude decision like Campaign: Internal. Publish Date grouped as Content: (content metadata) though its data-layer path is web.webPageDetails.publishDate."
   },
   "_source": "aboutamazon.com.xlsx \u2014 DataElements sheet (108 elements; 72 carried, 28 XDM replaced by generated builders, remainder excluded with reasons below)",
   "delegates": {
@@ -499,7 +503,7 @@
       }
     },
     {
-      "name": "Login ID",
+      "name": "User: Login ID",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": true,
@@ -643,7 +647,7 @@
       }
     },
     {
-      "name": "Publish Date",
+      "name": "Content: Publish Date",
       "sourceExtension": "Adobe Client Data Layer",
       "sourceType": "Datalayer Computed State",
       "forceLowerCase": false,
@@ -949,7 +953,7 @@
       }
     },
     {
-      "name": "User Type",
+      "name": "User: Type",
       "sourceExtension": "Core",
       "sourceType": "Custom Code",
       "forceLowerCase": false,

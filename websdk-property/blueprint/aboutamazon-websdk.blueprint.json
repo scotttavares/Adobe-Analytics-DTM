@@ -394,7 +394,7 @@
       "delegateDisplayName": "Datalayer Computed State"
     },
     {
-      "name": "Login ID",
+      "name": "User: Login ID",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -526,7 +526,7 @@
       "delegateDisplayName": "Getpreviousvalue"
     },
     {
-      "name": "Publish Date",
+      "name": "Content: Publish Date",
       "extension": "adobe-client-data-layer",
       "delegate_descriptor_id": "adobe-client-data-layer::dataElements::datalayer-computed-state",
       "settings": {
@@ -807,7 +807,7 @@
       "storageDuration": null
     },
     {
-      "name": "User Type",
+      "name": "User: Type",
       "extension": "core",
       "delegate_descriptor_id": "core::dataElements::custom-code",
       "settings": {
@@ -1032,9 +1032,9 @@
                   "eVar9": "%Content: Type%",
                   "eVar12": "%Page: URL%",
                   "eVar13": "%Core: Page Query String%",
-                  "eVar15": "%User Type%",
+                  "eVar15": "%User: Type%",
                   "eVar18": "%Geo: Language%",
-                  "eVar25": "%Publish Date%",
+                  "eVar25": "%Content: Publish Date%",
                   "eVar29": "%Content: Category%",
                   "eVar30": "%Content: Tags%",
                   "eVar37": "%Plugin: Visit Duration%",

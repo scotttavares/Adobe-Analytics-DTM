@@ -40,7 +40,7 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 20 | `Geo: Language` | `web.webPageDetails.language` | ✅ | ✅ |  |
 | 21 | `Link: Name` | `web.webInteractions.linkName` | ✅ | ✅ |  |
 | 22 | `Geo: Locale` | `web.webPageDetails.locale` | ✅ | ✅ |  |
-| 23 | `Login ID` | `loginID` | ✅ | ✅ |  |
+| 23 | `User: Login ID` | `loginID` | ✅ | ✅ |  |
 | 24 | `Map: Button Name` | `map.mapButtonName` | ✅ | ✅ |  |
 | 25 | `Map: Name` | `map.mapName` | ✅ | ✅ |  |
 | 26 | `Link: Menu` | `web.webInteractions.MenuLinkName` | ✅ | ✅ |  |
@@ -49,7 +49,7 @@ All 52 below: extension **Adobe Client Data Layer**, type **Datalayer Computed S
 | 29 | `Page: Title` | `web.webPageDetails.pageTitle` | — | — |  |
 | 30 | `Page: URL` | `web.webPageDetails.pageUrl` | ✅ | ✅ |  |
 | 31 | `Page: View Count` | `web.webPageDetails.pageLoaded.value` | ✅ | ✅ |  |
-| 32 | `Publish Date` | `web.webPageDetails.publishDate` | — | — |  |
+| 32 | `Content: Publish Date` | `web.webPageDetails.publishDate` | — | — |  |
 | 33 | `Link: Redirect Text` | `web.webInteractions.RedirectLinkText` | ✅ | ✅ |  |
 | 34 | `Link: Related Tag` | `web.webInteractions.TagLinkClick` | ✅ | ✅ |  |
 | 35 | `Link: Related Tag URL` | `web.webInteractions.linkUrl` | ✅ | ✅ |  |
@@ -179,7 +179,7 @@ var TimeStamp = new Date().toISOString();
 return TimeStamp;
 ```
 
-### `User Type`
+### `User: Type`
 
 force lowercase: **off** · clean text: **off** · storage duration: None
 
@@ -293,9 +293,9 @@ event as `Consent Selection`.
     - eVar9 = `%Content: Type%`
     - eVar12 = `%Page: URL%`
     - eVar13 = `%Core: Page Query String%`
-    - eVar15 = `%User Type%`
+    - eVar15 = `%User: Type%`
     - eVar18 = `%Geo: Language%`
-    - eVar25 = `%Publish Date%`
+    - eVar25 = `%Content: Publish Date%`
     - eVar29 = `%Content: Category%`
     - eVar30 = `%Content: Tags%`
     - eVar37 = `%Plugin: Visit Duration%`

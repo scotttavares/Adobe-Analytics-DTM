@@ -37,9 +37,9 @@
         "eVar9": "Content: Type",
         "eVar12": "Page: URL",
         "eVar13": "Core: Page Query String",
-        "eVar15": "User Type",
+        "eVar15": "User: Type",
         "eVar18": "Geo: Language",
-        "eVar25": "Publish Date",
+        "eVar25": "Content: Publish Date",
         "eVar29": "Content: Category",
         "eVar30": "Content: Tags",
         "eVar37": "Plugin: Visit Duration",
@@ -714,7 +714,7 @@
           }
         ],
         "eVars": {
-          "eVar25": "Publish Date",
+          "eVar25": "Content: Publish Date",
           "eVar37": "Article: Name",
           "eVar38": "Article: Content Type"
         },
