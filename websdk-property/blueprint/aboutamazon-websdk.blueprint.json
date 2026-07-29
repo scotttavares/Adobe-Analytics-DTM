@@ -1062,6 +1062,7 @@
                   "prop17": "%Plugin: Visit Duration%",
                   "prop18": "%Page: Title%",
                   "prop20": "%Geo: Locale%",
+                  "prop19": "%Page: Error%",
                   "list1": "%Page: Error%",
                   "list2": "%Content: Hidden Tags%",
                   "events": "event2"
@@ -1112,6 +1113,7 @@
               "__adobe": {
                 "analytics": {
                   "pageName": "errorPage",
+                  "prop19": "%Page: Error%",
                   "list1": "%Page: Error%"
                 }
               }

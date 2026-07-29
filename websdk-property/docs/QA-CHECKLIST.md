@@ -19,7 +19,7 @@ Simulated triggers (`adobeDataLayer.push(...)`) prove the RULE wiring; real site
 
 - [ ] Trigger: any page load (data layer pushes `pageLoaded`)
 - [ ] `data.__adobe.analytics` carries: events `event2` · pageName/channel/campaign populated
-- [ ] eVars present when their source has a value: 20 mapped · props: 18 mapped · lists: 2 mapped (spot-check 3 of each against the OLD property's beacon for the same URL)
+- [ ] eVars present when their source has a value: 20 mapped · props: 19 mapped · lists: 2 mapped (spot-check 3 of each against the OLD property's beacon for the same URL)
 - [ ] `event4` is ABSENT (deferred until the icid decision — parity with the old property, where it never fired)
 
 ## 2. Interactions (one row at a time)

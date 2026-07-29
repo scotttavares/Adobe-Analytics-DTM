@@ -318,6 +318,7 @@ event as `Consent Selection`.
     - prop17 = `%Plugin: Visit Duration%`
     - prop18 = `%Page: Title%`
     - prop20 = `%Geo: Locale%`
+    - prop19 = `%Page: Error%`
     - list1 = `%Page: Error%`
     - list2 = `%Content: Hidden Tags%`
     - events = `event2`
@@ -332,6 +333,7 @@ event as `Consent Selection`.
 - **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `errorInteraction` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `Data: Site Error`. Set:
     - pageName = `errorPage`
+    - prop19 = `%Page: Error%`
     - list1 = `%Page: Error%`
     - Use the action's clear/remove affordance so values from a PREVIOUS event
       on the same page do not linger (residue test: RUNBOOK Phase 4).

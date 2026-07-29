@@ -68,7 +68,8 @@
         "prop16": "Plugin: Repeat Vs New",
         "prop17": "Plugin: Visit Duration",
         "prop18": "Page: Title",
-        "prop20": "Geo: Locale"
+        "prop20": "Geo: Locale",
+        "prop19": "Page: Error"
       },
       "lists": {
         "list1": [
@@ -95,6 +96,9 @@
         "list1": [
           "Page: Error"
         ]
+      },
+      "props": {
+        "prop19": "Page: Error"
       }
     },
     "note": "Error page view (source payload set webPageDetails.name='errorPage', isErrorPage:true, pageViews:1).",
@@ -854,5 +858,31 @@
         ]
       }
     ]
+  },
+  "_reportSuiteReconciliation": {
+    "_purpose": "Cross-check of the aboutamznprod report suite's eVar map (captured 2026-07-29) against what THIS build populates. Confirms full parity with the old Launch property and documents every report-suite eVar left unpopulated, so none is a silent gap.",
+    "parity": "Every eVar the old Launch property populated (per the Launch Inspector workbook), this build populates. No migration drop.",
+    "definedButNotPopulated": {
+      "eVar14 ECID": "Expected under Web SDK - the SDK manages identity natively; ECID is no longer captured into an eVar. The source's ECID element was a broken recursive stub (excluded).",
+      "eVar16 Internal Campaign Displayed": "Not present anywhere in the workbook - the old Launch property never sent it. Related to the deferred internal-campaign feature (eVar5). Carried-forward parity = stays empty. Client decision if wanted.",
+      "eVar26 Content Type": "Duplicate label of eVar9 (populated by Content: Type). Appears to be an unused report-suite duplicate; the old property populated eVar9, not eVar26.",
+      "eVar31 MetaTags": "Not in the workbook - old property never sent it. Client decision if wanted.",
+      "eVar51-54 Audio (Title/Action/Duration/Percent Played)": "NO audio tracking exists in the old Launch property (zero 'audio' references in the entire workbook). Audio Duration/Percent Played are Media-Collection-SDK style metrics, collected separately from data-layer rules. NOT a migration gap - net-new scope if the client wants audio tracking (would use Web SDK media collection, not a simple data element). Video milestones ARE carried (event-based rules), audio is not."
+    },
+    "note": "eVar36 is undefined/disabled in the report suite (list skips 35 -> 37); not populated by either property. Minor label observation: report suite labels eVar28 'Amazon Redirect Link' but the old property sends redirect link TEXT there (parity carried as-is; flag to analytics owner).",
+    "props": {
+      "parity": "18 of 20 report-suite props populated (full parity with the old property).",
+      "prop19 Site Error": "Report suite defines it; the old property captured Site Error only in list1. Added prop19 = Site Error (owner request 'use all props') alongside the list, wherever list1 Site Error is set (page view + site error). Net-new vs the old property, minor.",
+      "prop13 ECID": "DELIBERATELY NOT populated. Under Web SDK the SDK manages ECID/identity natively; capturing it into a prop is redundant and against Adobe guidance. The source's ECID element was a broken recursive stub (excluded). Leaving prop13 empty is correct Web SDK design, not a gap - confirm with the client if they specifically want ECID surfaced in a prop."
+    },
+    "events": {
+      "parity": "Every event the old Launch property sent, this build sends. The report suite defines more events than the property ever used.",
+      "definedButNotSent": {
+        "event3 Internal Campaign Click": "Not in the workbook - old property never sent it (part of the deferred internal-campaign feature; event4 Impressions is likewise filtered out).",
+        "event5 Internal Search": "Not in the workbook - the property used event26 (Internal Search Click) for the search action, not event5. Report-suite definition, unused.",
+        "event35-39 Audio (Start/Complete/Milestone 25/50/75%)": "No audio tracking in the old property. Together with eVar51-54, AUDIO is a COMPLETE tracking feature defined in the report suite (events + eVars) but NEVER implemented in Launch - provisioned-but-unbuilt, or via a separate media SDK. Net-new scope if the client wants it (Web SDK media collection)."
+      },
+      "audioSummary": "AUDIO spans events 35-39 + eVars 51-54 in the report suite, zero implementation in the old Launch property. Video IS implemented (event-based milestone rules); audio is not. Flagged for the client as a use-or-drop decision."
+    }
   }
 }
