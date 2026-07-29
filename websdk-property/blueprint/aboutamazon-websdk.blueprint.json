@@ -13,21 +13,8 @@
     "draft": true,
     "unresolved": [
       "webSdkInstance.edgeDomain is a placeholder — complete the first-party domain setup (docs/MANUAL-STEPS.md #4) or generate with --interim-third-party-edge to launch on edge.adobedc.net",
-      "rule \"Global Page Load Rule\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Site Error\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Amazon More News Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Amazon Redirect Link Click\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Amazon Stories Link Click Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Consent Selection\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"File Download Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Filter Click Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Form Complete\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Form Error Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Form Start\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Internal Search Click\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Internal Search ClickThrough\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Map Button Click\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Map Button Close\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Map Zoom In\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Map Zoom Out\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Menu Link Click Tracking\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
@@ -45,8 +32,7 @@
       "rule \"Video 50 percentage complete\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Video 75 percentage complete\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
       "rule \"Video 100 percentage complete\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Video Pause\": ACDL event name/settings (CONFIRM-VIA-EXPORT)",
-      "rule \"Consent - Apply Visitor Choice\": ACDL event name/settings (CONFIRM-VIA-EXPORT)"
+      "rule \"Video Pause\": ACDL event name/settings (CONFIRM-VIA-EXPORT)"
     ]
   },
   "company": {
@@ -1029,7 +1015,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "pageLoaded"
         },
         "timeScope": "all"
       },
@@ -1162,7 +1148,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "moreAmazonNews"
         },
         "timeScope": "all"
       },
@@ -1208,7 +1194,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "AmazonRedirectLinkClick"
         },
         "timeScope": "all"
       },
@@ -1255,7 +1241,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "storyLinkClick"
         },
         "timeScope": "all"
       },
@@ -1301,7 +1287,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "consentSelection"
         },
         "timeScope": "all"
       },
@@ -1347,7 +1333,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "FileDownloaded"
         },
         "timeScope": "all"
       },
@@ -1394,7 +1380,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "FilterApplied"
         },
         "timeScope": "all"
       },
@@ -1440,7 +1426,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "formComplete"
         },
         "timeScope": "all"
       },
@@ -1487,7 +1473,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "formError"
         },
         "timeScope": "all"
       },
@@ -1535,7 +1521,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "formStart"
         },
         "timeScope": "all"
       },
@@ -1629,7 +1615,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "internalSearch"
         },
         "timeScope": "all"
       },
@@ -1724,7 +1710,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "mapButtonClick"
         },
         "timeScope": "all"
       },
@@ -1771,7 +1757,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "mapButtonClose"
         },
         "timeScope": "all"
       },
@@ -2651,6 +2637,54 @@
       ]
     },
     {
+      "name": "Article Interaction Tracking",
+      "consentCategory": "C0002",
+      "event": {
+        "extension": "adobe-client-data-layer",
+        "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
+        "delegateDisplayName": "Data Pushed",
+        "settings": {
+          "event": "ArticleViewed"
+        },
+        "timeScope": "all"
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::update-variable",
+          "delegateDisplayName": "Update variable",
+          "category": "analytics",
+          "settings": {
+            "dataElementId": "RESOLVE-DE-ID:data-interaction",
+            "dataElementCacheId": "ae7433e9-1b8c-41df-8e3c-06fb0bee50d8",
+            "data": {
+              "__adobe": {
+                "analytics": {
+                  "linkName": "Article",
+                  "linkType": "o",
+                  "eVar25": "%Publish Date%",
+                  "eVar37": "%Article Name%",
+                  "eVar38": "%Article Content Type%",
+                  "events": "event28"
+                }
+              }
+            }
+          }
+        },
+        {
+          "extension": "adobe-alloy",
+          "delegate_descriptor_id": "adobe-alloy::actions::send-event",
+          "category": "analytics",
+          "settings": {
+            "instanceName": "alloy",
+            "type": "web.webinteraction.linkClicks",
+            "data": "%data-interaction%"
+          }
+        }
+      ]
+    },
+    {
       "name": "Consent - Apply Visitor Choice",
       "infrastructure": true,
       "_note": "Maps the site banner selection to alloy setConsent. Runs on the same data-layer event as the Consent Selection tracking rule.",
@@ -2659,7 +2693,7 @@
         "delegate_descriptor_id": "adobe-client-data-layer::events::data-pushed",
         "delegateDisplayName": "Data Pushed",
         "settings": {
-          "event": "CONFIRM-VIA-EXPORT"
+          "event": "consentSelection"
         },
         "timeScope": "all"
       },

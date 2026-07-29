@@ -10,7 +10,7 @@
     "rule": "Global Page Load Rule",
     "payloadDataElement": "data-pageView",
     "replaces": "XDM Page Level",
-    "acdlEvent": "CONFIRM-VIA-EXPORT",
+    "acdlEvent": "pageLoaded",
     "renderDecisions": true,
     "xdmEventType": "web.webpagedetails.pageViews",
     "analytics": {
@@ -78,7 +78,8 @@
           "Hidden Tags"
         ]
       }
-    }
+    },
+    "acdlTimeScope": "all"
   },
   "siteError": {
     "rule": "Site Error",
@@ -103,7 +104,7 @@
       "rule": "Amazon More News Tracking",
       "payloadDataElement": "data-More Amazon News",
       "replaces": "XDM More Amazon News",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "moreAmazonNews",
       "linkName": "More Amazon News Click",
       "linkType": "o",
       "events": [
@@ -113,13 +114,14 @@
       ],
       "eVars": {
         "eVar44": "More Amazon News Text"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Amazon Redirect Link Click",
       "payloadDataElement": "data-Amazon Redirect Link",
       "replaces": "XDM Amazon Redirect Link",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "AmazonRedirectLinkClick",
       "linkName": "Amazon Redirect Link Click",
       "linkType": "o",
       "events": [
@@ -133,13 +135,14 @@
       "eVars": {
         "eVar23": "Destination Link",
         "eVar28": "Redirect Link Text"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Amazon Stories Link Click Tracking",
       "payloadDataElement": "data-Amazon Stories",
       "replaces": "XDM Amazon Stories",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "storyLinkClick",
       "linkName": "Amazon Stories Link Tracking",
       "linkType": "o",
       "events": [
@@ -149,13 +152,14 @@
       ],
       "eVars": {
         "eVar45": "Stories Link Text"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Consent Selection",
       "payloadDataElement": "data-Cookie Consent Selected",
       "replaces": "XDM Cookie Consent Selected",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "consentSelection",
       "linkName": "Cookie Consent Selection",
       "linkType": "o",
       "events": [
@@ -166,13 +170,14 @@
       ],
       "eVars": {
         "eVar48": "Consent Selected"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "File Download Tracking",
       "payloadDataElement": "data-File Download",
       "replaces": "XDM File Download",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "FileDownloaded",
       "linkName": "File Download",
       "linkType": "d",
       "events": [
@@ -183,13 +188,14 @@
       "eVars": {
         "eVar33": "File Name",
         "eVar34": "File Type"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Filter Click Tracking",
       "payloadDataElement": "data-Filter Click",
       "replaces": "XDM Filter Click",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "FilterApplied",
       "linkName": "News Filter Click",
       "linkType": "o",
       "events": [
@@ -199,13 +205,14 @@
       ],
       "eVars": {
         "eVar27": "Filter"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Form Complete",
       "payloadDataElement": "data-Form Complete",
       "replaces": "XDM Form Complete",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "formComplete",
       "linkName": "Form Complete",
       "linkType": "o",
       "events": [
@@ -216,13 +223,14 @@
       "eVars": {
         "eVar10": "Form Name",
         "eVar19": "Form Location"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Form Error Tracking",
       "payloadDataElement": "data-Form Error",
       "replaces": "XDM Form Error",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "formError",
       "linkName": "Form Error",
       "linkType": "o",
       "events": [
@@ -238,13 +246,14 @@
         "list1": [
           "Form Error Name"
         ]
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Form Start",
       "payloadDataElement": "data-Form Start",
       "replaces": "XDM Form Start",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "formStart",
       "linkName": "Form Start",
       "linkType": "o",
       "events": [
@@ -255,7 +264,8 @@
       "eVars": {
         "eVar10": "Form Name",
         "eVar19": "Form Location"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Global CTA Button Tracking",
@@ -279,7 +289,7 @@
       "rule": "Internal Search Click",
       "payloadDataElement": "data-Internal Search",
       "replaces": "XDM Internal Search",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "internalSearch",
       "linkName": "Internal Search",
       "linkType": "o",
       "events": [
@@ -291,7 +301,8 @@
         "eVar6": "Search Term",
         "eVar7": "Search Results",
         "eVar8": "Search Result PageType"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Internal Search ClickThrough",
@@ -314,7 +325,7 @@
       "rule": "Map Button Click",
       "payloadDataElement": "data-Map Button Click",
       "replaces": "XDM Map Button Click",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "mapButtonClick",
       "linkName": "Map Button Click",
       "linkType": "o",
       "events": [
@@ -325,13 +336,14 @@
       "eVars": {
         "eVar49": "Map Name",
         "eVar50": "Map Button Name"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Map Button Close",
       "payloadDataElement": "data-Map Button Close",
       "replaces": "XDM Map Button Close",
-      "acdlEvent": "CONFIRM-VIA-EXPORT",
+      "acdlEvent": "mapButtonClose",
       "linkName": "Map Button Close",
       "linkType": "o",
       "events": [
@@ -342,7 +354,8 @@
       "eVars": {
         "eVar49": "Map Name",
         "eVar50": "Map Button Name"
-      }
+      },
+      "acdlTimeScope": "all"
     },
     {
       "rule": "Map Zoom In",
@@ -646,12 +659,33 @@
       "eVars": {
         "eVar11": "Video Name"
       }
+    },
+    {
+      "rule": "Article Interaction Tracking",
+      "payloadDataElement": "data-Article",
+      "replaces": "XDM Article",
+      "acdlEvent": "ArticleViewed",
+      "acdlTimeScope": "all",
+      "linkName": "Article",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event28"
+        }
+      ],
+      "eVars": {
+        "eVar25": "Publish Date",
+        "eVar37": "Article Name",
+        "eVar38": "Article Content Type"
+      },
+      "_note": "Discovered live in the old property 2026-07-29 \u2014 added after the workbook export, which is why XDM Article looked like an orphan. Its broken %Article Publish Date% reference is corrected here to %Publish Date%. WARNING: event28 is double-booked with Video Pause and both rules are LIVE \u2014 this is now an active metric collision in production, not a latent one; analytics owner must pick a resolution (see anomalies)."
     }
   ],
   "anomaliesCarriedForNow": [
-    "event28 is double-booked in the source property between XDM Article (orphan, excluded) and XDM Video Pause (carried). Video Pause keeps event28 for parity \u2014 confirm intended mapping with the analytics owner.",
+    "event28 is double-booked between Article Interaction Tracking (live since post-workbook) and Video Pause \u2014 an ACTIVE collision in the old property confirmed 2026-07-29: article views and video pauses increment the same metric. Carried for parity; the analytics owner should re-number one of them (a one-line catalog change) at or after cutover, with the date documented.",
     "event22 is intentionally shared across CTA Button Click, Amazon Redirect Link, Redirect Link Click, Amazon Stories, and More Amazon News (global CTA click metric) \u2014 carried as-is.",
     "Scroll interaction names carry a leading space in the source (' Scroll 25 Percentage'), trimmed here \u2014 confirm reporting relies on the trimmed form before publish.",
-    "Rule names 'Map  Button Click'/'Map  Button Close' had a double space in the source; normalized to single space."
+    "Rule names 'Map  Button Click'/'Map  Button Close' had a double space in the source; normalized to single space.",
+    "Old-property event naming is deliberately inconsistent (moreAmazonNews vs AmazonRedirectLinkClick vs FileDownloaded vs formComplete) \u2014 carried EXACTLY as captured; do not normalize, the site's code owns these strings."
   ]
 }

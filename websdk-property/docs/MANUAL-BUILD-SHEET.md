@@ -7,7 +7,7 @@ Work top to bottom. **Copy names and values exactly** (payloads reference data
 elements by name at runtime — a typo builds green and collects nothing).
 Prereqs already done: property, 4 extensions, library `20260728 - v1.0`.
 
-Totals: **75 data elements**, **35 rules**.
+Totals: **75 data elements**, **36 rules**.
 
 ---
 
@@ -255,7 +255,7 @@ event as `Consent Selection`.
 
 ### 1. `Global Page Load Rule`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `pageLoaded` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-pageView`. Set:
     - pageName = `%Page Name%`
     - channel = `%Site Section%`
@@ -320,7 +320,7 @@ event as `Consent Selection`.
 
 ### 3. `Amazon More News Tracking`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `moreAmazonNews` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `More Amazon News Click`
     - linkType = `o`
@@ -332,7 +332,7 @@ event as `Consent Selection`.
 
 ### 4. `Amazon Redirect Link Click`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `AmazonRedirectLinkClick` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Amazon Redirect Link Click`
     - linkType = `o`
@@ -345,7 +345,7 @@ event as `Consent Selection`.
 
 ### 5. `Amazon Stories Link Click Tracking`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `storyLinkClick` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Amazon Stories Link Tracking`
     - linkType = `o`
@@ -357,7 +357,7 @@ event as `Consent Selection`.
 
 ### 6. `Consent Selection`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `consentSelection` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Cookie Consent Selection`
     - linkType = `o`
@@ -369,7 +369,7 @@ event as `Consent Selection`.
 
 ### 7. `File Download Tracking`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `FileDownloaded` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `File Download`
     - linkType = `d`
@@ -382,7 +382,7 @@ event as `Consent Selection`.
 
 ### 8. `Filter Click Tracking`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `FilterApplied` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `News Filter Click`
     - linkType = `o`
@@ -394,7 +394,7 @@ event as `Consent Selection`.
 
 ### 9. `Form Complete`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `formComplete` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Form Complete`
     - linkType = `o`
@@ -407,7 +407,7 @@ event as `Consent Selection`.
 
 ### 10. `Form Error Tracking`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `formError` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Form Error`
     - linkType = `o`
@@ -421,7 +421,7 @@ event as `Consent Selection`.
 
 ### 11. `Form Start`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `formStart` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Form Start`
     - linkType = `o`
@@ -447,7 +447,7 @@ event as `Consent Selection`.
 
 ### 13. `Internal Search Click`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `internalSearch` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Internal Search`
     - linkType = `o`
@@ -474,7 +474,7 @@ event as `Consent Selection`.
 
 ### 15. `Map Button Click`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `mapButtonClick` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map Button Click`
     - linkType = `o`
@@ -487,7 +487,7 @@ event as `Consent Selection`.
 
 ### 16. `Map Button Close`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `mapButtonClose` · Time scope: **All**
 - **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
     - linkName = `Map Button Close`
     - linkType = `o`
@@ -726,9 +726,23 @@ event as `Consent Selection`.
       on the same page do not linger (residue test: RUNBOOK Phase 4).
 - **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
 
-### 35. `Consent - Apply Visitor Choice`
+### 35. `Article Interaction Tracking`
 
-- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `CONFIRM-VIA-EXPORT` · Time scope: **All**
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `ArticleViewed` · Time scope: **All**
+- **Action 1**: Web SDK → *Update variable* — variable `data-interaction`. Set:
+    - linkName = `Article`
+    - linkType = `o`
+    - eVar25 = `%Publish Date%`
+    - eVar37 = `%Article Name%`
+    - eVar38 = `%Article Content Type%`
+    - events = `event28`
+    - Use the action's clear/remove affordance so values from a PREVIOUS event
+      on the same page do not linger (residue test: RUNBOOK Phase 4).
+- **Action 2**: Adobe Experience Platform Web SDK → *Send event* — instance `alloy` · type `web.webinteraction.linkClicks` · data `%data-interaction%`
+
+### 36. `Consent - Apply Visitor Choice`
+
+- **Event**: Adobe Client Data Layer → *Data Pushed* — Listen to: Specific Event · Event/Key: `consentSelection` · Time scope: **All**
 - **Action**: Adobe Experience Platform Web SDK → *Set consent* — instance `alloy` · standard **Adobe 2.0** · general = `%consent-generalValue%`
 - Note: Maps the site banner selection to alloy setConsent. Runs on the same data-layer event as the Consent Selection tracking rule.
 
