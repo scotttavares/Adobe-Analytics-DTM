@@ -883,6 +883,12 @@
         "event35-39 Audio (Start/Complete/Milestone 25/50/75%)": "No audio tracking in the old property. Together with eVar51-54, AUDIO is a COMPLETE tracking feature defined in the report suite (events + eVars) but NEVER implemented in Launch - provisioned-but-unbuilt, or via a separate media SDK. Net-new scope if the client wants it (Web SDK media collection)."
       },
       "audioSummary": "AUDIO spans events 35-39 + eVars 51-54 in the report suite, zero implementation in the old Launch property. Video IS implemented (event-based milestone rules); audio is not. Flagged for the client as a use-or-drop decision."
+    },
+    "listVars": {
+      "list1": "SHARED error list: Page: Error (page view + Site Error rule) AND Form: Error Name (Form Error Tracking). Carried from source (parity) - confirm with analytics owner it is an intended unified error list.",
+      "list2": "Content: Hidden Tags (page view).",
+      "list3": "Not populated by this build. Report suite List Variables config not captured - provide it (Admin > Report Suite > Edit Settings > Conversion > List Variables) for a full names/delimiters reconciliation.",
+      "note": "Adobe supports list1-3. This build uses list1 + list2; list3 unused."
     }
   }
 }
