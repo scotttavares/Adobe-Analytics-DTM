@@ -67,7 +67,22 @@ If the report suite map is missing, say so plainly — without it you can only i
 
 ## Phase 2 — Map
 
-Build the **variable → data element** mapping: for each eVar / prop / event / list, which data element feeds it and in which rule. Where this lives depends on the property type:
+Build the **variable → data element** mapping: for each eVar / prop / event / list, which data element feeds it and in which rule.
+
+**Start with the extractor — don't hand-build the whole thing.** If you have the audit workbook from `adobe-tags-audit-builder`, run:
+
+```bash
+python3 scripts/extract_mapping.py audit-workbook.xlsx draft-mapping.json
+```
+
+It scans every rule Action for analytics-variable assignments — both classic `s.eVar5 = "%Page Name%"` and Web SDK `"eVar5": "%Page Name%"` forms — and inverts them into a **draft**: a `mapping` (variable → element/rule/source) that pastes straight into the Phase 4 JSON, an `elementsDraft` reverse view (with orphan candidates and getVar cross-references already resolved), an `unmatched[]` list of fields set by a literal/expression rather than a data element, and `unknownElements[]` for `%refs%` not on the Data Elements tab. It does the tedious, transcription-error-prone half mechanically.
+
+**Then verify and complete it — the draft is a first pass, not the answer.** The extractor cannot know:
+- the report-suite variable **names** (they live in the client's Report Suite Manager, not the audit workbook) — fill each from the Phase 1 report-suite map;
+- whether an element is a **no-op** (`return ""` / `console.log()`), an intentional **exclusion** (ECID), or a genuine **orphan** — that's Phase 3 judgment (the `source` hint often reveals a no-op, e.g. it literally shows `return "";`);
+- anything in **`unmatched[]`** — read each and classify it by hand.
+
+If you don't have an audit workbook (working from an SDR, a Launch Inspector export, or the Web SDK payload spec instead), build the mapping by reading the source directly. Where it lives depends on the property type:
 
 - **Classic AppMeasurement** — the Analytics extension's *Set Variables* actions (`s.eVar5 = %Data Element%`, `s.events`, `s.prop1`, `s.list1`). Read them from the audit workbook's Rule Detail tab.
 - **Web SDK (Alloy)** — the `data.__adobe.analytics` object inside each *Send event* action (or the *Update variable* action's field mappings, and the Variable data element it targets). Same eVar/prop/event keys, nested under the analytics object.

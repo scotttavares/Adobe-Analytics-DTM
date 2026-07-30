@@ -186,12 +186,62 @@ def var_rows(kind, rsdict, mapping, noop, overrides):
     return rows
 
 
+VALID_STATUS = set(CANON) | set(ORDER)
+
+
+def validate(data):
+    """Return a list of human-readable warnings about the input. Catches the
+    dangerous silent failures: a mapping/override pointing at a variable that
+    isn't defined in the report suite (a typo that would otherwise just vanish),
+    unknown status values, and duplicate element names."""
+    warns = []
+    rs = data.get('reportSuite', {})
+    mapping = data.get('mapping', {})
+    overrides = data.get('statusOverrides', {})
+    if not rs:
+        warns.append("reportSuite is empty — there is nothing to reconcile against.")
+    for kind in ('eVars', 'props', 'events', 'lists'):
+        defined = set(rs.get(kind, {}))
+        for k in (mapping.get(kind) or {}):
+            if k not in defined:
+                warns.append(f"mapping.{kind}['{k}'] is NOT a defined {kind[:-1]} in reportSuite — "
+                             f"it will be silently dropped from the workbook (variable-number typo?).")
+        for k, ov in (overrides.get(kind) or {}).items():
+            if k not in defined:
+                warns.append(f"statusOverrides.{kind}['{k}'] is NOT a defined {kind[:-1]} in reportSuite — ignored.")
+            s = (ov or {}).get('status')
+            if s and s not in VALID_STATUS:
+                warns.append(f"statusOverrides.{kind}['{k}'].status='{s}' is not a known status "
+                             f"(use one of: {', '.join(sorted(CANON))}).")
+    names = [e.get('name') for e in data.get('elements', [])]
+    dupes = sorted({n for n in names if names.count(n) > 1})
+    if dupes:
+        warns.append(f"duplicate names in elements[]: {dupes} — only the last row for each survives.")
+    for e in data.get('elements', []):
+        s = e.get('status')
+        if s and s not in VALID_STATUS:
+            warns.append(f"elements['{e.get('name')}'].status='{s}' is not a known status.")
+    return warns
+
+
 def main():
-    if len(sys.argv) != 3:
+    argv = [a for a in sys.argv[1:] if not a.startswith('--')]
+    strict = '--strict' in sys.argv
+    if len(argv) != 2:
         print(__doc__)
         sys.exit(2)
-    data = json.load(open(sys.argv[1]))
-    out = sys.argv[2]
+    data = json.load(open(argv[0]))
+    out = argv[1]
+
+    warns = validate(data)
+    if warns:
+        sys.stderr.write(f"\n⚠  VALIDATION WARNINGS ({len(warns)}):\n")
+        for w in warns:
+            sys.stderr.write(f"   - {w}\n")
+        sys.stderr.write("\n")
+        if strict:
+            sys.stderr.write("--strict set: aborting without writing the workbook.\n")
+            sys.exit(1)
 
     meta = data.get('meta', {})
     rs = data.get('reportSuite', {})
@@ -396,8 +446,22 @@ def main():
     wb.save(out)
     print(f"saved {out}")
     print(f"  tabs: {wb.sheetnames}")
-    print(f"  eVars {len(erows)} · props {len(prows)} · events {len(vrows)} · "
-          f"lists {len(lrows)} · elements {len(de_rows)} · issues {len(issues)} · recs {len(recs)}")
+
+    # Auto-reconcile: print the status breakdown per dimension so a wrong count
+    # is visible in the build log instead of needing a manual eyeball pass.
+    from collections import Counter
+    print("  reconcile (status breakdown = total):")
+    for name, rows in [('eVars', erows), ('props', prows), ('events', vrows),
+                       ('lists', lrows), ('elements', de_rows)]:
+        if not rows:
+            continue
+        c = Counter(r[2] for r in rows)
+        short = {ST_COLLECTED: 'collected', ST_NOOP: 'no-op', ST_ORPHAN: 'orphan',
+                 ST_NOTSENT: 'never-sent', ST_NOTIMPL: 'not-built', ST_EXCLUDED: 'excluded'}
+        parts = ' + '.join(f"{v} {short.get(k, k)}" for k, v in c.items())
+        print(f"    {name:9}: {parts} = {sum(c.values())}")
+    if warns:
+        print(f"  NOTE: {len(warns)} validation warning(s) above — review before delivering.")
 
 
 if __name__ == '__main__':
