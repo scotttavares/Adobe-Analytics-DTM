@@ -1,0 +1,80 @@
+{
+  "_comment": "Worked, abbreviated example of the normalized JSON that scripts/build_reconciliation_workbook.py consumes. Real inputs have the full eVar/prop/event lists. Shows every section: reportSuite (defined), mapping (populated), noopElements, statusOverrides (ECID/audio the mapping can't infer), elements (reverse view + orphans), issues, recommendations.",
+  "meta": {
+    "property": "AboutAmazon-US (WebSDK)",
+    "reportSuite": "aboutamznprod",
+    "captured": "2026-07-29",
+    "subtitle": "Report suite variables mapped to the new Web SDK property's data elements — what is collecting data, what is not wired up, and open data issues.",
+    "note": "migration parity confirmed",
+    "bottomLine": "Migration is at full parity — every variable the old property populated, the new build populates. The non-green rows are report-suite definitions the old property never used (client decisions), not migration gaps."
+  },
+  "reportSuite": {
+    "eVars": {"1": "Domain", "5": "Internal Campaign", "9": "Content Type", "14": "ECID", "15": "User Type", "26": "Content Type", "51": "Audio Title", "52": "Audio Action"},
+    "props": {"1": "Page Name", "13": "ECID", "19": "Site Error"},
+    "events": {"2": "Page Load", "4": "Internal Campaign Impressions", "16": "File Downloads", "35": "Audio Start"},
+    "lists": {"1": "Errors", "2": "Hidden Tags"}
+  },
+  "mapping": {
+    "eVars": {
+      "1": [{"element": "Site: Domain", "rule": "Global Page Load Rule", "source": "web.webPageDetails.site"}],
+      "5": [{"element": "Campaign: Internal", "rule": "Global Page Load Rule", "source": "custom code"}],
+      "9": [{"element": "Content: Type", "rule": "Global Page Load Rule", "source": "web.webPageDetails.contentType"}],
+      "15": [{"element": "User: Type", "rule": "Global Page Load Rule", "source": "custom code"}]
+    },
+    "props": {
+      "1": [{"element": "Page: Name", "rule": "Global Page Load Rule", "source": "web.webPageDetails.name"}],
+      "19": [{"element": "Page: Error", "rule": "Site Error", "source": "web.webPageDetails.siteError"}]
+    },
+    "events": {
+      "2": [{"element": "(no value)", "rule": "Global Page Load Rule"}],
+      "16": [{"element": "(no value)", "rule": "File Download Tracking"}]
+    },
+    "lists": {
+      "1": [{"element": "Page: Error", "rule": "Global Page Load Rule"}, {"element": "Form: Error Name", "rule": "Form Error Tracking"}],
+      "2": [{"element": "Content: Hidden Tags", "rule": "Global Page Load Rule"}]
+    }
+  },
+  "noopElements": ["Campaign: Internal", "User: Type"],
+  "statusOverrides": {
+    "eVars": {
+      "14": {"status": "excluded", "note": "ECID — Web SDK manages identity natively; not captured into an eVar. Source element was a broken recursive stub."},
+      "26": {"status": "not-sent", "note": "Duplicate label of eVar9 (populated). Unused report-suite duplicate."},
+      "51": {"status": "not-implemented", "note": "AUDIO — defined in the report suite but never built in the old property. Net-new scope (Web SDK media collection)."},
+      "52": {"status": "not-implemented", "note": "AUDIO — never built."}
+    },
+    "props": {"13": {"status": "excluded", "note": "ECID — SDK manages identity."}},
+    "events": {
+      "4": {"status": "no-op", "note": "Filtered out of the page view (valued event fed by a no-op counter) — deferred with Internal Campaign."},
+      "35": {"status": "not-implemented", "note": "AUDIO event — never implemented in the old property."}
+    }
+  },
+  "elements": [
+    {"name": "Site: Domain", "feeds": ["eVar1 (Domain)"]},
+    {"name": "Content: Type", "feeds": ["eVar9 (Content Type)"]},
+    {"name": "Page: Name", "feeds": ["prop1 (Page Name)", "s.pageName"]},
+    {"name": "Page: Error", "feeds": ["prop19 (Site Error)", "list1 (Errors)"]},
+    {"name": "Content: Hidden Tags", "feeds": ["list2 (Hidden Tags)"]},
+    {"name": "Form: Error Name", "feeds": ["list1 (Errors)"]},
+    {"name": "Campaign: Internal", "feeds": ["eVar5 (Internal Campaign)"], "status": "no-op", "note": "console.log() no-op — eVar5/event4 never populate. Deferred by design (parity)."},
+    {"name": "User: Type", "feeds": ["eVar15 (User Type)"], "status": "no-op", "note": "return \"\" stub — eVar15 has never populated. Decision needed."},
+    {"name": "User: Login ID", "feeds": [], "status": "orphan", "note": "Reads loginID from the data layer but no rule sends it and no variable is assigned. PII review needed."},
+    {"name": "Link: Amazon Redirect", "feeds": [], "status": "orphan", "note": "Not sent — eVar28 is fed by Link: Redirect Text instead. Possible pre-existing mislabel."}
+  ],
+  "issues": [
+    {"issue": "User Type never collects", "severity": "Medium", "affected": "eVar15 · User: Type", "description": "The element returns an empty string, so eVar15 has never captured a value.", "recommendation": "Confirm what defines user type and where it lives, then implement — or exclude. Client email item."},
+    {"issue": "Login ID orphan + PII", "severity": "Medium", "affected": "User: Login ID (no variable)", "description": "Reads loginID but no rule sends it and no variable is assigned — never collected.", "recommendation": "Confirm want + which variable; hash if it can identify a person, or exclude."},
+    {"issue": "Audio feature not implemented", "severity": "Medium", "affected": "eVar51-52 · event35", "description": "A full audio feature is defined in the report suite but was never implemented in the old property.", "recommendation": "Net-new scope if wanted (Web SDK media collection). Scope + estimate separately."},
+    {"issue": "ECID not captured (by design)", "severity": "Info", "affected": "eVar14 · prop13", "description": "ECID intentionally not written to a variable under Web SDK — the SDK manages identity.", "recommendation": "No action — correct Web SDK design."},
+    {"issue": "eVar26 duplicate label", "severity": "Info", "affected": "eVar26 (duplicate of eVar9)", "description": "eVar26 duplicates eVar9 (\"Content Type\") and is unused.", "recommendation": "Repurpose or leave. Confirm with analytics owner."},
+    {"issue": "list1 shared across error types", "severity": "Low", "affected": "list1 · Page: Error · Form: Error Name", "description": "list1 carries Site Error and Form Error — a unified error list, carried from the source (parity).", "recommendation": "Confirm with the analytics owner it is intended, not a collision."}
+  ],
+  "recommendations": [
+    {"tier": "P1", "recommendation": "Decide User Type", "why": "Define what \"user type\" means and where it lives, or retire it. eVar15 returns empty today.", "when": "Before cutover"},
+    {"tier": "P1", "recommendation": "Decide Login ID (with privacy)", "why": "Confirm whether login ID is wanted and which variable holds it. Hash if it can identify a person. Orphan today.", "when": "Before cutover"},
+    {"tier": "P1", "recommendation": "Decide Audio tracking", "why": "Fully defined in the report suite but never built. If wanted, net-new streaming-media scope.", "when": "Before cutover"},
+    {"tier": "P2", "recommendation": "Confirm list1 as a shared error list", "why": "list1 carries Site Error and Form Error together (parity). Confirm intended, not a collision.", "when": "Quick confirm"},
+    {"tier": "P2", "recommendation": "Resolve eVar26 duplicate", "why": "Duplicates eVar9 and is unused. Repurpose or leave.", "when": "Quick confirm"},
+    {"tier": "P3", "recommendation": "Review orphan data elements", "why": "Elements that feed no variable (see Data Elements tab). Keep-or-remove.", "when": "Post-cutover OK"},
+    {"tier": "P3", "recommendation": "Send List Variables report-suite config", "why": "Completes list names/delimiters for a 100% reconciliation.", "when": "Anytime"}
+  ]
+}
