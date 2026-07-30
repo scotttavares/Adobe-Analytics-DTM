@@ -205,7 +205,7 @@ usual complaint about auto-blocking CMPs breaking embeds.
     blocking: true,
     showBadge: true,
     headless: false,           // run the engine, draw your own dialog
-    theme: { surface: '#152238', accent: 'linear-gradient(96deg,#8fe3e8,#cfe98f)' },
+    theme: { surface: '#1b1530', accent: 'linear-gradient(96deg,#7d8bff,#b57cff)' },
     text: { title: '…', body: '…', privacyPolicyUrl: '/privacy' }
   },
 

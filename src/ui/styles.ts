@@ -7,12 +7,12 @@ import type { ThemeOptions } from '../core/types';
  */
 export function buildStyles(theme: ThemeOptions = {}): string {
   const v = {
-    surface: theme.surface || '#152238',
+    surface: theme.surface || '#1b1530',
     surfaceAlt: theme.surfaceAlt || 'rgba(255, 255, 255, 0.055)',
-    text: theme.text || '#f2f6ff',
-    textMuted: theme.textMuted || '#c3cfe4',
-    accent: theme.accent || 'linear-gradient(96deg, #8fe3e8 0%, #cfe98f 100%)',
-    accentText: theme.accentText || '#0d1a2e',
+    text: theme.text || '#f2f0fb',
+    textMuted: theme.textMuted || '#c7c1de',
+    accent: theme.accent || 'linear-gradient(96deg, #7d8bff 0%, #b57cff 100%)',
+    accentText: theme.accentText || '#160f2b',
     border: theme.border || 'rgba(255, 255, 255, 0.22)',
     radius: theme.radius || '18px',
     fontFamily:
@@ -21,7 +21,7 @@ export function buildStyles(theme: ThemeOptions = {}): string {
     headingFontFamily:
       theme.headingFontFamily ||
       "Georgia, 'Iowan Old Style', 'Times New Roman', Times, serif",
-    overlay: theme.overlay || 'rgba(6, 12, 24, 0.55)',
+    overlay: theme.overlay || 'rgba(8, 6, 18, 0.55)',
   };
 
   return `
@@ -162,7 +162,7 @@ input[type='checkbox']::after {
   height: 10px;
   transform: scale(0);
   transition: transform 110ms cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: inset 1em 1em #0d1a2e;
+  box-shadow: inset 1em 1em #160f2b;
   clip-path: polygon(14% 44%, 0 65%, 40% 100%, 100% 16%, 82% 0%, 37% 70%);
 }
 input[type='checkbox']:checked::after { transform: scale(1); }
@@ -195,7 +195,7 @@ input[type='checkbox']:disabled::after { box-shadow: inset 1em 1em #55607a; }
   transform: none;
   transition: left 140ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.switch input[type='checkbox']:checked { background: #8fe3e8; }
+.switch input[type='checkbox']:checked { background: #9aa7ff; }
 .switch input[type='checkbox']:checked::after { left: 19px; transform: none; }
 
 .label-text { flex: 1; }
@@ -268,7 +268,7 @@ button.action:active { transform: translateY(0); }
 button.primary {
   background: var(--ac-accent);
   color: var(--ac-accent-text);
-  box-shadow: 0 2px 10px rgba(143, 227, 232, 0.2);
+  box-shadow: 0 2px 10px rgba(125, 139, 255, 0.24);
 }
 button.secondary {
   background: transparent;

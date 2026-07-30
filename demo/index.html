@@ -6,13 +6,13 @@
 <title>Meridian Air — adobe-consent demo</title>
 <style>
   :root {
-    --navy:#0d1a2e;
-    --navy-2:#152238;
-    --mint:#8fe3e8;
-    --lime:#cfe98f;
+    --navy:#160f2b;
+    --navy-2:#1b1530;
+    --mint:#9aa7ff;
+    --lime:#ffcc73;
     --paper:#f7f9fc;
-    --ink:#16202f;
-    --muted:#5c6b80;
+    --ink:#1a1530;
+    --muted:#635c7a;
   }
   * { box-sizing:border-box; }
   html { scroll-behavior:smooth; }
@@ -25,7 +25,7 @@
              letter-spacing:-0.015em; }
 
   .topbar {
-    background:var(--navy); color:#cbd7ea; font-size:14px;
+    background:var(--navy); color:#cec9e2; font-size:14px;
     padding:12px 24px; text-align:center;
   }
   .topbar strong { color:#fff; }
@@ -37,16 +37,16 @@
   }
   .brand { font-family:Georgia,serif; font-size:19px; letter-spacing:.14em; text-transform:uppercase; }
   header.nav nav { display:flex; gap:26px; font-size:14.5px; }
-  header.nav a { color:#cbd7ea; text-decoration:none; }
+  header.nav a { color:#cec9e2; text-decoration:none; }
   header.nav a:hover { color:#fff; }
 
   .hero {
     position:relative; min-height:560px; display:flex; align-items:center;
     padding:80px 32px;
     background:
-      radial-gradient(1200px 500px at 70% 15%, rgba(143,227,232,.30), transparent 60%),
-      radial-gradient(900px 420px at 20% 85%, rgba(207,233,143,.18), transparent 60%),
-      linear-gradient(170deg, #7c98bd 0%, #4d6b95 40%, #24405f 100%);
+      radial-gradient(1200px 500px at 70% 15%, rgba(154,167,255,.30), transparent 60%),
+      radial-gradient(900px 420px at 20% 85%, rgba(255,204,115,.18), transparent 60%),
+      linear-gradient(170deg, #5a4bb8 0%, #3a2f7a 45%, #1e1640 100%);
     color:#fff; overflow:hidden;
   }
   /* A stylized wing, drawn in CSS so the demo has no external assets. */
@@ -60,7 +60,7 @@
   .eyebrow { letter-spacing:.34em; text-transform:uppercase; font-size:13px;
              color:var(--mint); font-weight:600; margin-bottom:14px; }
   .hero h1 { font-size:clamp(48px,8vw,92px); line-height:.98; margin:0 0 20px; color:var(--mint); }
-  .hero p { font-size:19px; color:#e6eefb; max-width:30ch; margin:0 0 32px; }
+  .hero p { font-size:19px; color:#eceafa; max-width:30ch; margin:0 0 32px; }
 
   .btn {
     display:inline-block; font:inherit; font-weight:600; font-size:16px;
@@ -68,7 +68,7 @@
     border:1.5px solid #fff; background:transparent; color:#fff; transition:.15s;
   }
   .btn:hover { background:rgba(255,255,255,.14); }
-  .btn.solid { background:linear-gradient(96deg,var(--mint),var(--lime)); color:var(--navy);
+  .btn.solid { background:linear-gradient(96deg,#7d8bff,#b57cff); color:var(--navy);
                border-color:transparent; }
 
   section { padding:72px 32px; max-width:1120px; margin:0 auto; }
@@ -82,10 +82,10 @@
   .card p { margin:0; color:var(--muted); font-size:15px; }
 
   /* --- consent inspector ------------------------------------------------ */
-  .inspector { background:var(--navy-2); color:#e8eefb; border-radius:16px; padding:28px;
+  .inspector { background:var(--navy-2); color:#eceafa; border-radius:16px; padding:28px;
                margin-top:14px; }
   .inspector h3 { margin:0 0 6px; color:#fff; font-size:20px; }
-  .inspector p.sub { color:#a9b8d0; font-size:14.5px; margin:0 0 20px; }
+  .inspector p.sub { color:#aaa4c2; font-size:14.5px; margin:0 0 20px; }
   .state-grid { display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
                 margin-bottom:22px; }
   .chip { border-radius:10px; padding:11px 14px; font-size:14px; font-weight:600;
@@ -93,15 +93,15 @@
           background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); }
   .chip .val { font-size:12.5px; padding:3px 9px; border-radius:999px; font-weight:700; }
   .chip.on  .val { background:var(--lime); color:var(--navy); }
-  .chip.off .val { background:rgba(255,255,255,.16); color:#dbe5f5; }
+  .chip.off .val { background:rgba(255,255,255,.16); color:#dfdaf0; }
 
-  .log { background:#0a1424; border-radius:10px; padding:14px 16px; max-height:290px;
+  .log { background:#0a0714; border-radius:10px; padding:14px 16px; max-height:290px;
          overflow:auto; font:12.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-         color:#c7d5ec; border:1px solid rgba(255,255,255,.08); }
+         color:#cfc9e4; border:1px solid rgba(255,255,255,.08); }
   .log div { padding:2px 0; border-bottom:1px solid rgba(255,255,255,.05); word-break:break-word; }
   .log .api { color:var(--mint); font-weight:700; }
-  .log .muted { color:#7f90ab; }
-  .log .empty { color:#7f90ab; border:0; }
+  .log .muted { color:#847d9e; }
+  .log .empty { color:#847d9e; border:0; }
 
   .controls { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
   .controls button {
@@ -116,11 +116,11 @@
           border-radius:999px; background:#eef2f8; color:var(--muted); margin-right:8px; }
   .flag.fired { background:var(--lime); color:var(--navy); }
 
-  footer { background:var(--navy); color:#9fb0c9; padding:44px 32px; font-size:14.5px; }
-  footer a { color:#cbd7ea; }
+  footer { background:var(--navy); color:#a8a4c0; padding:44px 32px; font-size:14.5px; }
+  footer a { color:#cec9e2; }
   .footer-inner { max-width:1120px; margin:0 auto; display:flex; gap:20px;
                   justify-content:space-between; flex-wrap:wrap; align-items:center; }
-  footer button.linklike { background:none; border:0; color:#cbd7ea; font:inherit;
+  footer button.linklike { background:none; border:0; color:#cec9e2; font:inherit;
                            text-decoration:underline; cursor:pointer; padding:0; }
 </style>
 </head>
