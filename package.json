@@ -1,18 +1,18 @@
 {
-  "name": "adobe-consent",
+  "name": "clearconsent",
   "version": "1.0.0",
   "description": "A fast, accessible, Adobe-native cookie consent manager (CMP) that wires straight into Adobe Launch/Tags, Adobe Analytics, the AEP Web SDK, and CJA.",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/adobe-consent.cjs",
-  "module": "./dist/adobe-consent.esm.js",
+  "main": "./dist/clearconsent.cjs",
+  "module": "./dist/clearconsent.esm.js",
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/adobe-consent.esm.js",
-      "require": "./dist/adobe-consent.cjs",
-      "default": "./dist/adobe-consent.esm.js"
+      "import": "./dist/clearconsent.esm.js",
+      "require": "./dist/clearconsent.cjs",
+      "default": "./dist/clearconsent.esm.js"
     },
     "./dist/*": "./dist/*"
   },
@@ -22,7 +22,7 @@
     "LICENSE"
   ],
   "sideEffects": [
-    "./dist/adobe-consent.min.js"
+    "./dist/clearconsent.min.js"
   ],
   "scripts": {
     "build": "node scripts/build.mjs",

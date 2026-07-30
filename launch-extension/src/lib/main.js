@@ -9,7 +9,7 @@
  * stub-then-config-then-SDK chain of a hosted CMP simply does not exist here.
  */
 
-var consent = require('./vendor/adobe-consent');
+var consent = require('./vendor/clearconsent');
 var instance = require('./instance');
 var buildConfig = require('./buildConfig');
 
@@ -20,12 +20,12 @@ config.debug = config.debug || turbine.debugEnabled;
 
 try {
   // The bundle self-initializes on load if the page already defined
-  // window.adobeConsentConfig. Adopt that instance instead of standing up a
+  // window.clearConsentConfig. Adopt that instance instead of standing up a
   // second engine, which would double every cookie write and every Adobe call.
   var existing = consent.instance;
   if (existing) {
     turbine.logger.warn(
-      'Adobe Consent was already initialized from window.adobeConsentConfig; ' +
+      'ClearConsent was already initialized from window.clearConsentConfig; ' +
         'using that instance and ignoring the extension configuration. Remove ' +
         'one of the two so there is a single source of truth.'
     );
@@ -36,10 +36,10 @@ try {
   instance.set(manager);
   // Published globally so site code and other extensions can reach it without
   // going through turbine.getSharedModule.
-  if (typeof window !== 'undefined') window.AdobeConsent = manager;
+  if (typeof window !== 'undefined') window.ClearConsent = manager;
 
   turbine.logger.info(
-    'Adobe Consent initialized (region "' +
+    'ClearConsent initialized (region "' +
       manager.region +
       '", model "' +
       manager.engine.model +
@@ -48,5 +48,5 @@ try {
       '")'
   );
 } catch (e) {
-  turbine.logger.error('Adobe Consent failed to initialize: ' + (e && e.message));
+  turbine.logger.error('ClearConsent failed to initialize: ' + (e && e.message));
 }

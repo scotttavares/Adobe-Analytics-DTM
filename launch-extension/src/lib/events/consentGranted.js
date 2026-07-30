@@ -31,7 +31,7 @@ module.exports = function (settings, trigger) {
     });
   };
 
-  document.addEventListener('adobeConsent:granted', function (event) {
+  document.addEventListener('clearConsent:granted', function (event) {
     var granted = event.detail || [];
     if (granted.indexOf(category) !== -1) fire('change');
   });

@@ -204,7 +204,7 @@ this property is actually configured with**, rather than retyping ids.
 ### Shared module
 
 ```js
-var consent = turbine.getSharedModule('adobe-consent', 'consent-api');
+var consent = turbine.getSharedModule('clearconsent', 'consent-api');
 
 if (consent.hasConsent('analytics')) { /* … */ }
 consent.gate('advertising', function () { loadRemarketingPixel(); });
@@ -215,7 +215,7 @@ consent.gate('advertising', function () { loadRemarketingPixel(); });
 A direct call fires on every change:
 
 ```js
-_satellite.track('adobe-consent-changed', { consent: {…}, method: '…', region: '…' });
+_satellite.track('clear-consent-changed', { consent: {…}, method: '…', region: '…' });
 ```
 
 Read it in a rule as `%event.detail.consent.analytics%`. Note the `detail`
@@ -258,11 +258,11 @@ Keep OneTrust's UI while you cut over the plumbing, or replace both.
 **Plumbing only** — run headless and feed it from `OptanonWrapper`:
 
 ```js
-window.adobeConsentConfig = { ui: { headless: true } };
+window.clearConsentConfig = { ui: { headless: true } };
 
 function OptanonWrapper() {
   var active = (window.OnetrustActiveGroups || '').split(',');
-  AdobeConsent.instance.save({
+  ClearConsent.instance.save({
     analytics:       active.indexOf('C0002') !== -1,
     personalization: active.indexOf('C0003') !== -1,
     advertising:     active.indexOf('C0004') !== -1
@@ -291,10 +291,10 @@ On a live site, with Launch debugging on:
 
 ```js
 _satellite.setDebug(true);          // extension logs region, model, environment
-AdobeConsent.instance.decision;     // what is granted right now
-AdobeConsent.instance.state;        // method, region, policy version, receipt id
-AdobeConsent.instance.getReceipts();// local audit trail
-document.cookie.match(/adobe_consent=[^;]*/);
+ClearConsent.instance.decision;     // what is granted right now
+ClearConsent.instance.state;        // method, region, policy version, receipt id
+ClearConsent.instance.getReceipts();// local audit trail
+document.cookie.match(/clearconsent=[^;]*/);
 ```
 
 Check that `kndctr_<orgId>_consent` appears after a decision — that is alloy

@@ -4,7 +4,7 @@ import { AnalyticsAdapter } from '../src/adobe/analytics';
 import { DataLayerAdapter } from '../src/adobe/datalayer';
 import { LaunchAdapter } from '../src/adobe/launch';
 import { OptInAdapter } from '../src/adobe/optin';
-import { WebSdkAdapter, type AdobeConsent2 } from '../src/adobe/websdk';
+import { WebSdkAdapter, type ClearConsent2 } from '../src/adobe/websdk';
 
 function clearCookies(): void {
   for (const part of document.cookie.split(';')) {
@@ -36,7 +36,7 @@ describe('Web SDK adapter', () => {
       analytics: true,
       personalization: false,
       advertising: false,
-    })[0] as AdobeConsent2;
+    })[0] as ClearConsent2;
 
     expect(payload.standard).toBe('Adobe');
     expect(payload.version).toBe('2.0');
@@ -57,7 +57,7 @@ describe('Web SDK adapter', () => {
       analytics: false,
       personalization: true,
       advertising: false,
-    })[0] as AdobeConsent2;
+    })[0] as ClearConsent2;
 
     expect(payload.value.collect).toEqual({ val: 'y' });
     expect(payload.value.personalize).toEqual({ content: { val: 'y' } });
@@ -70,7 +70,7 @@ describe('Web SDK adapter', () => {
       analytics: false,
       personalization: false,
       advertising: false,
-    })[0] as AdobeConsent2;
+    })[0] as ClearConsent2;
 
     expect(payload.value.collect).toEqual({ val: 'n' });
   });
@@ -80,7 +80,7 @@ describe('Web SDK adapter', () => {
     const payload = new WebSdkAdapter(engine).buildPayload({
       essential: true,
       advertising: true,
-    })[0] as AdobeConsent2;
+    })[0] as ClearConsent2;
 
     expect(payload.value.adID).toBeUndefined();
   });
@@ -90,7 +90,7 @@ describe('Web SDK adapter', () => {
     const payload = new WebSdkAdapter(engine, { adIdType: 'IDFA' }).buildPayload({
       essential: true,
       advertising: true,
-    })[0] as AdobeConsent2;
+    })[0] as ClearConsent2;
 
     expect(payload.value.adID).toEqual({ idType: 'IDFA', val: 'y' });
   });
@@ -154,7 +154,7 @@ describe('Web SDK adapter', () => {
     engine.start();
 
     expect(alloy).toHaveBeenCalledTimes(1);
-    const payload = alloy.mock.calls[0]![1] as { consent: AdobeConsent2[] };
+    const payload = alloy.mock.calls[0]![1] as { consent: ClearConsent2[] };
     expect(payload.consent[0]!.value.collect).toEqual({ val: 'n' });
 
     // @ts-expect-error cleaning up the stub
@@ -325,7 +325,7 @@ describe('Launch adapter', () => {
     new LaunchAdapter(engine).fire({ essential: true, analytics: true });
 
     expect(track).toHaveBeenCalledTimes(1);
-    expect(track.mock.calls[0]![0]).toBe('adobe-consent-changed');
+    expect(track.mock.calls[0]![0]).toBe('clear-consent-changed');
     expect((track.mock.calls[0]![1] as any).consent.analytics).toBe(true);
   });
 

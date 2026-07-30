@@ -9,7 +9,7 @@ const out = resolve(root, 'dist');
 mkdirSync(out, { recursive: true });
 
 const pkg = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'));
-const banner = `/*! adobe-consent v${pkg.version} | MIT | Adobe-native cookie consent management */`;
+const banner = `/*! clearconsent v${pkg.version} | MIT | Adobe-native cookie consent management */`;
 
 const shared = {
   entryPoints: [resolve(root, 'src/index.ts')],
@@ -21,31 +21,31 @@ const shared = {
 };
 
 const builds = [
-  // The drop-in build: one file, global `AdobeConsent`, auto-inits from a
-  // data-config attribute or window.adobeConsentConfig.
+  // The drop-in build: one file, global `ClearConsent`, auto-inits from a
+  // data-config attribute or window.clearConsentConfig.
   {
     ...shared,
-    outfile: resolve(out, 'adobe-consent.min.js'),
+    outfile: resolve(out, 'clearconsent.min.js'),
     format: 'iife',
-    globalName: 'AdobeConsent',
+    globalName: 'ClearConsent',
     minify: true,
     footer: {
-      js: 'if(typeof window!=="undefined"&&AdobeConsent&&AdobeConsent.default){for(var k in AdobeConsent.default){if(!(k in AdobeConsent))AdobeConsent[k]=AdobeConsent.default[k];}}',
+      js: 'if(typeof window!=="undefined"&&ClearConsent&&ClearConsent.default){for(var k in ClearConsent.default){if(!(k in ClearConsent))ClearConsent[k]=ClearConsent.default[k];}}',
     },
   },
   // Unminified IIFE, for debugging a live page.
   {
     ...shared,
-    outfile: resolve(out, 'adobe-consent.js'),
+    outfile: resolve(out, 'clearconsent.js'),
     format: 'iife',
-    globalName: 'AdobeConsent',
+    globalName: 'ClearConsent',
     minify: false,
     footer: {
-      js: 'if(typeof window!=="undefined"&&AdobeConsent&&AdobeConsent.default){for(var k in AdobeConsent.default){if(!(k in AdobeConsent))AdobeConsent[k]=AdobeConsent.default[k];}}',
+      js: 'if(typeof window!=="undefined"&&ClearConsent&&ClearConsent.default){for(var k in ClearConsent.default){if(!(k in ClearConsent))ClearConsent[k]=ClearConsent.default[k];}}',
     },
   },
-  { ...shared, outfile: resolve(out, 'adobe-consent.esm.js'), format: 'esm', minify: true },
-  { ...shared, outfile: resolve(out, 'adobe-consent.cjs'), format: 'cjs', minify: false },
+  { ...shared, outfile: resolve(out, 'clearconsent.esm.js'), format: 'esm', minify: true },
+  { ...shared, outfile: resolve(out, 'clearconsent.cjs'), format: 'cjs', minify: false },
 ];
 
 // The Launch extension `require()`s this vendored CommonJS build from its main
@@ -56,7 +56,7 @@ if (existsSync(resolve(root, 'launch-extension/extension.json'))) {
   mkdirSync(extVendorDir, { recursive: true });
   builds.push({
     ...shared,
-    outfile: resolve(extVendorDir, 'adobe-consent.js'),
+    outfile: resolve(extVendorDir, 'clearconsent.js'),
     format: 'cjs',
     minify: true,
     // Adobe's Tags build pipeline parses extension code with Babylon, which
@@ -78,11 +78,11 @@ for (const config of builds) {
 // never quietly ship a stale library.
 const siteDir = resolve(root, 'site');
 if (existsSync(resolve(siteDir, 'index.html'))) {
-  copyFileSync(resolve(out, 'adobe-consent.min.js'), resolve(siteDir, 'adobe-consent.min.js'));
-  console.log('  synced site/adobe-consent.min.js');
+  copyFileSync(resolve(out, 'clearconsent.min.js'), resolve(siteDir, 'clearconsent.min.js'));
+  console.log('  synced site/clearconsent.min.js');
 }
 
-const min = readFileSync(resolve(out, 'adobe-consent.min.js'));
+const min = readFileSync(resolve(out, 'clearconsent.min.js'));
 const report = {
   version: pkg.version,
   raw: min.length,
@@ -93,5 +93,5 @@ writeFileSync(resolve(out, 'size.json'), JSON.stringify(report, null, 2));
 
 const kb = (n) => (n / 1024).toFixed(2) + ' KB';
 console.log(
-  `\n  adobe-consent.min.js  ${kb(report.raw)} raw  ${kb(report.gzip)} gzip  ${kb(report.brotli)} brotli`
+  `\n  clearconsent.min.js  ${kb(report.raw)} raw  ${kb(report.gzip)} gzip  ${kb(report.brotli)} brotli`
 );

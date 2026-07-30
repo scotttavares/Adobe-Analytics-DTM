@@ -78,7 +78,7 @@ async function audit(label, prepare) {
   // scaffolding, not the deliverable.
   const ours = result.violations.filter((v) =>
     v.nodes.some((n) =>
-      (n.target || []).some((t) => String(t).includes('adobe-consent-root'))
+      (n.target || []).some((t) => String(t).includes('clearconsent-root'))
     )
   );
   const others = result.violations.filter((v) => !ours.includes(v));
@@ -112,7 +112,7 @@ findings.push(...(await audit('First-layer notice', null)));
 findings.push(
   ...(await audit('Notice with a category detail expanded', async (page) => {
     await page
-      .locator('#adobe-consent-root .details-toggle')
+      .locator('#clearconsent-root .details-toggle')
       .first()
       .click();
   }))
@@ -121,10 +121,10 @@ findings.push(
 findings.push(
   ...(await audit('Preference center reopened from the badge', async (page) => {
     await page
-      .locator('#adobe-consent-root button.action', { hasText: 'Accept all' })
+      .locator('#clearconsent-root button.action', { hasText: 'Accept all' })
       .click();
     await page.waitForTimeout(300);
-    await page.locator('#adobe-consent-root .badge').click();
+    await page.locator('#clearconsent-root .badge').click();
   }))
 );
 
@@ -171,7 +171,7 @@ await contrastPage.goto(base, { waitUntil: 'networkidle' });
 await contrastPage.waitForTimeout(500);
 
 const swatches = await contrastPage.evaluate(() => {
-  const shadow = document.getElementById('adobe-consent-root').shadowRoot;
+  const shadow = document.getElementById('clearconsent-root').shadowRoot;
   const primary = shadow.querySelector('button.primary');
   const secondary = shadow.querySelector('button.secondary');
   const body = shadow.querySelector('p.body');

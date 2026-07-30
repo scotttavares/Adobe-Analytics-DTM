@@ -8,7 +8,7 @@ rather than an independent one, that is flagged.
 
 ## Summary
 
-| | adobe-consent | OneTrust | Cookiebot |
+| | ClearConsent | OneTrust | Cookiebot |
 | --- | --- | --- | --- |
 | Payload | 14.6 KB gzip, 1 request — **0 extra requests** as a Launch extension | ~184 KB / 16 requests (benchmark) | ~34 KB, ~209 DOM nodes |
 | Requests before the banner can paint | 0 (inlined in the Tags library) | 3 dependent (stub → domain config → SDK) | 1, synchronous by default |
@@ -69,7 +69,7 @@ PASS  consent layer costs exactly one request     — 1 request(s)
 And from `npm run build`:
 
 ```
-adobe-consent.min.js  45.80 KB raw  14.66 KB gzip  12.81 KB brotli
+clearconsent.min.js  45.80 KB raw  14.66 KB gzip  12.81 KB brotli
 ```
 
 As a Launch extension that request count goes to **zero**, because the bundle is

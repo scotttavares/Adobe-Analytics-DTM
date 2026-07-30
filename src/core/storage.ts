@@ -1,7 +1,7 @@
 import type { ConsentState, StorageOptions } from './types';
 
 const SCHEMA = 1;
-const LS_PREFIX = 'adobeConsent:';
+const LS_PREFIX = 'clearConsent:';
 
 export const DEFAULT_STORAGE: Required<
   Pick<
@@ -9,7 +9,7 @@ export const DEFAULT_STORAGE: Required<
     'cookieName' | 'cookiePath' | 'cookieSameSite' | 'expiryDays' | 'useLocalStorage'
   >
 > = {
-  cookieName: 'adobe_consent',
+  cookieName: 'clearconsent',
   cookiePath: '/',
   cookieSameSite: 'Lax',
   expiryDays: 365,

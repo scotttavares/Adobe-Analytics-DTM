@@ -1,5 +1,5 @@
 /**
- * Public type surface for adobe-consent.
+ * Public type surface for clearconsent.
  *
  * The category ids are plain strings so a site can add its own, but the four
  * defaults are the ones the Adobe adapters know how to map without config:

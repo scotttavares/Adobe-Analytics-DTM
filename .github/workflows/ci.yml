@@ -35,10 +35,10 @@ jobs:
         # checkout. If a source change lands without a rebuild, the extension
         # would ship stale code — fail loudly rather than silently.
         run: |
-          if ! git diff --quiet -- launch-extension/src/lib/vendor/adobe-consent.js; then
-            echo "::error::launch-extension/src/lib/vendor/adobe-consent.js is out of date."
+          if ! git diff --quiet -- launch-extension/src/lib/vendor/clearconsent.js; then
+            echo "::error::launch-extension/src/lib/vendor/clearconsent.js is out of date."
             echo "Run 'npm run build' and commit the result."
-            git diff --stat -- launch-extension/src/lib/vendor/adobe-consent.js
+            git diff --stat -- launch-extension/src/lib/vendor/clearconsent.js
             exit 1
           fi
 

@@ -376,7 +376,7 @@ export class ConsentEngine {
     if (typeof document !== 'undefined' && typeof CustomEvent === 'function') {
       try {
         document.dispatchEvent(
-          new CustomEvent('adobeConsent:' + event, { detail: payload })
+          new CustomEvent('clearConsent:' + event, { detail: payload })
         );
       } catch {
         /* older browsers without constructable CustomEvent */

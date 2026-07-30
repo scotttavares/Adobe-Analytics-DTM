@@ -1,4 +1,4 @@
-# adobe-consent
+# ClearConsent
 
 > Part of **Adobe-Analytics-DTM** — Adobe Analytics / tag management tooling.
 
@@ -10,8 +10,8 @@ thing lives inside the property you already publish.
 
 **14.6 KB gzipped. One network request. Zero layout shift.**
 
-- **Landing page** — [adobe-consent-site.vercel.app](https://adobe-consent-site.vercel.app) (runs the real banner on itself)
-- **Interactive demo** — [adobe-consent-demo.vercel.app](https://adobe-consent-demo.vercel.app) (watch the Adobe calls fire live)
+- **Landing page** — [clearconsent-site.vercel.app](https://clearconsent-site.vercel.app) (runs the real banner on itself)
+- **Interactive demo** — [clearconsent-demo.vercel.app](https://clearconsent-demo.vercel.app) (watch the Adobe calls fire live)
 
 ![The consent dialog](demo/screenshot-banner.png)
 
@@ -57,8 +57,8 @@ sources.
 npm install
 npm run build               # produces the vendored bundle the extension requires
 cd launch-extension
-npx @adobe/reactor-packager # -> package-adobe-consent-1.0.0.zip
-npx @adobe/reactor-uploader package-adobe-consent-1.0.0.zip \
+npx @adobe/reactor-packager # -> package-clearconsent-1.0.0.zip
+npx @adobe/reactor-uploader package-clearconsent-1.0.0.zip \
   --auth.client-id=... --auth.client-secret=...
 ```
 
@@ -71,30 +71,30 @@ without writing any custom code. Full walkthrough:
 
 ```html
 <script>
-  window.adobeConsentConfig = {
+  window.clearConsentConfig = {
     policyVersion: 1,
     ui: { text: { privacyPolicyUrl: '/privacy' } }
   };
 </script>
-<script src="/assets/adobe-consent.min.js"></script>
+<script src="/assets/clearconsent.min.js"></script>
 ```
 
 Or configure inline on the tag itself, which is handy when Launch hosts the file:
 
 ```html
-<script src="/assets/adobe-consent.min.js"
-        data-adobe-consent
+<script src="/assets/clearconsent.min.js"
+        data-clearconsent
         data-config='{"policyVersion":1,"honorGpc":true}'></script>
 ```
 
 ### Option 3 — npm
 
 ```bash
-npm install adobe-consent
+npm install clearconsent
 ```
 
 ```js
-import { init } from 'adobe-consent';
+import { init } from 'clearconsent';
 
 const consent = init({ policyVersion: 1 });
 ```
@@ -108,7 +108,7 @@ already is, otherwise queued until the visitor agrees. It replaces every
 "have they consented yet?" branch you would otherwise write.
 
 ```js
-AdobeConsent.instance.gate('analytics', () => {
+ClearConsent.instance.gate('analytics', () => {
   loadAnalytics();          // runs now, or the moment analytics is granted
 });
 ```
@@ -116,7 +116,7 @@ AdobeConsent.instance.gate('analytics', () => {
 Everything else:
 
 ```js
-const consent = AdobeConsent.instance;
+const consent = ClearConsent.instance;
 
 consent.hasConsent('advertising');   // -> boolean
 consent.isPending();                 // -> no explicit choice yet
@@ -141,7 +141,7 @@ Events are also dispatched on `document`, so nothing needs to import the
 library:
 
 ```js
-document.addEventListener('adobeConsent:change', (e) => {
+document.addEventListener('clearConsent:change', (e) => {
   console.log(e.detail.state.categories, e.detail.granted, e.detail.revoked);
 });
 ```
@@ -194,7 +194,7 @@ usual complaint about auto-blocking CMPs breaking embeds.
   autoBlock: true,
 
   storage: {
-    cookieName: 'adobe_consent',
+    cookieName: 'clearconsent',
     cookieDomain: '.example.com',   // share across subdomains
     expiryDays: 365
   },
@@ -234,7 +234,7 @@ usual complaint about auto-blocking CMPs breaking embeds.
 | ECID Opt-In | `approve()` + `deny()` staged, then a single `complete()` |
 | AppMeasurement | sets `s.abort` and `s.optOut`, catching hardcoded `s.t()` outside Tags |
 | Client Data Layer | pushes a `consent-updated` event with the resolved Adobe purposes |
-| Launch | fires the `adobe-consent-changed` direct call rule |
+| Launch | fires the `clear-consent-changed` direct call rule |
 
 Each adapter feature-detects its target and does nothing when that product is
 absent, so leaving all five on is safe.

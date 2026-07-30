@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>adobe-consent — an Adobe-native cookie consent manager</title>
+<title>ClearConsent — an Adobe-native cookie consent manager</title>
 <meta name="description" content="A fast, accessible cookie consent manager that wires consent straight into the Adobe Web SDK, ECID Opt-In, Analytics, the Client Data Layer, and Launch/Tags. 14.6 KB, one request, zero layout shift.">
-<meta property="og:title" content="adobe-consent">
+<meta property="og:title" content="ClearConsent">
 <meta property="og:description" content="An Adobe-native cookie consent manager. 14.6 KB gzipped, one network request, zero layout shift.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Crect width='24' height='24' rx='5' fill='%230e0b1a'/%3E%3Cpath d='M12 3.5 5.5 6v4.9c0 3.9 2.6 7.4 6.5 8.4 3.9-1 6.5-4.5 6.5-8.4V6L12 3.5Z' stroke='%239aa7ff' stroke-width='1.3'/%3E%3Cpath d='M8.7 11.9 11 14.2l4.3-4.5' stroke='%23ffcc73' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -238,7 +238,7 @@
         <defs><linearGradient id="g" x1="4" y1="2" x2="20" y2="22">
           <stop stop-color="#7d8bff"/><stop offset="1" stop-color="#b57cff"/></linearGradient></defs>
       </svg>
-      adobe-consent
+      ClearConsent
     </a>
     <nav class="nav-links">
       <a href="#try">Try it</a>
@@ -359,12 +359,12 @@
         <span class="fn">app.js</span>
       </div>
 <pre><span class="c">// runs now, or the moment analytics is granted</span>
-<span class="k">AdobeConsent</span>.instance.<span class="f">gate</span>(<span class="s">'analytics'</span>, () =&gt; {
+<span class="k">ClearConsent</span>.instance.<span class="f">gate</span>(<span class="s">'analytics'</span>, () =&gt; {
   loadAnalytics();
 });
 
 <span class="c">// or listen without importing anything</span>
-document.<span class="f">addEventListener</span>(<span class="s">'adobeConsent:change'</span>, (e) =&gt; {
+document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:change'</span>, (e) =&gt; {
   console.<span class="f">log</span>(e.detail.granted, e.detail.revoked);
 });</pre>
     </div>
@@ -387,7 +387,7 @@ document.<span class="f">addEventListener</span>(<span class="s">'adobeConsent:c
           <tr><td>ECID Opt-In</td><td>staged <code>approve</code> + <code>deny</code>, then one <code>complete()</code></td><td>Gates AppMeasurement, at.js and Audience Manager. Unknown categories are filtered against the loaded VisitorAPI, so an upgrade can't throw <code>[OptIn] Invalid category</code></td></tr>
           <tr><td>AppMeasurement</td><td>sets <code>s.abort</code> and <code>s.optOut</code></td><td>Catches a hardcoded <code>s.t()</code> living outside Tags — the reality on a legacy DTM estate</td></tr>
           <tr><td>Client Data Layer</td><td>pushes a <code>consent-updated</code> event with the resolved Adobe purposes</td><td>ACDL replays the push whether the data layer booted before or after us — no ordering bugs</td></tr>
-          <tr><td>Launch / Tags</td><td>fires the <code>adobe-consent-changed</code> direct call rule</td><td>React in a rule with zero JavaScript: read <code>%event.consent.analytics%</code></td></tr>
+          <tr><td>Launch / Tags</td><td>fires the <code>clear-consent-changed</code> direct call rule</td><td>React in a rule with zero JavaScript: read <code>%event.consent.analytics%</code></td></tr>
         </tbody>
       </table>
     </div>
@@ -454,7 +454,7 @@ document.<span class="f">addEventListener</span>(<span class="s">'adobeConsent:c
         <p class="verdict">3 dependent round trips · ~184&nbsp;KB / 16 requests*</p>
       </div>
       <div class="lane ours">
-        <h4>adobe-consent — as a Launch extension</h4>
+        <h4>ClearConsent — as a Launch extension</h4>
         <p class="meta">Inlined into the Tags runtime library you already load.</p>
         <div class="bar" data-w="100%"><div class="fill"></div><div class="fl-label">already in the library — paint</div></div>
         <div class="bar" style="visibility:hidden"><div class="fill"></div></div>
@@ -465,7 +465,7 @@ document.<span class="f">addEventListener</span>(<span class="s">'adobeConsent:c
 
     <div class="tbl-scroll" style="margin-top:26px">
       <table class="tbl cmp">
-        <thead><tr><th>&nbsp;</th><th>adobe-consent</th><th>OneTrust</th></tr></thead>
+        <thead><tr><th>&nbsp;</th><th>ClearConsent</th><th>OneTrust</th></tr></thead>
         <tbody>
           <tr><td>Requests before the banner paints</td><td class="yes">0 (inlined in Tags)</td><td class="no">3 dependent (stub → config → SDK)</td></tr>
           <tr><td>Web SDK <code>setConsent</code></td><td class="yes">automatic, every instance</td><td class="no">custom rules + data elements you build</td></tr>
@@ -521,8 +521,8 @@ document.<span class="f">addEventListener</span>(<span class="s">'adobeConsent:c
 <pre>npm install
 npm run build              <span class="c"># produces the vendored bundle</span>
 cd launch-extension
-npx @adobe/reactor-packager <span class="c"># → package-adobe-consent-1.0.0.zip</span>
-npx @adobe/reactor-uploader package-adobe-consent-1.0.0.zip \
+npx @adobe/reactor-packager <span class="c"># → package-clearconsent-1.0.0.zip</span>
+npx @adobe/reactor-uploader package-clearconsent-1.0.0.zip \
   --auth.client-id=... --auth.client-secret=...</pre>
       </div>
     </div>
@@ -530,15 +530,15 @@ npx @adobe/reactor-uploader package-adobe-consent-1.0.0.zip \
       <div class="code">
         <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">index.html</span></div>
 <pre><span class="c">&lt;!-- configure inline; the library auto-inits on load --&gt;</span>
-&lt;<span class="k">script</span> src=<span class="s">"/adobe-consent.min.js"</span>
-        data-adobe-consent
+&lt;<span class="k">script</span> src=<span class="s">"/clearconsent.min.js"</span>
+        data-clearconsent
         data-config=<span class="s">'{"policyVersion":1,"honorGpc":true}'</span>&gt;&lt;/<span class="k">script</span>&gt;</pre>
       </div>
     </div>
     <div class="install-panel" id="p-npm">
       <div class="code">
         <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">app.ts</span></div>
-<pre><span class="k">import</span> { init } <span class="k">from</span> <span class="s">'adobe-consent'</span>;
+<pre><span class="k">import</span> { init } <span class="k">from</span> <span class="s">'clearconsent'</span>;
 
 <span class="k">const</span> consent = <span class="f">init</span>({ policyVersion: <span class="n">1</span> });
 consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&gt; loadPixel());</pre>
@@ -550,11 +550,11 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
 <section class="final">
   <div class="wrap">
     <h2>The banner on this page is the product.</h2>
-    <p>No mockup — the notice you saw on load is adobe-consent running on its own site, driving the
+    <p>No mockup — the notice you saw on load is ClearConsent running on its own site, driving the
       five Adobe surfaces you just watched light up in the inspector.</p>
     <div class="cta-row">
       <button class="btn primary" id="launchBanner2" type="button">Launch the banner again</button>
-      <a class="btn ghost" href="https://adobe-consent-demo.vercel.app" target="_blank" rel="noopener">Open the full demo</a>
+      <a class="btn ghost" href="https://clearconsent-demo.vercel.app" target="_blank" rel="noopener">Open the full demo</a>
     </div>
   </div>
 </section>
@@ -637,7 +637,7 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
 <script>
   // The site dogfoods the library. Non-blocking bottom bar so visitors can explore;
   // forced EU region so everyone sees the opt-in first-layer experience.
-  window.adobeConsentConfig = {
+  window.clearConsentConfig = {
     policyVersion: 1,
     geo: { region: 'EU' },
     adobe: { launch: { perCategoryDirectCalls: true } },
@@ -646,18 +646,18 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
       blocking: false,
       text: {
         title: 'Your privacy, your call',
-        body: 'This site runs adobe-consent — the very library it documents. Choose what you are comfortable with; essential cookies keep the page working either way. Watch the “Try it live” panel to see your choice drive Adobe.',
+        body: 'This site runs ClearConsent — the very library it documents. Choose what you are comfortable with; essential cookies keep the page working either way. Watch the “Try it live” panel to see your choice drive Adobe.',
         privacyPolicy: 'It’s open source',
         privacyPolicyUrl: 'https://github.com/scotttavares/Adobe-Analytics-DTM'
       }
     }
   };
 </script>
-<script src="./adobe-consent.min.js"></script>
+<script src="./clearconsent.min.js"></script>
 <script>
 (function () {
   'use strict';
-  function mgr() { return window.AdobeConsent && window.AdobeConsent.instance; }
+  function mgr() { return window.ClearConsent && window.ClearConsent.instance; }
 
   // ---- live consent chips + inspector -------------------------------------
   var chipsEl = document.getElementById('liveChips');
@@ -696,7 +696,7 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
 
   function afterReady(fn) {
     var m = mgr();
-    if (m) { fn(m); } else { document.addEventListener('adobeConsent:ready', function () { fn(mgr()); }, { once: true }); }
+    if (m) { fn(m); } else { document.addEventListener('clearConsent:ready', function () { fn(mgr()); }, { once: true }); }
   }
   afterReady(function (m) {
     renderChips();
@@ -716,7 +716,7 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
   onClick('footerPrefs', function () { var m = mgr(); if (m) m.openPreferences(); });
 
   // ---- region resolver (real engine, headless, no side effects) -----------
-  var AC = window.AdobeConsent;
+  var AC = window.ClearConsent;
   var rrModel = document.getElementById('rrModel');
   var rrChips = document.getElementById('rrChips');
   var rrPayload = document.getElementById('rrPayload');

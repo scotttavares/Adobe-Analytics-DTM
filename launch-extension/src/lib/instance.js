@@ -18,7 +18,7 @@ module.exports = {
 
   get: function () {
     if (instance) return instance;
-    if (typeof window !== 'undefined' && window.AdobeConsent) return window.AdobeConsent;
+    if (typeof window !== 'undefined' && window.ClearConsent) return window.ClearConsent;
     return null;
   },
 
@@ -27,7 +27,7 @@ module.exports = {
     var manager = module.exports.get();
     if (!manager) {
       turbine.logger.warn(
-        'Adobe Consent is not initialized yet' +
+        'ClearConsent is not initialized yet' +
           (context ? ' (' + context + ')' : '') +
           '. Check that the extension configuration has been saved and the ' +
           'library republished.'

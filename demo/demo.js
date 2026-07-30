@@ -4,10 +4,10 @@
 (function () {
   'use strict';
 
-  var consent = window.AdobeConsent && window.AdobeConsent.instance;
+  var consent = window.ClearConsent && window.ClearConsent.instance;
   if (!consent) {
     // eslint-disable-next-line no-console
-    console.error('adobe-consent did not initialize — run `npm run build` first.');
+    console.error('clearconsent did not initialize — run `npm run build` first.');
     return;
   }
 

@@ -72,7 +72,7 @@ page.on('request', (r) => requests.push(r.url()));
 await page.goto(base, { waitUntil: 'networkidle' });
 
 // --- the dialog renders --------------------------------------------------
-const dialog = page.locator('#adobe-consent-root').locator('[role="dialog"]');
+const dialog = page.locator('#clearconsent-root').locator('[role="dialog"]');
 await dialog.waitFor({ state: 'visible', timeout: 5000 });
 check('consent dialog renders', await dialog.isVisible());
 
@@ -122,7 +122,7 @@ const bodyInert = await page.evaluate(() => {
 check('page behind the dialog is inert', bodyInert === true);
 
 const focusStart = await page.evaluate(() => {
-  const root = document.getElementById('adobe-consent-root').shadowRoot;
+  const root = document.getElementById('clearconsent-root').shadowRoot;
   return root.activeElement?.className || document.activeElement?.tagName;
 });
 check('focus moves into the dialog on open', String(focusStart).includes('panel'), String(focusStart));
@@ -130,7 +130,7 @@ check('focus moves into the dialog on open', String(focusStart).includes('panel'
 // Tab should stay inside the dialog.
 for (let i = 0; i < 12; i++) await page.keyboard.press('Tab');
 const focusTrapped = await page.evaluate(() => {
-  const host = document.getElementById('adobe-consent-root');
+  const host = document.getElementById('clearconsent-root');
   return host.shadowRoot.activeElement !== null;
 });
 check('focus stays trapped inside the dialog', focusTrapped);
@@ -149,7 +149,7 @@ const cls = await page.evaluate(
 check('no cumulative layout shift from the banner', cls < 0.01, `CLS ${cls.toFixed(4)}`);
 
 // --- network cost --------------------------------------------------------
-const consentRequests = requests.filter((u) => u.includes('adobe-consent'));
+const consentRequests = requests.filter((u) => u.includes('clearconsent'));
 check(
   'consent layer costs exactly one request',
   consentRequests.length === 1,
@@ -211,7 +211,7 @@ check(
 );
 check(
   'direct call rule fired',
-  calls.some((c) => c.includes('track("adobe-consent-changed")'))
+  calls.some((c) => c.includes('track("clear-consent-changed")'))
 );
 check(
   'per-category direct call fired',
@@ -230,19 +230,19 @@ check(
 await page.reload({ waitUntil: 'networkidle' });
 await page.waitForTimeout(400);
 const dialogAfterReload = await page
-  .locator('#adobe-consent-root [role="dialog"]')
+  .locator('#clearconsent-root [role="dialog"]')
   .isVisible()
   .catch(() => false);
 check('decision persists — no re-prompt on reload', !dialogAfterReload);
 
-const stateAfterReload = await page.evaluate(() => window.AdobeConsent.instance.decision);
+const stateAfterReload = await page.evaluate(() => window.ClearConsent.instance.decision);
 check(
   'restored decision matches what was saved',
   stateAfterReload.analytics === true && stateAfterReload.advertising === false,
   JSON.stringify(stateAfterReload)
 );
 
-const badge = page.locator('#adobe-consent-root .badge');
+const badge = page.locator('#clearconsent-root .badge');
 check('re-open badge is present after a decision', await badge.isVisible());
 
 // --- withdrawing consent -------------------------------------------------
@@ -251,7 +251,7 @@ await page.waitForTimeout(250);
 await page.screenshot({ path: 'demo/screenshot-preferences.png' });
 
 await page
-  .locator('#adobe-consent-root [role="dialog"] button.action', { hasText: 'Reject all' })
+  .locator('#clearconsent-root [role="dialog"] button.action', { hasText: 'Reject all' })
   .click();
 await page.waitForTimeout(300);
 
@@ -277,14 +277,14 @@ await gpcPage.goto(base, { waitUntil: 'networkidle' });
 await gpcPage.waitForTimeout(500);
 
 const gpcDialog = await gpcPage
-  .locator('#adobe-consent-root [role="dialog"]')
+  .locator('#clearconsent-root [role="dialog"]')
   .isVisible()
   .catch(() => false);
 check('GPC suppresses the prompt', !gpcDialog);
 
 const gpcState = await gpcPage.evaluate(() => ({
-  decision: window.AdobeConsent.instance.decision,
-  method: window.AdobeConsent.instance.state?.method,
+  decision: window.ClearConsent.instance.decision,
+  method: window.ClearConsent.instance.state?.method,
 }));
 check(
   'GPC is recorded as the decision method',

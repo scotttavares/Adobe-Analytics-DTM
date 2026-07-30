@@ -39,10 +39,10 @@ page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
 await page.goto(base, { waitUntil: 'networkidle' });
 await page.waitForTimeout(700);
 
-check('page title is set', (await page.title()).includes('adobe-consent'));
+check('page title is set', (await page.title()).includes('ClearConsent'));
 
 // --- dogfooding: the real banner is on the page ---
-const dialog = page.locator('#adobe-consent-root [role="dialog"]');
+const dialog = page.locator('#clearconsent-root [role="dialog"]');
 check('the site renders its own consent banner on load', await dialog.isVisible().catch(() => false));
 check('banner uses the site-configured heading',
   (await dialog.locator('h2.title').textContent().catch(() => '')) === 'Your privacy, your call');
@@ -51,7 +51,7 @@ check('banner uses the site-configured heading',
 await page.locator('#acAccept').click();
 await page.waitForTimeout(400);
 
-const decided = await page.evaluate(() => window.AdobeConsent.instance.state?.method);
+const decided = await page.evaluate(() => window.ClearConsent.instance.state?.method);
 check('inspector "Accept all" records accept_all', decided === 'accept_all', String(decided));
 
 const chipsOn = await page.locator('#liveChips .chip.on').count();

@@ -30,13 +30,13 @@ export {
 } from './adobe';
 
 interface ConfigWindow extends Window {
-  adobeConsentConfig?: ConsentConfig;
-  AdobeConsent?: unknown;
+  clearConsentConfig?: ConsentConfig;
+  ClearConsent?: unknown;
 }
 
 /**
  * The public façade. One object holds the engine, the UI, the blocker, and the
- * Adobe adapters so a page only ever touches `AdobeConsent`.
+ * Adobe adapters so a page only ever touches `ClearConsent`.
  */
 export class ConsentManager {
   readonly engine: ConsentEngine;
@@ -180,20 +180,20 @@ export function init(config: ConsentConfig = {}): ConsentManager {
  * Reads config from the script tag that loaded us, so the whole thing can be
  * deployed from Launch as a single hosted file with no companion code:
  *
- *   <script src="adobe-consent.min.js" data-config='{"policyVersion":2}'></script>
+ *   <script src="clearconsent.min.js" data-config='{"policyVersion":2}'></script>
  */
 function configFromScriptTag(): ConsentConfig | null {
   if (typeof document === 'undefined') return null;
   const script =
     (document.currentScript as HTMLScriptElement | null) ||
-    document.querySelector<HTMLScriptElement>('script[data-adobe-consent]');
+    document.querySelector<HTMLScriptElement>('script[data-clearconsent]');
   const raw = script?.getAttribute('data-config');
   if (!raw) return null;
   try {
     return JSON.parse(raw) as ConsentConfig;
   } catch {
     if (typeof console !== 'undefined') {
-      console.warn('[adobe-consent] data-config is not valid JSON; ignoring');
+      console.warn('[clearconsent] data-config is not valid JSON; ignoring');
     }
     return null;
   }
@@ -205,7 +205,7 @@ export let instance: ConsentManager | null = null;
 function autoInit(): void {
   if (!isBrowser()) return;
   const w = window as ConfigWindow;
-  const config = w.adobeConsentConfig || configFromScriptTag();
+  const config = w.clearConsentConfig || configFromScriptTag();
   if (!config) return;
   if (config.autoInit === false) return;
   instance = init(config);

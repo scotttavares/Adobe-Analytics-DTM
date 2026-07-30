@@ -15,7 +15,7 @@ interface LaunchWindow extends Window {
 /**
  * Fires Launch direct call rules on consent changes, so a Tags property can
  * react without any custom code: build a Direct Call rule on
- * `adobe-consent-changed` and read `%event.detail.consent.analytics%`.
+ * `clear-consent-changed` and read `%event.detail.consent.analytics%`.
  *
  * `_satellite` may not exist yet when consent resolves (the Launch embed is
  * async), so calls are retried briefly rather than dropped.
@@ -61,7 +61,7 @@ export class LaunchAdapter {
     }
     this.retries = 0;
 
-    const id = this.opts.directCallId || 'adobe-consent-changed';
+    const id = this.opts.directCallId || 'clear-consent-changed';
     try {
       satellite.track(id, this.detail(decision));
       this.engine.log.log('_satellite.track("' + id + '")');

@@ -12,7 +12,7 @@ export { LaunchAdapter } from './launch';
 export { OptInAdapter, OPT_IN_CATEGORIES } from './optin';
 export { WebSdkAdapter } from './websdk';
 export { DEFAULT_MAPPING, resolveMapping, anyGranted } from './mapping';
-export type { AdobeConsentPayload, AdobeConsent1, AdobeConsent2 } from './websdk';
+export type { ClearConsentPayload, ClearConsent1, ClearConsent2 } from './websdk';
 
 export interface AdobeAdapters {
   webSdk: WebSdkAdapter;

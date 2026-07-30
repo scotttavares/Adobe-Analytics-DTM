@@ -6,7 +6,7 @@ var instance = require('../instance');
  * Shared module exposing the consent API to other extensions and to custom
  * code, without needing the window global:
  *
- *   var consent = turbine.getSharedModule('adobe-consent', 'consent-api');
+ *   var consent = turbine.getSharedModule('clearconsent', 'consent-api');
  *   if (consent.hasConsent('analytics')) { ... }
  *   consent.gate('advertising', function () { loadPixel(); });
  *
@@ -23,7 +23,7 @@ module.exports = {
   gate: function (category, callback) {
     var manager = instance.get();
     if (!manager) {
-      turbine.logger.warn('consent-api.gate called before Adobe Consent initialized');
+      turbine.logger.warn('consent-api.gate called before ClearConsent initialized');
       return function () {};
     }
     return manager.gate(category, callback);

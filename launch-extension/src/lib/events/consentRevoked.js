@@ -14,7 +14,7 @@ module.exports = function (settings, trigger) {
     return;
   }
 
-  document.addEventListener('adobeConsent:revoked', function (event) {
+  document.addEventListener('clearConsent:revoked', function (event) {
     var revoked = event.detail || [];
     if (revoked.indexOf(category) === -1) return;
 

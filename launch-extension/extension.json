@@ -1,11 +1,11 @@
 {
-  "name": "adobe-consent",
+  "name": "clearconsent",
   "platform": "web",
   "version": "1.0.0",
-  "displayName": "Adobe Consent — Cookie Consent Manager",
+  "displayName": "ClearConsent — Cookie Consent Manager",
   "description": "A fast, accessible, self-hosted cookie consent manager that wires consent straight into the AEP Web SDK, the ECID Opt-In service, Adobe Analytics, and the Adobe Client Data Layer. No third-party CMP, no extra network requests, no custom code.",
   "author": {
-    "name": "adobe-consent contributors",
+    "name": "clearconsent contributors",
     "url": "https://github.com/scotttavares/Adobe-Analytics-DTM"
   },
   "iconPath": "resources/icons/consent.svg",

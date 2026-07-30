@@ -136,7 +136,7 @@ export class AutoBlocker {
   private injectStyle(): void {
     if (this.styleInjected || typeof document === 'undefined') return;
     const style = document.createElement('style');
-    style.setAttribute('data-adobe-consent', 'placeholder');
+    style.setAttribute('data-clearconsent', 'placeholder');
     style.textContent = `
 .${PLACEHOLDER_CLASS}{display:flex;flex-direction:column;align-items:center;justify-content:center;
 gap:10px;min-height:150px;padding:20px;text-align:center;background:#f3f4f6;color:#374151;

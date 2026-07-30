@@ -1,4 +1,4 @@
-# adobe-consent — Adobe Launch (Tags) extension
+# ClearConsent — Adobe Launch (Tags) extension
 
 The consent manager packaged as a native Adobe Experience Platform Tags
 extension.
@@ -6,7 +6,7 @@ extension.
 ## What makes this different from a hosted CMP extension
 
 The library is **`require`d into the Tags runtime library** from
-`src/lib/vendor/adobe-consent.js`, rather than fetched from a CDN at runtime.
+`src/lib/vendor/clearconsent.js`, rather than fetched from a CDN at runtime.
 There is no stub script, no config fetch, and no second SDK download — the
 banner can paint as soon as your Launch library has. That is the whole reason
 this is a real extension rather than a Custom Code action.
@@ -19,7 +19,7 @@ root first:
 ```bash
 cd ..
 npm install
-npm run build     # writes launch-extension/src/lib/vendor/adobe-consent.js
+npm run build     # writes launch-extension/src/lib/vendor/clearconsent.js
 cd launch-extension
 ```
 
@@ -27,9 +27,9 @@ Then package and upload:
 
 ```bash
 npx @adobe/reactor-packager
-# -> package-adobe-consent-1.0.0.zip
+# -> package-clearconsent-1.0.0.zip
 
-npx @adobe/reactor-uploader package-adobe-consent-1.0.0.zip \
+npx @adobe/reactor-uploader package-clearconsent-1.0.0.zip \
   --auth.client-id=<id> --auth.client-secret=<secret>
 ```
 
@@ -96,7 +96,7 @@ Consent Summary String · Consent Region · Consent XDM Object.
 **Shared module** — `consent-api`:
 
 ```js
-var consent = turbine.getSharedModule('adobe-consent', 'consent-api');
+var consent = turbine.getSharedModule('clearconsent', 'consent-api');
 consent.gate('advertising', function () { loadRemarketingPixel(); });
 ```
 
@@ -120,7 +120,7 @@ src/lib/
   main.js                         runs at library load; boots the CMP
   buildConfig.js                  flat extension settings -> nested library config
   instance.js                     singleton lookup with a window fallback
-  vendor/adobe-consent.js         generated — do not edit, run `npm run build`
+  vendor/clearconsent.js         generated — do not edit, run `npm run build`
   events/ conditions/ actions/ dataElements/ sharedModules/
 src/view/                         configuration and element views
 resources/icons/consent.svg
@@ -128,7 +128,7 @@ resources/icons/consent.svg
 
 ## A note on the extension name
 
-The manifest name is `adobe-consent`, which is descriptive of what it does
+The manifest name is `clearconsent`, which is descriptive of what it does
 rather than a claim of Adobe authorship. Adobe's published naming rules
 (lowercase, URL-safe, ≤214 characters, immutable after publish) do not prohibit
 it, and this is intended as a private extension. If you submit it to Adobe

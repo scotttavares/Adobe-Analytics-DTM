@@ -9,7 +9,7 @@ import type {
 } from '../core/types';
 import { buildStyles } from './styles';
 
-const HOST_ID = 'adobe-consent-root';
+const HOST_ID = 'clearconsent-root';
 
 type Mode = 'notice' | 'preferences';
 

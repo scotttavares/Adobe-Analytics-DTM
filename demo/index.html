@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meridian Air — adobe-consent demo</title>
+<title>Meridian Air — ClearConsent demo</title>
 <style>
   :root {
     --navy:#160f2b;
@@ -208,7 +208,7 @@
 
 <footer>
   <div class="footer-inner">
-    <div>© 2026 Meridian Air — a fictional airline for demonstrating adobe-consent.</div>
+    <div>© 2026 Meridian Air — a fictional airline for demonstrating ClearConsent.</div>
     <div>
       <button type="button" class="linklike" id="footerPrefs">Privacy choices</button>
     </div>
@@ -230,7 +230,7 @@
 <script src="./mock-adobe.js"></script>
 <script>
   // Configure before the library loads: it auto-initializes on parse.
-  window.adobeConsentConfig = {
+  window.clearConsentConfig = {
     policyVersion: 1,
     debug: true,
     geo: { region: 'DE' },   // force an opt-in region for the demo
@@ -248,7 +248,7 @@
     }
   };
 </script>
-<script src="../dist/adobe-consent.min.js"></script>
+<script src="../dist/clearconsent.min.js"></script>
 <script src="./demo.js"></script>
 </body>
 </html>

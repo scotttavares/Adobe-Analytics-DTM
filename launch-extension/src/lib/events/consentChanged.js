@@ -29,7 +29,7 @@ module.exports = function (settings, trigger) {
     };
   };
 
-  document.addEventListener('adobeConsent:change', function (event) {
+  document.addEventListener('clearConsent:change', function (event) {
     fired = true;
     trigger(toDetail(event.detail));
   });
@@ -37,7 +37,7 @@ module.exports = function (settings, trigger) {
   if (settings && settings.includeInitial) {
     // `ready` may already have fired if main.js ran first, so check the live
     // state on the next tick instead of relying on catching the event.
-    document.addEventListener('adobeConsent:ready', function (event) {
+    document.addEventListener('clearConsent:ready', function (event) {
       if (fired) return;
       fired = true;
       trigger(toDetail({ state: event.detail, granted: [], revoked: [] }));

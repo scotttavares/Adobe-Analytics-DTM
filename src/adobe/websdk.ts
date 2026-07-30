@@ -11,7 +11,7 @@ interface AlloyWindow extends Window {
 type AlloyFn = (command: string, options?: unknown) => Promise<unknown> | void;
 
 /** Adobe consent standard 2.0 payload. */
-export interface AdobeConsent2 {
+export interface ClearConsent2 {
   standard: 'Adobe';
   version: '2.0';
   value: {
@@ -25,13 +25,13 @@ export interface AdobeConsent2 {
 }
 
 /** Adobe consent standard 1.0 payload — a single in/out flag. */
-export interface AdobeConsent1 {
+export interface ClearConsent1 {
   standard: 'Adobe';
   version: '1.0';
   value: { general: 'in' | 'out' };
 }
 
-export type AdobeConsentPayload = AdobeConsent2 | AdobeConsent1;
+export type ClearConsentPayload = ClearConsent2 | ClearConsent1;
 
 /**
  * Drives the AEP Web SDK (alloy).
@@ -78,7 +78,7 @@ export class WebSdkAdapter {
   }
 
   /** Builds the `consent` array for a decision. Exported shape is testable. */
-  buildPayload(decision: ConsentDecision): AdobeConsentPayload[] {
+  buildPayload(decision: ConsentDecision): ClearConsentPayload[] {
     if (this.opts.standardVersion === '1.0') {
       const granted = anyGranted(this.mapping.collect, decision);
       return [
@@ -86,7 +86,7 @@ export class WebSdkAdapter {
       ];
     }
 
-    const value: AdobeConsent2['value'] = {
+    const value: ClearConsent2['value'] = {
       collect: { val: yn(anyGranted(this.mapping.collect, decision)) },
       share: { val: yn(anyGranted(this.mapping.share, decision)) },
       personalize: { content: { val: yn(anyGranted(this.mapping.personalize, decision)) } },

@@ -61,7 +61,7 @@ export function safe<T>(fn: () => T, onError?: (e: unknown) => void): T | undefi
   }
 }
 
-export function createLogger(enabled: boolean, prefix = '[adobe-consent]') {
+export function createLogger(enabled: boolean, prefix = '[clearconsent]') {
   const noop = () => {};
   if (!enabled || typeof console === 'undefined') {
     return { log: noop, warn: noop, error: noop, group: noop };

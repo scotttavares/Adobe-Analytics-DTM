@@ -19,7 +19,7 @@ function setup(config = {}) {
 }
 
 function shadow(): ShadowRoot {
-  const host = document.getElementById('adobe-consent-root');
+  const host = document.getElementById('clearconsent-root');
   if (!host?.shadowRoot) throw new Error('banner is not mounted');
   return host.shadowRoot;
 }
@@ -35,7 +35,7 @@ describe('consent banner', () => {
     const { banner } = setup();
     banner.open('notice');
 
-    const host = document.getElementById('adobe-consent-root');
+    const host = document.getElementById('clearconsent-root');
     expect(host).toBeTruthy();
     expect(host!.shadowRoot).toBeTruthy();
     expect(shadow().querySelector('.panel')).toBeTruthy();
@@ -181,7 +181,7 @@ describe('consent banner', () => {
     const { banner } = setup();
     banner.open('notice');
 
-    const host = document.getElementById('adobe-consent-root')!;
+    const host = document.getElementById('clearconsent-root')!;
     expect(host.style.width).toBe('0px');
     expect(host.style.height).toBe('0px');
   });

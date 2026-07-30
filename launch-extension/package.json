@@ -1,7 +1,7 @@
 {
-  "name": "adobe-consent-launch-extension",
+  "name": "clearconsent-launch-extension",
   "version": "1.0.0",
-  "description": "Adobe Launch (Tags) extension packaging for the adobe-consent CMP.",
+  "description": "Adobe Launch (Tags) extension packaging for the clearconsent CMP.",
   "private": true,
   "license": "MIT",
   "scripts": {

@@ -34,7 +34,7 @@ page.on('console', (m) => {
 
 const libRequests = [];
 page.on('request', (r) => {
-  if (/launch-EN|adobe-consent/.test(r.url())) libRequests.push(r.url());
+  if (/launch-EN|clearconsent/.test(r.url())) libRequests.push(r.url());
 });
 
 const response = await page.goto(BASE + '/libSandbox.html', { waitUntil: 'networkidle' });
@@ -47,7 +47,7 @@ const satellite = await page.evaluate(() => typeof window._satellite);
 check('Turbine booted (_satellite defined)', satellite === 'object', satellite);
 
 // --- the extension main module ran ----------------------------------------
-const managerType = await page.evaluate(() => typeof window.AdobeConsent);
+const managerType = await page.evaluate(() => typeof window.ClearConsent);
 check(
   'extension main module ran and published the manager',
   managerType === 'object',
@@ -55,7 +55,7 @@ check(
 );
 
 // --- the vendored CMP is inlined, not fetched ------------------------------
-const separateFetch = libRequests.filter((u) => /adobe-consent\.(min\.)?js/.test(u));
+const separateFetch = libRequests.filter((u) => /clearconsent\.(min\.)?js/.test(u));
 check(
   'CMP is inlined — no separate request for it',
   separateFetch.length === 0,
@@ -69,7 +69,7 @@ check(
 
 // --- engine state resolved -------------------------------------------------
 const state = await page.evaluate(() => {
-  const m = window.AdobeConsent;
+  const m = window.ClearConsent;
   if (!m) return null;
   return {
     region: m.region,
@@ -90,7 +90,7 @@ check(
 );
 
 // --- the banner rendered, with the configured copy -------------------------
-const dialog = page.locator('#adobe-consent-root [role="dialog"]');
+const dialog = page.locator('#clearconsent-root [role="dialog"]');
 const dialogVisible = await dialog.isVisible().catch(() => false);
 check('consent dialog rendered from inside Turbine', dialogVisible);
 
@@ -141,7 +141,7 @@ check(
 const shared = await page.evaluate(() => {
   try {
     const api = window._satellite.getSharedModule
-      ? window._satellite.getSharedModule('adobe-consent', 'consent-api')
+      ? window._satellite.getSharedModule('clearconsent', 'consent-api')
       : null;
     if (!api) return 'not exposed via _satellite';
     return { hasConsent: typeof api.hasConsent, gate: typeof api.gate };
@@ -157,7 +157,7 @@ if (dialogVisible) {
   await page.waitForTimeout(500);
 
   const after = await page.evaluate(() => ({
-    decision: window.AdobeConsent.decision,
+    decision: window.ClearConsent.decision,
     status: window._satellite.getVar('consentStatus'),
     summary: window._satellite.getVar('consentSummary'),
   }));
