@@ -270,7 +270,7 @@ still need a lawyer's eye.
 ```bash
 npm install
 npm run build          # esbuild -> dist/ + the extension's vendored bundle
-npm test               # 74 unit tests (vitest + jsdom)
+npm test               # 95 unit tests (vitest + jsdom)
 npm run verify         # 35 checks in real Chromium against the demo
 npm run demo           # http://localhost:8080/demo/index.html
 npm run typecheck
