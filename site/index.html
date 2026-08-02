@@ -298,7 +298,10 @@
         </div>
       </div>
       <div class="panel-box">
-        <h3>Adobe calls <span class="sub" style="display:inline">(live)</span></h3>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <h3 style="margin:0;">Adobe calls <span class="sub" style="display:inline">(live)</span></h3>
+          <button class="btn-mini" id="acClear" type="button">Clear</button>
+        </div>
         <p class="sub">Exactly what reached each Adobe SDK, in order.</p>
         <div class="calllog" id="callLog"><div class="empty">Make a choice to see the calls…</div></div>
       </div>
@@ -422,7 +425,8 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
         <code>setConsent</code> payload it would send <em>before any click</em>. This is computed live
         by the shipped code, not a lookup table.</p>
       <div class="region-switch" id="regionSwitch">
-        <button type="button" data-region="DE" aria-pressed="true">🇩🇪 Germany (EEA)</button>
+        <button type="button" data-region="EU" aria-pressed="true">🇪🇺 EU · GDPR</button>
+        <button type="button" data-region="DE" aria-pressed="false">🇩🇪 Germany (EEA)</button>
         <button type="button" data-region="US-CA" aria-pressed="false">🇺🇸 California</button>
         <button type="button" data-region="US-TX" aria-pressed="false">🇺🇸 Texas</button>
         <button type="button" data-region="BR" aria-pressed="false">🇧🇷 Brazil</button>
@@ -447,11 +451,12 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
     <div class="race" id="race">
       <div class="lane theirs">
         <h4>OneTrust — time to a painted banner</h4>
-        <p class="meta">A dependent chain: each request waits for the one before it.</p>
+        <p class="meta">A dependent chain, per OneTrust's documented autoblock architecture: each request waits for the one before it.</p>
         <div class="bar" data-w="34%"><div class="fill"></div><div class="fl-label">otSDKStub.js</div></div>
         <div class="bar" data-w="62%"><div class="fill"></div><div class="fl-label">domain config JSON</div></div>
         <div class="bar" data-w="100%"><div class="fill"></div><div class="fl-label">otBannerSdk.js — paint</div></div>
         <p class="verdict">3 dependent round trips · ~184&nbsp;KB / 16 requests*</p>
+        <p class="flag-note" style="margin-top:8px">* The stub → config → SDK chain is OneTrust's documented architecture; the KB and request counts are a published third-party benchmark, <strong>not measured by us</strong>. Bar widths illustrate the dependency, not exact timings.</p>
       </div>
       <div class="lane ours">
         <h4>ClearConsent — as a Launch extension</h4>
@@ -499,8 +504,28 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
       <div class="pill"><b>Operable dialog</b>role=dialog, focus trap, focus restore, background inert, reduced-motion and forced-colors support. Zero axe-core violations.</div>
       <div class="pill"><b>Region-aware</b>Opt-in for the EEA/UK/CH/BR, opt-out for US states and Canada, resolved with specificity matching and no first-paint block.</div>
     </div>
-    <div class="disc">This is engineering, not legal advice. Your categories, copy, and retention still
-      need a lawyer's eye.</div>
+
+    <h3 style="margin:46px 0 6px; font-size:20px;">Where it applies</h3>
+    <p class="sub" style="margin:0 0 18px; max-width:64ch;">Every visitor's region resolves to one of three models — opt-in, opt-out, or notice-only — with specificity matching, so a state rule beats a country rule beats the default. No law is hardcoded; the region rules are configuration.</p>
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th>Regime</th><th>Where</th><th>Model</th><th>Universal opt-out signal</th></tr></thead>
+        <tbody>
+          <tr><td>GDPR · UK GDPR · Swiss FADP</td><td>EU · EEA · UK · Switzerland</td><td>Opt-in — prior consent</td><td class="no">n/a (opt-in)</td></tr>
+          <tr><td>CCPA / CPRA</td><td>California</td><td>Opt-out — do not sell or share</td><td class="yes">GPC — binding</td></tr>
+          <tr><td>State privacy laws</td><td>Virginia, Colorado, Connecticut, Texas, Utah, + more</td><td>Opt-out</td><td class="yes">GPC — CO, CA, CT…</td></tr>
+          <tr><td>LGPD</td><td>Brazil</td><td>Opt-in — consent / legal basis</td><td class="no">n/a (opt-in)</td></tr>
+          <tr><td>PIPEDA</td><td>Canada</td><td>Opt-out; opt-in for sensitive</td><td class="no">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pills" style="margin-top:20px;">
+      <div class="pill"><b>GPC — honored by default</b>Global Privacy Control is a legally binding opt-out under CPRA (California) and Colorado law, and the basis of Sephora's $1.2M settlement. Read before first paint and applied as a rejection in opt-out regions — no click required.</div>
+      <div class="pill"><b>DNT — read, but honestly legacy</b>Do Not Track is supported as a signal, but no law mandates honoring it and browsers have largely dropped it. GPC is its enforceable successor. We treat a present DNT header as an advisory rejection hint, never as a compliance guarantee.</div>
+    </div>
+
+    <div class="disc">This is engineering, not legal advice. Which regimes apply to you, your category
+      definitions, your copy, and your retention still need a lawyer's eye.</div>
   </div>
 </section>
 
@@ -508,16 +533,24 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
   <div class="wrap">
     <p class="kicker">Install</p>
     <h2>Three ways in.</h2>
-    <p class="intro">Recommended path is the Launch extension — you get events, a condition, actions,
-      and data elements with no custom code.</p>
+    <p class="intro">The easy path is the Launch extension. It's a <em>real, already-built extension</em> —
+      events, a condition, actions, data elements, and a tabbed configuration UI — so you install it into
+      your Adobe Data Collection property and set categories, regions, and the Adobe wiring with clicks.
+      No custom code per page, and the banner is inlined into the Tags library you already publish.</p>
     <div class="install-tabs" role="tablist">
       <button role="tab" aria-selected="true" data-p="p-launch">Launch extension</button>
       <button role="tab" aria-selected="false" data-p="p-script">Script tag</button>
       <button role="tab" aria-selected="false" data-p="p-npm">npm</button>
     </div>
     <div class="install-panel active" id="p-launch">
+      <div class="pills" style="margin-bottom:18px;">
+        <div class="pill"><b>1 · Install</b>Add ClearConsent from your property's Extensions catalog, like any other Launch extension.</div>
+        <div class="pill"><b>2 · Configure</b>Set categories, regions, and the Adobe wiring in the extension's tabbed UI — category pickers populate from your own property. No code.</div>
+        <div class="pill"><b>3 · Publish</b>Build and publish a library. The banner is inlined into your Tags runtime — zero extra requests.</div>
+      </div>
+      <p class="sub" style="margin:0 0 12px;">To get it into your org the first time, publish the extension — it's committed in the repo, so this runs from a fresh clone:</p>
       <div class="code">
-        <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">terminal</span></div>
+        <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">terminal — one-time publish to your org</span></div>
 <pre>npm install
 npm run build              <span class="c"># produces the vendored bundle</span>
 cd launch-extension
@@ -525,6 +558,7 @@ npx @adobe/reactor-packager <span class="c"># → package-clearconsent-1.0.0.zip
 npx @adobe/reactor-uploader package-clearconsent-1.0.0.zip \
   --auth.client-id=... --auth.client-secret=...</pre>
       </div>
+      <p class="flag-note">A one-click install from the public <strong>Adobe Exchange</strong> catalog is the next step — that part is Adobe's extension-review process, not more code.</p>
     </div>
     <div class="install-panel" id="p-script">
       <div class="code">
@@ -711,6 +745,15 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
   onClick('acReject', function () { var m = mgr(); if (m) { m.rejectAll(); m.hideBanner(); } });
   onClick('acAnalytics', function () { var m = mgr(); if (m) { m.save({ analytics: true }); m.hideBanner(); } });
   onClick('acReopen', function () { var m = mgr(); if (m) m.reset(); });
+  onClick('acClear', function () {
+    if (!logEl) return;
+    logEl.textContent = '';
+    var empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = 'Cleared — make a choice to see the calls…';
+    logEl.appendChild(empty);
+    if (window.__acCalls) window.__acCalls.length = 0;
+  });
   onClick('launchBanner', function () { var m = mgr(); if (m) m.reset(); });
   onClick('launchBanner2', function () { var m = mgr(); if (m) m.reset(); });
   onClick('footerPrefs', function () { var m = mgr(); if (m) m.openPreferences(); });
@@ -770,7 +813,7 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
       });
       resolveRegion(btn.getAttribute('data-region'));
     });
-    afterReady(function () { resolveRegion('DE'); });
+    afterReady(function () { resolveRegion('EU'); });
   }
 
   // ---- load-chain race (animate when scrolled into view) ------------------

@@ -72,10 +72,10 @@ check('reject re-asserts collect denied to alloy', /collect:n/.test(logText2));
 check('reject aborts AppMeasurement', /s\.abort = true/.test(logText2));
 
 // --- region resolver: real engine computes per-region payloads ---
-check('region resolver defaults to opt-in for Germany',
+check('region resolver defaults to opt-in for the EU',
   /Opt-in/.test(await page.locator('#rrModel').innerText()));
 const dePayload = await page.locator('#rrPayload').innerText();
-check('Germany resolves to collect:n before any choice', /collect[^\n]*"n"/.test(dePayload), dePayload.split('\n').find((l) => /collect/.test(l)) || '');
+check('EU resolves to collect:n before any choice', /collect[^\n]*"n"/.test(dePayload), dePayload.split('\n').find((l) => /collect/.test(l)) || '');
 
 await page.locator('#regionSwitch button[data-region="US-CA"]').click();
 await page.waitForTimeout(250);
