@@ -47,7 +47,7 @@ check('the site renders its own consent banner on load', await dialog.isVisible(
 check('banner uses the site-configured heading',
   (await dialog.locator('h2.title').textContent().catch(() => '')) === 'Your privacy, your call');
 
-// --- live inspector: driving consent via the inline buttons logs Adobe calls ---
+// --- live inspector: default stack is Web SDK (alloy) ---
 await page.locator('#acAccept').click();
 await page.waitForTimeout(400);
 
@@ -58,18 +58,34 @@ const chipsOn = await page.locator('#liveChips .chip.on').count();
 check('consent chips reflect all-granted', chipsOn === 4, chipsOn + ' on');
 
 const logText = await page.locator('#callLog').innerText();
-check('inspector logged a setConsent call', /setConsent/.test(logText));
-check('inspector logged the ECID Opt-In complete', /adobe\.optIn/.test(logText) && /approved/.test(logText));
+check('Web SDK: inspector logged a setConsent call', /setConsent/.test(logText));
+check('Web SDK: no ECID Opt-In fired (setConsent replaces it)', !/adobe\.optIn/.test(logText));
 check('inspector logged a data layer push', /adobeDataLayer/.test(logText));
 check('inspector logged a _satellite direct call', /_satellite/.test(logText));
 check('setConsent shows collect granted after accept', /collect:y/.test(logText), logText.match(/setConsent[^\n]*/)?.[0] || '');
 
-// --- reject via inspector flips it back ---
+// --- reject via inspector flips it back (still Web SDK) ---
 await page.locator('#acReject').click();
 await page.waitForTimeout(400);
 const logText2 = await page.locator('#callLog').innerText();
 check('reject re-asserts collect denied to alloy', /collect:n/.test(logText2));
-check('reject aborts AppMeasurement', /s\.abort = true/.test(logText2));
+
+// --- flip to the Classic stack: Opt-In + AppMeasurement, no setConsent ---
+await page.locator('#stackSwitch button[data-stack="classic"]').click();
+await page.waitForTimeout(250);
+await page.locator('#acAccept').click();
+await page.waitForTimeout(400);
+const logText3 = await page.locator('#callLog').innerText();
+check('Classic: inspector logged the ECID Opt-In complete', /adobe\.optIn/.test(logText3) && /approved/.test(logText3));
+check('Classic: no Web SDK setConsent fired (alloy absent)', !/setConsent/.test(logText3));
+await page.locator('#acReject').click();
+await page.waitForTimeout(400);
+const logText4 = await page.locator('#callLog').innerText();
+check('Classic: reject aborts AppMeasurement', /s\.abort = true/.test(logText4));
+
+// back to Web SDK for the rest of the run
+await page.locator('#stackSwitch button[data-stack="websdk"]').click();
+await page.waitForTimeout(200);
 
 // --- region resolver: real engine computes per-region payloads ---
 check('region resolver defaults to opt-in for the EU',

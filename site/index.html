@@ -302,7 +302,11 @@
           <h3 style="margin:0;">Adobe calls <span class="sub" style="display:inline">(live)</span></h3>
           <button class="btn-mini" id="acClear" type="button">Clear</button>
         </div>
-        <p class="sub">Exactly what reached each Adobe SDK, in order.</p>
+        <p class="sub">Exactly what reached each Adobe SDK, in order — for the stack you choose.</p>
+        <div class="region-switch" id="stackSwitch" style="margin-bottom:14px;">
+          <button type="button" data-stack="websdk" aria-pressed="true">Web SDK (alloy)</button>
+          <button type="button" data-stack="classic" aria-pressed="false">Classic — AppMeasurement + ECID</button>
+        </div>
         <div class="calllog" id="callLog"><div class="empty">Make a choice to see the calls…</div></div>
       </div>
     </div>
@@ -479,7 +483,8 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
           <tr><td>Reject as prominent as accept</td><td class="yes">enforced, not a setting</td><td class="no">configurable — and the basis of CNIL fines</td></tr>
           <tr><td>Self-hosted / auditable</td><td class="yes">MIT, one file you can read</td><td class="no">vendor SaaS</td></tr>
           <tr><td>Cost</td><td class="yes">free (MIT)</td><td class="no">~$1.1k/mo/domain*</td></tr>
-          <tr><td>Cookie scanning &amp; IAB TCF</td><td class="no">not included</td><td class="yes">yes — a real reason to pick OneTrust</td></tr>
+          <tr><td>Cookie scanning</td><td class="no">runtime scan only — not a full crawl</td><td class="yes">full pre-deploy site crawl</td></tr>
+          <tr><td>IAB TCF v2.2</td><td class="no">experimental starter — not registered</td><td class="yes">registered CMP — pick OneTrust</td></tr>
         </tbody>
       </table>
     </div>
@@ -526,6 +531,46 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
 
     <div class="disc">This is engineering, not legal advice. Which regimes apply to you, your category
       definitions, your copy, and your retention still need a lawyer's eye.</div>
+  </div>
+</section>
+
+<section class="band" id="scanner">
+  <div class="wrap">
+    <p class="kicker">Cookie scanner</p>
+    <h2>See what's actually set — right now.</h2>
+    <p class="intro">A live scan of the cookies and storage keys present in your browser on this page.
+      Honest scope: this is <em>runtime observation</em>, not a pre-deploy crawl of every page — the fuller
+      audit is exactly where a hosted scanner like OneTrust earns its keep. Make a consent choice above, then scan.</p>
+    <div class="panel-box" style="max-width:860px;">
+      <div class="mini-row" style="margin-bottom:14px; align-items:center;">
+        <button class="btn-mini accent" id="scanBtn" type="button">Scan now</button>
+        <span class="sub" id="scanCount" style="align-self:center;"></span>
+      </div>
+      <div class="tbl-scroll">
+        <table class="tbl">
+          <thead><tr><th>Name</th><th>Where</th><th>Value (preview)</th></tr></thead>
+          <tbody id="scanBody"><tr><td colspan="3" class="no">Click "Scan now" to read this browser's cookies + storage.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="tcf">
+  <div class="wrap">
+    <p class="kicker">IAB TCF · experimental</p>
+    <h2>A TCF starter — labeled, not certified.</h2>
+    <p class="intro">The IAB Transparency &amp; Consent Framework is how the programmatic ad ecosystem passes
+      consent. A <em>compliant</em> CMP needs a registered CMP ID, the Global Vendor List, an encoded TC string,
+      and IAB validation. Below is a working <strong>shape</strong> of the <code>__tcfapi</code> surface, wired to
+      the live decision, for experimentation only — <strong>not IAB-registered, no CMP ID, not for production</strong>.
+      Most Adobe Analytics / Target / AEP sites never need TCF at all.</p>
+    <div class="panel-box" style="max-width:860px;">
+      <div class="mini-row" style="margin-bottom:14px;">
+        <button class="btn-mini accent" id="tcfBtn" type="button">Call __tcfapi('getTCData')</button>
+      </div>
+      <div class="payload" id="tcfOut">Click to query the experimental __tcfapi surface. Its purpose consents follow your choice above.</div>
+    </div>
   </div>
 </section>
 
@@ -617,54 +662,73 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
   };
   window.__acOnCall = function (fn) { listeners.push(fn); };
 
-  (function (n, o) {
-    o.forEach(function (name) {
-      (n.__alloyNS = n.__alloyNS || []).push(name);
-      n[name] = function (cmd, opts) {
-        if (cmd === 'setConsent') {
-          var v = (opts && opts.consent && opts.consent[0] && opts.consent[0].value) || {};
-          window.__acLog('alloy', 'setConsent — collect:' + ((v.collect && v.collect.val) || '?') +
-            ' share:' + ((v.share && v.share.val) || '?') +
-            ' personalize:' + ((v.personalize && v.personalize.content && v.personalize.content.val) || '?'));
-        } else { window.__acLog('alloy', cmd); }
-        return Promise.resolve();
-      };
-    });
-  })(window, ['alloy']);
+  // --- Web SDK (alloy): setConsent is the consent API; sendEvent (not shown
+  //     here) is how it sends experience data. It never uses _satellite. ------
+  function installWebSdk() {
+    window.__alloyNS = ['alloy'];
+    window.alloy = function (cmd, opts) {
+      if (cmd === 'setConsent') {
+        var v = (opts && opts.consent && opts.consent[0] && opts.consent[0].value) || {};
+        window.__acLog('alloy', 'setConsent — collect:' + ((v.collect && v.collect.val) || '?') +
+          ' share:' + ((v.share && v.share.val) || '?') +
+          ' personalize:' + ((v.personalize && v.personalize.content && v.personalize.content.val) || '?'));
+      } else { window.__acLog('alloy', cmd); }
+      return Promise.resolve();
+    };
+  }
+  function removeWebSdk() { try { delete window.alloy; } catch (e) { window.alloy = undefined; } window.__alloyNS = []; }
 
-  window.adobe = window.adobe || {};
-  window.adobe.OptInCategories = { AAM: 'aam', ANALYTICS: 'aa', ECID: 'ecid', TARGET: 'target' };
+  // --- Classic (AppMeasurement + ECID Opt-In): the legacy libraries. ---------
   var perms = { aam: false, aa: false, ecid: false, target: false }, staged = {};
-  window.adobe.optIn = {
-    permissions: perms, status: 'pending',
-    approve: function (c, w) { c.forEach(function (k) { staged[k] = true; }); if (!w) this.complete(); },
-    deny: function (c, w) { c.forEach(function (k) { staged[k] = false; }); if (!w) this.complete(); },
-    complete: function () {
-      Object.keys(staged).forEach(function (k) { perms[k] = staged[k]; }); staged = {};
-      var ok = Object.keys(perms).filter(function (k) { return perms[k]; });
-      window.__acLog('adobe.optIn', 'complete — approved: ' + (ok.length ? ok.join(', ') : 'none'));
-    },
-    isApproved: function (c) { return (c || []).every(function (k) { return perms[k]; }); }
-  };
+  function installClassic() {
+    window.adobe = window.adobe || {};
+    window.adobe.OptInCategories = { AAM: 'aam', ANALYTICS: 'aa', ECID: 'ecid', TARGET: 'target' };
+    window.adobe.optIn = {
+      permissions: perms, status: 'pending',
+      approve: function (c, w) { c.forEach(function (k) { staged[k] = true; }); if (!w) this.complete(); },
+      deny: function (c, w) { c.forEach(function (k) { staged[k] = false; }); if (!w) this.complete(); },
+      complete: function () {
+        Object.keys(staged).forEach(function (k) { perms[k] = staged[k]; }); staged = {};
+        var ok = Object.keys(perms).filter(function (k) { return perms[k]; });
+        window.__acLog('adobe.optIn', 'complete — approved: ' + (ok.length ? ok.join(', ') : 'none'));
+      },
+      isApproved: function (c) { return (c || []).every(function (k) { return perms[k]; }); }
+    };
+    var abortVal = false;
+    window.s = { account: 'demo', optOut: false, t: function () {} };
+    Object.defineProperty(window.s, 'abort', {
+      configurable: true,
+      get: function () { return abortVal; },
+      set: function (val) {
+        if (val !== abortVal) { abortVal = val;
+          window.__acLog('AppMeasurement', val ? 's.abort = true — beacons suppressed' : 's.abort = false — tracking allowed'); }
+      }
+    });
+  }
+  function removeClassic() {
+    if (window.adobe) { try { delete window.adobe.optIn; } catch (e) { window.adobe.optIn = undefined; } }
+    try { delete window.s; } catch (e) { window.s = undefined; }
+  }
 
-  var abortVal = false;
-  window.s = { account: 'demo', optOut: false, t: function () {} };
-  Object.defineProperty(window.s, 'abort', {
-    get: function () { return abortVal; },
-    set: function (val) {
-      if (val !== abortVal) { abortVal = val;
-        window.__acLog('AppMeasurement', val ? 's.abort = true — beacons suppressed' : 's.abort = false — tracking allowed'); }
-    }
-  });
-
+  // --- Always present: the Launch runtime is stack-agnostic. _satellite fires
+  //     direct-call rules whether the page runs Web SDK or Classic. -----------
   window.adobeDataLayer = window.adobeDataLayer || [];
   var push = window.adobeDataLayer.push.bind(window.adobeDataLayer);
   window.adobeDataLayer.push = function (item) {
     if (item && item.event) window.__acLog('adobeDataLayer', 'push "' + item.event + '"');
     return push(item);
   };
-
   window._satellite = { track: function (id) { window.__acLog('_satellite', 'track("' + id + '")'); }, logger: { log: function () {} } };
+
+  // --- Which stack is "on the page." The adapters feature-detect at call time,
+  //     so swapping stacks changes which calls fire on the next decision. ------
+  window.__acStack = 'websdk';
+  window.__acSetStack = function (mode) {
+    window.__acStack = (mode === 'classic') ? 'classic' : 'websdk';
+    if (window.__acStack === 'classic') { removeWebSdk(); installClassic(); }
+    else { removeClassic(); installWebSdk(); }
+  };
+  window.__acSetStack('websdk'); // default: the modern Web SDK path
 })();
 </script>
 
@@ -754,6 +818,31 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
     logEl.appendChild(empty);
     if (window.__acCalls) window.__acCalls.length = 0;
   });
+
+  // stack toggle: swap which Adobe stack is "on the page," then clear the log so
+  // the next choice shows that stack's calls cleanly. The adapters feature-detect
+  // at call time, so Web SDK shows setConsent (no Opt-In/AppMeasurement) and
+  // Classic shows Opt-In + s.abort (no setConsent). Launch fires in both.
+  var stackSwitch = document.getElementById('stackSwitch');
+  if (stackSwitch) {
+    stackSwitch.addEventListener('click', function (ev) {
+      var btn = ev.target.closest('button'); if (!btn) return;
+      var mode = btn.getAttribute('data-stack');
+      if (window.__acSetStack) window.__acSetStack(mode);
+      Array.prototype.forEach.call(stackSwitch.querySelectorAll('button'), function (b) {
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+      if (!logEl) return;
+      logEl.textContent = '';
+      var note = document.createElement('div');
+      note.className = 'empty';
+      note.textContent = mode === 'classic'
+        ? 'Classic page now (AppMeasurement + ECID Opt-In, no Web SDK) — click a choice.'
+        : 'Web SDK page now (alloy, no AppMeasurement / Opt-In) — click a choice.';
+      logEl.appendChild(note);
+      if (window.__acCalls) window.__acCalls.length = 0;
+    });
+  }
   onClick('launchBanner', function () { var m = mgr(); if (m) m.reset(); });
   onClick('launchBanner2', function () { var m = mgr(); if (m) m.reset(); });
   onClick('footerPrefs', function () { var m = mgr(); if (m) m.openPreferences(); });
@@ -846,6 +935,74 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
       });
     });
   });
+
+  // ---- runtime cookie scanner (live observation, not a pre-deploy crawl) ---
+  var scanBtn = document.getElementById('scanBtn');
+  if (scanBtn) {
+    scanBtn.addEventListener('click', function () {
+      var body = document.getElementById('scanBody');
+      var count = document.getElementById('scanCount');
+      var rows = [];
+      (document.cookie ? document.cookie.split('; ') : []).forEach(function (pair) {
+        var i = pair.indexOf('=');
+        rows.push({ name: i < 0 ? pair : pair.slice(0, i), where: 'cookie',
+          val: i < 0 ? '' : decodeURIComponent(pair.slice(i + 1)) });
+      });
+      try {
+        for (var k = 0; k < localStorage.length; k++) {
+          var key = localStorage.key(k);
+          rows.push({ name: key, where: 'localStorage', val: String(localStorage.getItem(key) || '') });
+        }
+      } catch (e) { /* storage partitioned/blocked */ }
+      body.textContent = '';
+      if (!rows.length) {
+        var tr0 = document.createElement('tr');
+        var td0 = document.createElement('td'); td0.colSpan = 3; td0.className = 'no';
+        td0.textContent = 'Nothing set on this page yet — make a consent choice above, then scan again.';
+        tr0.appendChild(td0); body.appendChild(tr0);
+      } else {
+        rows.forEach(function (r) {
+          var tr = document.createElement('tr');
+          var n = document.createElement('td'); n.textContent = r.name; n.style.fontWeight = '600';
+          var w = document.createElement('td'); w.textContent = r.where;
+          var v = document.createElement('td');
+          v.textContent = (r.val.length > 64 ? r.val.slice(0, 64) + '…' : r.val) || '(empty)';
+          tr.appendChild(n); tr.appendChild(w); tr.appendChild(v);
+          body.appendChild(tr);
+        });
+      }
+      if (count) count.textContent = rows.length + ' found · read live from this browser';
+    });
+  }
+
+  // ---- experimental __tcfapi surface (labeled; NOT IAB-registered) ---------
+  window.__tcfapi = function (cmd, version, cb) {
+    if (typeof cb !== 'function') return;
+    var d = (mgr() && mgr().decision) || {};
+    if (cmd === 'ping') {
+      cb({ gdprApplies: true, cmpLoaded: true, cmpStatus: 'loaded', apiVersion: '2.2', cmpId: 0, cmpVersion: 1 }, true);
+    } else if (cmd === 'getTCData' || cmd === 'addEventListener') {
+      cb({
+        tcString: 'EXPERIMENTAL~not-an-encoded-TC-string',
+        tcfPolicyVersion: 4, cmpId: 0, cmpVersion: 1, gdprApplies: true,
+        eventStatus: 'tcloaded', cmpStatus: 'loaded', isServiceSpecific: true,
+        purpose: { consents: { 1: true, 2: !!d.advertising, 3: !!d.advertising, 4: !!d.advertising,
+          7: !!d.analytics, 8: !!d.analytics, 9: !!d.personalization }, legitimateInterests: {} },
+        vendor: { consents: {}, legitimateInterests: {} },
+        _note: 'Experimental shape only — not an IAB-encoded string, no registered CMP ID, not for production.'
+      }, true);
+    } else if (cmd === 'removeEventListener') { cb(true, true); }
+    else { cb(null, false); }
+  };
+  var tcfBtn = document.getElementById('tcfBtn');
+  if (tcfBtn) {
+    tcfBtn.addEventListener('click', function () {
+      window.__tcfapi('getTCData', 2, function (data) {
+        var out = document.getElementById('tcfOut');
+        if (out) out.textContent = JSON.stringify(data, null, 2);
+      });
+    });
+  }
 })();
 </script>
 </body>
