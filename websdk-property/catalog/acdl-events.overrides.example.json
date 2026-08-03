@@ -1,0 +1,14 @@
+{
+  "_purpose": "EXAMPLE of the file scripts/export-current.mjs writes to catalog/acdl-events.overrides.json. It carries, per rule name, the VERBATIM Adobe Client Data Layer event component (delegate id + settings) read from the existing AboutAmazon-US property, so the generated blueprint listens for exactly the data-layer events the site already pushes. generate-blueprint.mjs stays in draft mode until the real (non-example) file exists.",
+  "_source": "EXAMPLE ONLY — values below are illustrative, not real",
+  "rules": {
+    "Global Page Load Rule": {
+      "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
+      "settings": { "event": "pageLoaded", "time": "all" }
+    },
+    "Global CTA Button Tracking": {
+      "delegate_descriptor_id": "adobe-client-data-layer::events::datalayer-push-listener",
+      "settings": { "event": "ctaButtonClick", "time": "future" }
+    }
+  }
+}

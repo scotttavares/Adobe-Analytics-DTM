@@ -1,0 +1,894 @@
+{
+  "_purpose": "Single source of truth for every event the property sends (Finding 9 fix). scripts/generate-blueprint.mjs emits one payload data element per entry from ONE template, plus the rule that sends it. Adding a tracked interaction = adding an entry here and re-running the generator; hand-editing generated payloads is prohibited.",
+  "_analyticsTransport": "Per the audit's Fix 1/2 guidance (deck slide 28), payloads use the Web SDK `data.__adobe.analytics` object (the documented AppMeasurement-migration path) \u2014 no XDM schema required while Amazon News has no AEP subscription. eVar/prop/event numbers are byte-for-byte the source property's mappings.",
+  "_acdlEventSentinel": {
+    "value": "CONFIRM-VIA-EXPORT",
+    "meaning": "The source workbook (Launch Inspector) does not export WHICH adobeDataLayer event name each Datalayer Push Listener listens for. Run scripts/export-current.mjs against the existing AboutAmazon-US property to produce catalog/acdl-events.overrides.json with the real names; generate-blueprint.mjs refuses to emit a publishable blueprint while any acdlEvent is unresolved.",
+    "calibration": "Verified 2026-07-29 against the old property's 'Global CTA Button Tracking' rule: the ACDL event type is displayed 'Data Pushed'; per rule record the 'Listen to: Specific Event' -> 'Event / Key to register for' value plus the Time scope radio (All/Future/Past). First captured: CTAButtonClicked, Time scope All. Site convention appears PascalCase \u2014 do not infer the rest; read each rule."
+  },
+  "pageView": {
+    "rule": "Global Page Load Rule",
+    "payloadDataElement": "Data: Page View",
+    "replaces": "XDM Page Level",
+    "acdlEvent": "pageLoaded",
+    "renderDecisions": true,
+    "xdmEventType": "web.webpagedetails.pageViews",
+    "analytics": {
+      "pageName": "Page: Name",
+      "channel": "Site: Section",
+      "pageURL": "Page: URL",
+      "referrer": "Core: Referrer",
+      "campaign": "Campaign: External",
+      "events": [
+        {
+          "event": "event2"
+        },
+        {
+          "event": "event4",
+          "valueFrom": "Campaign: Internal Count"
+        }
+      ],
+      "eVars": {
+        "eVar1": "Site: Domain",
+        "eVar2": "Plugin: Previous Page Name",
+        "eVar3": "Page: Name",
+        "eVar4": "Site: Section",
+        "eVar5": "Campaign: Internal",
+        "eVar9": "Content: Type",
+        "eVar12": "Page: URL",
+        "eVar13": "Core: Page Query String",
+        "eVar15": "User: Type",
+        "eVar18": "Geo: Language",
+        "eVar25": "Content: Publish Date",
+        "eVar29": "Content: Category",
+        "eVar30": "Content: Tags",
+        "eVar37": "Plugin: Visit Duration",
+        "eVar38": "UTM: Source",
+        "eVar39": "UTM: Medium",
+        "eVar40": "UTM: Content",
+        "eVar41": "UTM: Campaign",
+        "eVar42": "UTM: Term",
+        "eVar47": "Geo: Country"
+      },
+      "props": {
+        "prop1": "Page: Name",
+        "prop2": "Core: Referrer",
+        "prop3": "Core: Timestamp",
+        "prop4": "Page: Title",
+        "prop5": "Core: Clean URL",
+        "prop6": "Site: Section",
+        "prop7": "Site: Section 2",
+        "prop8": "Site: Section 3",
+        "prop9": "Site: Section 4",
+        "prop10": "Site: Section 5",
+        "prop11": "Plugin: Previous Page Name",
+        "prop12": "Page: URL",
+        "prop14": "Plugin: Visit Number",
+        "prop15": "Plugin: Time Since Last Visit",
+        "prop16": "Plugin: Repeat Vs New",
+        "prop17": "Plugin: Visit Duration",
+        "prop18": "Page: Title",
+        "prop20": "Geo: Locale",
+        "prop19": "Page: Error"
+      },
+      "lists": {
+        "list1": [
+          "Page: Error"
+        ],
+        "list2": [
+          "Content: Hidden Tags"
+        ]
+      }
+    },
+    "acdlTimeScope": "all"
+  },
+  "siteError": {
+    "rule": "Site Error",
+    "payloadDataElement": "Data: Site Error",
+    "replaces": "XDM Site Error",
+    "acdlEvent": "errorInteraction",
+    "xdmEventType": "web.webpagedetails.pageViews",
+    "analytics": {
+      "pageName": {
+        "constant": "errorPage"
+      },
+      "lists": {
+        "list1": [
+          "Page: Error"
+        ]
+      },
+      "props": {
+        "prop19": "Page: Error"
+      }
+    },
+    "note": "Error page view (source payload set webPageDetails.name='errorPage', isErrorPage:true, pageViews:1).",
+    "acdlTimeScope": "all"
+  },
+  "interactions": [
+    {
+      "rule": "Amazon More News Tracking",
+      "payloadDataElement": "data-More Amazon News",
+      "replaces": "XDM More Amazon News",
+      "acdlEvent": "moreAmazonNews",
+      "linkName": "More Amazon News Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event22"
+        }
+      ],
+      "eVars": {
+        "eVar44": "Link: More Amazon News"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Amazon Redirect Link Click",
+      "payloadDataElement": "data-Amazon Redirect Link",
+      "replaces": "XDM Amazon Redirect Link",
+      "acdlEvent": "AmazonRedirectLinkClick",
+      "linkName": "Amazon Redirect Link Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event21"
+        },
+        {
+          "event": "event22"
+        }
+      ],
+      "eVars": {
+        "eVar23": "Link: Destination",
+        "eVar28": "Link: Redirect Text"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Amazon Stories Link Click Tracking",
+      "payloadDataElement": "data-Amazon Stories",
+      "replaces": "XDM Amazon Stories",
+      "acdlEvent": "storyLinkClick",
+      "linkName": "Amazon Stories Link Tracking",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event22"
+        }
+      ],
+      "eVars": {
+        "eVar45": "Link: Stories Text"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Consent Selection",
+      "payloadDataElement": "data-Cookie Consent Selected",
+      "replaces": "XDM Cookie Consent Selected",
+      "acdlEvent": "consentSelection",
+      "linkName": "Cookie Consent Selection",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event30",
+          "valueFrom": "Consent: Click Count"
+        }
+      ],
+      "eVars": {
+        "eVar48": "Consent: Selected"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "File Download Tracking",
+      "payloadDataElement": "data-File Download",
+      "replaces": "XDM File Download",
+      "acdlEvent": "FileDownloaded",
+      "linkName": "File Download",
+      "linkType": "d",
+      "events": [
+        {
+          "event": "event16"
+        }
+      ],
+      "eVars": {
+        "eVar33": "File: Name",
+        "eVar34": "File: Type"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Filter Click Tracking",
+      "payloadDataElement": "data-Filter Click",
+      "replaces": "XDM Filter Click",
+      "acdlEvent": "FilterApplied",
+      "linkName": "News Filter Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event25"
+        }
+      ],
+      "eVars": {
+        "eVar27": "News: Filter"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Form Complete",
+      "payloadDataElement": "data-Form Complete",
+      "replaces": "XDM Form Complete",
+      "acdlEvent": "formComplete",
+      "linkName": "Form Complete",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event10"
+        }
+      ],
+      "eVars": {
+        "eVar10": "Form: Name",
+        "eVar19": "Form: Location"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Form Error Tracking",
+      "payloadDataElement": "data-Form Error",
+      "replaces": "XDM Form Error",
+      "acdlEvent": "formError",
+      "linkName": "Form Error",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event8"
+        }
+      ],
+      "eVars": {
+        "eVar10": "Form: Name",
+        "eVar19": "Form: Location"
+      },
+      "lists": {
+        "list1": [
+          "Form: Error Name"
+        ]
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Form Start",
+      "payloadDataElement": "data-Form Start",
+      "replaces": "XDM Form Start",
+      "acdlEvent": "formStart",
+      "linkName": "Form Start",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event9"
+        }
+      ],
+      "eVars": {
+        "eVar10": "Form: Name",
+        "eVar19": "Form: Location"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Global CTA Button Tracking",
+      "payloadDataElement": "data-CTA Button Click",
+      "replaces": "XDM CTA Button Click",
+      "acdlEvent": "CTAButtonClicked",
+      "linkName": "CTA Button Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event22"
+        }
+      ],
+      "eVars": {
+        "eVar22": "Link: CTA Button Name",
+        "eVar23": "Link: Destination"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Internal Search Click",
+      "payloadDataElement": "data-Internal Search",
+      "replaces": "XDM Internal Search",
+      "acdlEvent": "internalSearch",
+      "linkName": "Internal Search",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event26"
+        }
+      ],
+      "eVars": {
+        "eVar6": "Search: Term",
+        "eVar7": "Search: Results",
+        "eVar8": "Search: Result Page Type"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Internal Search ClickThrough",
+      "payloadDataElement": "data-Internal Search Click Through",
+      "replaces": "XDM Internal Search Click Through",
+      "acdlEvent": "internalSearchClickThrough",
+      "linkName": "Internal Search Click Through",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event7"
+        }
+      ],
+      "eVars": {
+        "eVar6": "Search: Term",
+        "eVar32": "Search: Result Click Name"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Map Button Click",
+      "payloadDataElement": "data-Map Button Click",
+      "replaces": "XDM Map Button Click",
+      "acdlEvent": "mapButtonClick",
+      "linkName": "Map Button Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event32"
+        }
+      ],
+      "eVars": {
+        "eVar49": "Map: Name",
+        "eVar50": "Map: Button Name"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Map Button Close",
+      "payloadDataElement": "data-Map Button Close",
+      "replaces": "XDM Map Button Close",
+      "acdlEvent": "mapButtonClose",
+      "linkName": "Map Button Close",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event33"
+        }
+      ],
+      "eVars": {
+        "eVar49": "Map: Name",
+        "eVar50": "Map: Button Name"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Map Zoom In",
+      "payloadDataElement": "data-Map Zoom In",
+      "replaces": "XDM Map Zoom In",
+      "acdlEvent": "mapZoomIn",
+      "linkName": "Map ZoomIn",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event34"
+        }
+      ],
+      "eVars": {
+        "eVar49": "Map: Name",
+        "eVar50": "Map: Button Name"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Map Zoom Out",
+      "payloadDataElement": "data-Map Zoom Out",
+      "replaces": "XDM Map Zoom Out",
+      "acdlEvent": "mapZoomOut",
+      "linkName": "Map Zoom Out",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event31"
+        }
+      ],
+      "eVars": {
+        "eVar49": "Map: Name",
+        "eVar50": "Map: Button Name"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Menu Link Click Tracking",
+      "payloadDataElement": "data-Menu Click",
+      "replaces": "XDM Menu Click",
+      "acdlEvent": "MenuLinkClicked",
+      "linkName": "Menu Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event23"
+        }
+      ],
+      "eVars": {
+        "eVar24": "Link: Menu Name"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Null Search Tracking",
+      "payloadDataElement": "data-Null Search",
+      "replaces": "XDM Null Search",
+      "acdlEvent": "nullSearch",
+      "linkName": "Null Search",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event6"
+        }
+      ],
+      "eVars": {
+        "eVar6": "Search: Term",
+        "eVar7": "Search: Results",
+        "eVar8": "Search: Result Page Type"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Redirect Link Click Tracking",
+      "payloadDataElement": "data-Redirect Link Click",
+      "replaces": "XDM Redirect Link Click",
+      "acdlEvent": "RedirectLinkClick",
+      "linkName": "Redirect Link Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event21"
+        },
+        {
+          "event": "event22"
+        }
+      ],
+      "eVars": {
+        "eVar21": "Link: Redirect Text",
+        "eVar23": "Link: Destination"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Related Tag Click Tracking",
+      "payloadDataElement": "data-Related Tag",
+      "replaces": "XDM Related Tag",
+      "acdlEvent": "TagClick",
+      "linkName": "Related Tag Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event29"
+        }
+      ],
+      "eVars": {
+        "eVar43": "Link: Related Tag",
+        "eVar46": "Link: Related Tag URL"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Scroll 25 percentage",
+      "payloadDataElement": "data-Scroll 25 Percentage",
+      "replaces": "XDM Scroll 25 Percentage",
+      "acdlEvent": "scrollReach25",
+      "linkName": "Scroll 25 Percentage",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event17"
+        }
+      ],
+      "eVars": {
+        "eVar20": "Scroll Depth"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Scroll 50 percentage",
+      "payloadDataElement": "data-Scroll 50 Percentage",
+      "replaces": "XDM Scroll 50 Percentage",
+      "acdlEvent": "scrollReach50",
+      "linkName": "Scroll 50 Percentage",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event18"
+        }
+      ],
+      "eVars": {
+        "eVar20": "Scroll Depth"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Scroll 75 percentage",
+      "payloadDataElement": "data-Scroll 75 Percentage",
+      "replaces": "XDM Scroll 75 Percentage",
+      "acdlEvent": "scrollReach75",
+      "linkName": "Scroll 75 Percentage",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event19"
+        }
+      ],
+      "eVars": {
+        "eVar20": "Scroll Depth"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Scroll 100 percentage",
+      "payloadDataElement": "data-Scroll 100 Percentage",
+      "replaces": "XDM Scroll 100 Percentage",
+      "acdlEvent": "scrollReach100",
+      "linkName": "Scroll 100 Percentage",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event20"
+        }
+      ],
+      "eVars": {
+        "eVar20": "Scroll Depth"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Search Close Click",
+      "payloadDataElement": "data-Internal Search Close",
+      "replaces": "XDM Internal Search Close",
+      "acdlEvent": "SearchClosed",
+      "linkName": "Internal Search Close Click",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event27"
+        }
+      ],
+      "eVars": {
+        "eVar6": "Search: Term",
+        "eVar7": "Search: Results",
+        "eVar8": "Search: Result Page Type"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Social Interaction Tracking",
+      "payloadDataElement": "data-Social Interaction",
+      "replaces": "XDM Social Interaction",
+      "acdlEvent": "socialInteraction",
+      "linkName": "Social Interaction",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event1"
+        }
+      ],
+      "eVars": {
+        "eVar17": "Social: Interaction Info"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Video Start",
+      "payloadDataElement": "data-Video Start",
+      "replaces": "XDM Video Start",
+      "acdlEvent": "videoPlaying",
+      "linkName": "Video Start",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event11"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video: Name",
+        "eVar35": "Video: Type"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Video 25 percentage complete",
+      "payloadDataElement": "data-Video 25 Percent",
+      "replaces": "XDM Video 25 Percent",
+      "acdlEvent": "videoViewed25",
+      "linkName": "Video 25 Percent completion",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event13"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video: Name"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Video 50 percentage complete",
+      "payloadDataElement": "data-Video 50 Percent",
+      "replaces": "XDM Video 50 Percent",
+      "acdlEvent": "videoViewed50",
+      "linkName": "Video 50 Percent completion",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event14"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video: Name",
+        "eVar35": "Video: Type"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Video 75 percentage complete",
+      "payloadDataElement": "data-Video 75 Percent",
+      "replaces": "XDM Video 75 Percent",
+      "acdlEvent": "videoViewed75",
+      "linkName": "Video 75 Percent completion",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event15"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video: Name",
+        "eVar35": "Video: Type"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Video 100 percentage complete",
+      "payloadDataElement": "data-Video Complete",
+      "replaces": "XDM Video Complete",
+      "acdlEvent": "videoComplete",
+      "linkName": "Video Complete",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event12"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video: Name",
+        "eVar35": "Video: Type"
+      },
+      "acdlTimeScope": "all"
+    },
+    {
+      "rule": "Video Pause",
+      "payloadDataElement": "data-Video Pause",
+      "replaces": "XDM Video Pause",
+      "acdlEvent": "videoPause",
+      "linkName": "Video Pause",
+      "linkType": "o",
+      "events": [
+        {
+          "event": "event28"
+        }
+      ],
+      "eVars": {
+        "eVar11": "Video: Name"
+      },
+      "acdlTimeScope": "all"
+    }
+  ],
+  "anomaliesCarriedForNow": [
+    "event22 is intentionally shared across CTA Button Click, Amazon Redirect Link, Redirect Link Click, Amazon Stories, and More Amazon News (global CTA click metric) \u2014 carried as-is.",
+    "Scroll interaction names carry a leading space in the source (' Scroll 25 Percentage'), trimmed here \u2014 confirm reporting relies on the trimmed form before publish.",
+    "Rule names 'Map  Button Click'/'Map  Button Close' had a double space in the source; normalized to single space.",
+    "Old-property event naming is deliberately inconsistent (moreAmazonNews vs AmazonRedirectLinkClick vs FileDownloaded vs formComplete) \u2014 carried EXACTLY as captured; do not normalize, the site's code owns these strings.",
+    "event28 is double-booked between Video Pause (live in production) and the never-published Article Interaction Tracking draft. The collision is LATENT: production fires event28 only from Video Pause, and this property carries that mapping 1:1. If article tracking is ever revived, assign it a fresh event number (see excludedRules).",
+    "Newsletter Test: DECIDED 2026-07-29 - the live test continues, folded in natively (see the newsletterTest section: scope on the single page-view request, Send-event-complete response handler, display + conversion rules carried; 4 documented deviations from the pilot). The old property's 3 pilot rules stay there and retire at cutover with the embed swap."
+  ],
+  "excludedRules": [
+    {
+      "rule": "Sort By Tracking",
+      "reason": "Enabled in the old property's rule list but NEVER PUBLISHED: the rule's Details panel shows Last Published 'Not yet published', 'No libraries using this revision', status 'Not live', last modified May 2, 2024 (Rounak Kumar) - over a year before the workbook's production build (2025-08-05). Production has never fired sortBy, so carrying it would break parity, and its payload was never finished (single Send event action referencing %XDM Sort By%, an element that is also absent from the production build). Verified from UI screenshots 2026-07-29; the contrast check: the live rule Internal Search ClickThrough's Details panel shows 'Live in production' in the same position.",
+      "acdlEventObserved": "sortBy",
+      "decisionForOwner": "If Amazon News wants sort-by tracking, treat it as NEW scope in the new property: define the payload (eVars/events), add a catalog entry, re-generate. Do not copy the half-built old rule."
+    },
+    {
+      "rule": "All Pages - Library Loaded",
+      "reason": "The live Target v2 rule (workbook-verified: Core Library Loaded -> custom-code targetPageParams() hardcoding at_property 15f050b0-58c7-9ec5-9671-898e7edeb81a -> Adobe Target v2 Load Target -> Fire Page Load with bodyHidingEnabled:false). This is audit Findings 3 and 8 in rule form. Deliberately NOT carried: Target delivery moves to the datastream via renderDecisions:true on the consolidated page view, anti-flicker moves to the prehiding snippet, and the at_property token is governed by the datastream's Target property token instead of custom code.",
+      "disposition": "Superseded by construction - see AUDIT-TRACEABILITY Findings 3, 8 and the two-pathway row."
+    },
+    {
+      "rule": "Article Interaction Tracking",
+      "reason": "Never published, same signature as Sort By Tracking: Details panel shows Enabled but not live, Last Published 'Not yet published', 'No libraries using this revision', last modified by the same author (Rounak Kumar, Dec 202x), and the Send event action's XDM field appears unwired. This CORRECTS an earlier decision in this migration: the rule was first assumed live and carried; the publish-state check flipped it. The workbook's classification of XDM Article as an orphan data element was accurate for production, and the event28 double-booking with Video Pause is LATENT, not active - production fires event28 only from Video Pause.",
+      "acdlEventObserved": "ArticleViewed",
+      "payloadIfRevived": {
+        "linkName": "Article",
+        "linkType": "o",
+        "events": [
+          {
+            "event": "event28"
+          }
+        ],
+        "eVars": {
+          "eVar25": "Content: Publish Date",
+          "eVar37": "Article: Name",
+          "eVar38": "Article: Content Type"
+        },
+        "note": "Preserved from the draft + the XDM Article element (with the broken %Article Publish Date% reference corrected to %Publish Date%). If article tracking becomes real scope, re-number the event away from event28 (Video Pause owns it in production) and add a fresh catalog entry."
+      },
+      "decisionForOwner": "Treat article tracking as new scope; do not copy the half-built draft as-is."
+    }
+  ],
+  "newsletterTest": {
+    "_decision": "Property owner 2026-07-29: the live newsletter sign-up test CONTINUES through cutover, folded in natively (supersedes the old property's 3-rule pilot chain, which stays behind in the old property and retires with it at cutover).",
+    "enabled": true,
+    "scope": "newsletter-signup-contextual",
+    "consentCategory": "C0004",
+    "_consentNote": "Classified Targeting/personalization (C0004) pending MANUAL-STEPS #6 confirmation. When consent gating goes live, the page view's decisionScopes must also be conditioned on this category (or the scope request split back out) - flagged in MANUAL-STEPS #6.",
+    "siteContract": {
+      "flagEvent": "adobeTarget:flag",
+      "flagName": "newsletter:design",
+      "propositionGlobal": "window.__newsletterProposition",
+      "signupDomEvent": "Form:onSuccess",
+      "displaySelector": ".signup-form.interrupter",
+      "_note": "Unchanged from the pilot - zero site-side work required."
+    },
+    "deviationsFromPilot": [
+      "The scope rides the consolidated page view's SINGLE edge request (decisionScopes on the Global Page Load Rule's Send event) - the pilot's separate per-page sendEvent is eliminated.",
+      "The Target answer is consumed via the Web SDK 'Send event complete' rule event instead of a .then() in custom code - same handling, UI-visible rule.",
+      "'Include rendered propositions' is OFF on the display notification (was checked in the pilot, where it was a no-op; here renderDecisions:true would make it over-report).",
+      "The old 'Newsletter Proposition Data Element' is re-specced from Adobe's documented display-notification payload (id/scope/scopeDetails + propositionEventType.display) rather than copied."
+    ],
+    "dataElement": {
+      "name": "Target: Newsletter Proposition Data Element",
+      "codeLines": [
+        "// XDM payload for the 'design was shown' notification (Decisioning Proposition",
+        "// Display). Supplies the newsletter proposition EXPLICITLY because the site -",
+        "// not the SDK - renders this design; 'include rendered propositions' stays OFF",
+        "// so unrelated auto-rendered (VEC) propositions never pollute the test's",
+        "// display counts (deliberate deviation from the pilot, where renderDecisions",
+        "// was never true and the checkbox was a no-op).",
+        "var p = window.__newsletterProposition;",
+        "if (!p) return undefined;",
+        "return {",
+        "  _experience: {",
+        "    decisioning: {",
+        "      propositions: [{ id: p.id, scope: p.scope, scopeDetails: p.scopeDetails }],",
+        "      propositionEventType: { display: 1 }",
+        "    }",
+        "  }",
+        "};"
+      ]
+    },
+    "rules": [
+      {
+        "name": "Newsletter Test: Resolve Experience",
+        "eventType": "send-event-complete",
+        "actionName": "Get Personalization Decision (response handler)",
+        "codeLines": [
+          "// Newsletter sign-up test - CONTINUED from the pilot built in the old property.",
+          "// The page-view request already asked Target for the newsletter scope on the ONE",
+          "// edge call this property makes per page; this rule runs when that call completes",
+          "// and hands Target's answer to the site. Site contract UNCHANGED from the pilot:",
+          "// window.__newsletterProposition + CustomEvent 'adobeTarget:flag'.",
+          "var propositions = (event && event.propositions) || [];",
+          "var match = null;",
+          "for (var i = 0; i < propositions.length; i++) {",
+          "  if (propositions[i].scope === 'newsletter-signup-contextual') { match = propositions[i]; break; }",
+          "}",
+          "if (!match) return; // visitor not in the test, or a send that didn't carry the scope",
+          "window.__newsletterProposition = match; // report-back handle (display + sign-up credit)",
+          "var item = match.items && match.items[0];",
+          "var content = item && item.data && item.data.content;",
+          "if (!content || !content.variant) return;",
+          "window.dispatchEvent(new CustomEvent('adobeTarget:flag', {",
+          "  detail: {",
+          "    name: 'newsletter:design', // which feature this message is about",
+          "    value: content.variant     // which version to show ('contextual' | 'generic' | 'interstitial')",
+          "  }",
+          "}));"
+        ]
+      },
+      {
+        "name": "Newsletter Test: Proposition Display Notification",
+        "eventType": "element-exists",
+        "elementSelector": ".signup-form.interrupter",
+        "eventName": "Contextual Variant Rendered"
+      },
+      {
+        "name": "Newsletter Test: Form Success",
+        "eventType": "custom-event",
+        "domEventType": "Form:onSuccess",
+        "elementSelector": "body",
+        "eventName": "Form Success Event",
+        "actionName": "Send Newsletter Confirmation Event",
+        "codeLines": [
+          "// The message we get when someone actually signs up. It contains:",
+          "// { formName: 'Newsletter Module', location: 'Footer' | 'Article Interrupter' }",
+          "// NOTE (Known Gap, carried from the pilot): location only ever has these two",
+          "// values today - contextual / generic / interstitial are NOT distinguished yet.",
+          "var detail = (event && event.detail) || {};",
+          "var placement = detail.location || 'unknown'; // which part of the page they signed up from",
+          "",
+          "if (window.__newsletterProposition) {",
+          "  // Combined event: tells Target AND Analytics a real sign-up happened, AND",
+          "  // credits the specific design that produced it - both signals on the one",
+          "  // request Target's service actually evaluates.",
+          "  var xdmPayload = {",
+          "    eventType: 'decisioning.propositionInteract',",
+          "    web: {",
+          "      webPageDetails: {",
+          "        name: 'newsletter:confirmation:' + placement,",
+          "        URL: 'newsletter:confirmation:' + placement",
+          "      }",
+          "    },",
+          "    _experience: {",
+          "      decisioning: {",
+          "        propositions: [window.__newsletterProposition],",
+          "        propositionEventType: { interact: 1 }",
+          "      }",
+          "    }",
+          "  };",
+          "  console.log('[Newsletter Test] Sending combined confirmation event:', xdmPayload);",
+          "  alloy('sendEvent', { xdm: xdmPayload });",
+          "} else {",
+          "  // Fallback: proposition unavailable - still record the confirmation so",
+          "  // Analytics has the signal, even though Target attribution is lost.",
+          "  console.warn('[Newsletter Test] No proposition on window.__newsletterProposition - falling back to plain pageview (Target attribution lost for this signup).');",
+          "  alloy('sendEvent', {",
+          "    xdm: {",
+          "      eventType: 'web.webpagedetails.pageViews',",
+          "      web: {",
+          "        webPageDetails: {",
+          "          name: 'newsletter:confirmation:' + placement,",
+          "          URL: 'newsletter:confirmation:' + placement",
+          "        }",
+          "      }",
+          "    }",
+          "  });",
+          "}"
+        ]
+      }
+    ]
+  },
+  "_reportSuiteReconciliation": {
+    "_purpose": "Cross-check of the aboutamznprod report suite's eVar map (captured 2026-07-29) against what THIS build populates. Confirms full parity with the old Launch property and documents every report-suite eVar left unpopulated, so none is a silent gap.",
+    "parity": "Every eVar the old Launch property populated (per the Launch Inspector workbook), this build populates. No migration drop.",
+    "definedButNotPopulated": {
+      "eVar14 ECID": "Expected under Web SDK - the SDK manages identity natively; ECID is no longer captured into an eVar. The source's ECID element was a broken recursive stub (excluded).",
+      "eVar16 Internal Campaign Displayed": "Not present anywhere in the workbook - the old Launch property never sent it. Related to the deferred internal-campaign feature (eVar5). Carried-forward parity = stays empty. Client decision if wanted.",
+      "eVar26 Content Type": "Duplicate label of eVar9 (populated by Content: Type). Appears to be an unused report-suite duplicate; the old property populated eVar9, not eVar26.",
+      "eVar31 MetaTags": "Not in the workbook - old property never sent it. Client decision if wanted.",
+      "eVar51-54 Audio (Title/Action/Duration/Percent Played)": "NO audio tracking exists in the old Launch property (zero 'audio' references in the entire workbook). Audio Duration/Percent Played are Media-Collection-SDK style metrics, collected separately from data-layer rules. NOT a migration gap - net-new scope if the client wants audio tracking (would use Web SDK media collection, not a simple data element). Video milestones ARE carried (event-based rules), audio is not."
+    },
+    "note": "eVar36 is undefined/disabled in the report suite (list skips 35 -> 37); not populated by either property. Minor label observation: report suite labels eVar28 'Amazon Redirect Link' but the old property sends redirect link TEXT there (parity carried as-is; flag to analytics owner).",
+    "props": {
+      "parity": "18 of 20 report-suite props populated (full parity with the old property).",
+      "prop19 Site Error": "Report suite defines it; the old property captured Site Error only in list1. Added prop19 = Site Error (owner request 'use all props') alongside the list, wherever list1 Site Error is set (page view + site error). Net-new vs the old property, minor.",
+      "prop13 ECID": "DELIBERATELY NOT populated. Under Web SDK the SDK manages ECID/identity natively; capturing it into a prop is redundant and against Adobe guidance. The source's ECID element was a broken recursive stub (excluded). Leaving prop13 empty is correct Web SDK design, not a gap - confirm with the client if they specifically want ECID surfaced in a prop."
+    },
+    "events": {
+      "parity": "Every event the old Launch property sent, this build sends. The report suite defines more events than the property ever used.",
+      "definedButNotSent": {
+        "event3 Internal Campaign Click": "Not in the workbook - old property never sent it (part of the deferred internal-campaign feature; event4 Impressions is likewise filtered out).",
+        "event5 Internal Search": "Not in the workbook - the property used event26 (Internal Search Click) for the search action, not event5. Report-suite definition, unused.",
+        "event35-39 Audio (Start/Complete/Milestone 25/50/75%)": "No audio tracking in the old property. Together with eVar51-54, AUDIO is a COMPLETE tracking feature defined in the report suite (events + eVars) but NEVER implemented in Launch - provisioned-but-unbuilt, or via a separate media SDK. Net-new scope if the client wants it (Web SDK media collection)."
+      },
+      "audioSummary": "AUDIO spans events 35-39 + eVars 51-54 in the report suite, zero implementation in the old Launch property. Video IS implemented (event-based milestone rules); audio is not. Flagged for the client as a use-or-drop decision."
+    },
+    "listVars": {
+      "list1": "SHARED error list: Page: Error (page view + Site Error rule) AND Form: Error Name (Form Error Tracking). Carried from source (parity) - confirm with analytics owner it is an intended unified error list.",
+      "list2": "Content: Hidden Tags (page view).",
+      "list3": "Not populated by this build. Report suite List Variables config not captured - provide it (Admin > Report Suite > Edit Settings > Conversion > List Variables) for a full names/delimiters reconciliation.",
+      "note": "Adobe supports list1-3. This build uses list1 + list2; list3 unused."
+    }
+  }
+}

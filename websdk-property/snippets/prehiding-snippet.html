@@ -1,0 +1,30 @@
+<!--
+  Prehiding snippet — audit Findings 6 + 8 (FOOC / flash of original content).
+
+  WHY: The Web SDK renders Target experiences when the page-view sendEvent
+  returns (renderDecisions: true). With an async Launch embed — and especially
+  with the current Next.js lazyOnload strategy — the page paints BEFORE Launch
+  loads, so personalized content visibly swaps in late. This snippet hides the
+  page (or a container) immediately, inline, and un-hides when decisions are
+  applied or after a 3s safety timeout, whichever comes first.
+
+  WHERE: Inline in <head>, BEFORE the Launch <script> tag. It must NOT be
+  loaded through Launch itself — that defeats the point. Pair this with the
+  embed-strategy change in docs/MANUAL-STEPS.md #5 (move Launch off lazyOnload).
+
+  SCOPE: `body { opacity: 0 !important }` hides the whole page, matching the
+  prehidingStyle configured in the Web SDK extension (catalog/property.json).
+  If Amazon prefers hiding only personalized regions, narrow BOTH selectors to
+  the container(s) Target actually modifies — keep them identical.
+-->
+<script>
+  !(function (n, e) {
+    var t = document.createElement("style");
+    t.id = "alloy-prehiding";
+    t.innerText = n;
+    document.head.appendChild(t);
+    setTimeout(function () {
+      t.parentNode && t.parentNode.removeChild(t);
+    }, e);
+  })("body { opacity: 0 !important }", 3000);
+</script>
