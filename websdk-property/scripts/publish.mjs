@@ -44,6 +44,7 @@ import {
   findOrCreateDataElement,
   findOrCreateRule,
   addRuleComponent,
+  listRuleComponents,
   findOrCreateLibrary,
   addResourceToLibrary,
   buildLibrary,
@@ -179,16 +180,6 @@ async function provisionRules(propertyId, bp, extensionsByName, resolver, dataEl
     const rule = await findOrCreateRule(propertyId, { name: r.name });
     console.log(`✓ rule verified: ${rule.id} "${rule.attributes.name}"`);
 
-    // Components are added to freshly created rules. If the rule already had
-    // components we leave them alone (idempotency at the rule level). We detect
-    // "fresh" via created_at vs updated_at being effectively equal is brittle,
-    // so we instead only add components when the rule reports zero of them.
-    const hasComponents =
-      rule.relationships &&
-      rule.relationships.rule_components &&
-      rule.relationships.rule_components.data &&
-      rule.relationships.rule_components.data.length > 0;
-
     const extIdFor = (component) => {
       const extName = component.extension || 'core';
       const ext = extensionsByName[extName];
@@ -201,63 +192,94 @@ async function provisionRules(propertyId, bp, extensionsByName, resolver, dataEl
       return ext.id;
     };
 
-    if (!hasComponents) {
-      // Event(s)
-      const evs = r.event ? [r.event] : r.events || [];
-      for (const ev of evs) {
-        await addRuleComponent(
-          rule.id,
-          {
-            name: `${r.name} :: event`,
-            delegate_descriptor_id: resolver.resolve(
-              ev.delegate_descriptor_id || `${ev.extension || 'core'}::events::${ev.type}`,
-              ev.delegateDisplayName,
-            ),
-            settings: JSON.stringify(ev.settings || {}),
-            order: 0,
-          },
-          extIdFor(ev),
-        );
-      }
-      // Conditions
-      let order = 0;
-      for (const cond of r.conditions || []) {
-        order += 1;
-        await addRuleComponent(
-          rule.id,
-          {
-            name: `${r.name} :: condition`,
-            delegate_descriptor_id: resolver.resolve(
-              cond.delegate_descriptor_id || `${cond.extension || 'core'}::conditions::${cond.type}`,
-              cond.delegateDisplayName,
-            ),
-            settings: JSON.stringify(cond.settings || {}),
-            negate: cond.negate === true,
-            order,
-          },
-          extIdFor(cond),
-        );
-      }
-      // Actions
-      for (const act of r.actions || []) {
-        order += 1;
-        await addRuleComponent(
-          rule.id,
-          {
-            name: `${r.name} :: action`,
-            delegate_descriptor_id: resolver.resolve(
-              act.delegate_descriptor_id || `${act.extension || 'core'}::actions::${act.type}`,
-              act.delegateDisplayName,
-            ),
-            settings: resolveDeIds(JSON.stringify(act.settings || {})),
-            order,
-          },
-          extIdFor(act),
-        );
-      }
-    } else {
-      console.log(`  (rule already has components — left unchanged)`);
+    // Build the ordered set of components this rule SHOULD have — event(s),
+    // conditions, then actions — each with its resolved delegate descriptor and
+    // the attributes needed to create it (action settings get RESOLVE-DE-ID
+    // substituted here, same as before).
+    const want = [];
+    const evs = r.event ? [r.event] : r.events || [];
+    for (const ev of evs) {
+      const descriptor = resolver.resolve(
+        ev.delegate_descriptor_id || `${ev.extension || 'core'}::events::${ev.type}`,
+        ev.delegateDisplayName,
+      );
+      want.push({
+        kind: 'event',
+        extension: ev.extension,
+        descriptor,
+        attrs: {
+          name: `${r.name} :: event`,
+          delegate_descriptor_id: descriptor,
+          settings: JSON.stringify(ev.settings || {}),
+          order: 0,
+        },
+      });
     }
+    let order = 0;
+    for (const cond of r.conditions || []) {
+      order += 1;
+      const descriptor = resolver.resolve(
+        cond.delegate_descriptor_id || `${cond.extension || 'core'}::conditions::${cond.type}`,
+        cond.delegateDisplayName,
+      );
+      want.push({
+        kind: 'condition',
+        extension: cond.extension,
+        descriptor,
+        attrs: {
+          name: `${r.name} :: condition`,
+          delegate_descriptor_id: descriptor,
+          settings: JSON.stringify(cond.settings || {}),
+          negate: cond.negate === true,
+          order,
+        },
+      });
+    }
+    for (const act of r.actions || []) {
+      order += 1;
+      const descriptor = resolver.resolve(
+        act.delegate_descriptor_id || `${act.extension || 'core'}::actions::${act.type}`,
+        act.delegateDisplayName,
+      );
+      want.push({
+        kind: 'action',
+        extension: act.extension,
+        descriptor,
+        attrs: {
+          name: `${r.name} :: action`,
+          delegate_descriptor_id: descriptor,
+          settings: resolveDeIds(JSON.stringify(act.settings || {})),
+          order,
+        },
+      });
+    }
+
+    // Reconcile at the COMPONENT level, not the rule level. Tally the rule's
+    // existing components by descriptor, then add only the ones it is missing.
+    // This backfills a rule that was created with just its event but no actions
+    // (a partial/interrupted earlier publish) instead of skipping it whole
+    // because it already had "a" component.
+    const existing = await listRuleComponents(rule.id);
+    const haveByDescriptor = {};
+    for (const c of existing || []) {
+      const d = c && c.attributes && c.attributes.delegate_descriptor_id;
+      if (d) haveByDescriptor[d] = (haveByDescriptor[d] || 0) + 1;
+    }
+    let added = 0;
+    for (const comp of want) {
+      if (haveByDescriptor[comp.descriptor] > 0) {
+        haveByDescriptor[comp.descriptor] -= 1; // already present — leave it
+        continue;
+      }
+      await addRuleComponent(rule.id, comp.attrs, extIdFor(comp));
+      added += 1;
+      console.log(`  + backfilled ${comp.kind}: ${comp.descriptor}`);
+    }
+    console.log(
+      added === 0
+        ? `  (all ${want.length} components present — left unchanged)`
+        : `  reconciled: added ${added} of ${want.length} components`,
+    );
     rules.push(rule);
   }
   return rules;
