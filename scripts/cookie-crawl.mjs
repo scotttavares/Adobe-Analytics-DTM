@@ -51,7 +51,11 @@ const catalog = JSON.parse(readFileSync(join(here, 'cookie-catalog.json'), 'utf8
   .map((e) => ({ ...e, re: new RegExp(e.pattern) }));
 function classify(name) {
   for (const e of catalog) if (e.re.test(name)) return e;
-  return { provider: 'Unknown', category: 'unknown', note: 'Not in catalog — classify manually' };
+  return {
+    provider: 'Unknown', company: 'Unknown', category: 'unknown',
+    description: 'Not in the curated database — identify and add it to scripts/cookie-catalog.json.',
+    dataCollected: '', privacyPolicy: null,
+  };
 }
 const key = (c) => c.name + '@' + c.domain + c.path;
 
@@ -113,7 +117,8 @@ const inventory = cookies.map((c) => {
     name: c.name, domain: c.domain, path: c.path,
     httpOnly: c.httpOnly, secure: c.secure, sameSite: c.sameSite,
     expiresDays: c.expires && c.expires > 0 ? Math.round((c.expires * 1000 - Date.now()) / 86400000) : 'session',
-    provider: m.provider, category: m.category, note: m.note,
+    provider: m.provider, company: m.company, category: m.category,
+    description: m.description, dataCollected: m.dataCollected, privacyPolicy: m.privacyPolicy,
     firstSeen: firstSeen[key(c)] || START,
   };
 }).sort((a, b) => (a.category + a.name).localeCompare(b.category + b.name));
@@ -163,7 +168,12 @@ function renderHtml(r) {
     <td>${c.httpOnly ? 'HttpOnly ' : ''}${c.secure ? 'Secure' : ''}</td>
     <td>${esc(c.expiresDays)}</td>
     <td class="src"><a href="${esc(c.firstSeen)}">${esc(c.firstSeen.replace(r.origin, '') || '/')}</a></td>
-  </tr>`).join('');
+  </tr>
+  <tr class="detail"><td colspan="7">
+    <div>${esc(c.description || '')}</div>
+    ${c.dataCollected ? `<div><strong>Data collected:</strong> ${esc(c.dataCollected)}</div>` : ''}
+    <div class="who"><strong>${esc(c.company || c.provider)}</strong>${c.privacyPolicy ? ` · <a href="${esc(c.privacyPolicy)}" target="_blank" rel="noopener">Privacy policy ↗</a>` : ' · no public privacy policy on file'}</div>
+  </td></tr>`).join('');
   const newBlock = r.new.length
     ? `<div class="alert new"><strong>${r.new.length} new cookie(s) since the last crawl:</strong> ${r.new.map((c) => `<code>${esc(c.name)}</code>`).join(' ')}</div>`
     : (r.firstRun ? '<div class="alert">First run — baseline created. Future crawls will flag anything new.</div>' : '<div class="alert ok">No new cookies since the last crawl.</div>');
@@ -185,6 +195,8 @@ function renderHtml(r) {
   code{background:#f4f4f6;padding:1px 5px;border-radius:4px;font-size:12px}
   .pill{color:#fff;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600}
   .src a{color:#1565c0;text-decoration:none}
+  tr.detail td{padding-top:0;color:#555;font-size:12px;background:#fafbfc;border-bottom:2px solid #eef0f3}
+  tr.detail a{color:#1565c0} tr.detail .who{margin-top:3px}
 </style></head><body>
 <h1>Cookie crawl — ${esc(r.origin)}</h1>
 <p class="meta">${esc(r.generatedAt)} · ${r.pagesCrawled} pages crawled · ${r.cadence} cadence${r.pagesErrored ? ' · ' + r.pagesErrored + ' page error(s)' : ''}</p>

@@ -224,6 +224,19 @@
 
   .disc { background:rgba(255,204,115,.07); border:1px solid rgba(255,204,115,.2); border-radius:12px;
           padding:14px 18px; font-size:13.5px; color:var(--ink-dim); margin-top:26px; }
+
+  /* GPC / DNT acknowledgment toast */
+  .signal-toast { position:fixed; left:18px; bottom:18px; z-index:2147482500; max-width:360px;
+    display:flex; gap:10px; align-items:flex-start; padding:13px 15px; border-radius:12px;
+    background:var(--navy-1); border:1px solid var(--line-2); color:var(--ink);
+    box-shadow:0 10px 30px rgba(0,0,0,.28); font-size:13.5px; line-height:1.5;
+    transform:translateY(14px); opacity:0; transition:opacity .25s ease, transform .25s ease; }
+  .signal-toast.show { transform:none; opacity:1; }
+  .signal-toast svg { width:18px; height:18px; flex:0 0 auto; stroke:var(--mint); margin-top:1px; }
+  .signal-toast button { margin-left:2px; background:none; border:0; color:var(--ink-faint);
+    font-size:18px; line-height:1; cursor:pointer; padding:0 2px; flex:0 0 auto; }
+  .signal-toast button:hover { color:var(--ink); }
+  @media (prefers-reduced-motion: reduce) { .signal-toast { transition:none; } }
 </style>
 </head>
 <body>
@@ -551,8 +564,8 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
       </div>
       <div class="tbl-scroll">
         <table class="tbl">
-          <thead><tr><th>Name</th><th>Where</th><th>Value (preview)</th></tr></thead>
-          <tbody id="scanBody"><tr><td colspan="3" class="no">Click "Scan now" to read this browser's cookies + storage.</td></tr></tbody>
+          <thead><tr><th>Cookie</th><th>Provider · category</th><th>Value</th></tr></thead>
+          <tbody id="scanBody"><tr><td colspan="3" class="no">Click "Scan now" to read this browser's cookies + storage, classified against the curated DB.</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -806,11 +819,36 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
 
   // inspector buttons
   function onClick(id, fn) { var el = document.getElementById(id); if (el) el.addEventListener('click', fn); }
+
+  // Re-apply a decision straight to the active stack's adapters. Each adapter
+  // feature-detects its target, so Web SDK mode fires only alloy + dataLayer +
+  // _satellite, and Classic mode fires only Opt-In + AppMeasurement + dataLayer +
+  // _satellite. Used when a choice doesn't change the decision (see decide()).
+  function replayStack(decision) {
+    var m = mgr(); if (!m || !m.adobe) return;
+    var a = m.adobe;
+    try { a.webSdk.send(decision); } catch (e) {}
+    try { a.optIn.send(decision); } catch (e) {}
+    try { a.analytics.apply(decision); } catch (e) {}
+    try { a.dataLayer.push(decision); } catch (e) {}
+    try { a.launch.fire(decision); } catch (e) {}
+  }
+
   // Deciding from a control outside the banner should also dismiss the banner,
-  // exactly as a site's own custom accept button would.
-  onClick('acAccept', function () { var m = mgr(); if (m) { m.acceptAll(); m.hideBanner(); } });
-  onClick('acReject', function () { var m = mgr(); if (m) { m.rejectAll(); m.hideBanner(); } });
-  onClick('acAnalytics', function () { var m = mgr(); if (m) { m.save({ analytics: true }); m.hideBanner(); } });
+  // exactly as a site's own custom accept button would. If the choice matches the
+  // decision already in force (e.g. "Reject all" in an opt-in region, where the
+  // default is already all-denied), the engine emits no change — by design — so no
+  // adapter fires. Replay it in that case so the demo always shows what the choice sends.
+  function decide(act) {
+    var m = mgr(); if (!m) return;
+    var before = JSON.stringify(m.decision);
+    var n = (window.__acCalls || []).length;
+    act(m); m.hideBanner();
+    if (JSON.stringify(m.decision) === before && (window.__acCalls || []).length === n) replayStack(m.decision);
+  }
+  onClick('acAccept', function () { decide(function (m) { m.acceptAll(); }); });
+  onClick('acReject', function () { decide(function (m) { m.rejectAll(); }); });
+  onClick('acAnalytics', function () { decide(function (m) { m.save({ analytics: true }); }); });
   onClick('acReopen', function () { var m = mgr(); if (m) m.reset(); });
   onClick('acClear', function () {
     if (!logEl) return;
@@ -837,13 +875,11 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
       });
       if (!logEl) return;
       logEl.textContent = '';
-      var note = document.createElement('div');
-      note.className = 'empty';
-      note.textContent = mode === 'classic'
-        ? 'Classic page now (AppMeasurement + ECID Opt-In, no Web SDK) — click a choice.'
-        : 'Web SDK page now (alloy, no AppMeasurement / Opt-In) — click a choice.';
-      logEl.appendChild(note);
       if (window.__acCalls) window.__acCalls.length = 0;
+      window.__acLog('stack', mode === 'classic'
+        ? 'switched to Classic — AppMeasurement + ECID (no Web SDK)'
+        : 'switched to Web SDK — alloy (no AppMeasurement / Opt-In)');
+      replayStack((mgr() && mgr().decision) || {});
     });
   }
   onClick('launchBanner', function () { var m = mgr(); if (m) m.reset(); });
@@ -939,7 +975,33 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
     });
   });
 
-  // ---- runtime cookie scanner (live observation, not a pre-deploy crawl) ---
+  // ---- runtime cookie scanner — annotates each cookie against the curated DB.
+  // The authoritative database is scripts/cookie-catalog.json (used by the
+  // pre-deploy crawler); this is a compact mirror for the live widget.
+  var CC_DB = [
+    { p: /^(clearconsent|cc_|ac_)/, who: 'ClearConsent', cat: 'essential', desc: 'Stores your consent decision so it is remembered and not re-prompted.', pol: 'https://github.com/scotttavares/Adobe-Analytics-DTM' },
+    { p: /^_ga($|_)/, who: 'Google Analytics 4', cat: 'analytics', desc: 'Assigns a random client id to count sessions and users for aggregate analytics.', pol: 'https://policies.google.com/privacy' },
+    { p: /^(_gid|_gat|__utm[abcz])/, who: 'Google Analytics (Universal)', cat: 'analytics', desc: 'Legacy Universal Analytics ids and request rate limiting.', pol: 'https://policies.google.com/privacy' },
+    { p: /^_gcl_/, who: 'Google Ads', cat: 'advertising', desc: 'Links an ad click to a later conversion for campaign measurement.', pol: 'https://policies.google.com/technologies/ads' },
+    { p: /^(IDE|test_cookie|__gads)$/, who: 'Google DoubleClick', cat: 'advertising', desc: 'Builds an interest profile to serve and measure targeted ads across sites.', pol: 'https://policies.google.com/technologies/ads' },
+    { p: /^(_fbp|_fbc|fr)$/, who: 'Meta Pixel', cat: 'advertising', desc: 'Identifies the browser to deliver and measure Facebook/Meta ads.', pol: 'https://www.facebook.com/privacy/policy/' },
+    { p: /^(AMCV_|AMCVS_|s_ecid|kndctr_)/, who: 'Adobe Experience Cloud ID', cat: 'analytics', desc: 'A shared Adobe visitor id used across Analytics, Target, and AEP.', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(s_cc|s_sq|s_vi|s_fid)/, who: 'Adobe Analytics', cat: 'analytics', desc: 'AppMeasurement cookies for site analytics.', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(mbox|at_check)$/, who: 'Adobe Target', cat: 'personalization', desc: 'Runs A/B tests and remembers which experience you were shown.', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(demdex|dpm)$/, who: 'Adobe Audience Manager', cat: 'advertising', desc: 'A cross-site id used to build and share audience segments.', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(bcookie|li_gc|lidc|UserMatchHistory)$/, who: 'LinkedIn', cat: 'advertising', desc: 'Ad targeting, conversion tracking, and id syncing.', pol: 'https://www.linkedin.com/legal/privacy-policy' },
+    { p: /^(_uetsid|_uetvid|MUID)$/, who: 'Microsoft Ads', cat: 'advertising', desc: 'Universal Event Tracking for ad conversions and targeting.', pol: 'https://privacy.microsoft.com/privacystatement' },
+    { p: /^(_hjSession|_hjid)/, who: 'Hotjar', cat: 'analytics', desc: 'Records a pseudonymous session for heatmaps and replay.', pol: 'https://www.hotjar.com/legal/policies/privacy/' },
+    { p: /^(__cf_bm|cf_clearance)$/, who: 'Cloudflare', cat: 'essential', desc: 'Bot management and load balancing.', pol: 'https://www.cloudflare.com/privacypolicy/' },
+    { p: /^(PHPSESSID|JSESSIONID|connect\.sid)$/, who: 'Application server', cat: 'essential', desc: 'Server session cookie for your logged-in session.', pol: null },
+    { p: /^(OptanonConsent|OptanonAlertBoxClosed)/, who: 'OneTrust', cat: 'essential', desc: "A competing CMP's stored consent state.", pol: 'https://www.onetrust.com/privacy-notice/' }
+  ];
+  var CC_CAT = { essential: '#2e7d32', analytics: '#1565c0', personalization: '#6a1b9a', advertising: '#c62828', unknown: '#b26a00', storage: '#555' };
+  function ccClassify(name) {
+    for (var i = 0; i < CC_DB.length; i++) if (CC_DB[i].p.test(name)) return CC_DB[i];
+    return { who: 'Unknown', cat: 'unknown', desc: 'Not in the curated database — worth identifying before you ship.', pol: null };
+  }
+
   var scanBtn = document.getElementById('scanBtn');
   if (scanBtn) {
     scanBtn.addEventListener('click', function () {
@@ -948,13 +1010,12 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
       var rows = [];
       (document.cookie ? document.cookie.split('; ') : []).forEach(function (pair) {
         var i = pair.indexOf('=');
-        rows.push({ name: i < 0 ? pair : pair.slice(0, i), where: 'cookie',
-          val: i < 0 ? '' : decodeURIComponent(pair.slice(i + 1)) });
+        rows.push({ name: i < 0 ? pair : pair.slice(0, i), where: 'cookie', val: i < 0 ? '' : decodeURIComponent(pair.slice(i + 1)) });
       });
       try {
         for (var k = 0; k < localStorage.length; k++) {
-          var key = localStorage.key(k);
-          rows.push({ name: key, where: 'localStorage', val: String(localStorage.getItem(key) || '') });
+          var kk = localStorage.key(k);
+          rows.push({ name: kk, where: 'localStorage', val: String(localStorage.getItem(kk) || '') });
         }
       } catch (e) { /* storage partitioned/blocked */ }
       body.textContent = '';
@@ -965,16 +1026,26 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
         tr0.appendChild(td0); body.appendChild(tr0);
       } else {
         rows.forEach(function (r) {
+          var info = r.where === 'cookie' ? ccClassify(r.name) : { who: 'Browser storage', cat: 'storage', desc: '', pol: null };
           var tr = document.createElement('tr');
-          var n = document.createElement('td'); n.textContent = r.name; n.style.fontWeight = '600';
-          var w = document.createElement('td'); w.textContent = r.where;
+          var n = document.createElement('td'); n.innerHTML = '<code>' + r.name + '</code>';
+          var w = document.createElement('td');
+          w.innerHTML = '<span style="display:inline-block;padding:2px 8px;font-size:11px;font-weight:600;border-radius:999px;color:#fff;background:' +
+            (CC_CAT[info.cat] || '#666') + '">' + info.cat + '</span> ' + info.who;
           var v = document.createElement('td');
-          v.textContent = (r.val.length > 64 ? r.val.slice(0, 64) + '…' : r.val) || '(empty)';
+          v.textContent = (r.val.length > 40 ? r.val.slice(0, 40) + '…' : r.val) || '(empty)';
           tr.appendChild(n); tr.appendChild(w); tr.appendChild(v);
           body.appendChild(tr);
+          if (info.desc) {
+            var dr = document.createElement('tr');
+            var dc = document.createElement('td'); dc.colSpan = 3;
+            dc.style.cssText = 'padding-top:0;color:var(--ink-dim);font-size:12.5px';
+            dc.innerHTML = info.desc + (info.pol ? ' · <a href="' + info.pol + '" target="_blank" rel="noopener">Privacy policy ↗</a>' : '');
+            dr.appendChild(dc); body.appendChild(dr);
+          }
         });
       }
-      if (count) count.textContent = rows.length + ' found · read live from this browser';
+      if (count) count.textContent = rows.length + ' found · classified against the curated DB';
     });
   }
 
@@ -1006,6 +1077,29 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
       });
     });
   }
+
+  // ---- acknowledge a GPC / DNT browser signal on page load ----------------
+  // Shows only when the visitor's browser actually sends the signal, so most
+  // people never see it — but those who set it get a clear "we heard you."
+  (function () {
+    var gpc = navigator.globalPrivacyControl === true;
+    var dnt = navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.msDoNotTrack === '1';
+    if (!gpc && !dnt) return;
+    var msg = gpc
+      ? 'Global Privacy Control detected — honored automatically. Analytics and advertising are off; nothing for you to do.'
+      : 'Do Not Track detected — treated as an advisory rejection. (GPC is the enforceable signal.)';
+    var t = document.createElement('div');
+    t.className = 'signal-toast'; t.setAttribute('role', 'status');
+    t.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3 5 6v5c0 4 3 7 7 8 4-1 7-4 7-8V6l-7-3Z"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var span = document.createElement('span'); span.textContent = msg;
+    var btn = document.createElement('button'); btn.type = 'button'; btn.setAttribute('aria-label', 'Dismiss'); btn.textContent = '×';
+    t.appendChild(span); t.appendChild(btn);
+    document.body.appendChild(t);
+    requestAnimationFrame(function () { t.classList.add('show'); });
+    var close = function () { t.classList.remove('show'); setTimeout(function () { if (t.parentNode) t.remove(); }, 300); };
+    btn.addEventListener('click', close);
+    setTimeout(close, 9000);
+  })();
 })();
 </script>
 </body>
