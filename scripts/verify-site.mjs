@@ -119,6 +119,16 @@ check('footer link opens the preference center', await dialog.isVisible().catch(
 await page.keyboard.press('Escape');
 await page.waitForTimeout(200);
 
+// --- GPC preview toggle forces the signal and shows the in-dialog note ---
+await page.locator('#previewGpc').click();
+await page.waitForTimeout(300);
+check('GPC preview opens the dialog with the honored note',
+  (await page.locator('.signal-note[data-signal="gpc"]').count()) === 1);
+await page.keyboard.press('Escape');
+await page.waitForTimeout(200);
+check('closing the preview reverts the forced GPC signal',
+  await page.evaluate(() => window.globalPrivacyControl !== true));
+
 await page.locator('.install-tabs button', { hasText: 'npm' }).click();
 await page.waitForTimeout(150);
 check('install tab switches to the npm panel', (await page.locator('#p-npm.active').count()) === 1);

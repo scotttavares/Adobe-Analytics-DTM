@@ -548,6 +548,11 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
       <div class="pill"><b>DNT — read, but honestly legacy</b>Do Not Track is supported as a signal, but no law mandates honoring it and browsers have largely dropped it. GPC is its enforceable successor. We treat a present DNT header as an advisory rejection hint, never as a compliance guarantee.</div>
     </div>
 
+    <div style="margin-top:18px; display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+      <button class="btn-mini accent" id="previewGpc" type="button">Preview a GPC visitor &rarr;</button>
+      <span class="flag-note" style="margin-top:0;">Forces a Global Privacy Control signal and opens this site's own preference center, so you can see the in-dialog acknowledgment. Reverts the moment you close it.</span>
+    </div>
+
     <div class="disc">This is engineering, not legal advice. Which regimes apply to you, your category
       definitions, your copy, and your retention still need a lawyer's eye.</div>
   </div>
@@ -889,6 +894,17 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
   onClick('launchBanner', function () { var m = mgr(); if (m) m.reset(); });
   onClick('launchBanner2', function () { var m = mgr(); if (m) m.reset(); });
   onClick('footerPrefs', function () { var m = mgr(); if (m) m.openPreferences(); });
+
+  // ---- preview: force a GPC signal and show the in-dialog acknowledgment ----
+  // Reuses the site's own live instance (it honors GPC by default) and reverts
+  // the forced signal on close, so the demo leaves nothing behind.
+  onClick('previewGpc', function () {
+    var m = mgr(); if (!m) return;
+    window.globalPrivacyControl = true;
+    function restore() { window.globalPrivacyControl = false; m.off('hide', restore); }
+    m.on('hide', restore);
+    m.openPreferences();
+  });
 
   // ---- region resolver (real engine, headless, no side effects) -----------
   var AC = window.ClearConsent;
