@@ -106,6 +106,15 @@ export interface UiText {
   cookieTableProvider?: string;
   cookieTablePurpose?: string;
   cookieTableDuration?: string;
+  /** Acknowledgment shown atop the dialog when a GPC signal is honored (binding). */
+  signalGpcTitle?: string;
+  signalGpcBody?: string;
+  /** Acknowledgment shown when a DNT signal is honored (advisory, not binding). */
+  signalDntTitle?: string;
+  signalDntBody?: string;
+  /** Optional "learn more" link on the signal acknowledgment; hidden without a URL. */
+  signalMoreInfo?: string;
+  signalMoreInfoUrl?: string;
 }
 
 export interface ThemeOptions {

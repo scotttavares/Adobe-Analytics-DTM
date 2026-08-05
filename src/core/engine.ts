@@ -170,6 +170,15 @@ export class ConsentEngine {
     return this.pendingDecision;
   }
 
+  /**
+   * Which universal opt-out signal is active *and* honored by config, or null.
+   * Lets the UI acknowledge a GPC/DNT visitor without re-deriving the honor
+   * rule that `start()` already applies.
+   */
+  activeSignal(): 'gpc' | 'dnt' | null {
+    return shouldAutoReject(!!this.config.honorGpc, !!this.config.honorDnt);
+  }
+
   getState(): ConsentState | null {
     return this.state ? { ...this.state, categories: { ...this.state.categories } } : null;
   }

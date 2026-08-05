@@ -197,6 +197,44 @@ describe('consent banner', () => {
     badge.click();
     expect(banner.isVisible()).toBe(true);
   });
+
+  it('acknowledges a GPC visitor with a note above the title', () => {
+    (window as unknown as { globalPrivacyControl?: boolean }).globalPrivacyControl = true;
+    try {
+      const { banner } = setup();
+      banner.open('preferences');
+
+      const note = shadow().querySelector('.signal-note')!;
+      expect(note).toBeTruthy();
+      expect(note.getAttribute('data-signal')).toBe('gpc');
+      expect(note.getAttribute('role')).toBe('status');
+
+      // It leads the dialog — the first of note/title inside the panel is the note.
+      const lead = shadow().querySelector('.panel .signal-note, .panel .title')!;
+      expect(lead.classList.contains('signal-note')).toBe(true);
+    } finally {
+      delete (window as unknown as { globalPrivacyControl?: boolean }).globalPrivacyControl;
+    }
+  });
+
+  it('acknowledges DNT plainly, tagged as the advisory signal', () => {
+    (window as unknown as { doNotTrack?: string }).doNotTrack = '1';
+    try {
+      const { banner } = setup({ honorDnt: true });
+      banner.open('preferences');
+
+      const note = shadow().querySelector('.signal-note')!;
+      expect(note.getAttribute('data-signal')).toBe('dnt');
+    } finally {
+      delete (window as unknown as { doNotTrack?: string }).doNotTrack;
+    }
+  });
+
+  it('shows no signal note for an ordinary visitor', () => {
+    const { banner } = setup();
+    banner.open('notice');
+    expect(shadow().querySelector('.signal-note')).toBeNull();
+  });
 });
 
 describe('tag auto-blocking', () => {

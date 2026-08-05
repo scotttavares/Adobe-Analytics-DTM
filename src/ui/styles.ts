@@ -293,6 +293,42 @@ button.secondary:hover { background: rgba(255, 255, 255, 0.08); }
 }
 .link-row a:hover { color: var(--ac-text); }
 
+.signal-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 16px;
+  margin: 0 0 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--ac-surface-alt);
+}
+.signal-note svg { width: 22px; height: 22px; flex: 0 0 auto; margin-top: 1px; }
+.signal-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.signal-title { font-size: 14.5px; font-weight: 600; letter-spacing: -0.005em; }
+.signal-body { font-size: 13.5px; line-height: 1.5; color: var(--ac-text-muted); }
+.signal-more {
+  align-self: flex-start;
+  margin-top: 5px;
+  font-size: 13px;
+  color: var(--ac-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  border-radius: 4px;
+}
+.signal-more:hover { opacity: 0.82; }
+
+/* GPC is legally binding — confident and green, "we already did it". */
+.signal-note[data-signal='gpc'] {
+  border-color: rgba(52, 211, 153, 0.5);
+  background: linear-gradient(180deg, rgba(52, 211, 153, 0.13), var(--ac-surface-alt));
+}
+.signal-note[data-signal='gpc'] svg { color: #34d399; }
+.signal-note[data-signal='gpc'] .signal-title { color: #6ee7b7; }
+
+/* DNT carries no legal force — acknowledged plainly, deliberately not green. */
+.signal-note[data-signal='dnt'] svg { color: var(--ac-text-muted); }
+
 .badge {
   position: fixed;
   bottom: 18px;
@@ -364,6 +400,7 @@ button.secondary:hover { background: rgba(255, 255, 255, 0.08); }
   .panel { border: 1px solid CanvasText; }
   button.action { border: 1px solid ButtonText; }
   input[type='checkbox'] { border: 1px solid CanvasText; }
+  .signal-note { border: 1px solid CanvasText; }
 }
 ${theme.customCss || ''}
 `.trim();

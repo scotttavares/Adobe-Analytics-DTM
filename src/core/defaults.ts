@@ -57,6 +57,13 @@ export const DEFAULT_TEXT: UiText = {
   cookieTableProvider: 'Provider',
   cookieTablePurpose: 'Purpose',
   cookieTableDuration: 'Duration',
+  signalGpcTitle: 'Global Privacy Control — honored',
+  signalGpcBody:
+    'Your browser sent an opt-out signal, so sale, sharing, and non-essential cookies are already switched off. Nothing here is required — change anything you like.',
+  signalDntTitle: 'Do Not Track — noted',
+  signalDntBody:
+    'We treat it as an advisory opt-out and left non-essential cookies off. GPC is the signal with legal force; this one we honor as a courtesy.',
+  signalMoreInfo: 'How we handle signals',
 };
 
 /**

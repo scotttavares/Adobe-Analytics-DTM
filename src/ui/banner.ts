@@ -189,6 +189,58 @@ export class ConsentBanner {
     return table;
   }
 
+  /**
+   * A calm acknowledgment when the visitor arrives with a universal opt-out
+   * signal already set. We split the two on purpose: GPC is legally binding, so
+   * it gets a confident, green "already handled" note; DNT has no legal force,
+   * so it is acknowledged plainly rather than dressed up as a guarantee. Returns
+   * null when no signal is honored, so the dialog is unchanged for everyone else.
+   */
+  private renderSignalNote(): HTMLElement | null {
+    const signal = this.engine.activeSignal();
+    if (!signal) return null;
+
+    const note = el('div', 'signal-note');
+    note.setAttribute('data-signal', signal);
+    note.setAttribute('role', 'status');
+
+    const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    icon.setAttribute('viewBox', '0 0 24 24');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.setAttribute('fill', 'none');
+    icon.setAttribute('stroke', 'currentColor');
+    icon.setAttribute('stroke-width', '2');
+    icon.setAttribute('stroke-linecap', 'round');
+    icon.setAttribute('stroke-linejoin', 'round');
+    // An open ring with a check sitting in the gap — our own mark, not a copy of
+    // any vendor's badge.
+    const ring = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    ring.setAttribute('d', 'M20.5 12a8.5 8.5 0 1 1-3.7-7');
+    const tick = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    tick.setAttribute('d', 'M9 12.5l2.5 2.5L18 7.5');
+    icon.appendChild(ring);
+    icon.appendChild(tick);
+
+    const isGpc = signal === 'gpc';
+    const textWrap = el('div', 'signal-text');
+    const heading = isGpc ? this.text.signalGpcTitle : this.text.signalDntTitle;
+    const bodyText = isGpc ? this.text.signalGpcBody : this.text.signalDntBody;
+    if (heading) textWrap.appendChild(el('strong', 'signal-title', heading));
+    if (bodyText) textWrap.appendChild(el('span', 'signal-body', bodyText));
+
+    if (this.text.signalMoreInfoUrl && this.text.signalMoreInfo) {
+      const link = el('a', 'signal-more', this.text.signalMoreInfo);
+      link.href = this.text.signalMoreInfoUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      textWrap.appendChild(link);
+    }
+
+    note.appendChild(icon);
+    note.appendChild(textWrap);
+    return note;
+  }
+
   private renderPanel(mode: Mode): HTMLElement {
     const decision = this.engine.decision;
     this.inputs.clear();
@@ -204,6 +256,9 @@ export class ConsentBanner {
     panel.setAttribute('aria-labelledby', 'ac-title');
     panel.setAttribute('aria-describedby', 'ac-body');
     if (this.text.ariaLabel) panel.setAttribute('aria-label', this.text.ariaLabel);
+
+    const signalNote = this.renderSignalNote();
+    if (signalNote) panel.appendChild(signalNote);
 
     const title = el('h2', 'title', this.text.title);
     title.id = 'ac-title';
