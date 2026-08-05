@@ -484,12 +484,13 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
           <tr><td>Reject as prominent as accept</td><td class="yes">enforced, not a setting</td><td class="no">configurable — and the basis of CNIL fines</td></tr>
           <tr><td>Self-hosted / auditable</td><td class="yes">MIT, one file you can read</td><td class="no">vendor SaaS</td></tr>
           <tr><td>Cost</td><td class="yes">free (MIT)</td><td class="no">~$1.1k/mo/domain*</td></tr>
-          <tr><td>Cookie scanning</td><td class="no">runtime scan only — not a full crawl</td><td class="yes">full pre-deploy site crawl</td></tr>
+          <tr><td>Cookie scanning</td><td class="yes">runtime + scheduled full crawl</td><td class="yes">hosted crawler + curated cookie DB</td></tr>
           <tr><td>IAB TCF v2.2</td><td class="no">experimental starter — not registered</td><td class="yes">registered CMP — pick OneTrust</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="flag-note">Honest by design: if you need automated cookie scanning, an IAB TCF /
+    <p class="flag-note">Honest by design: ClearConsent now ships a scheduled pre-deploy crawler, but if you
+      need a curated, legally-reviewed cookie classification database, an IAB TCF /
       Google Consent Mode string, managed multi-language legal copy, or a support contract, OneTrust
       earns its keep. Figures marked&nbsp;* are third-party or competitor-run benchmarks, flagged as
       such; the full sourced comparison lives in the repo.</p>
@@ -540,8 +541,9 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
     <p class="kicker">Cookie scanner</p>
     <h2>See what's actually set — right now.</h2>
     <p class="intro">A live scan of the cookies and storage keys present in your browser on this page.
-      Honest scope: this is <em>runtime observation</em>, not a pre-deploy crawl of every page — the fuller
-      audit is exactly where a hosted scanner like OneTrust earns its keep. Make a consent choice above, then scan.</p>
+      This is <em>runtime observation</em> of one page — for the full picture there's now a
+      <strong>scheduled pre-deploy crawler</strong> (<code>npm run scan</code>) that spiders the whole site in
+      real Chromium, classifies every cookie, and emails a diff when new ones appear. Make a consent choice above, then scan.</p>
     <div class="panel-box" style="max-width:860px;">
       <div class="mini-row" style="margin-bottom:14px; align-items:center;">
         <button class="btn-mini accent" id="scanBtn" type="button">Scan now</button>

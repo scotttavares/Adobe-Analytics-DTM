@@ -1,0 +1,92 @@
+name: Cookie scan
+
+# Scheduled pre-deploy cookie crawl. Spiders SCAN_URL in real Chromium,
+# inventories + classifies every cookie, diffs against the committed baseline to
+# surface NEW cookies, uploads an HTML report, and (if configured) emails it.
+#
+# Configure in the repo (Settings → Secrets and variables → Actions):
+#   Variables:  SCAN_URL (required), COOKIE_SCAN_CADENCE = weekly | monthly,
+#               SCAN_EMAIL_TO (enables the email step), SCAN_MAX_PAGES (optional)
+#   Secrets (only for email): SMTP_SERVER, SMTP_PORT, SMTP_USERNAME, SMTP_PASSWORD
+#
+# The cadence toggle is COOKIE_SCAN_CADENCE: 'monthly' runs on the 1st only,
+# anything else (default) runs weekly. Both crons are registered; the job below
+# runs only for the one matching the configured cadence.
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # weekly  — Mondays 06:00 UTC
+    - cron: '0 6 1 * *'   # monthly — the 1st  06:00 UTC
+  workflow_dispatch:
+    inputs:
+      cadence:
+        description: 'Label for this manual run'
+        default: 'manual'
+
+permissions:
+  contents: write   # to commit the updated baseline
+
+jobs:
+  scan:
+    # Manual dispatch always runs; scheduled runs only when the fired cron
+    # matches the configured cadence.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.schedule == '0 6 * * 1' && vars.COOKIE_SCAN_CADENCE != 'monthly') ||
+      (github.event.schedule == '0 6 1 * *' && vars.COOKIE_SCAN_CADENCE == 'monthly')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      - name: Crawl and diff
+        id: crawl
+        continue-on-error: true   # a non-zero exit means "new cookies" — we still want to report
+        run: |
+          node scripts/cookie-crawl.mjs \
+            --url "${{ vars.SCAN_URL }}" \
+            --cadence "${{ vars.COOKIE_SCAN_CADENCE || 'weekly' }}" \
+            --max-pages "${{ vars.SCAN_MAX_PAGES || 40 }}" \
+            --out cookie-report \
+            --baseline .cookie-baseline.json
+          echo "changed=$?" >> "$GITHUB_OUTPUT"
+          node -e "const r=require('./cookie-report/report.json');console.log('summary='+r.totals.cookies+' cookies, '+r.totals.new+' new, '+r.totals.unknown+' unknown')" >> "$GITHUB_OUTPUT"
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: cookie-report
+          path: cookie-report/
+
+      - name: Email report
+        if: vars.SCAN_EMAIL_TO != ''
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          to: ${{ vars.SCAN_EMAIL_TO }}
+          from: Cookie Scan <${{ secrets.SMTP_USERNAME }}>
+          subject: "Cookie scan — ${{ vars.SCAN_URL }} (${{ steps.crawl.outputs.summary }})"
+          html_body: file://cookie-report/report.html
+          attachments: cookie-report/report.json
+
+      - name: Persist baseline
+        run: |
+          if git diff --quiet -- .cookie-baseline.json; then
+            echo "baseline unchanged"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add .cookie-baseline.json
+            git commit -m "Update cookie baseline [skip ci]"
+            git push
+          fi
