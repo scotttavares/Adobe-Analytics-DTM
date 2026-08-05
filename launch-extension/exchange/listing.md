@@ -56,16 +56,18 @@ Granted for Category, Consent Revoked for Category), a Has Consent condition,
 Re-scan Blocked Tags), 4 data elements (Consent Status, Summary String, Region,
 XDM Object), and a shared `consent-api` module with a `gate()` helper.
 
-**Cookie scanning, classified against a curated catalog.** A runtime scanner
-annotates every cookie and storage entry the browser holds — what it is, the
-company behind it, and a link to that company's privacy policy — and a pre-deploy
-crawl reports the same, emailed as a diff when a new cookie appears. The catalog
-is bundled and self-maintained, not a large legally-reviewed commercial database.
+**Companion cookie tooling — in the open-source repo, not the installed
+extension.** The project also ships a curated cookie catalog (each entry has a
+plain-language description, the company behind it, and a privacy-policy link),
+used two ways: a pre-deploy crawl script that emails a diff when a new cookie
+appears, and a runtime scanner shown on the project site. Installing the Tags
+extension gives you the CMP and the Adobe wiring — the catalog and scanner are
+repo/CI tooling, not part of the install.
 
-Self-hosted and MIT-licensed. Not included: a *certified* IAB TCF string and
-registered CMP ID (the bundled TCF surface is an experimental, labeled starter),
-and the breadth of a hosted, legally-reviewed cookie database — if you need those,
-a hosted CMP is a fair choice.
+Self-hosted and MIT-licensed. Not included in the extension: a *certified* IAB
+TCF string and registered CMP ID (the bundled TCF surface is an experimental,
+labeled starter), and the breadth of a hosted, legally-reviewed cookie database —
+if you need those, a hosted CMP is a fair choice.
 
 ## Assets in this folder
 | File | Use |
