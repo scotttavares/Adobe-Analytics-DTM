@@ -56,9 +56,16 @@ Granted for Category, Consent Revoked for Category), a Has Consent condition,
 Re-scan Blocked Tags), 4 data elements (Consent Status, Summary String, Region,
 XDM Object), and a shared `consent-api` module with a `gate()` helper.
 
-Self-hosted and MIT-licensed. Not included: automated pre-deploy cookie
-scanning and a certified IAB TCF string — if you need those, a hosted CMP is a
-fair choice.
+**Cookie scanning, classified against a curated catalog.** A runtime scanner
+annotates every cookie and storage entry the browser holds — what it is, the
+company behind it, and a link to that company's privacy policy — and a pre-deploy
+crawl reports the same, emailed as a diff when a new cookie appears. The catalog
+is bundled and self-maintained, not a large legally-reviewed commercial database.
+
+Self-hosted and MIT-licensed. Not included: a *certified* IAB TCF string and
+registered CMP ID (the bundled TCF surface is an experimental, labeled starter),
+and the breadth of a hosted, legally-reviewed cookie database — if you need those,
+a hosted CMP is a fair choice.
 
 ## Assets in this folder
 | File | Use |
@@ -70,6 +77,13 @@ fair choice.
 | `screenshot-banner.png` | The live consent banner |
 
 ## Still to provide before submitting
-- Support contact (email or URL).
-- Final name decision (immutable after publish; avoid a leading "adobe").
-- A hosted documentation URL (optional — this repo works).
+One blocker remains that can't come from this repo:
+
+- **Support contact** — email or URL, shown publicly on the listing.
+  Fill in: `SUPPORT_CONTACT = ____________`
+
+Decided / optional:
+- **Name** — "ClearConsent" (the manifest ships `clearconsent`). Immutable after
+  publish; no leading "adobe", so it's clear of Adobe's naming scrutiny.
+- **Documentation URL** — optional; this repo's README + `docs/` work. A dedicated
+  hosted page reads better if you have one.

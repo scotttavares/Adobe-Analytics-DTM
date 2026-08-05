@@ -43,12 +43,12 @@ advance.
 | --- | --- |
 | Extension package (`.zip`) | ✅ builds from a clean checkout |
 | Manifest: name, version, description, author | ✅ `extension.json` |
-| Icon | ✅ `resources/icons/consent.svg` (Exchange listings usually also want a raster logo, e.g. a 512×512 PNG) |
-| Category / tags | ⬜ choose (e.g. "Privacy & Consent") |
-| Screenshots (config UI + banner) | ⬜ can be generated from the demo / sandbox |
+| Icon | ✅ `resources/icons/consent.svg` + raster `exchange/icon-512.png` |
+| Category / tags | ✅ `exchange/listing.md` (Privacy & Consent) |
+| Screenshots (config UI + banner) | ✅ `exchange/screenshot-*.png` (banner + 3 config tabs) |
 | Documentation URL | ✅ this repo (a dedicated docs page reads better) |
-| Support contact (email or URL) | ⬜ provide |
-| Listing copy (short + long description) | ◻️ draftable from the README |
+| Support contact (email or URL) | ⬜ **you provide** — the one remaining blocker |
+| Listing copy (short + long description) | ✅ `exchange/listing.md` |
 
 ### What review looks at (and how we're ready for it)
 - **Naming.** `clearconsent` is fine; a name beginning with "adobe" would draw
