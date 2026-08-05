@@ -24,6 +24,7 @@
     --line-2:rgba(255,255,255,.16);
     --accent:linear-gradient(96deg,#7d8bff 0%,#b57cff 100%);
     --danger:#ff8f9e;
+    --green:#34d399;
     --maxw:1100px;
   }
   * { box-sizing:border-box; }
@@ -139,6 +140,9 @@
   .pill { background:var(--navy-1); border:1px solid var(--line); border-radius:12px;
           padding:16px 18px; font-size:14.5px; color:var(--ink-dim); flex:1 1 260px; }
   .pill b { color:#fff; font-weight:600; display:block; font-size:15px; margin-bottom:3px; }
+  .pill.ok { border-color:rgba(52,211,153,.45);
+             background:linear-gradient(180deg,rgba(52,211,153,.10),var(--navy-1)); }
+  .pill.ok b { color:var(--green); }
 
   .install-tabs { display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
   .install-tabs button { font:inherit; font-size:14px; font-weight:600; padding:9px 18px;
@@ -497,7 +501,7 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
           <tr><td>Reject as prominent as accept</td><td class="yes">enforced, not a setting</td><td class="no">configurable — and the basis of CNIL fines</td></tr>
           <tr><td>Self-hosted / auditable</td><td class="yes">MIT, one file you can read</td><td class="no">vendor SaaS</td></tr>
           <tr><td>Cost</td><td class="yes">free (MIT)</td><td class="no">~$1.1k/mo/domain*</td></tr>
-          <tr><td>Cookie scanning</td><td class="yes">runtime + scheduled full crawl</td><td class="yes">hosted crawler + curated cookie DB</td></tr>
+          <tr><td>Cookie scanning</td><td class="yes">runtime + scheduled crawl, classified against a curated DB</td><td class="yes">hosted crawler + larger legally-reviewed DB</td></tr>
           <tr><td>IAB TCF v2.2</td><td class="no">experimental starter — not registered</td><td class="yes">registered CMP — pick OneTrust</td></tr>
         </tbody>
       </table>
@@ -540,7 +544,7 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
       </table>
     </div>
     <div class="pills" style="margin-top:20px;">
-      <div class="pill"><b>GPC — honored by default</b>Global Privacy Control is a legally binding opt-out under CPRA (California) and Colorado law, and the basis of Sephora's $1.2M settlement. Read before first paint and applied as a rejection in opt-out regions — no click required.</div>
+      <div class="pill ok"><b>GPC — honored by default</b>Global Privacy Control is a legally binding opt-out under CPRA (California) and Colorado law, and the basis of Sephora's $1.2M settlement. Read before first paint and applied as a rejection in opt-out regions — no click required.</div>
       <div class="pill"><b>DNT — read, but honestly legacy</b>Do Not Track is supported as a signal, but no law mandates honoring it and browsers have largely dropped it. GPC is its enforceable successor. We treat a present DNT header as an advisory rejection hint, never as a compliance guarantee.</div>
     </div>
 
