@@ -998,28 +998,30 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
   // ---- runtime cookie scanner — annotates each cookie against the curated DB.
   // The authoritative database is scripts/cookie-catalog.json (used by the
   // pre-deploy crawler); this is a compact mirror for the live widget.
+  // Compact mirror of scripts/cookie-catalog.json for the live widget: provider,
+  // owning company, what the entry collects, and that company's privacy policy.
   var CC_DB = [
-    { p: /^(clearconsent|cc_|ac_)/, who: 'ClearConsent', cat: 'essential', desc: 'Stores your consent decision so it is remembered and not re-prompted.', pol: 'https://github.com/scotttavares/Adobe-Analytics-DTM' },
-    { p: /^_ga($|_)/, who: 'Google Analytics 4', cat: 'analytics', desc: 'Assigns a random client id to count sessions and users for aggregate analytics.', pol: 'https://policies.google.com/privacy' },
-    { p: /^(_gid|_gat|__utm[abcz])/, who: 'Google Analytics (Universal)', cat: 'analytics', desc: 'Legacy Universal Analytics ids and request rate limiting.', pol: 'https://policies.google.com/privacy' },
-    { p: /^_gcl_/, who: 'Google Ads', cat: 'advertising', desc: 'Links an ad click to a later conversion for campaign measurement.', pol: 'https://policies.google.com/technologies/ads' },
-    { p: /^(IDE|test_cookie|__gads)$/, who: 'Google DoubleClick', cat: 'advertising', desc: 'Builds an interest profile to serve and measure targeted ads across sites.', pol: 'https://policies.google.com/technologies/ads' },
-    { p: /^(_fbp|_fbc|fr)$/, who: 'Meta Pixel', cat: 'advertising', desc: 'Identifies the browser to deliver and measure Facebook/Meta ads.', pol: 'https://www.facebook.com/privacy/policy/' },
-    { p: /^(AMCV_|AMCVS_|s_ecid|kndctr_)/, who: 'Adobe Experience Cloud ID', cat: 'analytics', desc: 'A shared Adobe visitor id used across Analytics, Target, and AEP.', pol: 'https://www.adobe.com/privacy/policy.html' },
-    { p: /^(s_cc|s_sq|s_vi|s_fid)/, who: 'Adobe Analytics', cat: 'analytics', desc: 'AppMeasurement cookies for site analytics.', pol: 'https://www.adobe.com/privacy/policy.html' },
-    { p: /^(mbox|at_check)$/, who: 'Adobe Target', cat: 'personalization', desc: 'Runs A/B tests and remembers which experience you were shown.', pol: 'https://www.adobe.com/privacy/policy.html' },
-    { p: /^(demdex|dpm)$/, who: 'Adobe Audience Manager', cat: 'advertising', desc: 'A cross-site id used to build and share audience segments.', pol: 'https://www.adobe.com/privacy/policy.html' },
-    { p: /^(bcookie|li_gc|lidc|UserMatchHistory)$/, who: 'LinkedIn', cat: 'advertising', desc: 'Ad targeting, conversion tracking, and id syncing.', pol: 'https://www.linkedin.com/legal/privacy-policy' },
-    { p: /^(_uetsid|_uetvid|MUID)$/, who: 'Microsoft Ads', cat: 'advertising', desc: 'Universal Event Tracking for ad conversions and targeting.', pol: 'https://privacy.microsoft.com/privacystatement' },
-    { p: /^(_hjSession|_hjid)/, who: 'Hotjar', cat: 'analytics', desc: 'Records a pseudonymous session for heatmaps and replay.', pol: 'https://www.hotjar.com/legal/policies/privacy/' },
-    { p: /^(__cf_bm|cf_clearance)$/, who: 'Cloudflare', cat: 'essential', desc: 'Bot management and load balancing.', pol: 'https://www.cloudflare.com/privacypolicy/' },
-    { p: /^(PHPSESSID|JSESSIONID|connect\.sid)$/, who: 'Application server', cat: 'essential', desc: 'Server session cookie for your logged-in session.', pol: null },
-    { p: /^(OptanonConsent|OptanonAlertBoxClosed)/, who: 'OneTrust', cat: 'essential', desc: "A competing CMP's stored consent state.", pol: 'https://www.onetrust.com/privacy-notice/' }
+    { p: /^(clearconsent|cc_|ac_)/i, who: 'ClearConsent', company: 'ClearConsent (self-hosted)', cat: 'essential', desc: 'Stores your consent decision so it is remembered and not re-prompted.', collects: 'Your choice per category, a policy version, a timestamp, and a receipt id. No personal identifiers.', pol: 'https://github.com/scotttavares/Adobe-Analytics-DTM' },
+    { p: /^_ga($|_)/, who: 'Google Analytics 4', company: 'Google LLC', cat: 'analytics', desc: 'Assigns a random client id to count sessions and users for aggregate analytics.', collects: 'A pseudonymous client id plus page and event data.', pol: 'https://policies.google.com/privacy' },
+    { p: /^(_gid|_gat|__utm[abcz])/, who: 'Google Analytics (Universal)', company: 'Google LLC', cat: 'analytics', desc: 'Legacy Universal Analytics ids and request rate limiting.', collects: 'A visitor id and request-throttling flags.', pol: 'https://policies.google.com/privacy' },
+    { p: /^_gcl_/, who: 'Google Ads', company: 'Google LLC', cat: 'advertising', desc: 'Links an ad click to a later conversion for campaign measurement.', collects: 'A click identifier (GCLID).', pol: 'https://policies.google.com/technologies/ads' },
+    { p: /^(IDE|test_cookie|__gads)$/, who: 'Google DoubleClick', company: 'Google LLC', cat: 'advertising', desc: 'Builds an interest profile to serve and measure targeted ads across sites.', collects: 'A cross-site device/browser id.', pol: 'https://policies.google.com/technologies/ads' },
+    { p: /^(_fbp|_fbc|fr)$/, who: 'Meta Pixel', company: 'Meta Platforms, Inc.', cat: 'advertising', desc: 'Identifies the browser to deliver and measure Facebook/Meta ads.', collects: 'A browser id and ad-click id.', pol: 'https://www.facebook.com/privacy/policy/' },
+    { p: /^(AMCV_|AMCVS_|s_ecid|kndctr_)/, who: 'Adobe Experience Cloud ID', company: 'Adobe Inc.', cat: 'analytics', desc: 'A shared Adobe visitor id used across Analytics, Target, and AEP.', collects: 'A cross-solution Experience Cloud id (ECID).', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(s_cc|s_sq|s_vi|s_fid)/, who: 'Adobe Analytics', company: 'Adobe Inc.', cat: 'analytics', desc: 'AppMeasurement cookies for site analytics.', collects: 'Visit and session identifiers.', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(mbox|at_check)$/, who: 'Adobe Target', company: 'Adobe Inc.', cat: 'personalization', desc: 'Runs A/B tests and remembers which experience you were shown.', collects: 'The variant/experience assigned to you.', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(demdex|dpm)$/, who: 'Adobe Audience Manager', company: 'Adobe Inc.', cat: 'advertising', desc: 'A cross-site id used to build and share audience segments.', collects: 'A cross-site id and audience-segment membership.', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(bcookie|li_gc|lidc|UserMatchHistory)$/, who: 'LinkedIn', company: 'LinkedIn Corporation (Microsoft)', cat: 'advertising', desc: 'Ad targeting, conversion tracking, and id syncing.', collects: 'A member/browser id for ads and analytics.', pol: 'https://www.linkedin.com/legal/privacy-policy' },
+    { p: /^(_uetsid|_uetvid|MUID)$/, who: 'Microsoft Ads', company: 'Microsoft Corporation', cat: 'advertising', desc: 'Universal Event Tracking for ad conversions and targeting.', collects: 'A browser id for conversions and targeting.', pol: 'https://privacy.microsoft.com/privacystatement' },
+    { p: /^(_hjSession|_hjid)/, who: 'Hotjar', company: 'Hotjar Ltd', cat: 'analytics', desc: 'Records a pseudonymous session for heatmaps and replay.', collects: 'A pseudonymous session id.', pol: 'https://www.hotjar.com/legal/policies/privacy/' },
+    { p: /^(__cf_bm|cf_clearance)$/, who: 'Cloudflare', company: 'Cloudflare, Inc.', cat: 'essential', desc: 'Bot management and load balancing.', collects: 'A bot-management token; no cross-site tracking.', pol: 'https://www.cloudflare.com/privacypolicy/' },
+    { p: /^(PHPSESSID|JSESSIONID|connect\.sid)$/, who: 'Application server', company: 'This site', cat: 'essential', desc: 'Server session cookie for your logged-in session.', collects: 'A server session id.', pol: null },
+    { p: /^(OptanonConsent|OptanonAlertBoxClosed)/, who: 'OneTrust', company: 'OneTrust, LLC', cat: 'essential', desc: "A competing CMP's stored consent state.", collects: 'Your stored consent string.', pol: 'https://www.onetrust.com/privacy-notice/' }
   ];
   var CC_CAT = { essential: '#2e7d32', analytics: '#1565c0', personalization: '#6a1b9a', advertising: '#c62828', unknown: '#b26a00', storage: '#555' };
   function ccClassify(name) {
     for (var i = 0; i < CC_DB.length; i++) if (CC_DB[i].p.test(name)) return CC_DB[i];
-    return { who: 'Unknown', cat: 'unknown', desc: 'Not in the curated database — worth identifying before you ship.', pol: null };
+    return { who: 'Unknown', company: null, cat: 'unknown', desc: 'Not in the curated database — worth identifying before you ship.', collects: null, pol: null };
   }
 
   var scanBtn = document.getElementById('scanBtn');
@@ -1046,7 +1048,13 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
         tr0.appendChild(td0); body.appendChild(tr0);
       } else {
         rows.forEach(function (r) {
-          var info = r.where === 'cookie' ? ccClassify(r.name) : { who: 'Browser storage', cat: 'storage', desc: '', pol: null };
+          // Classify storage keys against the same curated DB as cookies, so a
+          // known entry (e.g. ClearConsent's own keys) gets its description and
+          // privacy policy rather than a bare "Browser storage" row.
+          var info = ccClassify(r.name);
+          if (r.where !== 'cookie' && info.cat === 'unknown') {
+            info = { who: 'Browser storage', company: null, cat: 'storage', desc: 'A local storage key set on this page — not in the curated database.', collects: null, pol: null };
+          }
           var tr = document.createElement('tr');
           var n = document.createElement('td'); n.innerHTML = '<code>' + r.name + '</code>';
           var w = document.createElement('td');
@@ -1059,8 +1067,17 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
           if (info.desc) {
             var dr = document.createElement('tr');
             var dc = document.createElement('td'); dc.colSpan = 3;
-            dc.style.cssText = 'padding-top:0;color:var(--ink-dim);font-size:12.5px';
-            dc.innerHTML = info.desc + (info.pol ? ' · <a href="' + info.pol + '" target="_blank" rel="noopener">Privacy policy ↗</a>' : '');
+            dc.style.cssText = 'padding:0 18px 14px;color:var(--ink-dim);font-size:12.5px;line-height:1.55';
+            var parts = [info.desc];
+            if (info.collects) parts.push('<span style="color:var(--ink-faint)">Collects:</span> ' + info.collects);
+            if (info.pol) {
+              parts.push('<a href="' + info.pol + '" target="_blank" rel="noopener">' + (info.company || info.who) + ' privacy policy ↗</a>');
+            } else if (info.company) {
+              parts.push('<span style="color:var(--ink-faint)">' + info.company + '</span>');
+            }
+            // Wrap in a width-capped block so the detail reads on its own lines
+            // instead of trailing off into the table's horizontal scroll.
+            dc.innerHTML = '<div style="max-width:760px;white-space:normal">' + parts.join(' &nbsp;·&nbsp; ') + '</div>';
             dr.appendChild(dc); body.appendChild(dr);
           }
         });

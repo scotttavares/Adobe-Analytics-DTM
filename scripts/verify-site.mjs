@@ -129,6 +129,20 @@ await page.waitForTimeout(200);
 check('closing the preview reverts the forced GPC signal',
   await page.evaluate(() => window.globalPrivacyControl !== true));
 
+// --- cookie scanner surfaces description, what's collected, and a policy link ---
+await page.evaluate(() => { const m = window.ClearConsent && window.ClearConsent.instance; if (m) m.acceptAll(); });
+await page.locator('#scanBtn').click();
+await page.waitForTimeout(200);
+const scan = await page.evaluate(() => {
+  const body = document.getElementById('scanBody');
+  return {
+    identified: /ClearConsent/.test(body.textContent) && /Collects:/.test(body.textContent),
+    policy: !!body.querySelector('#scanBody a[href*="github.com/scotttavares"]'),
+  };
+});
+check('scanner identifies stored entries with a description + what they collect', scan.identified);
+check('scanner links the provider privacy policy', scan.policy);
+
 await page.locator('.install-tabs button', { hasText: 'npm' }).click();
 await page.waitForTimeout(150);
 check('install tab switches to the npm panel', (await page.locator('#p-npm.active').count()) === 1);
