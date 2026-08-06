@@ -578,6 +578,27 @@ document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:c
         </table>
       </div>
     </div>
+
+    <div class="panel-box" style="max-width:860px; margin-top:22px;">
+      <h3 style="margin:0 0 6px; font-size:19px;">Scan your whole site</h3>
+      <p class="sub" style="margin:0 0 14px; max-width:66ch;">The scan above only sees this page, and a browser can&#39;t read another origin&#39;s cookies — so a real cross-site scan runs server-side. Enter your domain to build the crawler command and preview the report it produces.</p>
+      <div class="mini-row" style="gap:10px; align-items:center; flex-wrap:wrap;">
+        <input id="crawlDomain" type="text" inputmode="url" placeholder="yourcompany.com" aria-label="Your site domain" style="flex:1 1 240px; min-width:200px; padding:11px 14px; border-radius:10px; border:1px solid var(--line-2); background:var(--navy); color:var(--ink); font:inherit; font-size:15px;">
+        <button class="btn-mini accent" id="crawlBtn" type="button">Preview crawl report</button>
+      </div>
+      <div id="crawlOut" style="margin-top:16px;"></div>
+    </div>
+
+    <div class="panel-box" style="max-width:860px; margin-top:22px;">
+      <div class="mini-row" style="align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+        <div>
+          <h3 style="margin:0 0 4px; font-size:19px;">The curated cookie database</h3>
+          <p class="sub" id="dbSub" style="margin:0; max-width:60ch;">The classification source behind every scan — one entry per known cookie family.</p>
+        </div>
+        <button class="btn-mini" id="dbToggle" type="button" aria-expanded="false">Browse the database</button>
+      </div>
+      <div id="dbOut" style="display:none; margin-top:16px;"></div>
+    </div>
   </div>
 </section>
 
@@ -1083,6 +1104,93 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
         });
       }
       if (count) count.textContent = rows.length + ' found · classified against the curated DB';
+    });
+  }
+
+  // ---- whole-site crawl preview + curated DB viewer -----------------------
+  // A browser cannot read another origin's cookies, so this previews the report
+  // FORMAT against the curated DB; the real crawl runs server-side (npm run scan).
+  function ccEsc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); }
+  function ccPill(cat){ return '<span style="display:inline-block;padding:2px 8px;font-size:11px;font-weight:600;border-radius:999px;color:#fff;background:' + (CC_CAT[cat] || '#666') + '">' + ccEsc(cat) + '</span>'; }
+  function ccPolicy(info){
+    if (info.pol) return '<a href="' + info.pol + '" target="_blank" rel="noopener" style="color:#6cb6e6;text-decoration:underline;text-underline-offset:2px">' + ccEsc(info.company || info.who) + ' privacy policy ↗</a>';
+    return '<span style="color:var(--ink-faint)">' + ccEsc(info.company || info.who) + ' · no public policy on file</span>';
+  }
+  function ccDetail(cols, info){
+    return '<tr><td colspan="' + cols + '" style="padding:0 12px 12px;color:var(--ink-dim);font-size:12.5px;line-height:1.5"><div style="max-width:720px;white-space:normal">' +
+      ccEsc(info.desc) +
+      (info.collects ? ' &nbsp;·&nbsp; <span style="color:var(--ink-faint)">Collects:</span> ' + ccEsc(info.collects) : '') +
+      ' &nbsp;·&nbsp; ' + ccPolicy(info) + '</div></td></tr>';
+  }
+
+  var SAMPLE = [
+    { name: 'clearconsent', dom: 'SELF', exp: '365', fl: 'Secure' },
+    { name: '_ga', dom: 'SELF', exp: '730', fl: '' },
+    { name: '_ga_7XR2K1QW', dom: 'SELF', exp: '730', fl: '' },
+    { name: '_gcl_au', dom: 'SELF', exp: '90', fl: '' },
+    { name: '_fbp', dom: 'SELF', exp: '90', fl: '' },
+    { name: 'AMCV_9E1@AdobeOrg', dom: 'SELF', exp: '180', fl: '' },
+    { name: 'mbox', dom: 'SELF', exp: '730', fl: '' },
+    { name: 'demdex', dom: '.demdex.net', exp: '180', fl: 'HttpOnly Secure' },
+    { name: 'MUID', dom: '.clarity.ms', exp: '390', fl: 'Secure' },
+    { name: 'li_gc', dom: '.linkedin.com', exp: '180', fl: 'Secure' },
+    { name: '__cf_bm', dom: 'SELF', exp: 'session', fl: 'HttpOnly Secure' }
+  ];
+  function ccNormDomain(raw){ return String(raw || '').trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '').replace(/^www\./i, '').toLowerCase(); }
+
+  var crawlBtn = document.getElementById('crawlBtn');
+  var crawlInput = document.getElementById('crawlDomain');
+  if (crawlBtn && crawlInput) {
+    var runPreview = function(){
+      var out = document.getElementById('crawlOut');
+      var d = ccNormDomain(crawlInput.value);
+      if (!/^[a-z0-9.-]+\.[a-z]{2,}$/.test(d)) {
+        out.innerHTML = '<p class="flag-note" style="margin:0;color:var(--danger)">Enter a domain like <code>yourcompany.com</code>.</p>';
+        return;
+      }
+      var counts = {}, bodyRows = '';
+      SAMPLE.forEach(function(s){
+        var info = ccClassify(s.name);
+        counts[info.cat] = (counts[info.cat] || 0) + 1;
+        var dom = s.dom === 'SELF' ? '.' + d : s.dom;
+        bodyRows += '<tr><td><code>' + ccEsc(s.name) + '</code></td><td>' + ccPill(info.cat) + '</td><td>' + ccEsc(info.who) +
+          '</td><td>' + ccEsc(dom) + '</td><td>' + ccEsc(s.fl || '—') + '</td><td>' + ccEsc(s.exp) + '</td></tr>' + ccDetail(6, info);
+      });
+      var st = 'background:var(--navy-2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12.5px;';
+      var b = 'display:block;font-size:18px;font-family:Georgia,serif;';
+      var stats = '<div style="' + st + '"><b style="' + b + '">' + SAMPLE.length + '</b>cookies</div>' +
+        Object.keys(counts).map(function(k){ return '<div style="' + st + '"><b style="' + b + '">' + counts[k] + '</b>' + ccEsc(k) + '</div>'; }).join('') +
+        '<div style="' + st + '"><b style="' + b + '">0</b>unknown</div>';
+      out.innerHTML =
+        '<div style="background:var(--navy);border:1px solid var(--line);border-radius:12px;padding:16px 18px;">' +
+          '<strong style="font-size:15px;">Cookie crawl — ' + ccEsc(d) + '</strong>' +
+          '<div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px;">' + stats + '</div>' +
+          '<div class="tbl-scroll"><table class="tbl" style="font-size:13px;"><thead><tr><th>Name</th><th>Category</th><th>Provider</th><th>Domain</th><th>Flags</th><th>Expires (days)</th></tr></thead><tbody>' + bodyRows + '</tbody></table></div>' +
+        '</div>' +
+        '<p class="flag-note" style="margin-top:12px;">A <strong>representative preview</strong> classified against the curated DB — not a live scan of ' + ccEsc(d) + ' (a browser can’t read another origin’s cookies). Run the real crawler server-side:</p>' +
+        '<pre style="margin:8px 0 0;background:#0a0714;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;font-size:13px;line-height:1.6;color:#ddd7ee;"><span class="c"># spiders the whole site in real Chromium, classifies every cookie, emails a diff</span>\nnpm run scan -- --url <span class="s">https://' + ccEsc(d) + '</span> --click-accept <span class="s">"#acAccept"</span></pre>';
+    };
+    crawlBtn.addEventListener('click', runPreview);
+    crawlInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); runPreview(); } });
+  }
+
+  var dbToggle = document.getElementById('dbToggle');
+  if (dbToggle) {
+    var dbSub = document.getElementById('dbSub');
+    if (dbSub) dbSub.textContent = 'The classification source behind every scan — ' + CC_DB.length + ' known cookie families, each with owner, category, what it collects, and a privacy-policy link.';
+    dbToggle.addEventListener('click', function(){
+      var out = document.getElementById('dbOut');
+      var open = dbToggle.getAttribute('aria-expanded') === 'true';
+      dbToggle.setAttribute('aria-expanded', String(!open));
+      dbToggle.textContent = open ? 'Browse the database' : 'Hide the database';
+      out.style.display = open ? 'none' : 'block';
+      if (open || out.getAttribute('data-built')) return;
+      var rows = CC_DB.map(function(e){
+        return '<tr><td><code>' + ccEsc(e.p.source) + '</code></td><td>' + ccPill(e.cat) + ' ' + ccEsc(e.who) +
+          '</td><td>' + ccEsc(e.company || '—') + '</td></tr>' + ccDetail(3, e);
+      }).join('');
+      out.innerHTML = '<div class="tbl-scroll"><table class="tbl" style="font-size:13px;"><thead><tr><th>Match pattern</th><th>Provider · category</th><th>Company</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+      out.setAttribute('data-built', '1');
     });
   }
 

@@ -143,6 +143,30 @@ const scan = await page.evaluate(() => {
 check('scanner identifies stored entries with a description + what they collect', scan.identified);
 check('scanner links the provider privacy policy', scan.policy);
 
+// --- whole-site crawl preview builds a report + the real command for a domain ---
+await page.locator('#crawlDomain').fill('acme.example');
+await page.locator('#crawlBtn').click();
+await page.waitForTimeout(200);
+const crawl = await page.evaluate(() => {
+  const t = document.getElementById('crawlOut').textContent;
+  return {
+    report: t.includes('Cookie crawl') && t.includes('acme.example'),
+    classified: t.includes('Meta Pixel') && t.includes('Collects:'),
+    command: t.includes('npm run scan -- --url https://acme.example'),
+  };
+});
+check('crawl preview renders a classified report for the entered domain', crawl.report && crawl.classified);
+check('crawl preview shows the real server-side scan command', crawl.command);
+
+// --- curated DB viewer lists the catalog ---
+await page.locator('#dbToggle').click();
+await page.waitForTimeout(150);
+const db = await page.evaluate(() => {
+  const o = document.getElementById('dbOut');
+  return { rows: o.querySelectorAll('tbody tr').length, seeded: o.textContent.includes('clearconsent') };
+});
+check('curated DB viewer lists the catalog entries', db.rows >= 20 && db.seeded);
+
 await page.locator('.install-tabs button', { hasText: 'npm' }).click();
 await page.waitForTimeout(150);
 check('install tab switches to the npm panel', (await page.locator('#p-npm.active').count()) === 1);
