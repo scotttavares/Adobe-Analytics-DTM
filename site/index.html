@@ -262,6 +262,8 @@
       <a href="#adobe">Adobe</a>
       <a href="#onetrust">vs OneTrust</a>
       <a href="#install">Install</a>
+      <a href="#implement">Implement</a>
+      <a href="#support">Support</a>
       <a class="nav-cta" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">GitHub</a>
     </nav>
   </div>
@@ -669,6 +671,113 @@ npx @adobe/reactor-uploader package-clearconsent-1.0.0.zip \
 consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&gt; loadPixel());</pre>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="band" id="implement">
+  <div class="wrap">
+    <p class="kicker">Implementation</p>
+    <h2>Wiring consent into Adobe Tags.</h2>
+    <p class="intro">Once it's installed, ClearConsent drives Adobe on every page load and every change — no per-page
+      glue. There's exactly <em>one</em> thing you set on the Adobe side per stack. Here's each, end to end; the
+      full reference is <a href="https://github.com/scotttavares/Adobe-Analytics-DTM/blob/master/docs/adobe-integration.md" target="_blank" rel="noopener">docs/adobe-integration.md</a>.</p>
+
+    <h3 style="font-size:22px; color:#fff; margin:6px 0 6px;">Web SDK (Alloy)</h3>
+    <p style="color:var(--ink-dim); font-size:15.5px; max-width:66ch; margin:0 0 20px;">The modern stack. Consent is
+      delivered with <code>alloy("setConsent", …)</code> in the Adobe 2.0 standard, to every instance discovered via
+      <code>__alloyNS</code> — multi-instance properties get a call each, no configuration.</p>
+    <div class="pills" style="margin-bottom:18px;">
+      <div class="pill"><b>1 · Install ClearConsent</b>As a Launch extension or a script tag — see <a href="#install">Install</a> above.</div>
+      <div class="pill ok"><b>2 · Default Consent → Pending</b>In the AEP Web SDK extension, set <b>Default Consent</b> to <code>Pending</code>. Alloy then holds every <code>sendEvent</code> until ClearConsent answers. This is the one required setting.</div>
+      <div class="pill"><b>3 · Map categories <span style="color:var(--ink-faint); font-weight:400;">(optional)</span></b>By default <code>collect</code> is granted if <em>any</em> of analytics, personalization, or advertising is. Override with <code>adobe.mapping</code>.</div>
+      <div class="pill"><b>4 · Verify</b>After a choice, a <code>kndctr_&lt;orgId&gt;_consent</code> cookie appears and no Edge beacon fires before consent.</div>
+    </div>
+    <div class="code">
+      <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">what ClearConsent sends on load + change</span></div>
+<pre><span class="f">alloy</span>(<span class="s">"setConsent"</span>, {
+  consent: [{
+    standard: <span class="s">"Adobe"</span>, version: <span class="s">"2.0"</span>,
+    value: {
+      collect:     { val: <span class="s">"y"</span> },
+      share:       { val: <span class="s">"n"</span> },
+      personalize: { content: { val: <span class="s">"y"</span> } }
+    }
+  }]
+});</pre>
+    </div>
+    <p class="flag-note">Leave Default Consent at <code>In</code> and Alloy collects on load — the banner becomes cosmetic. The queue is in-memory and doesn't survive a reload, which is why ClearConsent re-asserts on every page load (re-stating an unchanged decision is free on the wire — Adobe only calls out when the value changes).</p>
+
+    <h3 style="font-size:22px; color:#fff; margin:40px 0 6px;">Classic (AppMeasurement + ECID Opt-In)</h3>
+    <p style="color:var(--ink-dim); font-size:15.5px; max-width:66ch; margin:0 0 20px;">The legacy AppMeasurement /
+      at.js estate. Consent flows through the ECID Opt-In service; ClearConsent stages both sides and applies once,
+      and also guards a hardcoded tracker.</p>
+    <div class="pills" style="margin-bottom:18px;">
+      <div class="pill"><b>1 · Install ClearConsent</b>Same as above — extension or script tag.</div>
+      <div class="pill ok"><b>2 · Enable Opt-In</b>In the <b>Experience Cloud ID Service</b> extension, set <b>Enable Opt-In</b> to <code>Yes</code>. Leave Pre Opt-In Approvals and Permissions empty — ClearConsent is the source of truth.</div>
+      <div class="pill"><b>3 · Hardcoded <code>s.t()</code> <span style="color:var(--ink-faint); font-weight:400;">(optional)</span></b>For an <code>s.t()</code> outside Tags, point the adapter at your tracker with <code>adobe.analytics.instanceGlobal</code>.</div>
+      <div class="pill"><b>4 · Verify</b>Opt-In reports each category approved or denied; a denied Analytics category sets <code>s.abort</code> on the next beacon.</div>
+    </div>
+    <div class="code">
+      <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">what ClearConsent calls</span></div>
+<pre><span class="c">// stage both sides, then one atomic apply</span>
+adobe.optIn.<span class="f">approve</span>([<span class="s">'ecid'</span>, <span class="s">'aa'</span>], <span class="k">true</span>);
+adobe.optIn.<span class="f">deny</span>([<span class="s">'target'</span>, <span class="s">'aam'</span>], <span class="k">true</span>);
+adobe.optIn.<span class="f">complete</span>();
+<span class="c">// unknown ids are filtered against the loaded VisitorAPI,</span>
+<span class="c">// avoiding [OptIn] Invalid category(-ies)</span></pre>
+    </div>
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th>Opt-In category</th><th>Granted by</th></tr></thead>
+        <tbody>
+          <tr><td><code>ecid</code></td><td>analytics, personalization, or advertising</td></tr>
+          <tr><td><code>aa</code> (Analytics)</td><td>analytics</td></tr>
+          <tr><td><code>target</code></td><td>personalization</td></tr>
+          <tr><td><code>aam</code> (Audience Manager)</td><td>advertising</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="color:var(--ink-dim); font-size:15.5px; max-width:66ch; margin:28px 0 0;">Either stack, the Launch
+      extension gives you consent <b>events</b>, a <code>Has Consent</code> <b>condition</b>, Set / Reset
+      <b>actions</b>, and <b>data elements</b> — so rule authors gate tags from a dropdown of your own categories,
+      with no ids retyped.</p>
+
+    <div class="disc" style="margin-top:30px;">
+      <b>Mobile apps (native iOS / Android).</b> ClearConsent is a browser library — its adapters need
+      <code>window</code>, <code>document</code>, and cookies, which a native app doesn't have. In the Adobe
+      Experience Platform <b>Mobile SDK</b>, consent goes through the Edge <b>Consent</b> extension
+      (<code>Consent.update(…)</code> in Swift / Kotlin), using the same <code>{ collect: { val: "y" } }</code>
+      shape ClearConsent already produces. A native build that maps to it is a separate project —
+      <a href="https://github.com/scotttavares/Adobe-Analytics-DTM/issues" target="_blank" rel="noopener">start the conversation on GitHub</a>.
+    </div>
+  </div>
+</section>
+
+<section class="band" id="support">
+  <div class="wrap">
+    <p class="kicker">Support</p>
+    <h2>Getting help.</h2>
+    <p class="intro">ClearConsent is open-source and MIT-licensed. Support runs through GitHub and the docs — no
+      gated portal, no ticket queue.</p>
+    <div class="cols">
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5v-13Z" stroke="#9aa7ff" stroke-width="1.6" stroke-linejoin="round"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5A1.5 1.5 0 0 0 20 18.5v-13Z" stroke="#9aa7ff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <h3>Read the docs</h3>
+        <p>The <a href="https://github.com/scotttavares/Adobe-Analytics-DTM/blob/master/docs/adobe-integration.md" target="_blank" rel="noopener">Adobe integration guide</a> covers all five surfaces step by step; <a href="https://github.com/scotttavares/Adobe-Analytics-DTM/blob/master/docs/comparison.md" target="_blank" rel="noopener">comparison.md</a> is the sourced vendor comparison — including where the commercial tools are genuinely better.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 15.5v-1.2a3 3 0 0 1 3-3 3 3 0 0 0 3-3V8a6 6 0 0 0-12 0" stroke="#9aa7ff" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="19" r="1.15" fill="#9aa7ff"/></svg></div>
+        <h3>Questions &amp; bugs</h3>
+        <p>Open a <a href="https://github.com/scotttavares/Adobe-Analytics-DTM/issues" target="_blank" rel="noopener">GitHub issue</a> — a setup question, a bug, or a feature request. TCF, Google Consent Mode, and the mobile build all live there.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5" stroke="#9aa7ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Check it's working</h3>
+        <p>Use the live <a href="#scanner">cookie inspector</a> above, or on your own site run <code>_satellite.setDebug(true)</code> and read <code>ClearConsent.instance.decision</code>. Confirm <code>kndctr_&lt;orgId&gt;_consent</code> appears after a choice.</p>
+      </div>
+    </div>
+    <div class="disc" style="margin-top:26px;">This is engineering, not legal advice — your categories, copy, and retention still need a lawyer's eye.</div>
   </div>
 </section>
 
