@@ -11,20 +11,20 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Crect width='24' height='24' rx='5' fill='%230e0b1a'/%3E%3Cpath d='M12 3.5 5.5 6v4.9c0 3.9 2.6 7.4 6.5 8.4 3.9-1 6.5-4.5 6.5-8.4V6L12 3.5Z' stroke='%239aa7ff' stroke-width='1.3'/%3E%3Cpath d='M8.7 11.9 11 14.2l4.3-4.5' stroke='%23ffcc73' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
   :root {
-    --navy:#0e0b1a;
-    --navy-1:#160f2b;
-    --navy-2:#1b1530;
-    --navy-3:#261d40;
-    --mint:#9aa7ff;
-    --lime:#ffcc73;
-    --ink:#efecf9;
-    --ink-dim:#bcb6d4;
-    --ink-faint:#847da0;
-    --line:rgba(255,255,255,.10);
-    --line-2:rgba(255,255,255,.16);
-    --accent:linear-gradient(96deg,#7d8bff 0%,#b57cff 100%);
-    --danger:#ff8f9e;
-    --green:#34d399;
+    --navy:#ffffff;
+    --navy-1:#f6f7fb;
+    --navy-2:#eceff7;
+    --navy-3:#e2e6f1;
+    --mint:#2563eb;
+    --lime:#b45309;
+    --ink:#14161d;
+    --ink-dim:#4b4f5c;
+    --ink-faint:#7c8090;
+    --line:rgba(20,22,34,.12);
+    --line-2:rgba(20,22,34,.20);
+    --accent:linear-gradient(96deg,#2f6bff 0%,#5b8dff 100%);
+    --danger:#dc2626;
+    --green:#059669;
     --maxw:1100px;
   }
   * { box-sizing:border-box; }
@@ -39,38 +39,38 @@
   a { color:var(--mint); text-decoration:none; }
   a:hover { text-decoration:underline; text-underline-offset:3px; }
   code, kbd, pre { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace; }
-  code:not(pre code) { background:rgba(255,255,255,.08); padding:2px 6px; border-radius:5px;
-                       font-size:.86em; color:#e2ddf2; }
+  code:not(pre code) { background:rgba(20,22,34,.08); padding:2px 6px; border-radius:5px;
+                       font-size:.86em; color:#1f2330; }
   .wrap { max-width:var(--maxw); margin:0 auto; padding:0 24px; }
 
   header.site {
     position:sticky; top:0; z-index:20; backdrop-filter:blur(10px);
-    background:rgba(14,11,26,.78); border-bottom:1px solid var(--line);
+    background:rgba(255,255,255,.78); border-bottom:1px solid var(--line);
   }
   .nav-inner { display:flex; align-items:center; justify-content:space-between;
                height:62px; gap:20px; }
   .logo { display:flex; align-items:center; gap:10px; font-family:Georgia,serif;
-          font-size:17px; letter-spacing:.02em; color:#fff; }
+          font-size:17px; letter-spacing:.02em; color:var(--ink); }
   .logo:hover { text-decoration:none; }
   .logo .mark { width:26px; height:26px; flex:0 0 auto; }
   .nav-links { display:flex; align-items:center; gap:24px; font-size:14.5px; }
   .nav-links a { color:var(--ink-dim); }
-  .nav-links a:hover { color:#fff; text-decoration:none; }
+  .nav-links a:hover { color:var(--ink); text-decoration:none; }
   .nav-cta { border:1px solid var(--line-2); border-radius:999px; padding:7px 16px;
-             color:#fff !important; font-weight:600; }
-  .nav-cta:hover { background:rgba(255,255,255,.08); }
+             color:var(--ink) !important; font-weight:600; }
+  .nav-cta:hover { background:rgba(20,22,34,.08); }
   @media (max-width:820px){ .nav-links a:not(.nav-cta){ display:none; } }
 
   .hero { position:relative; overflow:hidden; padding:92px 0 80px;
     background:
-      radial-gradient(1100px 460px at 72% 8%, rgba(154,167,255,.18), transparent 62%),
+      radial-gradient(1100px 460px at 72% 8%, rgba(47,107,255,.18), transparent 62%),
       radial-gradient(820px 420px at 12% 92%, rgba(255,204,115,.12), transparent 60%);
   }
   .hero .wrap { position:relative; z-index:1; }
   .eyebrow { display:inline-flex; align-items:center; gap:8px; letter-spacing:.22em;
              text-transform:uppercase; font-size:12px; font-weight:600; color:var(--mint);
              border:1px solid var(--line-2); border-radius:999px; padding:6px 14px; margin-bottom:26px; }
-  .hero h1 { font-size:clamp(42px,7vw,76px); margin:0 0 22px; color:#fff; max-width:15ch; }
+  .hero h1 { font-size:clamp(42px,7vw,76px); margin:0 0 22px; color:var(--ink); max-width:15ch; }
   .hero h1 .grad { background:var(--accent); -webkit-background-clip:text; background-clip:text;
                    -webkit-text-fill-color:transparent; }
   .hero p.lede { font-size:clamp(17px,2.2vw,21px); color:var(--ink-dim); max-width:56ch; margin:0 0 34px; }
@@ -79,16 +79,16 @@
          font-size:15.5px; padding:14px 26px; border-radius:999px; cursor:pointer;
          border:1.5px solid transparent; transition:transform .12s ease, box-shadow .18s ease, background .18s; }
   .btn:hover { transform:translateY(-1px); text-decoration:none; }
-  .btn.primary { background:var(--accent); color:#160f2b; box-shadow:0 6px 24px rgba(154,167,255,.22); }
-  .btn.ghost { border-color:var(--line-2); color:#fff; }
-  .btn.ghost:hover { background:rgba(255,255,255,.07); }
+  .btn.primary { background:var(--accent); color:#fff; box-shadow:0 6px 24px rgba(47,107,255,.22); }
+  .btn.ghost { border-color:var(--line-2); color:var(--ink); }
+  .btn.ghost:hover { background:rgba(20,22,34,.07); }
   .btn svg { width:18px; height:18px; }
   .btn.sm { padding:10px 18px; font-size:14px; }
 
   .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:60px;
            background:var(--line); border:1px solid var(--line); border-radius:16px; overflow:hidden; }
   .stat { background:var(--navy-1); padding:26px 24px; }
-  .stat .big { font-family:Georgia,serif; font-size:34px; color:#fff; line-height:1; margin-bottom:8px; }
+  .stat .big { font-family:Georgia,serif; font-size:34px; color:var(--ink); line-height:1; margin-bottom:8px; }
   .stat .big .u { font-size:16px; color:var(--ink-faint); font-family:system-ui,sans-serif; }
   .stat .lbl { font-size:13.5px; color:var(--ink-dim); }
   @media (max-width:640px){ .stats{ grid-template-columns:1fr; } }
@@ -96,26 +96,26 @@
   section.band { padding:78px 0; border-top:1px solid var(--line); }
   .kicker { letter-spacing:.2em; text-transform:uppercase; font-size:12px; font-weight:600;
             color:var(--mint); margin:0 0 14px; }
-  section.band h2 { font-size:clamp(28px,4vw,40px); margin:0 0 18px; color:#fff; }
+  section.band h2 { font-size:clamp(28px,4vw,40px); margin:0 0 18px; color:var(--ink); }
   section.band > .wrap > p.intro { font-size:17.5px; color:var(--ink-dim); max-width:64ch; margin:0 0 38px; }
 
   .cols { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
   @media (max-width:840px){ .cols{ grid-template-columns:1fr; } }
   .card { background:var(--navy-1); border:1px solid var(--line); border-radius:14px; padding:26px; }
-  .card h3 { font-size:19px; margin:0 0 10px; color:#fff; }
+  .card h3 { font-size:19px; margin:0 0 10px; color:var(--ink); }
   .card p { margin:0; color:var(--ink-dim); font-size:15px; }
   .card .ic { width:38px; height:38px; border-radius:10px; display:grid; place-items:center;
-              background:rgba(154,167,255,.12); margin-bottom:16px; }
+              background:rgba(47,107,255,.12); margin-bottom:16px; }
   .card .ic svg { width:20px; height:20px; stroke:var(--mint); }
 
   .tbl { width:100%; border-collapse:collapse; margin-top:8px; font-size:15px;
          border:1px solid var(--line); border-radius:14px; overflow:hidden; }
   .tbl th, .tbl td { text-align:left; padding:15px 18px; border-bottom:1px solid var(--line); vertical-align:top; }
-  .tbl thead th { background:var(--navy-2); color:#fff; font-size:13px; letter-spacing:.04em;
+  .tbl thead th { background:var(--navy-2); color:var(--ink); font-size:13px; letter-spacing:.04em;
                   text-transform:uppercase; font-weight:600; }
   .tbl tbody tr:last-child td { border-bottom:0; }
   .tbl tbody tr { background:var(--navy-1); }
-  .tbl td:first-child { color:#fff; font-weight:600; white-space:nowrap; }
+  .tbl td:first-child { color:var(--ink); font-weight:600; white-space:nowrap; }
   .tbl td code { font-size:.82em; }
   .tbl-scroll { overflow-x:auto; }
 
@@ -139,7 +139,7 @@
   .pills { display:flex; flex-wrap:wrap; gap:12px; }
   .pill { background:var(--navy-1); border:1px solid var(--line); border-radius:12px;
           padding:16px 18px; font-size:14.5px; color:var(--ink-dim); flex:1 1 260px; }
-  .pill b { color:#fff; font-weight:600; display:block; font-size:15px; margin-bottom:3px; }
+  .pill b { color:var(--ink); font-weight:600; display:block; font-size:15px; margin-bottom:3px; }
   .pill.ok { border-color:rgba(52,211,153,.45);
              background:linear-gradient(180deg,rgba(52,211,153,.10),var(--navy-1)); }
   .pill.ok b { color:var(--green); }
@@ -147,7 +147,7 @@
   .install-tabs { display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
   .install-tabs button { font:inherit; font-size:14px; font-weight:600; padding:9px 18px;
     border-radius:999px; cursor:pointer; border:1px solid var(--line-2); background:transparent; color:var(--ink-dim); }
-  .install-tabs button[aria-selected="true"] { background:var(--accent); color:#160f2b; border-color:transparent; }
+  .install-tabs button[aria-selected="true"] { background:var(--accent); color:#fff; border-color:transparent; }
   .install-panel { display:none; } .install-panel.active { display:block; }
 
   .cmp td:first-child { white-space:normal; }
@@ -159,37 +159,37 @@
   .live { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
   @media (max-width:840px){ .live{ grid-template-columns:1fr; } }
   .panel-box { background:var(--navy-1); border:1px solid var(--line); border-radius:16px; padding:22px; }
-  .panel-box h3 { margin:0 0 4px; font-size:17px; color:#fff; }
+  .panel-box h3 { margin:0 0 4px; font-size:17px; color:var(--ink); }
   .panel-box .sub { color:var(--ink-faint); font-size:13px; margin:0 0 16px; }
   .chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
   .chip { display:inline-flex; align-items:center; gap:8px; border-radius:9px; padding:8px 12px;
-          font-size:13px; font-weight:600; background:rgba(255,255,255,.05); border:1px solid var(--line); }
+          font-size:13px; font-weight:600; background:rgba(20,22,34,.05); border:1px solid var(--line); }
   .chip .d { width:8px; height:8px; border-radius:50%; background:var(--ink-faint); }
-  .chip.on { background:rgba(255,204,115,.14); border-color:rgba(255,204,115,.35); color:#ffe6bf; }
+  .chip.on { background:rgba(255,204,115,.14); border-color:rgba(255,204,115,.35); color:#7a5a12; }
   .chip.on .d { background:var(--lime); box-shadow:0 0 8px rgba(255,204,115,.7); }
   .btn-mini { font:inherit; font-size:13px; font-weight:600; padding:8px 14px; border-radius:999px;
               cursor:pointer; border:1px solid var(--line-2); background:transparent; color:var(--ink); }
-  .btn-mini:hover { background:rgba(255,255,255,.08); }
-  .btn-mini.accent { background:var(--accent); color:#160f2b; border-color:transparent; }
+  .btn-mini:hover { background:rgba(20,22,34,.08); }
+  .btn-mini.accent { background:var(--accent); color:#fff; border-color:transparent; }
   .mini-row { display:flex; gap:8px; flex-wrap:wrap; }
   .calllog { background:#0a0714; border:1px solid var(--line); border-radius:10px; padding:12px 14px;
              height:264px; overflow:auto; font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
              color:#cfc9e4; }
-  .calllog div { padding:3px 0; border-bottom:1px solid rgba(255,255,255,.05); word-break:break-word;
+  .calllog div { padding:3px 0; border-bottom:1px solid rgba(20,22,34,.05); word-break:break-word;
                  animation:flash .6s ease-out; }
   .calllog .api { color:var(--mint); font-weight:700; }
   .calllog .t { color:#6b6488; }
   .calllog .empty { color:#6b6488; border:0; }
-  @keyframes flash { from { background:rgba(154,167,255,.12); } to { background:transparent; } }
+  @keyframes flash { from { background:rgba(47,107,255,.12); } to { background:transparent; } }
 
   /* --- interactive: region resolver --- */
   .region-switch { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
   .region-switch button { font:inherit; font-size:14px; font-weight:600; padding:10px 16px;
     border-radius:10px; cursor:pointer; border:1px solid var(--line-2); background:transparent; color:var(--ink-dim); }
-  .region-switch button[aria-pressed="true"] { background:var(--navy-3); color:#fff; border-color:var(--mint); }
+  .region-switch button[aria-pressed="true"] { background:var(--navy-3); color:var(--ink); border-color:var(--mint); }
   .rr-model { display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:600;
               padding:6px 12px; border-radius:999px; margin:0 0 16px;
-              background:rgba(154,167,255,.12); color:#d7dcff; border:1px solid rgba(154,167,255,.3); }
+              background:rgba(47,107,255,.12); color:#1e40af; border:1px solid rgba(47,107,255,.3); }
   .payload { background:#0a0714; border:1px solid var(--line); border-radius:10px; padding:14px 16px;
              font:12.5px/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:#ddd7ee; overflow-x:auto; }
   .payload .key { color:#9aa7ff; } .payload .y { color:#ffcc73; } .payload .n { color:#ff8f9e; }
@@ -199,13 +199,13 @@
   @media (max-width:720px){ .race{ grid-template-columns:1fr; } }
   .lane { background:var(--navy-1); border:1px solid var(--line); border-radius:14px; padding:22px; }
   .lane.ours { border-color:rgba(255,204,115,.3); }
-  .lane h4 { margin:0 0 3px; font-size:15px; color:#fff; }
+  .lane h4 { margin:0 0 3px; font-size:15px; color:var(--ink); }
   .lane .meta { font-size:12.5px; color:var(--ink-faint); margin:0 0 18px; }
   .bar { height:30px; border-radius:7px; margin-bottom:9px; position:relative; overflow:hidden;
-         background:rgba(255,255,255,.05); }
+         background:rgba(20,22,34,.05); }
   .bar .fill { position:absolute; inset:0; width:0; border-radius:7px; }
   .bar .fl-label { position:absolute; left:11px; top:0; height:30px; display:flex; align-items:center;
-                   font-size:12px; font-weight:600; color:#160f2b; white-space:nowrap; opacity:0; }
+                   font-size:12px; font-weight:600; color:#fff; white-space:nowrap; opacity:0; }
   .bar.run .fill { transition:width .7s ease; }
   .bar.run .fl-label { opacity:1; transition:opacity .3s ease .2s; }
   .lane.theirs .fill { background:linear-gradient(90deg,#8b86a3,#a8a4c0); }
@@ -215,8 +215,8 @@
   .lane.ours .verdict { color:var(--lime); }
 
   .final { text-align:center; padding:88px 0; border-top:1px solid var(--line);
-    background:radial-gradient(700px 300px at 50% 0%, rgba(154,167,255,.14), transparent 65%); }
-  .final h2 { font-size:clamp(30px,5vw,46px); color:#fff; margin:0 0 18px; }
+    background:radial-gradient(700px 300px at 50% 0%, rgba(47,107,255,.14), transparent 65%); }
+  .final h2 { font-size:clamp(30px,5vw,46px); color:var(--ink); margin:0 0 18px; }
   .final p { color:var(--ink-dim); font-size:18px; max-width:52ch; margin:0 auto 32px; }
   .final .cta-row { justify-content:center; }
 
@@ -253,7 +253,7 @@
               stroke="url(#g)" stroke-width="1.6"/>
         <path d="M8.4 11.9 11 14.6l4.8-5" stroke="url(#g)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         <defs><linearGradient id="g" x1="4" y1="2" x2="20" y2="22">
-          <stop stop-color="#7d8bff"/><stop offset="1" stop-color="#b57cff"/></linearGradient></defs>
+          <stop stop-color="#2f6bff"/><stop offset="1" stop-color="#5b8dff"/></linearGradient></defs>
       </svg>
       ClearConsent
     </a>
@@ -261,10 +261,9 @@
       <a href="#try">Try it</a>
       <a href="#adobe">Adobe</a>
       <a href="#onetrust">vs OneTrust</a>
-      <a href="#install">Install</a>
-      <a href="#implement">Implement</a>
-      <a href="#support">Support</a>
-      <a class="nav-cta" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">GitHub</a>
+      <a href="#pricing">Pricing</a>
+      <a href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">GitHub</a>
+      <a class="nav-cta" href="#pricing">Start free</a>
     </nav>
   </div>
 </header>
@@ -273,25 +272,51 @@
 
 <section class="hero">
   <div class="wrap">
-    <span class="eyebrow">Cookie consent · built for trust</span>
-    <h1>Consent that speaks <span class="grad">Adobe</span> natively.</h1>
-    <p class="lede">A fast, accessible cookie consent manager that drives the AEP Web SDK, the ECID
-      Opt-In service, Adobe Analytics, the Client Data Layer, and Launch/Tags directly — no per-site
-      glue code — and installs as a native Launch extension.</p>
+    <span class="eyebrow">The Adobe-native consent platform</span>
+    <h1>Turn consent into your <span class="grad">Adobe</span> advantage.</h1>
+    <p class="lede">A generic cookie banner costs you three ways: data your Adobe stack can't use, a
+      slower site, and six-figure fine exposure. ClearConsent captures consent once and drives it
+      everywhere Adobe needs it — Web SDK, RT-CDP, AJO, and CJA — in <strong>14.6&nbsp;KB and one
+      request</strong>, compliant by default, with zero per-site glue code.</p>
     <div class="cta-row">
-      <button class="btn primary" id="launchBanner" type="button">
+      <a class="btn primary" href="#pricing">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Launch the banner
-      </button>
-      <a class="btn ghost" href="#install">Install the extension →</a>
+        Start free
+      </a>
       <a class="btn ghost" href="#try">See it drive Adobe ↓</a>
-      <a class="btn ghost" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">View source</a>
+      <button class="btn ghost" id="launchBanner" type="button">Launch the banner</button>
     </div>
+    <p style="font-size:13px;color:var(--ink-faint);margin:18px 0 0;">MIT open-source core · installs as a native Launch extension · honors Global Privacy Control by default</p>
 
     <div class="stats">
-      <div class="stat"><div class="big">14.6<span class="u"> KB</span></div><div class="lbl">gzipped, one file — the whole thing</div></div>
-      <div class="stat"><div class="big">1 <span class="u">request</span></div><div class="lbl">zero as a Launch extension — it's inlined</div></div>
-      <div class="stat"><div class="big">0.000<span class="u"> CLS</span></div><div class="lbl">no layout shift, measured in Chromium</div></div>
+      <div class="stat"><div class="big">14.6<span class="u"> KB</span></div><div class="lbl">the whole CMP, one file — vs ~184&nbsp;KB across 16 requests for a hosted CMP</div></div>
+      <div class="stat"><div class="big">1 <span class="u">request</span></div><div class="lbl">zero as a Launch extension — inlined into the Tags library you already ship</div></div>
+      <div class="stat"><div class="big">0.0000<span class="u"> CLS</span></div><div class="lbl">no layout shift — faster pages convert better and rank higher</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY (business outcomes) ============ -->
+<section class="band" id="why-switch">
+  <div class="wrap">
+    <p class="kicker">Why teams switch</p>
+    <h2>What the wrong consent banner really costs.</h2>
+    <div class="cols">
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6l7-3Z" stroke="#2563eb" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 8.5v4.2" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="15.6" r="1" fill="#2563eb"/></svg></div>
+        <h3>Fines are the floor</h3>
+        <p>The CNIL fined Google <strong>€150M</strong> and Meta <strong>€60M</strong> over one thing — reject wasn't as easy as accept. Sephora paid <strong>$1.2M</strong> for ignoring Global Privacy Control. ClearConsent makes those the defaults you <em>can't</em> misconfigure.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 3 5 13h5l-1 8 8-11h-5l1-7Z" stroke="#2563eb" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+        <h3>Speed is revenue</h3>
+        <p>Hosted CMPs load a stub that fetches a config that fetches the SDK — around <strong>184&nbsp;KB</strong> before a banner paints. ClearConsent is <strong>14.6&nbsp;KB, one request, zero layout shift</strong>. Every 100&nbsp;ms of load time is measurable conversion.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.5 12a2.7 2.7 0 0 1 2.7-2.7h2.6a2.7 2.7 0 1 1 0 5.4h-1" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round"/><path d="M14.5 12a2.7 2.7 0 0 1-2.7 2.7H9.2a2.7 2.7 0 1 1 0-5.4h1" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Your Adobe data, finally usable</h3>
+        <p>Consent flows straight into <strong>RT-CDP, AJO, and CJA</strong> — profile opt-in/out, consent-gated journeys, clean measurement. No glue code, no rotting OneTrust mappings, no data you legally can't touch.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -682,7 +707,7 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
       glue. There's exactly <em>one</em> thing you set on the Adobe side per stack. Here's each, end to end; the
       full reference is <a href="https://github.com/scotttavares/Adobe-Analytics-DTM/blob/master/docs/adobe-integration.md" target="_blank" rel="noopener">docs/adobe-integration.md</a>.</p>
 
-    <h3 style="font-size:22px; color:#fff; margin:6px 0 6px;">Web SDK (Alloy)</h3>
+    <h3 style="font-size:22px; color:var(--ink); margin:6px 0 6px;">Web SDK (Alloy)</h3>
     <p style="color:var(--ink-dim); font-size:15.5px; max-width:66ch; margin:0 0 20px;">The modern stack. Consent is
       delivered with <code>alloy("setConsent", …)</code> in the Adobe 2.0 standard, to every instance discovered via
       <code>__alloyNS</code> — multi-instance properties get a call each, no configuration.</p>
@@ -707,7 +732,7 @@ consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&g
     </div>
     <p class="flag-note">Leave Default Consent at <code>In</code> and Alloy collects on load — the banner becomes cosmetic. The queue is in-memory and doesn't survive a reload, which is why ClearConsent re-asserts on every page load (re-stating an unchanged decision is free on the wire — Adobe only calls out when the value changes).</p>
 
-    <h3 style="font-size:22px; color:#fff; margin:40px 0 6px;">Classic (AppMeasurement + ECID Opt-In)</h3>
+    <h3 style="font-size:22px; color:var(--ink); margin:40px 0 6px;">Classic (AppMeasurement + ECID Opt-In)</h3>
     <p style="color:var(--ink-dim); font-size:15.5px; max-width:66ch; margin:0 0 20px;">The legacy AppMeasurement /
       at.js estate. Consent flows through the ECID Opt-In service; ClearConsent stages both sides and applies once,
       and also guards a hardcoded tracker.</p>
@@ -781,21 +806,72 @@ adobe.optIn.<span class="f">complete</span>();
   </div>
 </section>
 
+<section class="band" id="pricing">
+  <div class="wrap">
+    <p class="kicker">Pricing</p>
+    <h2>Start free. Pay when it pays you back.</h2>
+    <p class="intro">The engine is open source and free forever. Move up when you want it hosted,
+      supported, and wired into your full Adobe governance stack — RT-CDP, AJO, and CJA.</p>
+    <div class="cols">
+      <div class="card">
+        <p class="kicker" style="color:var(--ink-faint);">Open Source</p>
+        <div style="font-family:Georgia,serif;font-size:34px;color:var(--ink);margin:4px 0 2px;">$0</div>
+        <p style="color:var(--ink-faint);font-size:13px;margin:0 0 16px;">MIT · self-hosted, forever</p>
+        <ul style="list-style:none;margin:0 0 20px;padding:0;font-size:14px;color:var(--ink-dim);line-height:1.95;">
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> The full consent engine + banner</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Web SDK, Opt-In, Analytics, ACDL, Launch</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Native Launch extension</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Community support</li>
+        </ul>
+        <a class="btn ghost" style="width:100%;justify-content:center;" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">Get it on GitHub</a>
+      </div>
+      <div class="card" style="border-color:var(--mint);box-shadow:0 0 0 1px var(--mint),0 14px 44px -20px rgba(47,107,255,.55);position:relative;">
+        <span style="position:absolute;top:-11px;left:26px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 12px;border-radius:999px;">Most popular</span>
+        <p class="kicker" style="color:var(--mint);">Team</p>
+        <div style="font-family:Georgia,serif;font-size:34px;color:var(--ink);margin:4px 0 2px;">$49<span style="font-size:15px;color:var(--ink-faint);font-family:system-ui,sans-serif;"> / site / mo</span></div>
+        <p style="color:var(--ink-faint);font-size:13px;margin:0 0 16px;">billed annually · 14-day free trial</p>
+        <ul style="list-style:none;margin:0 0 20px;padding:0;font-size:14px;color:var(--ink-dim);line-height:1.95;">
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Everything in Open Source</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Hosted config + one-click updates</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Cookie scanner + pre-deploy crawl</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Consent receipts endpoint + audit log</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Priority support</li>
+        </ul>
+        <a class="btn primary" style="width:100%;justify-content:center;" href="#install">Start free trial</a>
+      </div>
+      <div class="card">
+        <p class="kicker" style="color:var(--ink-faint);">Enterprise</p>
+        <div style="font-family:Georgia,serif;font-size:34px;color:var(--ink);margin:4px 0 2px;">Custom</div>
+        <p style="color:var(--ink-faint);font-size:13px;margin:0 0 16px;">for regulated &amp; multi-brand estates</p>
+        <ul style="list-style:none;margin:0 0 20px;padding:0;font-size:14px;color:var(--ink-dim);line-height:1.95;">
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Everything in Team</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> RT-CDP / AJO / CJA governance blueprint</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> SSO, SLA &amp; dedicated onboarding</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Fair-Lending / HIPAA / GLBA support</li>
+        </ul>
+        <a class="btn ghost" style="width:100%;justify-content:center;" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">Book a demo</a>
+      </div>
+    </div>
+    <p class="flag-note" style="text-align:center;">Prices in USD. Adobe products sold separately — ClearConsent makes the consent layer of your Adobe estate actually work.</p>
+  </div>
+</section>
+
 <section class="final">
   <div class="wrap">
-    <h2>The banner on this page is the product.</h2>
-    <p>No mockup — the notice you saw on load is ClearConsent running on its own site, driving the
-      five Adobe surfaces you just watched light up in the inspector.</p>
+    <h2>Consent shouldn't cost you data, speed, or sleep.</h2>
+    <p>The banner on this page is ClearConsent running on itself — driving five Adobe surfaces live,
+      right now. You can ship the same in an afternoon.</p>
     <div class="cta-row">
-      <button class="btn primary" id="launchBanner2" type="button">Launch the banner again</button>
-      <a class="btn ghost" href="https://clearconsent-demo.vercel.app" target="_blank" rel="noopener">Open the full demo</a>
+      <a class="btn primary" href="#pricing">Start free</a>
+      <a class="btn ghost" href="#try">See it drive Adobe</a>
+      <button class="btn ghost" id="launchBanner2" type="button">Launch the banner again</button>
     </div>
   </div>
 </section>
 
 <footer class="site">
   <div class="wrap foot-inner">
-    <div>MIT-licensed · a demonstration project. “Adobe”, “Adobe Analytics”, and “Adobe Launch” are trademarks of Adobe Inc.; this project is not affiliated with or endorsed by Adobe.</div>
+    <div>© 2026 ClearConsent · MIT-licensed open source. “Adobe”, “Adobe Analytics”, and “Adobe Launch” are trademarks of Adobe Inc.; ClearConsent is not affiliated with or endorsed by Adobe.</div>
     <div>
       <button class="linklike" id="footerPrefs" type="button">Privacy choices</button>
       &nbsp;·&nbsp;
@@ -895,6 +971,11 @@ adobe.optIn.<span class="f">complete</span>();
     geo: { region: 'EU' },
     adobe: { launch: { perCategoryDirectCalls: true } },
     ui: {
+      theme: {
+        surface: '#ffffff', surfaceAlt: '#f4f6fb', text: '#14161d', textMuted: '#4b4f5c',
+        accent: 'linear-gradient(96deg,#2f6bff,#5b8dff)', accentText: '#ffffff',
+        border: 'rgba(20,22,34,0.14)', overlay: 'rgba(20,22,34,0.40)'
+      },
       position: 'bottom',
       blocking: false,
       text: {
@@ -1188,7 +1269,7 @@ adobe.optIn.<span class="f">complete</span>();
           var tr = document.createElement('tr');
           var n = document.createElement('td'); n.innerHTML = '<code>' + r.name + '</code>';
           var w = document.createElement('td');
-          w.innerHTML = '<span style="display:inline-block;padding:2px 8px;font-size:11px;font-weight:600;border-radius:999px;color:#fff;background:' +
+          w.innerHTML = '<span style="display:inline-block;padding:2px 8px;font-size:11px;font-weight:600;border-radius:999px;color:var(--ink);background:' +
             (CC_CAT[info.cat] || '#666') + '">' + info.cat + '</span> ' + info.who;
           var v = document.createElement('td');
           v.textContent = (r.val.length > 40 ? r.val.slice(0, 40) + '…' : r.val) || '(empty)';
@@ -1220,7 +1301,7 @@ adobe.optIn.<span class="f">complete</span>();
   // A browser cannot read another origin's cookies, so this previews the report
   // FORMAT against the curated DB; the real crawl runs server-side (npm run scan).
   function ccEsc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); }
-  function ccPill(cat){ return '<span style="display:inline-block;padding:2px 8px;font-size:11px;font-weight:600;border-radius:999px;color:#fff;background:' + (CC_CAT[cat] || '#666') + '">' + ccEsc(cat) + '</span>'; }
+  function ccPill(cat){ return '<span style="display:inline-block;padding:2px 8px;font-size:11px;font-weight:600;border-radius:999px;color:var(--ink);background:' + (CC_CAT[cat] || '#666') + '">' + ccEsc(cat) + '</span>'; }
   function ccPolicy(info){
     if (info.pol) return '<a href="' + info.pol + '" target="_blank" rel="noopener" style="color:#6cb6e6;text-decoration:underline;text-underline-offset:2px">' + ccEsc(info.company || info.who) + ' privacy policy ↗</a>';
     return '<span style="color:var(--ink-faint)">' + ccEsc(info.company || info.who) + ' · no public policy on file</span>';
