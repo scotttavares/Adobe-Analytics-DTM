@@ -27,6 +27,11 @@ jobs:
       - name: Unit tests
         run: npm test
 
+      # The React Native package (packages/react-native) reuses the shared core;
+      # its plumbing tests (adapter payloads, storage, wiring) run in plain Node.
+      - name: React Native package — plumbing tests
+        run: npx vitest run --root packages/react-native
+
       - name: Build
         run: npm run build
 
