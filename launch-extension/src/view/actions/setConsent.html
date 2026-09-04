@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Set Consent</title>
+<style>
+  * { box-sizing:border-box; }
+  body { font:14px/1.5 adobe-clean,"Segoe UI",system-ui,-apple-system,sans-serif;
+         color:#2c2c2c; margin:0; padding:14px 4px; }
+  .field { margin-bottom:14px; max-width:560px; }
+  .field label { display:block; font-weight:500; margin-bottom:4px; }
+  .field .desc { color:#6e6e6e; font-size:12.5px; margin-top:3px; }
+  input[type="text"], select { width:100%; padding:7px 9px; border:1px solid #d3d3d3;
+    border-radius:4px; font:inherit; background:#fff; }
+  code { background:#f5f5f5; padding:1px 5px; border-radius:3px; font-size:12.5px; }
+  p.hint { color:#6e6e6e; font-size:12.5px; margin:0 0 12px; max-width:560px; }
+</style>
+</head>
+<body>
+
+<p class="hint">Records a consent decision from somewhere other than the banner — a native app
+  webview, a server-rendered preference page, or a CMP you are migrating away from.</p>
+
+<div class="field">
+  <label for="mode">What to set</label>
+  <select id="mode">
+    <option value="acceptAll">Grant every category</option>
+    <option value="rejectAll">Deny every optional category</option>
+    <option value="update">Grant and deny specific categories</option>
+  </select>
+</div>
+
+<div id="specific" hidden>
+  <div class="field">
+    <label for="grant">Grant</label>
+    <input type="text" id="grant" placeholder="analytics, personalization">
+    <div class="desc">Comma-separated category ids. Data elements such as
+      <code>%myConsentString%</code> work here too.</div>
+  </div>
+  <div class="field">
+    <label for="deny">Deny</label>
+    <input type="text" id="deny" placeholder="advertising">
+  </div>
+</div>
+
+<script src="https://assets.adobedtm.com/activation/reactor/extensionbridge/extensionbridge.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var mode = document.getElementById('mode');
+  var specific = document.getElementById('specific');
+  var grant = document.getElementById('grant');
+  var deny = document.getElementById('deny');
+
+  function sync() { specific.hidden = mode.value !== 'update'; }
+  mode.addEventListener('change', sync);
+
+  window.extensionBridge.register({
+    init: function (info) {
+      var settings = (info && info.settings) || {};
+      if (settings.mode) mode.value = settings.mode;
+      if (settings.grant) grant.value = settings.grant;
+      if (settings.deny) deny.value = settings.deny;
+      sync();
+    },
+    getSettings: function () {
+      var settings = { mode: mode.value };
+      if (mode.value === 'update') {
+        if (grant.value.trim()) settings.grant = grant.value.trim();
+        if (deny.value.trim()) settings.deny = deny.value.trim();
+      }
+      return settings;
+    },
+    validate: function () {
+      if (mode.value === 'update' && !grant.value.trim() && !deny.value.trim()) {
+        alert('List at least one category to grant or deny.');
+        return false;
+      }
+      return true;
+    }
+  });
+})();
+</script>
+</body>
+</html>

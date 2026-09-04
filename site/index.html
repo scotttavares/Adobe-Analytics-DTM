@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClearConsent — an Adobe-native cookie consent manager</title>
+<meta name="description" content="A fast, accessible cookie consent manager that wires consent straight into the Adobe Web SDK, ECID Opt-In, Analytics, the Client Data Layer, and Launch/Tags. 14.6 KB, one request, zero layout shift.">
+<meta property="og:title" content="ClearConsent">
+<meta property="og:description" content="An Adobe-native cookie consent manager. 14.6 KB gzipped, one network request, zero layout shift.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Crect width='24' height='24' rx='5' fill='%230e0b1a'/%3E%3Cpath d='M12 3.5 5.5 6v4.9c0 3.9 2.6 7.4 6.5 8.4 3.9-1 6.5-4.5 6.5-8.4V6L12 3.5Z' stroke='%239aa7ff' stroke-width='1.3'/%3E%3Cpath d='M8.7 11.9 11 14.2l4.3-4.5' stroke='%23ffcc73' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --navy:#0e0b1a;
+    --navy-1:#160f2b;
+    --navy-2:#1b1530;
+    --navy-3:#261d40;
+    --mint:#9aa7ff;
+    --lime:#ffcc73;
+    --ink:#efecf9;
+    --ink-dim:#bcb6d4;
+    --ink-faint:#847da0;
+    --line:rgba(255,255,255,.10);
+    --line-2:rgba(255,255,255,.16);
+    --accent:linear-gradient(96deg,#7d8bff 0%,#b57cff 100%);
+    --danger:#ff8f9e;
+    --green:#34d399;
+    --maxw:1100px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body {
+    margin:0; background:var(--navy); color:var(--ink);
+    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  h1,h2,h3 { font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+             font-weight:700; letter-spacing:-.015em; line-height:1.12; }
+  a { color:var(--mint); text-decoration:none; }
+  a:hover { text-decoration:underline; text-underline-offset:3px; }
+  code, kbd, pre { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace; }
+  code:not(pre code) { background:rgba(255,255,255,.08); padding:2px 6px; border-radius:5px;
+                       font-size:.86em; color:#e2ddf2; }
+  .wrap { max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+
+  header.site {
+    position:sticky; top:0; z-index:20; backdrop-filter:blur(10px);
+    background:rgba(14,11,26,.78); border-bottom:1px solid var(--line);
+  }
+  .nav-inner { display:flex; align-items:center; justify-content:space-between;
+               height:62px; gap:20px; }
+  .logo { display:flex; align-items:center; gap:10px; font-family:Georgia,serif;
+          font-size:17px; letter-spacing:.02em; color:#fff; }
+  .logo:hover { text-decoration:none; }
+  .logo .mark { width:26px; height:26px; flex:0 0 auto; }
+  .nav-links { display:flex; align-items:center; gap:24px; font-size:14.5px; }
+  .nav-links a { color:var(--ink-dim); }
+  .nav-links a:hover { color:#fff; text-decoration:none; }
+  .nav-cta { border:1px solid var(--line-2); border-radius:999px; padding:7px 16px;
+             color:#fff !important; font-weight:600; }
+  .nav-cta:hover { background:rgba(255,255,255,.08); }
+  @media (max-width:820px){ .nav-links a:not(.nav-cta){ display:none; } }
+
+  .hero { position:relative; overflow:hidden; padding:92px 0 80px;
+    background:
+      radial-gradient(1100px 460px at 72% 8%, rgba(154,167,255,.18), transparent 62%),
+      radial-gradient(820px 420px at 12% 92%, rgba(255,204,115,.12), transparent 60%);
+  }
+  .hero .wrap { position:relative; z-index:1; }
+  .eyebrow { display:inline-flex; align-items:center; gap:8px; letter-spacing:.22em;
+             text-transform:uppercase; font-size:12px; font-weight:600; color:var(--mint);
+             border:1px solid var(--line-2); border-radius:999px; padding:6px 14px; margin-bottom:26px; }
+  .hero h1 { font-size:clamp(42px,7vw,76px); margin:0 0 22px; color:#fff; max-width:15ch; }
+  .hero h1 .grad { background:var(--accent); -webkit-background-clip:text; background-clip:text;
+                   -webkit-text-fill-color:transparent; }
+  .hero p.lede { font-size:clamp(17px,2.2vw,21px); color:var(--ink-dim); max-width:56ch; margin:0 0 34px; }
+  .cta-row { display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
+  .btn { display:inline-flex; align-items:center; gap:9px; font:inherit; font-weight:600;
+         font-size:15.5px; padding:14px 26px; border-radius:999px; cursor:pointer;
+         border:1.5px solid transparent; transition:transform .12s ease, box-shadow .18s ease, background .18s; }
+  .btn:hover { transform:translateY(-1px); text-decoration:none; }
+  .btn.primary { background:var(--accent); color:#160f2b; box-shadow:0 6px 24px rgba(154,167,255,.22); }
+  .btn.ghost { border-color:var(--line-2); color:#fff; }
+  .btn.ghost:hover { background:rgba(255,255,255,.07); }
+  .btn svg { width:18px; height:18px; }
+  .btn.sm { padding:10px 18px; font-size:14px; }
+
+  .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:60px;
+           background:var(--line); border:1px solid var(--line); border-radius:16px; overflow:hidden; }
+  .stat { background:var(--navy-1); padding:26px 24px; }
+  .stat .big { font-family:Georgia,serif; font-size:34px; color:#fff; line-height:1; margin-bottom:8px; }
+  .stat .big .u { font-size:16px; color:var(--ink-faint); font-family:system-ui,sans-serif; }
+  .stat .lbl { font-size:13.5px; color:var(--ink-dim); }
+  @media (max-width:640px){ .stats{ grid-template-columns:1fr; } }
+
+  section.band { padding:78px 0; border-top:1px solid var(--line); }
+  .kicker { letter-spacing:.2em; text-transform:uppercase; font-size:12px; font-weight:600;
+            color:var(--mint); margin:0 0 14px; }
+  section.band h2 { font-size:clamp(28px,4vw,40px); margin:0 0 18px; color:#fff; }
+  section.band > .wrap > p.intro { font-size:17.5px; color:var(--ink-dim); max-width:64ch; margin:0 0 38px; }
+
+  .cols { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+  @media (max-width:840px){ .cols{ grid-template-columns:1fr; } }
+  .card { background:var(--navy-1); border:1px solid var(--line); border-radius:14px; padding:26px; }
+  .card h3 { font-size:19px; margin:0 0 10px; color:#fff; }
+  .card p { margin:0; color:var(--ink-dim); font-size:15px; }
+  .card .ic { width:38px; height:38px; border-radius:10px; display:grid; place-items:center;
+              background:rgba(154,167,255,.12); margin-bottom:16px; }
+  .card .ic svg { width:20px; height:20px; stroke:var(--mint); }
+
+  .tbl { width:100%; border-collapse:collapse; margin-top:8px; font-size:15px;
+         border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .tbl th, .tbl td { text-align:left; padding:15px 18px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .tbl thead th { background:var(--navy-2); color:#fff; font-size:13px; letter-spacing:.04em;
+                  text-transform:uppercase; font-weight:600; }
+  .tbl tbody tr:last-child td { border-bottom:0; }
+  .tbl tbody tr { background:var(--navy-1); }
+  .tbl td:first-child { color:#fff; font-weight:600; white-space:nowrap; }
+  .tbl td code { font-size:.82em; }
+  .tbl-scroll { overflow-x:auto; }
+
+  .code { background:#0a0714; border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .code-head { display:flex; align-items:center; gap:8px; padding:12px 16px;
+               border-bottom:1px solid var(--line); background:var(--navy-1); }
+  .code-head .dot { width:11px; height:11px; border-radius:50%; }
+  .code-head .fn { margin-left:8px; font-size:13px; color:var(--ink-faint); }
+  pre { margin:0; padding:20px 22px; overflow-x:auto; font-size:13.6px; line-height:1.7; color:#ddd7ee; }
+  pre .c { color:#6f6a90; } pre .k { color:#9aa7ff; } pre .s { color:#ffcc73; }
+  pre .f { color:#e6b3ff; } pre .n { color:#ffc98f; }
+  .two { display:grid; grid-template-columns:1.05fr .95fr; gap:30px; align-items:center; }
+  @media (max-width:840px){ .two{ grid-template-columns:1fr; } }
+  .two h2 { margin-top:0; }
+  .two ul { margin:18px 0 0; padding:0; list-style:none; }
+  .two li { position:relative; padding:8px 0 8px 30px; color:var(--ink-dim); font-size:15.5px; }
+  .two li::before { content:''; position:absolute; left:0; top:15px; width:16px; height:9px;
+                    border-left:2.5px solid var(--mint); border-bottom:2.5px solid var(--mint);
+                    transform:rotate(-45deg); }
+
+  .pills { display:flex; flex-wrap:wrap; gap:12px; }
+  .pill { background:var(--navy-1); border:1px solid var(--line); border-radius:12px;
+          padding:16px 18px; font-size:14.5px; color:var(--ink-dim); flex:1 1 260px; }
+  .pill b { color:#fff; font-weight:600; display:block; font-size:15px; margin-bottom:3px; }
+  .pill.ok { border-color:rgba(52,211,153,.45);
+             background:linear-gradient(180deg,rgba(52,211,153,.10),var(--navy-1)); }
+  .pill.ok b { color:var(--green); }
+
+  .install-tabs { display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
+  .install-tabs button { font:inherit; font-size:14px; font-weight:600; padding:9px 18px;
+    border-radius:999px; cursor:pointer; border:1px solid var(--line-2); background:transparent; color:var(--ink-dim); }
+  .install-tabs button[aria-selected="true"] { background:var(--accent); color:#160f2b; border-color:transparent; }
+  .install-panel { display:none; } .install-panel.active { display:block; }
+
+  .cmp td:first-child { white-space:normal; }
+  .cmp .yes { color:var(--lime); font-weight:600; }
+  .cmp .no { color:var(--ink-faint); }
+  .flag-note { font-size:13px; color:var(--ink-faint); margin-top:14px; }
+
+  /* --- interactive: live inspector --- */
+  .live { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:840px){ .live{ grid-template-columns:1fr; } }
+  .panel-box { background:var(--navy-1); border:1px solid var(--line); border-radius:16px; padding:22px; }
+  .panel-box h3 { margin:0 0 4px; font-size:17px; color:#fff; }
+  .panel-box .sub { color:var(--ink-faint); font-size:13px; margin:0 0 16px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .chip { display:inline-flex; align-items:center; gap:8px; border-radius:9px; padding:8px 12px;
+          font-size:13px; font-weight:600; background:rgba(255,255,255,.05); border:1px solid var(--line); }
+  .chip .d { width:8px; height:8px; border-radius:50%; background:var(--ink-faint); }
+  .chip.on { background:rgba(255,204,115,.14); border-color:rgba(255,204,115,.35); color:#ffe6bf; }
+  .chip.on .d { background:var(--lime); box-shadow:0 0 8px rgba(255,204,115,.7); }
+  .btn-mini { font:inherit; font-size:13px; font-weight:600; padding:8px 14px; border-radius:999px;
+              cursor:pointer; border:1px solid var(--line-2); background:transparent; color:var(--ink); }
+  .btn-mini:hover { background:rgba(255,255,255,.08); }
+  .btn-mini.accent { background:var(--accent); color:#160f2b; border-color:transparent; }
+  .mini-row { display:flex; gap:8px; flex-wrap:wrap; }
+  .calllog { background:#0a0714; border:1px solid var(--line); border-radius:10px; padding:12px 14px;
+             height:264px; overflow:auto; font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+             color:#cfc9e4; }
+  .calllog div { padding:3px 0; border-bottom:1px solid rgba(255,255,255,.05); word-break:break-word;
+                 animation:flash .6s ease-out; }
+  .calllog .api { color:var(--mint); font-weight:700; }
+  .calllog .t { color:#6b6488; }
+  .calllog .empty { color:#6b6488; border:0; }
+  @keyframes flash { from { background:rgba(154,167,255,.12); } to { background:transparent; } }
+
+  /* --- interactive: region resolver --- */
+  .region-switch { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+  .region-switch button { font:inherit; font-size:14px; font-weight:600; padding:10px 16px;
+    border-radius:10px; cursor:pointer; border:1px solid var(--line-2); background:transparent; color:var(--ink-dim); }
+  .region-switch button[aria-pressed="true"] { background:var(--navy-3); color:#fff; border-color:var(--mint); }
+  .rr-model { display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:600;
+              padding:6px 12px; border-radius:999px; margin:0 0 16px;
+              background:rgba(154,167,255,.12); color:#d7dcff; border:1px solid rgba(154,167,255,.3); }
+  .payload { background:#0a0714; border:1px solid var(--line); border-radius:10px; padding:14px 16px;
+             font:12.5px/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:#ddd7ee; overflow-x:auto; }
+  .payload .key { color:#9aa7ff; } .payload .y { color:#ffcc73; } .payload .n { color:#ff8f9e; }
+
+  /* --- interactive: load-chain race --- */
+  .race { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:8px; }
+  @media (max-width:720px){ .race{ grid-template-columns:1fr; } }
+  .lane { background:var(--navy-1); border:1px solid var(--line); border-radius:14px; padding:22px; }
+  .lane.ours { border-color:rgba(255,204,115,.3); }
+  .lane h4 { margin:0 0 3px; font-size:15px; color:#fff; }
+  .lane .meta { font-size:12.5px; color:var(--ink-faint); margin:0 0 18px; }
+  .bar { height:30px; border-radius:7px; margin-bottom:9px; position:relative; overflow:hidden;
+         background:rgba(255,255,255,.05); }
+  .bar .fill { position:absolute; inset:0; width:0; border-radius:7px; }
+  .bar .fl-label { position:absolute; left:11px; top:0; height:30px; display:flex; align-items:center;
+                   font-size:12px; font-weight:600; color:#160f2b; white-space:nowrap; opacity:0; }
+  .bar.run .fill { transition:width .7s ease; }
+  .bar.run .fl-label { opacity:1; transition:opacity .3s ease .2s; }
+  .lane.theirs .fill { background:linear-gradient(90deg,#8b86a3,#a8a4c0); }
+  .lane.ours .fill { background:var(--accent); }
+  .race .verdict { margin-top:6px; font-size:13px; font-weight:600; }
+  .lane.theirs .verdict { color:var(--ink-dim); }
+  .lane.ours .verdict { color:var(--lime); }
+
+  .final { text-align:center; padding:88px 0; border-top:1px solid var(--line);
+    background:radial-gradient(700px 300px at 50% 0%, rgba(154,167,255,.14), transparent 65%); }
+  .final h2 { font-size:clamp(30px,5vw,46px); color:#fff; margin:0 0 18px; }
+  .final p { color:var(--ink-dim); font-size:18px; max-width:52ch; margin:0 auto 32px; }
+  .final .cta-row { justify-content:center; }
+
+  footer.site { border-top:1px solid var(--line); padding:40px 0; color:var(--ink-faint); font-size:14px; }
+  .foot-inner { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; align-items:center; }
+  .foot-inner a { color:var(--ink-dim); }
+  footer .linklike { background:none; border:0; color:var(--ink-dim); font:inherit; font-size:14px;
+                     text-decoration:underline; text-underline-offset:3px; cursor:pointer; padding:0; }
+
+  .disc { background:rgba(255,204,115,.07); border:1px solid rgba(255,204,115,.2); border-radius:12px;
+          padding:14px 18px; font-size:13.5px; color:var(--ink-dim); margin-top:26px; }
+
+  /* GPC / DNT acknowledgment toast */
+  .signal-toast { position:fixed; left:18px; bottom:18px; z-index:2147482500; max-width:360px;
+    display:flex; gap:10px; align-items:flex-start; padding:13px 15px; border-radius:12px;
+    background:var(--navy-1); border:1px solid var(--line-2); color:var(--ink);
+    box-shadow:0 10px 30px rgba(0,0,0,.28); font-size:13.5px; line-height:1.5;
+    transform:translateY(14px); opacity:0; transition:opacity .25s ease, transform .25s ease; }
+  .signal-toast.show { transform:none; opacity:1; }
+  .signal-toast svg { width:18px; height:18px; flex:0 0 auto; stroke:var(--mint); margin-top:1px; }
+  .signal-toast button { margin-left:2px; background:none; border:0; color:var(--ink-faint);
+    font-size:18px; line-height:1; cursor:pointer; padding:0 2px; flex:0 0 auto; }
+  .signal-toast button:hover { color:var(--ink); }
+  @media (prefers-reduced-motion: reduce) { .signal-toast { transition:none; } }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top">
+      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 1.75 4 4.9v6.02c0 4.77 3.2 9.15 8 10.33 4.8-1.18 8-5.56 8-10.33V4.9l-8-3.15Z"
+              stroke="url(#g)" stroke-width="1.6"/>
+        <path d="M8.4 11.9 11 14.6l4.8-5" stroke="url(#g)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs><linearGradient id="g" x1="4" y1="2" x2="20" y2="22">
+          <stop stop-color="#7d8bff"/><stop offset="1" stop-color="#b57cff"/></linearGradient></defs>
+      </svg>
+      ClearConsent
+    </a>
+    <nav class="nav-links">
+      <a href="#try">Try it</a>
+      <a href="#adobe">Adobe</a>
+      <a href="#onetrust">vs OneTrust</a>
+      <a href="#install">Install</a>
+      <a class="nav-cta" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div id="top"></div>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Cookie consent · built for trust</span>
+    <h1>Consent that speaks <span class="grad">Adobe</span> natively.</h1>
+    <p class="lede">A fast, accessible cookie consent manager that drives the AEP Web SDK, the ECID
+      Opt-In service, Adobe Analytics, the Client Data Layer, and Launch/Tags directly — no per-site
+      glue code — and installs as a native Launch extension.</p>
+    <div class="cta-row">
+      <button class="btn primary" id="launchBanner" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Launch the banner
+      </button>
+      <a class="btn ghost" href="#install">Install the extension →</a>
+      <a class="btn ghost" href="#try">See it drive Adobe ↓</a>
+      <a class="btn ghost" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">View source</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="big">14.6<span class="u"> KB</span></div><div class="lbl">gzipped, one file — the whole thing</div></div>
+      <div class="stat"><div class="big">1 <span class="u">request</span></div><div class="lbl">zero as a Launch extension — it's inlined</div></div>
+      <div class="stat"><div class="big">0.000<span class="u"> CLS</span></div><div class="lbl">no layout shift, measured in Chromium</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTERACTIVE: live inspector ============ -->
+<section class="band" id="try">
+  <div class="wrap">
+    <p class="kicker">Try it live</p>
+    <h2>Click the banner. Watch it drive Adobe.</h2>
+    <p class="intro">This page loads the real library plus stubbed Adobe SDKs — the AEP Web SDK,
+      ECID Opt-In, AppMeasurement, the Client Data Layer, and <code>_satellite</code>. Make a choice
+      in the banner (or the buttons below) and every call the library makes to Adobe shows up on the
+      right, live. Nothing is faked; only the network to Adobe is stubbed.</p>
+    <div class="live">
+      <div class="panel-box">
+        <h3>Consent state</h3>
+        <p class="sub">The decision in force right now, from the real engine.</p>
+        <div class="chips" id="liveChips"></div>
+        <div class="mini-row">
+          <button class="btn-mini accent" id="acAccept" type="button">Accept all</button>
+          <button class="btn-mini" id="acReject" type="button">Reject all</button>
+          <button class="btn-mini" id="acAnalytics" type="button">Analytics only</button>
+          <button class="btn-mini" id="acReopen" type="button">Reopen banner</button>
+        </div>
+      </div>
+      <div class="panel-box">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <h3 style="margin:0;">Adobe calls <span class="sub" style="display:inline">(live)</span></h3>
+          <button class="btn-mini" id="acClear" type="button">Clear</button>
+        </div>
+        <p class="sub">Exactly what reached each Adobe SDK, in order — for the stack you choose.</p>
+        <div class="region-switch" id="stackSwitch" style="margin-bottom:14px;">
+          <button type="button" data-stack="websdk" aria-pressed="true">Web SDK (alloy)</button>
+          <button type="button" data-stack="classic" aria-pressed="false">Classic — AppMeasurement + ECID</button>
+        </div>
+        <div class="calllog" id="callLog"><div class="empty">Make a choice to see the calls…</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="why">
+  <div class="wrap">
+    <p class="kicker">Why another CMP</p>
+    <h2>Most consent banners treat Adobe as an afterthought.</h2>
+    <p class="intro">That shows up in three places. This one was built the other way around.</p>
+    <div class="cols">
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg></div>
+        <h3>Weight</h3>
+        <p>A hosted CMP loads a stub, then a config, then the real SDK — three round trips before a
+          banner can paint. Benchmarks put OneTrust near 184&nbsp;KB across 16 requests. This is one
+          14.6&nbsp;KB file, and as a Launch extension it's inlined into the Tags library: no extra
+          request at all.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6"/></svg></div>
+        <h3>Glue code</h3>
+        <p>The usual recipe: override <code>OptanonWrapper()</code>, parse a category string, hand-map
+          it onto <code>adobe.optIn</code>, then write a second mapping for <code>setConsent</code>.
+          Every site reinvents it and it breaks on vendor renames. Here the mapping is configuration
+          and the Adobe calls are the library's job.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9M12 7v5l3 2M21 4l-3 3-2-2"/></svg></div>
+        <h3>Compliance defaults</h3>
+        <p>Only 11.8% of UK top-10k sites using the five biggest CMPs met minimal GDPR consent
+          requirements. Those are configuration failures the products permit. This one doesn't:
+          reject is as prominent as accept, nothing is pre-ticked, Escape never means yes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="gate">
+  <div class="wrap two">
+    <div>
+      <p class="kicker">The one API worth learning</p>
+      <h2><code style="font-size:.7em">gate()</code> replaces every “did they consent yet?” branch.</h2>
+      <p class="intro" style="margin-bottom:0">Hand it a category and a callback. It runs now if that
+        category is already granted, and otherwise waits until the visitor grants it — then runs once.
+        Your tag never needs to know about consent state at all.</p>
+      <ul>
+        <li>Fires immediately for returning visitors who already agreed</li>
+        <li>Queues cleanly on a first visit, releases on the click</li>
+        <li>Also dispatched as DOM events, so nothing needs to import the library</li>
+      </ul>
+    </div>
+    <div class="code">
+      <div class="code-head">
+        <span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span>
+        <span class="fn">app.js</span>
+      </div>
+<pre><span class="c">// runs now, or the moment analytics is granted</span>
+<span class="k">ClearConsent</span>.instance.<span class="f">gate</span>(<span class="s">'analytics'</span>, () =&gt; {
+  loadAnalytics();
+});
+
+<span class="c">// or listen without importing anything</span>
+document.<span class="f">addEventListener</span>(<span class="s">'clearConsent:change'</span>, (e) =&gt; {
+  console.<span class="f">log</span>(e.detail.granted, e.detail.revoked);
+});</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ADOBE deep-dive + region resolver ============ -->
+<section class="band" id="adobe">
+  <div class="wrap">
+    <p class="kicker">What makes it great with Adobe</p>
+    <h2>Five surfaces, wired on every load and every change.</h2>
+    <p class="intro">Each adapter feature-detects its target and does nothing when that product isn't
+      on the page — so leaving all five on is safe. Together they mean a consent decision reaches
+      every corner of an Adobe stack without a line of custom code.</p>
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th>Surface</th><th>What the library does</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td>AEP Web SDK</td><td><code>alloy("setConsent", …)</code> in the Adobe 2.0 / 1.0 standard, on every instance found via <code>__alloyNS</code></td><td>With <code>defaultConsent: "pending"</code>, events queue until the visitor answers — no beacon races the banner</td></tr>
+          <tr><td>ECID Opt-In</td><td>staged <code>approve</code> + <code>deny</code>, then one <code>complete()</code></td><td>Gates AppMeasurement, at.js and Audience Manager. Unknown categories are filtered against the loaded VisitorAPI, so an upgrade can't throw <code>[OptIn] Invalid category</code></td></tr>
+          <tr><td>AppMeasurement</td><td>sets <code>s.abort</code> and <code>s.optOut</code></td><td>Catches a hardcoded <code>s.t()</code> living outside Tags — the reality on a legacy DTM estate</td></tr>
+          <tr><td>Client Data Layer</td><td>pushes a <code>consent-updated</code> event with the resolved Adobe purposes</td><td>ACDL replays the push whether the data layer booted before or after us — no ordering bugs</td></tr>
+          <tr><td>Launch / Tags</td><td>fires the <code>clear-consent-changed</code> direct call rule</td><td>React in a rule with zero JavaScript: read <code>%event.consent.analytics%</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cols" style="margin-top:22px">
+      <div class="card">
+        <h3>The <code>collect</code> nuance</h3>
+        <p>Adobe enforces Web&nbsp;SDK consent all-or-nothing on <code>collect</code>. So
+          <code>collect</code> maps to the <em>union</em> of your data categories — map it to analytics
+          alone and a visitor who allowed personalization but refused analytics would lose their
+          personalization data too. A subtlety most hand-rolled integrations get wrong.</p>
+      </div>
+      <div class="card">
+        <h3>No phantom <code>adID</code> on web</h3>
+        <p>XDM requires an <code>IDFA</code>/<code>GAID</code> <code>idType</code> next to
+          <code>adID</code> — identifiers that don't exist in a browser. The library omits it on the
+          web and only sends it when a hybrid app names the type. Correct XDM, not a rejected payload.</p>
+      </div>
+      <div class="card">
+        <h3>One CJA dimension</h3>
+        <p>The <em>Consent Summary</em> data element emits
+          <code>essential+analytics|accept_all|EU</code> — a single low-cardinality value. Report
+          consent rate, method mix, and regional split in Customer Journey Analytics from one
+          dimension instead of four.</p>
+      </div>
+    </div>
+
+    <!-- region resolver -->
+    <div class="panel-box" style="margin-top:24px">
+      <h3>Region resolver <span class="sub" style="display:inline">— powered by the real engine</span></h3>
+      <p class="sub">Pick a visitor's region and see the model the library chooses and the exact
+        <code>setConsent</code> payload it would send <em>before any click</em>. This is computed live
+        by the shipped code, not a lookup table.</p>
+      <div class="region-switch" id="regionSwitch">
+        <button type="button" data-region="EU" aria-pressed="true">🇪🇺 EU · GDPR</button>
+        <button type="button" data-region="DE" aria-pressed="false">🇩🇪 Germany (EEA)</button>
+        <button type="button" data-region="US-CA" aria-pressed="false">🇺🇸 California</button>
+        <button type="button" data-region="US-TX" aria-pressed="false">🇺🇸 Texas</button>
+        <button type="button" data-region="BR" aria-pressed="false">🇧🇷 Brazil</button>
+        <button type="button" data-region="JP" aria-pressed="false">🇯🇵 Japan</button>
+      </div>
+      <div class="rr-model" id="rrModel">—</div>
+      <div class="chips" id="rrChips"></div>
+      <div class="payload" id="rrPayload"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ vs ONETRUST ============ -->
+<section class="band" id="onetrust">
+  <div class="wrap">
+    <p class="kicker">Head to head</p>
+    <h2>Why it beats OneTrust for an Adobe stack.</h2>
+    <p class="intro">OneTrust is a capable, broad compliance platform. But for the specific job of
+      getting a consent decision into Adobe, fast, it carries weight and wiring you don't need. Here's
+      the honest head-to-head.</p>
+
+    <div class="race" id="race">
+      <div class="lane theirs">
+        <h4>OneTrust — time to a painted banner</h4>
+        <p class="meta">A dependent chain, per OneTrust's documented autoblock architecture: each request waits for the one before it.</p>
+        <div class="bar" data-w="34%"><div class="fill"></div><div class="fl-label">otSDKStub.js</div></div>
+        <div class="bar" data-w="62%"><div class="fill"></div><div class="fl-label">domain config JSON</div></div>
+        <div class="bar" data-w="100%"><div class="fill"></div><div class="fl-label">otBannerSdk.js — paint</div></div>
+        <p class="verdict">3 dependent round trips · ~184&nbsp;KB / 16 requests*</p>
+        <p class="flag-note" style="margin-top:8px">* The stub → config → SDK chain is OneTrust's documented architecture; the KB and request counts are a published third-party benchmark, <strong>not measured by us</strong>. Bar widths illustrate the dependency, not exact timings.</p>
+      </div>
+      <div class="lane ours">
+        <h4>ClearConsent — as a Launch extension</h4>
+        <p class="meta">Inlined into the Tags runtime library you already load.</p>
+        <div class="bar" data-w="100%"><div class="fill"></div><div class="fl-label">already in the library — paint</div></div>
+        <div class="bar" style="visibility:hidden"><div class="fill"></div></div>
+        <div class="bar" style="visibility:hidden"><div class="fill"></div></div>
+        <p class="verdict">0 extra requests · 14.6&nbsp;KB inlined</p>
+      </div>
+    </div>
+
+    <div class="tbl-scroll" style="margin-top:26px">
+      <table class="tbl cmp">
+        <thead><tr><th>&nbsp;</th><th>ClearConsent</th><th>OneTrust</th></tr></thead>
+        <tbody>
+          <tr><td>Requests before the banner paints</td><td class="yes">0 (inlined in Tags)</td><td class="no">3 dependent (stub → config → SDK)</td></tr>
+          <tr><td>Web SDK <code>setConsent</code></td><td class="yes">automatic, every instance</td><td class="no">custom rules + data elements you build</td></tr>
+          <tr><td>ECID Opt-In mapping</td><td class="yes">configuration</td><td class="no">hand-written <code>approve/deny/complete</code></td></tr>
+          <tr><td>Survives a vendor category rename</td><td class="yes">filters unknown ids</td><td class="no">a known cause of <code>[OptIn] Invalid category</code> errors</td></tr>
+          <tr><td>Reject as prominent as accept</td><td class="yes">enforced, not a setting</td><td class="no">configurable — and the basis of CNIL fines</td></tr>
+          <tr><td>Self-hosted / auditable</td><td class="yes">MIT, one file you can read</td><td class="no">vendor SaaS</td></tr>
+          <tr><td>Cost</td><td class="yes">free (MIT)</td><td class="no">~$1.1k/mo/domain*</td></tr>
+          <tr><td>Cookie scanning</td><td class="yes">runtime + scheduled crawl; per-cookie purpose + provider privacy-policy link</td><td class="yes">hosted crawler + larger legally-reviewed DB</td></tr>
+          <tr><td>IAB TCF v2.2</td><td class="no">experimental starter — not registered</td><td class="yes">registered CMP — pick OneTrust</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="flag-note">Honest by design: ClearConsent now ships a scheduled pre-deploy crawler, but if you
+      need a curated, legally-reviewed cookie classification database, an IAB TCF /
+      Google Consent Mode string, managed multi-language legal copy, or a support contract, OneTrust
+      earns its keep. Figures marked&nbsp;* are third-party or competitor-run benchmarks, flagged as
+      such; the full sourced comparison lives in the repo.</p>
+  </div>
+</section>
+
+<section class="band" id="compliance">
+  <div class="wrap">
+    <p class="kicker">Compliance posture</p>
+    <h2>These are behaviors, not settings.</h2>
+    <p class="intro">The failure rate across the industry is the argument for opinionated defaults.
+      The choices below can't be misconfigured away.</p>
+    <div class="pills">
+      <div class="pill"><b>Reject = Accept</b>Same size, same styling, first layer. The CNIL fines against Google (€150M) and Meta (€60M) turned on exactly this asymmetry.</div>
+      <div class="pill"><b>Nothing pre-ticked</b>In opt-in regions, per CJEU <em>Planet49</em>. Inactivity and Escape are recorded as a rejection, never as consent.</div>
+      <div class="pill"><b>GPC honored by default</b>Global Privacy Control is binding under CPRA and Colorado law — the basis of Sephora's $1.2M settlement.</div>
+      <div class="pill"><b>Auditable receipts</b>Every decision records id, timestamp, method, region, policy version, the wording shown, and a digest.</div>
+      <div class="pill"><b>Operable dialog</b>role=dialog, focus trap, focus restore, background inert, reduced-motion and forced-colors support. Zero axe-core violations.</div>
+      <div class="pill"><b>Region-aware</b>Opt-in for the EEA/UK/CH/BR, opt-out for US states and Canada, resolved with specificity matching and no first-paint block.</div>
+    </div>
+
+    <h3 style="margin:46px 0 6px; font-size:20px;">Where it applies</h3>
+    <p class="sub" style="margin:0 0 18px; max-width:64ch;">Every visitor's region resolves to one of three models — opt-in, opt-out, or notice-only — with specificity matching, so a state rule beats a country rule beats the default. No law is hardcoded; the region rules are configuration.</p>
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th>Regime</th><th>Where</th><th>Model</th><th>Universal opt-out signal</th></tr></thead>
+        <tbody>
+          <tr><td>GDPR · UK GDPR · Swiss FADP</td><td>EU · EEA · UK · Switzerland</td><td>Opt-in — prior consent</td><td class="no">n/a (opt-in)</td></tr>
+          <tr><td>CCPA / CPRA</td><td>California</td><td>Opt-out — do not sell or share</td><td class="yes">GPC — binding</td></tr>
+          <tr><td>State privacy laws</td><td>Virginia, Colorado, Connecticut, Texas, Utah, + more</td><td>Opt-out</td><td class="yes">GPC — CO, CA, CT…</td></tr>
+          <tr><td>LGPD</td><td>Brazil</td><td>Opt-in — consent / legal basis</td><td class="no">n/a (opt-in)</td></tr>
+          <tr><td>PIPEDA</td><td>Canada</td><td>Opt-out; opt-in for sensitive</td><td class="no">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pills" style="margin-top:20px;">
+      <div class="pill ok"><b>GPC — honored by default</b>Global Privacy Control is a legally binding opt-out under CPRA (California) and Colorado law, and the basis of Sephora's $1.2M settlement. Read before first paint and applied as a rejection in opt-out regions — no click required.</div>
+      <div class="pill"><b>DNT — read, but honestly legacy</b>Do Not Track is supported as a signal, but no law mandates honoring it and browsers have largely dropped it. GPC is its enforceable successor. We treat a present DNT header as an advisory rejection hint, never as a compliance guarantee.</div>
+    </div>
+
+    <div style="margin-top:18px; display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+      <button class="btn-mini accent" id="previewGpc" type="button">Preview a GPC visitor &rarr;</button>
+      <span class="flag-note" style="margin-top:0;">Forces a Global Privacy Control signal and opens this site's own preference center, so you can see the in-dialog acknowledgment. Reverts the moment you close it.</span>
+    </div>
+
+    <div class="disc">This is engineering, not legal advice. Which regimes apply to you, your category
+      definitions, your copy, and your retention still need a lawyer's eye.</div>
+  </div>
+</section>
+
+<section class="band" id="scanner">
+  <div class="wrap">
+    <p class="kicker">Cookie scanner</p>
+    <h2>See what's actually set — right now.</h2>
+    <p class="intro">A live scan of the cookies and storage keys present in your browser on this page.
+      This is <em>runtime observation</em> of one page — for the full picture there's now a
+      <strong>scheduled pre-deploy crawler</strong> (<code>npm run scan</code>) that spiders the whole site in
+      real Chromium, classifies every cookie, and emails a diff when new ones appear. Make a consent choice above, then scan.</p>
+    <div class="panel-box" style="max-width:860px;">
+      <div class="mini-row" style="margin-bottom:14px; align-items:center;">
+        <button class="btn-mini accent" id="scanBtn" type="button">Scan now</button>
+        <span class="sub" id="scanCount" style="align-self:center;"></span>
+      </div>
+      <div class="tbl-scroll">
+        <table class="tbl">
+          <thead><tr><th>Cookie</th><th>Provider · category</th><th>Value</th></tr></thead>
+          <tbody id="scanBody"><tr><td colspan="3" class="no">Click "Scan now" to read this browser's cookies + storage, classified against the curated DB.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel-box" style="max-width:860px; margin-top:22px;">
+      <h3 style="margin:0 0 6px; font-size:19px;">Scan your whole site</h3>
+      <p class="sub" style="margin:0 0 14px; max-width:66ch;">The scan above only sees this page, and a browser can&#39;t read another origin&#39;s cookies — so a real cross-site scan runs server-side. Enter your domain to build the crawler command and preview the report it produces.</p>
+      <div class="mini-row" style="gap:10px; align-items:center; flex-wrap:wrap;">
+        <input id="crawlDomain" type="text" inputmode="url" placeholder="yourcompany.com" aria-label="Your site domain" style="flex:1 1 240px; min-width:200px; padding:11px 14px; border-radius:10px; border:1px solid var(--line-2); background:var(--navy); color:var(--ink); font:inherit; font-size:15px;">
+        <button class="btn-mini accent" id="crawlBtn" type="button">Preview crawl report</button>
+      </div>
+      <div id="crawlOut" style="margin-top:16px;"></div>
+    </div>
+
+    <div class="panel-box" style="max-width:860px; margin-top:22px;">
+      <div class="mini-row" style="align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+        <div>
+          <h3 style="margin:0 0 4px; font-size:19px;">The curated cookie database</h3>
+          <p class="sub" id="dbSub" style="margin:0; max-width:60ch;">The classification source behind every scan — one entry per known cookie family.</p>
+        </div>
+        <button class="btn-mini" id="dbToggle" type="button" aria-expanded="false">Browse the database</button>
+      </div>
+      <div id="dbOut" style="display:none; margin-top:16px;"></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="tcf">
+  <div class="wrap">
+    <p class="kicker">IAB TCF · experimental</p>
+    <h2>A TCF starter — labeled, not certified.</h2>
+    <p class="intro">The IAB Transparency &amp; Consent Framework is how the programmatic ad ecosystem passes
+      consent. A <em>compliant</em> CMP needs a registered CMP ID, the Global Vendor List, an encoded TC string,
+      and IAB validation. Below is a working <strong>shape</strong> of the <code>__tcfapi</code> surface, wired to
+      the live decision, for experimentation only — <strong>not IAB-registered, no CMP ID, not for production</strong>.
+      Most Adobe Analytics / Target / AEP sites never need TCF at all.</p>
+    <div class="panel-box" style="max-width:860px;">
+      <div class="mini-row" style="margin-bottom:14px;">
+        <button class="btn-mini accent" id="tcfBtn" type="button">Call __tcfapi('getTCData')</button>
+      </div>
+      <div class="payload" id="tcfOut">Click to query the experimental __tcfapi surface. Its purpose consents follow your choice above.</div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="install">
+  <div class="wrap">
+    <p class="kicker">Install</p>
+    <h2>Three ways in.</h2>
+    <p class="intro">The easy path is the Launch extension. It's a <em>real, already-built extension</em> —
+      events, a condition, actions, data elements, and a tabbed configuration UI — so you install it into
+      your Adobe Data Collection property and set categories, regions, and the Adobe wiring with clicks.
+      No custom code per page, and the banner is inlined into the Tags library you already publish.</p>
+    <div class="install-tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-p="p-launch">Launch extension</button>
+      <button role="tab" aria-selected="false" data-p="p-script">Script tag</button>
+      <button role="tab" aria-selected="false" data-p="p-npm">npm</button>
+    </div>
+    <div class="install-panel active" id="p-launch">
+      <div class="pills" style="margin-bottom:18px;">
+        <div class="pill"><b>1 · Install</b>Add ClearConsent from your property's Extensions catalog, like any other Launch extension.</div>
+        <div class="pill"><b>2 · Configure</b>Set categories, regions, and the Adobe wiring in the extension's tabbed UI — category pickers populate from your own property. No code.</div>
+        <div class="pill"><b>3 · Publish</b>Build and publish a library. The banner is inlined into your Tags runtime — zero extra requests.</div>
+      </div>
+      <p class="sub" style="margin:0 0 12px;">To get it into your org the first time, publish the extension — it's committed in the repo, so this runs from a fresh clone:</p>
+      <div class="code">
+        <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">terminal — one-time publish to your org</span></div>
+<pre>npm install
+npm run build              <span class="c"># produces the vendored bundle</span>
+cd launch-extension
+npx @adobe/reactor-packager <span class="c"># → package-clearconsent-1.0.0.zip</span>
+npx @adobe/reactor-uploader package-clearconsent-1.0.0.zip \
+  --auth.client-id=... --auth.client-secret=...</pre>
+      </div>
+      <p class="flag-note">A one-click install from the public <strong>Adobe Exchange</strong> catalog is the next step — that part is Adobe's extension-review process, not more code.</p>
+    </div>
+    <div class="install-panel" id="p-script">
+      <div class="code">
+        <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">index.html</span></div>
+<pre><span class="c">&lt;!-- configure inline; the library auto-inits on load --&gt;</span>
+&lt;<span class="k">script</span> src=<span class="s">"/clearconsent.min.js"</span>
+        data-clearconsent
+        data-config=<span class="s">'{"policyVersion":1,"honorGpc":true}'</span>&gt;&lt;/<span class="k">script</span>&gt;</pre>
+      </div>
+    </div>
+    <div class="install-panel" id="p-npm">
+      <div class="code">
+        <div class="code-head"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span><span class="fn">app.ts</span></div>
+<pre><span class="k">import</span> { init } <span class="k">from</span> <span class="s">'clearconsent'</span>;
+
+<span class="k">const</span> consent = <span class="f">init</span>({ policyVersion: <span class="n">1</span> });
+consent.<span class="f">gate</span>(<span class="s">'advertising'</span>, () =&gt; loadPixel());</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>The banner on this page is the product.</h2>
+    <p>No mockup — the notice you saw on load is ClearConsent running on its own site, driving the
+      five Adobe surfaces you just watched light up in the inspector.</p>
+    <div class="cta-row">
+      <button class="btn primary" id="launchBanner2" type="button">Launch the banner again</button>
+      <a class="btn ghost" href="https://clearconsent-demo.vercel.app" target="_blank" rel="noopener">Open the full demo</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap foot-inner">
+    <div>MIT-licensed · a demonstration project. “Adobe”, “Adobe Analytics”, and “Adobe Launch” are trademarks of Adobe Inc.; this project is not affiliated with or endorsed by Adobe.</div>
+    <div>
+      <button class="linklike" id="footerPrefs" type="button">Privacy choices</button>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Stubbed Adobe SDKs — defined BEFORE the library so its adapters detect them.
+     Same call signatures as the real thing; only the network to Adobe is faked. -->
+<script>
+(function () {
+  var listeners = [];
+  window.__acCalls = [];
+  window.__acLog = function (api, msg) {
+    var e = { api: api, msg: msg, at: Date.now() };
+    window.__acCalls.push(e);
+    listeners.forEach(function (fn) { fn(e); });
+  };
+  window.__acOnCall = function (fn) { listeners.push(fn); };
+
+  // --- Web SDK (alloy): setConsent is the consent API; sendEvent (not shown
+  //     here) is how it sends experience data. It never uses _satellite. ------
+  function installWebSdk() {
+    window.__alloyNS = ['alloy'];
+    window.alloy = function (cmd, opts) {
+      if (cmd === 'setConsent') {
+        var v = (opts && opts.consent && opts.consent[0] && opts.consent[0].value) || {};
+        window.__acLog('alloy', 'setConsent — collect:' + ((v.collect && v.collect.val) || '?') +
+          ' share:' + ((v.share && v.share.val) || '?') +
+          ' personalize:' + ((v.personalize && v.personalize.content && v.personalize.content.val) || '?'));
+      } else { window.__acLog('alloy', cmd); }
+      return Promise.resolve();
+    };
+  }
+  function removeWebSdk() { try { delete window.alloy; } catch (e) { window.alloy = undefined; } window.__alloyNS = []; }
+
+  // --- Classic (AppMeasurement + ECID Opt-In): the legacy libraries. ---------
+  var perms = { aam: false, aa: false, ecid: false, target: false }, staged = {};
+  function installClassic() {
+    window.adobe = window.adobe || {};
+    window.adobe.OptInCategories = { AAM: 'aam', ANALYTICS: 'aa', ECID: 'ecid', TARGET: 'target' };
+    window.adobe.optIn = {
+      permissions: perms, status: 'pending',
+      approve: function (c, w) { c.forEach(function (k) { staged[k] = true; }); if (!w) this.complete(); },
+      deny: function (c, w) { c.forEach(function (k) { staged[k] = false; }); if (!w) this.complete(); },
+      complete: function () {
+        Object.keys(staged).forEach(function (k) { perms[k] = staged[k]; }); staged = {};
+        var ok = Object.keys(perms).filter(function (k) { return perms[k]; });
+        window.__acLog('adobe.optIn', 'complete — approved: ' + (ok.length ? ok.join(', ') : 'none'));
+      },
+      isApproved: function (c) { return (c || []).every(function (k) { return perms[k]; }); }
+    };
+    var abortVal = false;
+    window.s = { account: 'demo', optOut: false, t: function () {} };
+    Object.defineProperty(window.s, 'abort', {
+      configurable: true,
+      get: function () { return abortVal; },
+      set: function (val) {
+        if (val !== abortVal) { abortVal = val;
+          window.__acLog('AppMeasurement', val ? 's.abort = true — beacons suppressed' : 's.abort = false — tracking allowed'); }
+      }
+    });
+  }
+  function removeClassic() {
+    if (window.adobe) { try { delete window.adobe.optIn; } catch (e) { window.adobe.optIn = undefined; } }
+    try { delete window.s; } catch (e) { window.s = undefined; }
+  }
+
+  // --- Always present: the Launch runtime is stack-agnostic. _satellite fires
+  //     direct-call rules whether the page runs Web SDK or Classic. -----------
+  window.adobeDataLayer = window.adobeDataLayer || [];
+  var push = window.adobeDataLayer.push.bind(window.adobeDataLayer);
+  window.adobeDataLayer.push = function (item) {
+    if (item && item.event) window.__acLog('adobeDataLayer', 'push "' + item.event + '"');
+    return push(item);
+  };
+  window._satellite = { track: function (id) { window.__acLog('_satellite', 'track("' + id + '")'); }, logger: { log: function () {} } };
+
+  // --- Which stack is "on the page." The adapters feature-detect at call time,
+  //     so swapping stacks changes which calls fire on the next decision. ------
+  window.__acStack = 'websdk';
+  window.__acSetStack = function (mode) {
+    window.__acStack = (mode === 'classic') ? 'classic' : 'websdk';
+    if (window.__acStack === 'classic') { removeWebSdk(); installClassic(); }
+    else { removeClassic(); installWebSdk(); }
+  };
+  window.__acSetStack('websdk'); // default: the modern Web SDK path
+})();
+</script>
+
+<script>
+  // The site dogfoods the library. Non-blocking bottom bar so visitors can explore;
+  // forced EU region so everyone sees the opt-in first-layer experience.
+  window.clearConsentConfig = {
+    policyVersion: 1,
+    geo: { region: 'EU' },
+    adobe: { launch: { perCategoryDirectCalls: true } },
+    ui: {
+      position: 'bottom',
+      blocking: false,
+      text: {
+        title: 'Your privacy, your call',
+        body: 'This site runs ClearConsent — the very library it documents. Choose what you are comfortable with; essential cookies keep the page working either way. Watch the “Try it live” panel to see your choice drive Adobe.',
+        privacyPolicy: 'It’s open source',
+        privacyPolicyUrl: 'https://github.com/scotttavares/Adobe-Analytics-DTM'
+      }
+    }
+  };
+</script>
+<script src="./clearconsent.min.js"></script>
+<script>
+(function () {
+  'use strict';
+  function mgr() { return window.ClearConsent && window.ClearConsent.instance; }
+
+  // ---- live consent chips + inspector -------------------------------------
+  var chipsEl = document.getElementById('liveChips');
+  var logEl = document.getElementById('callLog');
+
+  function renderChips() {
+    var m = mgr(); if (!m || !chipsEl) return;
+    var d = m.decision;
+    chipsEl.textContent = '';
+    m.engine.getCategories().forEach(function (cat) {
+      var on = d[cat.id] === true;
+      var chip = document.createElement('span');
+      chip.className = 'chip' + (on ? ' on' : '');
+      var dot = document.createElement('span'); dot.className = 'd';
+      chip.appendChild(dot);
+      chip.appendChild(document.createTextNode(cat.label));
+      chipsEl.appendChild(chip);
+    });
+  }
+
+  function stamp(at) {
+    var d = new Date(at);
+    return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + ':' + ('0' + d.getSeconds()).slice(-2);
+  }
+  function appendCall(e) {
+    if (!logEl) return;
+    var empty = logEl.querySelector('.empty'); if (empty) empty.remove();
+    var row = document.createElement('div');
+    var t = document.createElement('span'); t.className = 't'; t.textContent = stamp(e.at) + '  ';
+    var api = document.createElement('span'); api.className = 'api'; api.textContent = e.api;
+    row.appendChild(t); row.appendChild(api); row.appendChild(document.createTextNode('  ' + e.msg));
+    logEl.appendChild(row); logEl.scrollTop = logEl.scrollHeight;
+  }
+  if (window.__acCalls) window.__acCalls.forEach(appendCall);
+  if (window.__acOnCall) window.__acOnCall(appendCall);
+
+  function afterReady(fn) {
+    var m = mgr();
+    if (m) { fn(m); } else { document.addEventListener('clearConsent:ready', function () { fn(mgr()); }, { once: true }); }
+  }
+  afterReady(function (m) {
+    renderChips();
+    m.on('change', renderChips);
+  });
+
+  // inspector buttons
+  function onClick(id, fn) { var el = document.getElementById(id); if (el) el.addEventListener('click', fn); }
+
+  // Re-apply a decision straight to the active stack's adapters. Each adapter
+  // feature-detects its target, so Web SDK mode fires only alloy + dataLayer +
+  // _satellite, and Classic mode fires only Opt-In + AppMeasurement + dataLayer +
+  // _satellite. Used when a choice doesn't change the decision (see decide()).
+  function replayStack(decision) {
+    var m = mgr(); if (!m || !m.adobe) return;
+    var a = m.adobe;
+    try { a.webSdk.send(decision); } catch (e) {}
+    try { a.optIn.send(decision); } catch (e) {}
+    try { a.analytics.apply(decision); } catch (e) {}
+    try { a.dataLayer.push(decision); } catch (e) {}
+    try { a.launch.fire(decision); } catch (e) {}
+  }
+
+  // Deciding from a control outside the banner should also dismiss the banner,
+  // exactly as a site's own custom accept button would. If the choice matches the
+  // decision already in force (e.g. "Reject all" in an opt-in region, where the
+  // default is already all-denied), the engine emits no change — by design — so no
+  // adapter fires. Replay it in that case so the demo always shows what the choice sends.
+  function decide(act) {
+    var m = mgr(); if (!m) return;
+    var before = JSON.stringify(m.decision);
+    var n = (window.__acCalls || []).length;
+    act(m); m.hideBanner();
+    if (JSON.stringify(m.decision) === before && (window.__acCalls || []).length === n) replayStack(m.decision);
+  }
+  onClick('acAccept', function () { decide(function (m) { m.acceptAll(); }); });
+  onClick('acReject', function () { decide(function (m) { m.rejectAll(); }); });
+  onClick('acAnalytics', function () { decide(function (m) { m.save({ analytics: true }); }); });
+  onClick('acReopen', function () { var m = mgr(); if (m) m.reset(); });
+  onClick('acClear', function () {
+    if (!logEl) return;
+    logEl.textContent = '';
+    var empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = 'Cleared — make a choice to see the calls…';
+    logEl.appendChild(empty);
+    if (window.__acCalls) window.__acCalls.length = 0;
+  });
+
+  // stack toggle: swap which Adobe stack is "on the page," then clear the log so
+  // the next choice shows that stack's calls cleanly. The adapters feature-detect
+  // at call time, so Web SDK shows setConsent (no Opt-In/AppMeasurement) and
+  // Classic shows Opt-In + s.abort (no setConsent). Launch fires in both.
+  var stackSwitch = document.getElementById('stackSwitch');
+  if (stackSwitch) {
+    stackSwitch.addEventListener('click', function (ev) {
+      var btn = ev.target.closest('button'); if (!btn) return;
+      var mode = btn.getAttribute('data-stack');
+      if (window.__acSetStack) window.__acSetStack(mode);
+      Array.prototype.forEach.call(stackSwitch.querySelectorAll('button'), function (b) {
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+      if (!logEl) return;
+      logEl.textContent = '';
+      if (window.__acCalls) window.__acCalls.length = 0;
+      window.__acLog('stack', mode === 'classic'
+        ? 'switched to Classic — AppMeasurement + ECID (no Web SDK)'
+        : 'switched to Web SDK — alloy (no AppMeasurement / Opt-In)');
+      replayStack((mgr() && mgr().decision) || {});
+    });
+  }
+  onClick('launchBanner', function () { var m = mgr(); if (m) m.reset(); });
+  onClick('launchBanner2', function () { var m = mgr(); if (m) m.reset(); });
+  onClick('footerPrefs', function () { var m = mgr(); if (m) m.openPreferences(); });
+
+  // ---- preview: force a GPC signal and show the in-dialog acknowledgment ----
+  // Reuses the site's own live instance (it honors GPC by default) and reverts
+  // the forced signal on close, so the demo leaves nothing behind.
+  onClick('previewGpc', function () {
+    var m = mgr(); if (!m) return;
+    window.globalPrivacyControl = true;
+    function restore() { window.globalPrivacyControl = false; m.off('hide', restore); }
+    m.on('hide', restore);
+    m.openPreferences();
+  });
+
+  // ---- region resolver (real engine, headless, no side effects) -----------
+  var AC = window.ClearConsent;
+  var rrModel = document.getElementById('rrModel');
+  var rrChips = document.getElementById('rrChips');
+  var rrPayload = document.getElementById('rrPayload');
+  var MODEL_LABEL = { opt_in: 'Opt-in — nothing runs until the visitor agrees',
+                      opt_out: 'Opt-out — runs until the visitor objects',
+                      notice_only: 'Notice only' };
+
+  function resolveRegion(region) {
+    if (!AC || !AC.ConsentEngine || !AC.WebSdkAdapter) return;
+    var engine = new AC.ConsentEngine({
+      geo: { region: region }, honorGpc: false,
+      storage: { cookieName: 'ac_region_probe', useLocalStorage: false }
+    });
+    engine.start();
+    var decision = engine.decision;
+
+    if (rrModel) rrModel.textContent = (MODEL_LABEL[engine.model] || engine.model) + '  ·  region ' + engine.region;
+
+    rrChips.textContent = '';
+    engine.getCategories().forEach(function (cat) {
+      var on = decision[cat.id] === true;
+      var chip = document.createElement('span');
+      chip.className = 'chip' + (on ? ' on' : '');
+      var dot = document.createElement('span'); dot.className = 'd'; chip.appendChild(dot);
+      chip.appendChild(document.createTextNode(cat.label));
+      rrChips.appendChild(chip);
+    });
+
+    var payload = new AC.WebSdkAdapter(engine).buildPayload(decision)[0];
+    var val = payload.value || {};
+    function vv(x) { return x === 'y' ? '<span class="y">"y"</span>' : '<span class="n">"n"</span>'; }
+    var collect = val.collect ? val.collect.val : (val.general === 'in' ? 'y' : 'n');
+    var share = val.share ? val.share.val : 'n';
+    var pers = val.personalize && val.personalize.content ? val.personalize.content.val : 'n';
+    rrPayload.innerHTML =
+      'alloy("setConsent", { consent: [{\n' +
+      '  standard: "Adobe", version: "2.0",\n' +
+      '  value: {\n' +
+      '    <span class="key">collect</span>: { val: ' + vv(collect) + ' },\n' +
+      '    <span class="key">share</span>: { val: ' + vv(share) + ' },\n' +
+      '    <span class="key">personalize</span>: { content: { val: ' + vv(pers) + ' } }\n' +
+      '  }\n}] })';
+  }
+
+  var regionSwitch = document.getElementById('regionSwitch');
+  if (regionSwitch) {
+    regionSwitch.addEventListener('click', function (ev) {
+      var btn = ev.target.closest('button'); if (!btn) return;
+      Array.prototype.forEach.call(regionSwitch.querySelectorAll('button'), function (b) {
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+      resolveRegion(btn.getAttribute('data-region'));
+    });
+    afterReady(function () { resolveRegion('EU'); });
+  }
+
+  // ---- load-chain race (animate when scrolled into view) ------------------
+  var race = document.getElementById('race');
+  if (race && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        var bars = race.querySelectorAll('.bar');
+        Array.prototype.forEach.call(bars, function (bar, i) {
+          var w = bar.getAttribute('data-w'); if (!w) return;
+          setTimeout(function () {
+            bar.classList.add('run');
+            var fill = bar.querySelector('.fill'); if (fill) fill.style.width = w;
+          }, 250 + i * 650);
+        });
+      });
+    }, { threshold: 0.35 });
+    io.observe(race);
+  }
+
+  // ---- install tabs -------------------------------------------------------
+  var tabs = document.querySelectorAll('.install-tabs button');
+  Array.prototype.forEach.call(tabs, function (tab) {
+    tab.addEventListener('click', function () {
+      Array.prototype.forEach.call(tabs, function (o) { o.setAttribute('aria-selected', String(o === tab)); });
+      Array.prototype.forEach.call(document.querySelectorAll('.install-panel'), function (p) {
+        p.classList.toggle('active', p.id === tab.getAttribute('data-p'));
+      });
+    });
+  });
+
+  // ---- runtime cookie scanner — annotates each cookie against the curated DB.
+  // The authoritative database is scripts/cookie-catalog.json (used by the
+  // pre-deploy crawler); this is a compact mirror for the live widget.
+  // Compact mirror of scripts/cookie-catalog.json for the live widget: provider,
+  // owning company, what the entry collects, and that company's privacy policy.
+  var CC_DB = [
+    { p: /^(clearconsent|cc_|ac_)/i, who: 'ClearConsent', company: 'ClearConsent (self-hosted)', cat: 'essential', desc: 'Stores your consent decision so it is remembered and not re-prompted.', collects: 'Your choice per category, a policy version, a timestamp, and a receipt id. No personal identifiers.', pol: 'https://github.com/scotttavares/Adobe-Analytics-DTM' },
+    { p: /^_ga($|_)/, who: 'Google Analytics 4', company: 'Google LLC', cat: 'analytics', desc: 'Assigns a random client id to count sessions and users for aggregate analytics.', collects: 'A pseudonymous client id plus page and event data.', pol: 'https://policies.google.com/privacy' },
+    { p: /^(_gid|_gat|__utm[abcz])/, who: 'Google Analytics (Universal)', company: 'Google LLC', cat: 'analytics', desc: 'Legacy Universal Analytics ids and request rate limiting.', collects: 'A visitor id and request-throttling flags.', pol: 'https://policies.google.com/privacy' },
+    { p: /^_gcl_/, who: 'Google Ads', company: 'Google LLC', cat: 'advertising', desc: 'Links an ad click to a later conversion for campaign measurement.', collects: 'A click identifier (GCLID).', pol: 'https://policies.google.com/technologies/ads' },
+    { p: /^(IDE|test_cookie|__gads)$/, who: 'Google DoubleClick', company: 'Google LLC', cat: 'advertising', desc: 'Builds an interest profile to serve and measure targeted ads across sites.', collects: 'A cross-site device/browser id.', pol: 'https://policies.google.com/technologies/ads' },
+    { p: /^(_fbp|_fbc|fr)$/, who: 'Meta Pixel', company: 'Meta Platforms, Inc.', cat: 'advertising', desc: 'Identifies the browser to deliver and measure Facebook/Meta ads.', collects: 'A browser id and ad-click id.', pol: 'https://www.facebook.com/privacy/policy/' },
+    { p: /^(AMCV_|AMCVS_|s_ecid|kndctr_)/, who: 'Adobe Experience Cloud ID', company: 'Adobe Inc.', cat: 'analytics', desc: 'A shared Adobe visitor id used across Analytics, Target, and AEP.', collects: 'A cross-solution Experience Cloud id (ECID).', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(s_cc|s_sq|s_vi|s_fid)/, who: 'Adobe Analytics', company: 'Adobe Inc.', cat: 'analytics', desc: 'AppMeasurement cookies for site analytics.', collects: 'Visit and session identifiers.', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(mbox|at_check)$/, who: 'Adobe Target', company: 'Adobe Inc.', cat: 'personalization', desc: 'Runs A/B tests and remembers which experience you were shown.', collects: 'The variant/experience assigned to you.', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(demdex|dpm)$/, who: 'Adobe Audience Manager', company: 'Adobe Inc.', cat: 'advertising', desc: 'A cross-site id used to build and share audience segments.', collects: 'A cross-site id and audience-segment membership.', pol: 'https://www.adobe.com/privacy/policy.html' },
+    { p: /^(bcookie|li_gc|lidc|UserMatchHistory)$/, who: 'LinkedIn', company: 'LinkedIn Corporation (Microsoft)', cat: 'advertising', desc: 'Ad targeting, conversion tracking, and id syncing.', collects: 'A member/browser id for ads and analytics.', pol: 'https://www.linkedin.com/legal/privacy-policy' },
+    { p: /^(_uetsid|_uetvid|MUID)$/, who: 'Microsoft Ads', company: 'Microsoft Corporation', cat: 'advertising', desc: 'Universal Event Tracking for ad conversions and targeting.', collects: 'A browser id for conversions and targeting.', pol: 'https://privacy.microsoft.com/privacystatement' },
+    { p: /^(_hjSession|_hjid)/, who: 'Hotjar', company: 'Hotjar Ltd', cat: 'analytics', desc: 'Records a pseudonymous session for heatmaps and replay.', collects: 'A pseudonymous session id.', pol: 'https://www.hotjar.com/legal/policies/privacy/' },
+    { p: /^(__cf_bm|cf_clearance)$/, who: 'Cloudflare', company: 'Cloudflare, Inc.', cat: 'essential', desc: 'Bot management and load balancing.', collects: 'A bot-management token; no cross-site tracking.', pol: 'https://www.cloudflare.com/privacypolicy/' },
+    { p: /^(PHPSESSID|JSESSIONID|connect\.sid)$/, who: 'Application server', company: 'This site', cat: 'essential', desc: 'Server session cookie for your logged-in session.', collects: 'A server session id.', pol: null },
+    { p: /^(OptanonConsent|OptanonAlertBoxClosed)/, who: 'OneTrust', company: 'OneTrust, LLC', cat: 'essential', desc: "A competing CMP's stored consent state.", collects: 'Your stored consent string.', pol: 'https://www.onetrust.com/privacy-notice/' }
+  ];
+  var CC_CAT = { essential: '#2e7d32', analytics: '#1565c0', personalization: '#6a1b9a', advertising: '#c62828', unknown: '#b26a00', storage: '#555' };
+  function ccClassify(name) {
+    for (var i = 0; i < CC_DB.length; i++) if (CC_DB[i].p.test(name)) return CC_DB[i];
+    return { who: 'Unknown', company: null, cat: 'unknown', desc: 'Not in the curated database — worth identifying before you ship.', collects: null, pol: null };
+  }
+
+  var scanBtn = document.getElementById('scanBtn');
+  if (scanBtn) {
+    scanBtn.addEventListener('click', function () {
+      var body = document.getElementById('scanBody');
+      var count = document.getElementById('scanCount');
+      var rows = [];
+      (document.cookie ? document.cookie.split('; ') : []).forEach(function (pair) {
+        var i = pair.indexOf('=');
+        rows.push({ name: i < 0 ? pair : pair.slice(0, i), where: 'cookie', val: i < 0 ? '' : decodeURIComponent(pair.slice(i + 1)) });
+      });
+      try {
+        for (var k = 0; k < localStorage.length; k++) {
+          var kk = localStorage.key(k);
+          rows.push({ name: kk, where: 'localStorage', val: String(localStorage.getItem(kk) || '') });
+        }
+      } catch (e) { /* storage partitioned/blocked */ }
+      body.textContent = '';
+      if (!rows.length) {
+        var tr0 = document.createElement('tr');
+        var td0 = document.createElement('td'); td0.colSpan = 3; td0.className = 'no';
+        td0.textContent = 'Nothing set on this page yet — make a consent choice above, then scan again.';
+        tr0.appendChild(td0); body.appendChild(tr0);
+      } else {
+        rows.forEach(function (r) {
+          // Classify storage keys against the same curated DB as cookies, so a
+          // known entry (e.g. ClearConsent's own keys) gets its description and
+          // privacy policy rather than a bare "Browser storage" row.
+          var info = ccClassify(r.name);
+          if (r.where !== 'cookie' && info.cat === 'unknown') {
+            info = { who: 'Browser storage', company: null, cat: 'storage', desc: 'A local storage key set on this page — not in the curated database.', collects: null, pol: null };
+          }
+          var tr = document.createElement('tr');
+          var n = document.createElement('td'); n.innerHTML = '<code>' + r.name + '</code>';
+          var w = document.createElement('td');
+          w.innerHTML = '<span style="display:inline-block;padding:2px 8px;font-size:11px;font-weight:600;border-radius:999px;color:#fff;background:' +
+            (CC_CAT[info.cat] || '#666') + '">' + info.cat + '</span> ' + info.who;
+          var v = document.createElement('td');
+          v.textContent = (r.val.length > 40 ? r.val.slice(0, 40) + '…' : r.val) || '(empty)';
+          tr.appendChild(n); tr.appendChild(w); tr.appendChild(v);
+          body.appendChild(tr);
+          if (info.desc) {
+            var dr = document.createElement('tr');
+            var dc = document.createElement('td'); dc.colSpan = 3;
+            dc.style.cssText = 'padding:0 18px 14px;color:var(--ink-dim);font-size:12.5px;line-height:1.55';
+            var parts = [info.desc];
+            if (info.collects) parts.push('<span style="color:var(--ink-faint)">Collects:</span> ' + info.collects);
+            if (info.pol) {
+              parts.push('<a href="' + info.pol + '" target="_blank" rel="noopener" style="color:#6cb6e6;text-decoration:underline;text-underline-offset:2px">' + (info.company || info.who) + ' privacy policy ↗</a>');
+            } else if (info.company) {
+              parts.push('<span style="color:var(--ink-faint)">' + info.company + '</span>');
+            }
+            // Wrap in a width-capped block so the detail reads on its own lines
+            // instead of trailing off into the table's horizontal scroll.
+            dc.innerHTML = '<div style="max-width:760px;white-space:normal">' + parts.join(' &nbsp;·&nbsp; ') + '</div>';
+            dr.appendChild(dc); body.appendChild(dr);
+          }
+        });
+      }
+      if (count) count.textContent = rows.length + ' found · classified against the curated DB';
+    });
+  }
+
+  // ---- whole-site crawl preview + curated DB viewer -----------------------
+  // A browser cannot read another origin's cookies, so this previews the report
+  // FORMAT against the curated DB; the real crawl runs server-side (npm run scan).
+  function ccEsc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); }
+  function ccPill(cat){ return '<span style="display:inline-block;padding:2px 8px;font-size:11px;font-weight:600;border-radius:999px;color:#fff;background:' + (CC_CAT[cat] || '#666') + '">' + ccEsc(cat) + '</span>'; }
+  function ccPolicy(info){
+    if (info.pol) return '<a href="' + info.pol + '" target="_blank" rel="noopener" style="color:#6cb6e6;text-decoration:underline;text-underline-offset:2px">' + ccEsc(info.company || info.who) + ' privacy policy ↗</a>';
+    return '<span style="color:var(--ink-faint)">' + ccEsc(info.company || info.who) + ' · no public policy on file</span>';
+  }
+  function ccDetail(cols, info){
+    return '<tr><td colspan="' + cols + '" style="padding:0 12px 12px;color:var(--ink-dim);font-size:12.5px;line-height:1.5"><div style="max-width:720px;white-space:normal">' +
+      ccEsc(info.desc) +
+      (info.collects ? ' &nbsp;·&nbsp; <span style="color:var(--ink-faint)">Collects:</span> ' + ccEsc(info.collects) : '') +
+      ' &nbsp;·&nbsp; ' + ccPolicy(info) + '</div></td></tr>';
+  }
+
+  var SAMPLE = [
+    { name: 'clearconsent', dom: 'SELF', exp: '365', fl: 'Secure' },
+    { name: '_ga', dom: 'SELF', exp: '730', fl: '' },
+    { name: '_ga_7XR2K1QW', dom: 'SELF', exp: '730', fl: '' },
+    { name: '_gcl_au', dom: 'SELF', exp: '90', fl: '' },
+    { name: '_fbp', dom: 'SELF', exp: '90', fl: '' },
+    { name: 'AMCV_9E1@AdobeOrg', dom: 'SELF', exp: '180', fl: '' },
+    { name: 'mbox', dom: 'SELF', exp: '730', fl: '' },
+    { name: 'demdex', dom: '.demdex.net', exp: '180', fl: 'HttpOnly Secure' },
+    { name: 'MUID', dom: '.clarity.ms', exp: '390', fl: 'Secure' },
+    { name: 'li_gc', dom: '.linkedin.com', exp: '180', fl: 'Secure' },
+    { name: '__cf_bm', dom: 'SELF', exp: 'session', fl: 'HttpOnly Secure' }
+  ];
+  function ccNormDomain(raw){ return String(raw || '').trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '').replace(/^www\./i, '').toLowerCase(); }
+
+  var crawlBtn = document.getElementById('crawlBtn');
+  var crawlInput = document.getElementById('crawlDomain');
+  if (crawlBtn && crawlInput) {
+    var runPreview = function(){
+      var out = document.getElementById('crawlOut');
+      var d = ccNormDomain(crawlInput.value);
+      if (!/^[a-z0-9.-]+\.[a-z]{2,}$/.test(d)) {
+        out.innerHTML = '<p class="flag-note" style="margin:0;color:var(--danger)">Enter a domain like <code>yourcompany.com</code>.</p>';
+        return;
+      }
+      var counts = {}, bodyRows = '';
+      SAMPLE.forEach(function(s){
+        var info = ccClassify(s.name);
+        counts[info.cat] = (counts[info.cat] || 0) + 1;
+        var dom = s.dom === 'SELF' ? '.' + d : s.dom;
+        bodyRows += '<tr><td><code>' + ccEsc(s.name) + '</code></td><td>' + ccPill(info.cat) + '</td><td>' + ccEsc(info.who) +
+          '</td><td>' + ccEsc(dom) + '</td><td>' + ccEsc(s.fl || '—') + '</td><td>' + ccEsc(s.exp) + '</td></tr>' + ccDetail(6, info);
+      });
+      var st = 'background:var(--navy-2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12.5px;';
+      var b = 'display:block;font-size:18px;font-family:Georgia,serif;';
+      var stats = '<div style="' + st + '"><b style="' + b + '">' + SAMPLE.length + '</b>cookies</div>' +
+        Object.keys(counts).map(function(k){ return '<div style="' + st + '"><b style="' + b + '">' + counts[k] + '</b>' + ccEsc(k) + '</div>'; }).join('') +
+        '<div style="' + st + '"><b style="' + b + '">0</b>unknown</div>';
+      out.innerHTML =
+        '<div style="background:var(--navy);border:1px solid var(--line);border-radius:12px;padding:16px 18px;">' +
+          '<strong style="font-size:15px;">Cookie crawl — ' + ccEsc(d) + '</strong>' +
+          '<div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px;">' + stats + '</div>' +
+          '<div class="tbl-scroll"><table class="tbl" style="font-size:13px;"><thead><tr><th>Name</th><th>Category</th><th>Provider</th><th>Domain</th><th>Flags</th><th>Expires (days)</th></tr></thead><tbody>' + bodyRows + '</tbody></table></div>' +
+        '</div>' +
+        '<p class="flag-note" style="margin-top:12px;">A <strong>representative preview</strong> classified against the curated DB — not a live scan of ' + ccEsc(d) + ' (a browser can’t read another origin’s cookies). Run the real crawler server-side:</p>' +
+        '<pre style="margin:8px 0 0;background:#0a0714;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;font-size:13px;line-height:1.6;color:#ddd7ee;"><span class="c"># spiders the whole site in real Chromium, classifies every cookie, emails a diff</span>\nnpm run scan -- --url <span class="s">https://' + ccEsc(d) + '</span> --click-accept <span class="s">"#acAccept"</span></pre>';
+    };
+    crawlBtn.addEventListener('click', runPreview);
+    crawlInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); runPreview(); } });
+  }
+
+  var dbToggle = document.getElementById('dbToggle');
+  if (dbToggle) {
+    var dbSub = document.getElementById('dbSub');
+    if (dbSub) dbSub.textContent = 'The classification source behind every scan — ' + CC_DB.length + ' known cookie families, each with owner, category, what it collects, and a privacy-policy link.';
+    dbToggle.addEventListener('click', function(){
+      var out = document.getElementById('dbOut');
+      var open = dbToggle.getAttribute('aria-expanded') === 'true';
+      dbToggle.setAttribute('aria-expanded', String(!open));
+      dbToggle.textContent = open ? 'Browse the database' : 'Hide the database';
+      out.style.display = open ? 'none' : 'block';
+      if (open || out.getAttribute('data-built')) return;
+      var rows = CC_DB.map(function(e){
+        return '<tr><td><code>' + ccEsc(e.p.source) + '</code></td><td>' + ccPill(e.cat) + ' ' + ccEsc(e.who) +
+          '</td><td>' + ccEsc(e.company || '—') + '</td></tr>' + ccDetail(3, e);
+      }).join('');
+      out.innerHTML = '<div class="tbl-scroll"><table class="tbl" style="font-size:13px;"><thead><tr><th>Match pattern</th><th>Provider · category</th><th>Company</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+      out.setAttribute('data-built', '1');
+    });
+  }
+
+  // ---- experimental __tcfapi surface (labeled; NOT IAB-registered) ---------
+  window.__tcfapi = function (cmd, version, cb) {
+    if (typeof cb !== 'function') return;
+    var d = (mgr() && mgr().decision) || {};
+    if (cmd === 'ping') {
+      cb({ gdprApplies: true, cmpLoaded: true, cmpStatus: 'loaded', apiVersion: '2.2', cmpId: 0, cmpVersion: 1 }, true);
+    } else if (cmd === 'getTCData' || cmd === 'addEventListener') {
+      cb({
+        tcString: 'EXPERIMENTAL~not-an-encoded-TC-string',
+        tcfPolicyVersion: 4, cmpId: 0, cmpVersion: 1, gdprApplies: true,
+        eventStatus: 'tcloaded', cmpStatus: 'loaded', isServiceSpecific: true,
+        purpose: { consents: { 1: true, 2: !!d.advertising, 3: !!d.advertising, 4: !!d.advertising,
+          7: !!d.analytics, 8: !!d.analytics, 9: !!d.personalization }, legitimateInterests: {} },
+        vendor: { consents: {}, legitimateInterests: {} },
+        _note: 'Experimental shape only — not an IAB-encoded string, no registered CMP ID, not for production.'
+      }, true);
+    } else if (cmd === 'removeEventListener') { cb(true, true); }
+    else { cb(null, false); }
+  };
+  var tcfBtn = document.getElementById('tcfBtn');
+  if (tcfBtn) {
+    tcfBtn.addEventListener('click', function () {
+      window.__tcfapi('getTCData', 2, function (data) {
+        var out = document.getElementById('tcfOut');
+        if (out) out.textContent = JSON.stringify(data, null, 2);
+      });
+    });
+  }
+
+  // ---- acknowledge a GPC / DNT browser signal on page load ----------------
+  // Shows only when the visitor's browser actually sends the signal, so most
+  // people never see it — but those who set it get a clear "we heard you."
+  (function () {
+    var gpc = navigator.globalPrivacyControl === true;
+    var dnt = navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.msDoNotTrack === '1';
+    if (!gpc && !dnt) return;
+    var msg = gpc
+      ? 'Global Privacy Control detected — honored automatically. Analytics and advertising are off; nothing for you to do.'
+      : 'Do Not Track detected — treated as an advisory rejection. (GPC is the enforceable signal.)';
+    var t = document.createElement('div');
+    t.className = 'signal-toast'; t.setAttribute('role', 'status');
+    t.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3 5 6v5c0 4 3 7 7 8 4-1 7-4 7-8V6l-7-3Z"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var span = document.createElement('span'); span.textContent = msg;
+    var btn = document.createElement('button'); btn.type = 'button'; btn.setAttribute('aria-label', 'Dismiss'); btn.textContent = '×';
+    t.appendChild(span); t.appendChild(btn);
+    document.body.appendChild(t);
+    requestAnimationFrame(function () { t.classList.add('show'); });
+    var close = function () { t.classList.remove('show'); setTimeout(function () { if (t.parentNode) t.remove(); }, 300); };
+    btn.addEventListener('click', close);
+    setTimeout(close, 9000);
+  })();
+})();
+</script>
+</body>
+</html>

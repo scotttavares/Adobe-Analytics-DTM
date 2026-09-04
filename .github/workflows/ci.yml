@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  verify:
+    name: Typecheck, test, build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Check the extension's vendored bundle is in sync
+        # The bundle is committed so `reactor-packager` works from a fresh
+        # checkout. If a source change lands without a rebuild, the extension
+        # would ship stale code — fail loudly rather than silently.
+        run: |
+          if ! git diff --quiet -- launch-extension/src/lib/vendor/clearconsent.js; then
+            echo "::error::launch-extension/src/lib/vendor/clearconsent.js is out of date."
+            echo "Run 'npm run build' and commit the result."
+            git diff --stat -- launch-extension/src/lib/vendor/clearconsent.js
+            exit 1
+          fi
+
+      - name: Validate and package the Launch extension
+        working-directory: launch-extension
+        run: npx --yes @adobe/reactor-packager
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser verification
+        run: npm run verify
+
+      - name: Accessibility audit (axe-core + computed contrast)
+        run: npm run verify:a11y
+
+      - name: Verify the marketing site (dogfoods the library)
+        run: npm run verify:site
+
+      # Packaging only validates extension.json against a schema. This actually
+      # builds a Turbine library from the extension and runs it in a browser,
+      # which is what catches syntax the Tags build pipeline cannot parse.
+      - name: Build a real Turbine library and run the extension in it
+        run: |
+          cd launch-extension
+          npx --yes @adobe/reactor-sandbox > /tmp/sandbox.log 2>&1 &
+          for i in $(seq 1 60); do
+            if grep -q "sandbox running" /tmp/sandbox.log 2>/dev/null; then break; fi
+            sleep 2
+          done
+          if ! grep -q "sandbox running" /tmp/sandbox.log; then
+            echo "::error::reactor-sandbox failed to start"
+            cat /tmp/sandbox.log
+            exit 1
+          fi
+          cd ..
+          node scripts/verify-launch-sandbox.mjs
+        env:
+          SANDBOX_URL: http://localhost:3000
+
+      - name: Upload demo screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-screenshots
+          path: demo/*.png
+          if-no-files-found: ignore

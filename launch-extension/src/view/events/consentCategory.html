@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Consent Category</title>
+<style>
+  * { box-sizing:border-box; }
+  body { font:14px/1.5 adobe-clean,"Segoe UI",system-ui,-apple-system,sans-serif;
+         color:#2c2c2c; margin:0; padding:14px 4px; }
+  .field { margin-bottom:14px; max-width:560px; }
+  .field label { display:block; font-weight:500; margin-bottom:4px; }
+  .field .desc { color:#6e6e6e; font-size:12.5px; margin-top:3px; }
+  input[type="text"], select { width:100%; padding:7px 9px; border:1px solid #d3d3d3;
+    border-radius:4px; font:inherit; background:#fff; }
+  code { background:#f5f5f5; padding:1px 5px; border-radius:3px; font-size:12.5px; }
+  p.hint { color:#6e6e6e; font-size:12.5px; margin:0 0 12px; max-width:560px; }
+</style>
+</head>
+<body>
+
+<div class="field">
+  <label for="category">Category</label>
+  <select id="category"></select>
+  <div class="desc" id="desc"></div>
+</div>
+
+<div class="field" id="customWrap" hidden>
+  <label for="custom">Category id</label>
+  <input type="text" id="custom" placeholder="analytics">
+</div>
+
+<p class="hint">Available in this rule: <code>%event.category%</code>,
+  <code>%event.granted%</code>, <code>%event.source%</code>,
+  <code>%event.consent.analytics%</code>.</p>
+
+<script src="https://assets.adobedtm.com/activation/reactor/extensionbridge/extensionbridge.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var DEFAULTS = [
+    { id:'essential', label:'Essential' },
+    { id:'analytics', label:'Analytics' },
+    { id:'personalization', label:'Personalization' },
+    { id:'advertising', label:'Advertising' }
+  ];
+  var CUSTOM = '__custom__';
+
+  var select = document.getElementById('category');
+  var customWrap = document.getElementById('customWrap');
+  var custom = document.getElementById('custom');
+
+  function populate(categories) {
+    select.innerHTML = '';
+    categories.forEach(function (category) {
+      var option = document.createElement('option');
+      option.value = category.id;
+      option.textContent = category.label + ' (' + category.id + ')';
+      select.appendChild(option);
+    });
+    var other = document.createElement('option');
+    other.value = CUSTOM;
+    other.textContent = 'Other…';
+    select.appendChild(other);
+  }
+
+  function syncCustom() {
+    customWrap.hidden = select.value !== CUSTOM;
+  }
+  select.addEventListener('change', syncCustom);
+
+  window.extensionBridge.register({
+    init: function (info) {
+      // Offer the categories this property is actually configured with, so
+      // rule authors never have to remember or retype an id.
+      var configured = info && info.extensionSettings && info.extensionSettings.categories;
+      populate(Array.isArray(configured) && configured.length ? configured : DEFAULTS);
+
+      var settings = (info && info.settings) || {};
+      if (settings.category) {
+        var known = Array.prototype.some.call(select.options, function (option) {
+          return option.value === settings.category;
+        });
+        if (known) {
+          select.value = settings.category;
+        } else {
+          select.value = CUSTOM;
+          custom.value = settings.category;
+        }
+      }
+      syncCustom();
+    },
+
+    getSettings: function () {
+      var value = select.value === CUSTOM ? custom.value.trim() : select.value;
+      return { category: value };
+    },
+
+    validate: function () {
+      var value = select.value === CUSTOM ? custom.value.trim() : select.value;
+      if (!value) {
+        alert('Choose a category.');
+        return false;
+      }
+      return true;
+    }
+  });
+})();
+</script>
+</body>
+</html>
