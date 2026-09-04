@@ -261,10 +261,9 @@
       <a href="#try">Try it</a>
       <a href="#adobe">Adobe</a>
       <a href="#onetrust">vs OneTrust</a>
-      <a href="#install">Install</a>
-      <a href="#implement">Implement</a>
-      <a href="#support">Support</a>
-      <a class="nav-cta" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">GitHub</a>
+      <a href="#pricing">Pricing</a>
+      <a href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">GitHub</a>
+      <a class="nav-cta" href="#pricing">Start free</a>
     </nav>
   </div>
 </header>
@@ -273,25 +272,51 @@
 
 <section class="hero">
   <div class="wrap">
-    <span class="eyebrow">Cookie consent · built for trust</span>
-    <h1>Consent that speaks <span class="grad">Adobe</span> natively.</h1>
-    <p class="lede">A fast, accessible cookie consent manager that drives the AEP Web SDK, the ECID
-      Opt-In service, Adobe Analytics, the Client Data Layer, and Launch/Tags directly — no per-site
-      glue code — and installs as a native Launch extension.</p>
+    <span class="eyebrow">The Adobe-native consent platform</span>
+    <h1>Turn consent into your <span class="grad">Adobe</span> advantage.</h1>
+    <p class="lede">A generic cookie banner costs you three ways: data your Adobe stack can't use, a
+      slower site, and six-figure fine exposure. ClearConsent captures consent once and drives it
+      everywhere Adobe needs it — Web SDK, RT-CDP, AJO, and CJA — in <strong>14.6&nbsp;KB and one
+      request</strong>, compliant by default, with zero per-site glue code.</p>
     <div class="cta-row">
-      <button class="btn primary" id="launchBanner" type="button">
+      <a class="btn primary" href="#pricing">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Launch the banner
-      </button>
-      <a class="btn ghost" href="#install">Install the extension →</a>
+        Start free
+      </a>
       <a class="btn ghost" href="#try">See it drive Adobe ↓</a>
-      <a class="btn ghost" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">View source</a>
+      <button class="btn ghost" id="launchBanner" type="button">Launch the banner</button>
     </div>
+    <p style="font-size:13px;color:var(--ink-faint);margin:18px 0 0;">MIT open-source core · installs as a native Launch extension · honors Global Privacy Control by default</p>
 
     <div class="stats">
-      <div class="stat"><div class="big">14.6<span class="u"> KB</span></div><div class="lbl">gzipped, one file — the whole thing</div></div>
-      <div class="stat"><div class="big">1 <span class="u">request</span></div><div class="lbl">zero as a Launch extension — it's inlined</div></div>
-      <div class="stat"><div class="big">0.000<span class="u"> CLS</span></div><div class="lbl">no layout shift, measured in Chromium</div></div>
+      <div class="stat"><div class="big">14.6<span class="u"> KB</span></div><div class="lbl">the whole CMP, one file — vs ~184&nbsp;KB across 16 requests for a hosted CMP</div></div>
+      <div class="stat"><div class="big">1 <span class="u">request</span></div><div class="lbl">zero as a Launch extension — inlined into the Tags library you already ship</div></div>
+      <div class="stat"><div class="big">0.0000<span class="u"> CLS</span></div><div class="lbl">no layout shift — faster pages convert better and rank higher</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY (business outcomes) ============ -->
+<section class="band" id="why-switch">
+  <div class="wrap">
+    <p class="kicker">Why teams switch</p>
+    <h2>What the wrong consent banner really costs.</h2>
+    <div class="cols">
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6l7-3Z" stroke="#2563eb" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 8.5v4.2" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="15.6" r="1" fill="#2563eb"/></svg></div>
+        <h3>Fines are the floor</h3>
+        <p>The CNIL fined Google <strong>€150M</strong> and Meta <strong>€60M</strong> over one thing — reject wasn't as easy as accept. Sephora paid <strong>$1.2M</strong> for ignoring Global Privacy Control. ClearConsent makes those the defaults you <em>can't</em> misconfigure.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 3 5 13h5l-1 8 8-11h-5l1-7Z" stroke="#2563eb" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+        <h3>Speed is revenue</h3>
+        <p>Hosted CMPs load a stub that fetches a config that fetches the SDK — around <strong>184&nbsp;KB</strong> before a banner paints. ClearConsent is <strong>14.6&nbsp;KB, one request, zero layout shift</strong>. Every 100&nbsp;ms of load time is measurable conversion.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.5 12a2.7 2.7 0 0 1 2.7-2.7h2.6a2.7 2.7 0 1 1 0 5.4h-1" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round"/><path d="M14.5 12a2.7 2.7 0 0 1-2.7 2.7H9.2a2.7 2.7 0 1 1 0-5.4h1" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Your Adobe data, finally usable</h3>
+        <p>Consent flows straight into <strong>RT-CDP, AJO, and CJA</strong> — profile opt-in/out, consent-gated journeys, clean measurement. No glue code, no rotting OneTrust mappings, no data you legally can't touch.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -781,21 +806,72 @@ adobe.optIn.<span class="f">complete</span>();
   </div>
 </section>
 
+<section class="band" id="pricing">
+  <div class="wrap">
+    <p class="kicker">Pricing</p>
+    <h2>Start free. Pay when it pays you back.</h2>
+    <p class="intro">The engine is open source and free forever. Move up when you want it hosted,
+      supported, and wired into your full Adobe governance stack — RT-CDP, AJO, and CJA.</p>
+    <div class="cols">
+      <div class="card">
+        <p class="kicker" style="color:var(--ink-faint);">Open Source</p>
+        <div style="font-family:Georgia,serif;font-size:34px;color:var(--ink);margin:4px 0 2px;">$0</div>
+        <p style="color:var(--ink-faint);font-size:13px;margin:0 0 16px;">MIT · self-hosted, forever</p>
+        <ul style="list-style:none;margin:0 0 20px;padding:0;font-size:14px;color:var(--ink-dim);line-height:1.95;">
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> The full consent engine + banner</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Web SDK, Opt-In, Analytics, ACDL, Launch</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Native Launch extension</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Community support</li>
+        </ul>
+        <a class="btn ghost" style="width:100%;justify-content:center;" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">Get it on GitHub</a>
+      </div>
+      <div class="card" style="border-color:var(--mint);box-shadow:0 0 0 1px var(--mint),0 14px 44px -20px rgba(47,107,255,.55);position:relative;">
+        <span style="position:absolute;top:-11px;left:26px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 12px;border-radius:999px;">Most popular</span>
+        <p class="kicker" style="color:var(--mint);">Team</p>
+        <div style="font-family:Georgia,serif;font-size:34px;color:var(--ink);margin:4px 0 2px;">$49<span style="font-size:15px;color:var(--ink-faint);font-family:system-ui,sans-serif;"> / site / mo</span></div>
+        <p style="color:var(--ink-faint);font-size:13px;margin:0 0 16px;">billed annually · 14-day free trial</p>
+        <ul style="list-style:none;margin:0 0 20px;padding:0;font-size:14px;color:var(--ink-dim);line-height:1.95;">
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Everything in Open Source</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Hosted config + one-click updates</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Cookie scanner + pre-deploy crawl</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Consent receipts endpoint + audit log</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Priority support</li>
+        </ul>
+        <a class="btn primary" style="width:100%;justify-content:center;" href="#install">Start free trial</a>
+      </div>
+      <div class="card">
+        <p class="kicker" style="color:var(--ink-faint);">Enterprise</p>
+        <div style="font-family:Georgia,serif;font-size:34px;color:var(--ink);margin:4px 0 2px;">Custom</div>
+        <p style="color:var(--ink-faint);font-size:13px;margin:0 0 16px;">for regulated &amp; multi-brand estates</p>
+        <ul style="list-style:none;margin:0 0 20px;padding:0;font-size:14px;color:var(--ink-dim);line-height:1.95;">
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Everything in Team</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> RT-CDP / AJO / CJA governance blueprint</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> SSO, SLA &amp; dedicated onboarding</li>
+          <li><span style="color:var(--mint);font-weight:700;">✓</span> Fair-Lending / HIPAA / GLBA support</li>
+        </ul>
+        <a class="btn ghost" style="width:100%;justify-content:center;" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">Book a demo</a>
+      </div>
+    </div>
+    <p class="flag-note" style="text-align:center;">Prices in USD. Adobe products sold separately — ClearConsent makes the consent layer of your Adobe estate actually work.</p>
+  </div>
+</section>
+
 <section class="final">
   <div class="wrap">
-    <h2>The banner on this page is the product.</h2>
-    <p>No mockup — the notice you saw on load is ClearConsent running on its own site, driving the
-      five Adobe surfaces you just watched light up in the inspector.</p>
+    <h2>Consent shouldn't cost you data, speed, or sleep.</h2>
+    <p>The banner on this page is ClearConsent running on itself — driving five Adobe surfaces live,
+      right now. You can ship the same in an afternoon.</p>
     <div class="cta-row">
-      <button class="btn primary" id="launchBanner2" type="button">Launch the banner again</button>
-      <a class="btn ghost" href="https://clearconsent-demo.vercel.app" target="_blank" rel="noopener">Open the full demo</a>
+      <a class="btn primary" href="#pricing">Start free</a>
+      <a class="btn ghost" href="#try">See it drive Adobe</a>
+      <button class="btn ghost" id="launchBanner2" type="button">Launch the banner again</button>
     </div>
   </div>
 </section>
 
 <footer class="site">
   <div class="wrap foot-inner">
-    <div>MIT-licensed · a demonstration project. “Adobe”, “Adobe Analytics”, and “Adobe Launch” are trademarks of Adobe Inc.; this project is not affiliated with or endorsed by Adobe.</div>
+    <div>© 2026 ClearConsent · MIT-licensed open source. “Adobe”, “Adobe Analytics”, and “Adobe Launch” are trademarks of Adobe Inc.; ClearConsent is not affiliated with or endorsed by Adobe.</div>
     <div>
       <button class="linklike" id="footerPrefs" type="button">Privacy choices</button>
       &nbsp;·&nbsp;
