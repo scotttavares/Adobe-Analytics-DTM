@@ -60,7 +60,20 @@ export interface CategoryDefinition {
   defaultGranted?: boolean;
   /** Vendor/cookie rows shown when the category detail is expanded. */
   cookies?: CookieDisclosure[];
+  /**
+   * `data` (default) is a data-collection category and maps onto the Adobe
+   * purposes (`collect`/`share`/`personalize`/`adID`). `marketing` is a
+   * communications opt-in that maps onto `consents.marketing.<channel>` — the
+   * field RTCDP consent policies and AJO journeys gate on — and never affects
+   * `collect`.
+   */
+  kind?: 'data' | 'marketing';
+  /** For a `marketing` category, the channel it grants consent for. */
+  marketingChannel?: MarketingChannel;
 }
+
+/** Marketing communication channels ClearConsent can carry as consent. */
+export type MarketingChannel = 'email' | 'push' | 'sms';
 
 export interface CookieDisclosure {
   name: string;
@@ -279,6 +292,17 @@ export interface LaunchOptions {
   perCategoryDirectCalls?: boolean;
 }
 
+export interface MarketingOptions {
+  enabled?: boolean;
+  /** Alloy instance names; discovered from `window.__alloyNS` when omitted. */
+  instanceNames?: string[];
+  /**
+   * XDM `eventType` for the profile update carrying `consents.marketing.*`.
+   * Defaults to none; set to tag the event (e.g. `consent.marketingPreference`).
+   */
+  eventType?: string;
+}
+
 export interface AdobeOptions {
   /** Experience Cloud Org ID, e.g. `ABC123@AdobeOrg`. Used for cookie checks. */
   orgId?: string;
@@ -288,6 +312,12 @@ export interface AdobeOptions {
   analytics?: AnalyticsOptions;
   dataLayer?: DataLayerOptions;
   launch?: LaunchOptions;
+  /**
+   * Marketing / channel consent. When the property configures `kind: 'marketing'`
+   * categories, this adapter writes `consents.marketing.*` to the profile via the
+   * Web SDK so RT-CDP consent policies and AJO journeys can gate on it.
+   */
+  marketing?: MarketingOptions;
 }
 
 export interface ReceiptOptions {

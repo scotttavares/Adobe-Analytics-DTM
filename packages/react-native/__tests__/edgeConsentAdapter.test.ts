@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import { ConsentEngine } from '../../../src/core/engine';
+import type { CategoryDefinition } from '../../../src/core/types';
 import { EdgeConsentAdapter } from '../src/edgeConsentAdapter';
-import type { AepConsentModule } from '../src/types';
+import type { AepConsentModule, EdgeSender } from '../src/types';
 
 function fakeConsent() {
   const update = vi.fn();
@@ -124,5 +125,55 @@ describe('EdgeConsentAdapter delivery', () => {
       },
     };
     expect(() => new EdgeConsentAdapter(engine, mod).send({ analytics: true })).not.toThrow();
+  });
+});
+
+describe('EdgeConsentAdapter — marketing consent', () => {
+  const MARKETING_CATS: CategoryDefinition[] = [
+    { id: 'essential', label: 'Essential', required: true },
+    { id: 'analytics', label: 'Analytics' },
+    { id: 'email', label: 'Email', kind: 'marketing', marketingChannel: 'email' },
+    { id: 'push', label: 'Push', kind: 'marketing', marketingChannel: 'push' },
+  ];
+  const engineWith = (cats: CategoryDefinition[]) => {
+    const e = new ConsentEngine({ geo: { region: 'DE' }, categories: cats });
+    e.start();
+    return e;
+  };
+
+  it('writes consents.marketing.* through the Edge sender', () => {
+    const engine = engineWith(MARKETING_CATS);
+    const send = vi.fn();
+    const edgeSender: EdgeSender = { sendEvent: send };
+    new EdgeConsentAdapter(engine, fakeConsent().mod, { edgeSender }).send({
+      essential: true,
+      email: true,
+      push: false,
+    });
+    expect(send).toHaveBeenCalledTimes(1);
+    const xdm = send.mock.calls[0]![0] as { consents: { marketing: { email: unknown; any: unknown } } };
+    expect(xdm.consents.marketing.email).toEqual({ val: 'y' });
+    expect(xdm.consents.marketing.any).toEqual({ val: 'y' });
+  });
+
+  it('does not send marketing without an Edge sender', () => {
+    const engine = engineWith(MARKETING_CATS);
+    // No edgeSender → only Consent.update fires, no throw.
+    expect(() =>
+      new EdgeConsentAdapter(engine, fakeConsent().mod).send({ essential: true, email: true })
+    ).not.toThrow();
+  });
+
+  it('does not send marketing when no marketing categories are configured', () => {
+    const engine = engineWith([
+      { id: 'essential', label: 'Essential', required: true },
+      { id: 'analytics', label: 'Analytics' },
+    ]);
+    const send = vi.fn();
+    new EdgeConsentAdapter(engine, fakeConsent().mod, { edgeSender: { sendEvent: send } }).send({
+      essential: true,
+      analytics: true,
+    });
+    expect(send).not.toHaveBeenCalled();
   });
 });

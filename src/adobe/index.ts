@@ -3,16 +3,20 @@ import type { AdobeOptions } from '../core/types';
 import { AnalyticsAdapter } from './analytics';
 import { DataLayerAdapter } from './datalayer';
 import { LaunchAdapter } from './launch';
+import { MarketingConsentAdapter } from './marketing';
 import { OptInAdapter } from './optin';
 import { WebSdkAdapter } from './websdk';
 
 export { AnalyticsAdapter } from './analytics';
 export { DataLayerAdapter } from './datalayer';
 export { LaunchAdapter } from './launch';
+export { MarketingConsentAdapter } from './marketing';
 export { OptInAdapter, OPT_IN_CATEGORIES } from './optin';
 export { WebSdkAdapter } from './websdk';
 export { DEFAULT_MAPPING, resolveMapping, anyGranted } from './mapping';
+export { buildXdmConsents, buildMarketingConsents, marketingCategories } from './consents';
 export type { ClearConsentPayload, ClearConsent1, ClearConsent2 } from './websdk';
+export type { XdmConsents, XdmConsentValue, BuildConsentsOptions } from './consents';
 
 export interface AdobeAdapters {
   webSdk: WebSdkAdapter;
@@ -20,6 +24,7 @@ export interface AdobeAdapters {
   analytics: AnalyticsAdapter;
   dataLayer: DataLayerAdapter;
   launch: LaunchAdapter;
+  marketing: MarketingConsentAdapter;
 }
 
 /**
@@ -38,6 +43,7 @@ export function attachAdobe(engine: ConsentEngine, options: AdobeOptions = {}): 
     analytics: new AnalyticsAdapter(engine, options.analytics || {}, mapping),
     dataLayer: new DataLayerAdapter(engine, options.dataLayer || {}, mapping),
     launch: new LaunchAdapter(engine, options.launch || {}),
+    marketing: new MarketingConsentAdapter(engine, options.marketing || {}),
   };
 
   adapters.webSdk.attach();
@@ -45,6 +51,7 @@ export function attachAdobe(engine: ConsentEngine, options: AdobeOptions = {}): 
   adapters.analytics.attach();
   adapters.dataLayer.attach();
   adapters.launch.attach();
+  adapters.marketing.attach();
 
   return adapters;
 }

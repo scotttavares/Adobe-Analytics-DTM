@@ -41,9 +41,26 @@ export interface KeyValueStore {
 
 export type AdIdType = 'IDFA' | 'GAID';
 
+/**
+ * Minimal Edge send surface, matching `@adobe/react-native-aepedge`'s
+ * `Edge.sendEvent`. Declared structurally so marketing consent can be delivered
+ * without hard-depending on the Edge module or its ExperienceEvent class — wire
+ * it to `(xdm) => Edge.sendEvent(new ExperienceEvent({ xdmData: xdm }))`.
+ */
+export interface EdgeSender {
+  sendEvent(xdm: Record<string, unknown>): void | Promise<unknown>;
+}
+
 export interface EdgeConsentOptions {
   /** Set false to disable the Edge Consent adapter entirely. */
   enabled?: boolean;
+  /**
+   * Edge sender for marketing / channel consent. When provided and the config
+   * has `kind: 'marketing'` categories, `consents.marketing.*` is written to the
+   * profile via `Edge.sendEvent` so RT-CDP consent policies and AJO can gate on
+   * it (the data purposes still go through `Consent.update`).
+   */
+  edgeSender?: EdgeSender;
   /**
    * Call `Consent.update` on every start, not only on change. Default true — it
    * mirrors the web adapter and keeps the SDK and CMP in agreement; the SDK only

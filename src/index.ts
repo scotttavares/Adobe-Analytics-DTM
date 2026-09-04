@@ -25,9 +25,13 @@ export {
   AnalyticsAdapter,
   DataLayerAdapter,
   LaunchAdapter,
+  MarketingConsentAdapter,
   DEFAULT_MAPPING,
   OPT_IN_CATEGORIES,
+  buildXdmConsents,
+  buildMarketingConsents,
 } from './adobe';
+export type { XdmConsents } from './adobe';
 
 interface ConfigWindow extends Window {
   clearConsentConfig?: ConsentConfig;

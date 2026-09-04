@@ -1,3 +1,4 @@
+import { buildMarketingConsents } from '../../../src/adobe/consents';
 import { anyGranted, resolveMapping, yn } from '../../../src/adobe/mapping';
 import type { ConsentEngine } from '../../../src/core/engine';
 import type { ConsentDecision } from '../../../src/core/types';
@@ -65,6 +66,24 @@ export class EdgeConsentAdapter {
       this.engine.log.log('Consent.update ->', payload);
     } catch (e) {
       this.engine.log.error('Consent.update threw', e);
+    }
+    this.sendMarketing(decision);
+  }
+
+  /**
+   * Writes marketing / channel consent to the profile via Edge. No-op unless an
+   * `edge` sender is configured and the property has marketing categories — the
+   * data purposes above are what `Consent.update` enforces at the Edge.
+   */
+  private sendMarketing(decision: ConsentDecision): void {
+    if (!this.opts.edgeSender) return;
+    const marketing = buildMarketingConsents(decision, this.engine.getCategories());
+    if (!marketing) return;
+    try {
+      this.opts.edgeSender.sendEvent({ consents: marketing });
+      this.engine.log.log('marketing consent ->', marketing);
+    } catch (e) {
+      this.engine.log.error('Edge.sendEvent threw', e);
     }
   }
 

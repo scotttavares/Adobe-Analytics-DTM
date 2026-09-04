@@ -18,7 +18,7 @@ export { DEFAULT_THEME, DEFAULT_TEXT } from './ui/theme';
 export type { ConsentTheme, ConsentUiText } from './ui/theme';
 
 // Types
-export type { AdIdType, AepConsentModule, EdgeConsentOptions, KeyValueStore } from './types';
+export type { AdIdType, AepConsentModule, EdgeConsentOptions, EdgeSender, KeyValueStore } from './types';
 export type {
   AdobeCategoryMapping,
   CategoryDefinition,
