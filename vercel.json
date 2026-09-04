@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "echo 'ClearConsent marketing site: static, no dependencies to install'",
+  "buildCommand": "echo 'ClearConsent marketing site: static, no build — serving ./site'",
+  "outputDirectory": "site",
+  "cleanUrls": true,
+  "trailingSlash": false
+}
