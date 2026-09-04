@@ -64,8 +64,13 @@ jobs:
       - name: Build a real Turbine library and run the extension in it
         run: |
           cd launch-extension
+          # `npx --yes` cold-installs reactor-sandbox and its large dependency
+          # tree on first run; that install racing the readiness wait below
+          # timed out at 120s on a real run (PR #3) though it passed on PR #2.
+          # Give the wait generous headroom so a cold install finishes before
+          # we declare the sandbox dead.
           npx --yes @adobe/reactor-sandbox > /tmp/sandbox.log 2>&1 &
-          for i in $(seq 1 60); do
+          for i in $(seq 1 180); do
             if grep -q "sandbox running" /tmp/sandbox.log 2>/dev/null; then break; fi
             sleep 2
           done
