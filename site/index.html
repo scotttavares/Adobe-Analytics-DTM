@@ -849,7 +849,7 @@ adobe.optIn.<span class="f">complete</span>();
           <li><span style="color:var(--mint);font-weight:700;">✓</span> SSO, SLA &amp; dedicated onboarding</li>
           <li><span style="color:var(--mint);font-weight:700;">✓</span> Fair-Lending / HIPAA / GLBA support</li>
         </ul>
-        <a class="btn ghost" style="width:100%;justify-content:center;" href="https://github.com/scotttavares/Adobe-Analytics-DTM" target="_blank" rel="noopener">Book a demo</a>
+        <button class="btn ghost" style="width:100%;justify-content:center;" id="enterpriseDemo" type="button">See it live</button>
       </div>
     </div>
     <p class="flag-note" style="text-align:center;">Prices in USD. Adobe products sold separately — ClearConsent makes the consent layer of your Adobe estate actually work.</p>
@@ -1105,6 +1105,11 @@ adobe.optIn.<span class="f">complete</span>();
   onClick('launchBanner', function () { var m = mgr(); if (m) m.reset(); });
   onClick('launchBanner2', function () { var m = mgr(); if (m) m.reset(); });
   onClick('footerPrefs', function () { var m = mgr(); if (m) m.openPreferences(); });
+  onClick('enterpriseDemo', function () {
+    var t = document.getElementById('try');
+    if (t && t.scrollIntoView) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var m = mgr(); if (m) m.reset();
+  });
 
   // ---- preview: force a GPC signal and show the in-dialog acknowledgment ----
   // Reuses the site's own live instance (it honors GPC by default) and reverts
