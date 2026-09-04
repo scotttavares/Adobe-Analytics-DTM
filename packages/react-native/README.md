@@ -105,6 +105,39 @@ const storage = {
 };
 ```
 
+## Marketing consent (AJO / RTCDP)
+
+`collect / share / personalize / adID` gate *data collection*. Adobe Journey
+Optimizer journeys and RT-CDP marketing policies gate on *channel* consent —
+`consents.marketing.*`. Add marketing channels as `kind:'marketing'` categories
+and wire an Edge sender so the opt-ins reach the profile:
+
+```tsx
+import { Edge, ExperienceEvent } from '@adobe/react-native-aepedge';
+
+<ClearConsentProvider
+  consent={Consent}
+  storage={AsyncStorage}
+  edge={{
+    adIdType: 'IDFA',
+    edgeSender: { sendEvent: (xdm) => Edge.sendEvent(new ExperienceEvent({ xdmData: xdm })) },
+  }}
+  config={{
+    categories: [
+      { id:'analytics',   label:'Analytics' },
+      { id:'advertising', label:'Advertising' },
+      { id:'email', label:'Email updates', kind:'marketing', marketingChannel:'email' },
+      { id:'push',  label:'Push',          kind:'marketing', marketingChannel:'push'  },
+    ],
+  }}
+>
+```
+
+The data purposes still go through `Consent.update`; the marketing opt-ins are
+written to the profile via `Edge.sendEvent`. The AEP side — schema field group,
+RT-CDP consent policies, AJO journey conditions, CJA/AA reporting — is in
+[`docs/aep-governance.md`](../../docs/aep-governance.md).
+
 ## What it sends
 
 On start and on every change, for the resolved decision:
