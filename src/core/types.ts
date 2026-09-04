@@ -183,6 +183,22 @@ export interface StorageOptions {
   useLocalStorage?: boolean;
 }
 
+/**
+ * The persistence surface the engine depends on. The web `ConsentStorage`
+ * (cookie + localStorage) is the default implementation; a host on another
+ * platform — React Native, say — injects its own via the engine's `storage`
+ * hook. Reads are synchronous, so an inherently async store must hydrate into a
+ * synchronous cache before the engine starts.
+ */
+export interface ConsentStorageBackend {
+  read(): ConsentState | null;
+  write(state: ConsentState): void;
+  clear(): void;
+  isExpired(state: ConsentState, reconsentDays?: number): boolean;
+  getItem(key: string): string | null;
+  setItem(key: string, value: string): void;
+}
+
 export interface AdobeCategoryMapping {
   /** Category ids that grant AEP Web SDK `consent.collect`. */
   collect?: CategoryId[];

@@ -13,6 +13,7 @@ import type {
   ConsentMethod,
   ConsentReceipt,
   ConsentState,
+  ConsentStorageBackend,
 } from './types';
 import { createLogger, merge, shallowEqual, uid, type Logger } from './util';
 
@@ -23,6 +24,13 @@ export interface EngineHooks {
   canShowUi?: () => boolean;
   /** Copy currently on screen, recorded into the receipt when enabled. */
   getCopy?: () => ConsentReceipt['copy'];
+  /**
+   * Persistence backend. Defaults to the web `ConsentStorage` (cookie +
+   * localStorage). A non-web host injects its own here — e.g. React Native
+   * backing onto AsyncStorage/MMKV. Reads are synchronous, so an async store
+   * must hydrate into a synchronous cache before `start()` is called.
+   */
+  storage?: ConsentStorageBackend;
 }
 
 /**
@@ -32,7 +40,7 @@ export interface EngineHooks {
  */
 export class ConsentEngine {
   readonly config: ConsentConfig;
-  readonly storage: ConsentStorage;
+  readonly storage: ConsentStorageBackend;
   readonly log: Logger;
 
   private categories: CategoryDefinition[];
@@ -52,7 +60,7 @@ export class ConsentEngine {
     this.categories = this.config.categories?.length
       ? this.config.categories
       : DEFAULT_CATEGORIES;
-    this.storage = new ConsentStorage(this.config.storage);
+    this.storage = hooks.storage ?? new ConsentStorage(this.config.storage);
     this.log = createLogger(!!this.config.debug);
     this.hooks = hooks;
     this.regionInfo = {
