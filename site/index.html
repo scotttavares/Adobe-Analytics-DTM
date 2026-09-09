@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ClearConsent: an Adobe-native cookie consent manager</title>
-<meta name="description" content="A fast, accessible cookie consent manager that wires consent straight into the Adobe Web SDK, ECID Opt-In, Analytics, the Client Data Layer, and Launch/Tags. 14.6 KB, one request, zero layout shift.">
-<meta property="og:title" content="ClearConsent">
-<meta property="og:description" content="An Adobe-native cookie consent manager. 14.6 KB gzipped, one network request, zero layout shift.">
+<title>ClearConsent: the cookie consent manager built for Adobe</title>
+<meta name="description" content="If you run Adobe, a generic cookie banner costs you data, speed, and fine exposure. ClearConsent speaks Web SDK setConsent, ECID Opt-In, AppMeasurement, and your RT-CDP, AJO, and CJA fields natively. 14.6 KB, one request, zero layout shift.">
+<meta property="og:title" content="ClearConsent: built for Adobe">
+<meta property="og:description" content="The cookie consent manager built for Adobe. Native setConsent, ECID Opt-In, AppMeasurement, and RT-CDP, AJO, and CJA profile fields. 14.6 KB, one request, zero layout shift.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Crect width='24' height='24' rx='5' fill='%230e0b1a'/%3E%3Cpath d='M12 3.5 5.5 6v4.9c0 3.9 2.6 7.4 6.5 8.4 3.9-1 6.5-4.5 6.5-8.4V6L12 3.5Z' stroke='%239aa7ff' stroke-width='1.3'/%3E%3Cpath d='M8.7 11.9 11 14.2l4.3-4.5' stroke='%23ffcc73' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
@@ -258,6 +258,7 @@
       ClearConsent
     </a>
     <nav class="nav-links">
+      <a href="#adobe-why">Why Adobe</a>
       <a href="#try">Try it</a>
       <a href="#adobe">Adobe</a>
       <a href="#onetrust">vs OneTrust</a>
@@ -272,12 +273,14 @@
 
 <section class="hero">
   <div class="wrap">
-    <span class="eyebrow">The Adobe-native consent platform</span>
-    <h1>Turn consent into your <span class="grad">Adobe</span> advantage.</h1>
-    <p class="lede">A generic cookie banner costs you three ways: data your Adobe stack can't use, a
-      slower site, and six-figure fine exposure. ClearConsent captures consent once and drives it
-      everywhere Adobe needs it (Web SDK, RT-CDP, AJO, and CJA) in <strong>14.6&nbsp;KB and one
-      request</strong>, compliant by default, with zero per-site glue code.</p>
+    <span class="eyebrow">Built for Adobe Experience Cloud</span>
+    <h1>Running Adobe? Your cookie banner is the <span class="grad">weakest link</span>.</h1>
+    <p class="lede">Every other consent tool was built for Google Tag Manager and bolts Adobe on with
+      mappings and custom code your team has to maintain. When that glue breaks, the Edge either
+      collects before the visitor answers or never releases the queue: fines on one side, dark data
+      on the other. ClearConsent speaks <strong>Web SDK, ECID Opt-In, AppMeasurement, and your
+      RT-CDP, AJO, and CJA profile fields natively</strong>, in 14.6&nbsp;KB and one request.
+      Nothing to translate. Nothing to rot.</p>
     <div class="cta-row">
       <a class="btn primary" href="#pricing">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -286,12 +289,58 @@
       <a class="btn ghost" href="#try">See it drive Adobe ↓</a>
       <button class="btn ghost" id="launchBanner" type="button">Launch the banner</button>
     </div>
-    <p style="font-size:13px;color:var(--ink-faint);margin:18px 0 0;">MIT open-source core · installs as a native Launch extension · honors Global Privacy Control by default</p>
+    <p style="font-size:13px;color:var(--ink-faint);margin:18px 0 0;">MIT open-source core · a native Launch extension you already have · Global Privacy Control honored by default · priced per site, not per pageview</p>
 
     <div class="stats">
       <div class="stat"><div class="big">14.6<span class="u"> KB</span></div><div class="lbl">the whole CMP, one file, vs ~184&nbsp;KB across 16 requests for a hosted CMP</div></div>
       <div class="stat"><div class="big">1 <span class="u">request</span></div><div class="lbl">zero as a Launch extension, inlined into the Tags library you already ship</div></div>
       <div class="stat"><div class="big">0.0000<span class="u"> CLS</span></div><div class="lbl">no layout shift, so faster pages convert better and rank higher</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY ADOBE (the need) ============ -->
+<section class="band" id="adobe-why">
+  <div class="wrap">
+    <p class="kicker">If you're on Adobe</p>
+    <h2>A generic cookie banner quietly breaks five things you already pay Adobe for.</h2>
+    <p class="intro">Consent banners are a commodity, right up until one has to talk to Adobe. Every hosted
+      CMP was built for Google Tag Manager first; Adobe gets bolted on through mappings and custom code
+      your team maintains. Here is what that costs you, surface by surface.</p>
+    <div class="cols">
+      <div class="card">
+        <h3>1. The Edge won't release data it hasn't heard consent for</h3>
+        <p>The Web SDK holds every hit until it receives <code>setConsent</code>. A banner that doesn't send it leaves you two bad options: Default Consent = <em>In</em>, so you collect before the visitor answers (the exact behavior the CNIL fines), or <em>Pending</em> with nothing releasing the queue, so your data silently disappears. ClearConsent sends the Adobe 2.0 <code>setConsent</code> on every page load and every change.</p>
+      </div>
+      <div class="card">
+        <h3>2. Your Real-Time CDP profile is consent-blind</h3>
+        <p>Marketing consent lives on the profile as <code>consents.marketing.*</code>. Generic CMPs never write those fields, so your consent policies have nothing to enforce and audiences can activate on people who said no. ClearConsent writes the exact XDM fields RT-CDP and Data Governance key on.</p>
+      </div>
+      <div class="card">
+        <h3>3. Journey Optimizer can't legally send</h3>
+        <p>Journey entry and every channel send gate on profile consent. No <code>consents.marketing.email = y</code>, no defensible email. ClearConsent's opt-ins land on the profile, so journeys run only on the people who actually opted in.</p>
+      </div>
+      <div class="card">
+        <h3>4. CJA and Adobe Analytics can't show a real consent rate</h3>
+        <p>Hosted tools report consent inside their own dashboard, away from your data. ClearConsent emits the XDM Consents fields plus a one-eVar Consent Summary String, so consent rate, method mix, and region show up in the analytics you already pay for.</p>
+      </div>
+      <div class="card">
+        <h3>5. Glue code, tag weight, and silent breakage</h3>
+        <p>Bolting a hosted CMP onto Adobe means a ~184&nbsp;KB stub plus a translation layer someone on your team owns, and every Web SDK release is a chance for it to rot. ClearConsent is a Launch extension inlined into the Tags library you already ship: zero extra requests, every Adobe call native.</p>
+      </div>
+      <div class="card">
+        <h3>And the rest of your estate</h3>
+        <p>Still on AppMeasurement? ClearConsent drives ECID Opt-In and <code>s.abort</code> for the property you haven't migrated. Have an app? The same engine ships for React Native into the AEP Mobile SDK, so one person carries one consent across web and app on the same profile.</p>
+      </div>
+    </div>
+    <div class="cols" style="margin-top:18px;">
+      <div class="pill"><b>"Our CMP says it integrates with Adobe."</b>It does, through mappings you configure and maintain. Native means there is nothing to translate and nothing to rot.</div>
+      <div class="pill"><b>"We're not in the EU."</b>Global Privacy Control is binding in California and Colorado; Sephora paid $1.2M for ignoring it, and opt-out states keep coming. The region resolver applies the right model to each visitor.</div>
+      <div class="pill ok"><b>"How fast can we ship it?"</b>Install the Launch extension, set Default Consent to Pending, build to Dev. You can have the banner driving Adobe the same afternoon.</div>
+    </div>
+    <div class="cta-row" style="margin-top:26px;">
+      <a class="btn primary" href="#pricing">Start free</a>
+      <a class="btn ghost" href="#try">See it drive Adobe</a>
     </div>
   </div>
 </section>
@@ -852,15 +901,16 @@ adobe.optIn.<span class="f">complete</span>();
         <button class="btn ghost" style="width:100%;justify-content:center;" id="enterpriseDemo" type="button">See it live</button>
       </div>
     </div>
-    <p class="flag-note" style="text-align:center;">Prices in USD. Adobe products sold separately. ClearConsent makes the consent layer of your Adobe estate actually work.</p>
+    <p class="flag-note" style="text-align:center;">Priced per site: unlimited pages, unlimited pageviews, no tier surprises after a scan. Prices in USD. Adobe products sold separately.</p>
+    <div class="pill ok" style="margin:18px auto 0;max-width:860px;"><b>Our guarantee</b>Reject is always as easy as accept, and Global Privacy Control is always honored, enforced in code, not a setting. If a ClearConsent default ever makes reject harder than accept, that's a bug and we fix it free.</div>
   </div>
 </section>
 
 <section class="final">
   <div class="wrap">
-    <h2>Consent shouldn't cost you data, speed, or sleep.</h2>
+    <h2>You already pay for Adobe. Make the consent layer worthy of it.</h2>
     <p>The banner on this page is ClearConsent running on itself, driving five Adobe surfaces live,
-      right now. You can ship the same in an afternoon.</p>
+      right now. You can ship the same to your Launch property this afternoon.</p>
     <div class="cta-row">
       <a class="btn primary" href="#pricing">Start free</a>
       <a class="btn ghost" href="#try">See it drive Adobe</a>
